@@ -1,18 +1,23 @@
 DROP DATABASE IF EXISTS ecommerce1;
-CREATE DATABASE IF NOT EXISTS ecommerce1;
-USE ecommerce1;
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "-05:00";
 
-CREATE TABLE `proveedores` (
-  `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `nombre_proveedor` varchar(255) NOT NULL,
-  `telefono` varchar(20) DEFAULT NULL,
-  `categoria_producto` varchar(255) DEFAULT NULL
+--
+CREATE DATABASE IF NOT EXISTS `ecommerce1` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `ecommerce1`;
+
+CREATE TABLE `categorias_productos` (
+  `id` int(10) NOT NULL,
+  `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+INSERT INTO `categorias_productos` (`id`, `nombre`) VALUES
+(1, 'Hombre'),
+(2, 'Mujer'),
+(3, 'Niño'),
+(4, 'Niña');
 
 CREATE TABLE `clientes` (
   `id` int(10) NOT NULL,
@@ -30,194 +35,254 @@ INSERT INTO `clientes` (`id`, `email`, `pass`, `nombre`, `direccion`, `cedula`) 
 (3, 'alex@nose.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Alexander Alegria', '1 de Mayo', ''),
 (4, 'vinicio@hotmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Vinicio ', '1 de mayo', '0201062619');
 
-
-CREATE TABLE `sliders` (
-  `id` int(10) NOT NULL,
-  `titulo` varchar(250) NOT NULL DEFAULT '',
-  `descripcion` VARCHAR(250) NOT NULL DEFAULT '',
-  `img` VARCHAR(250) NOT NULL DEFAULT '',
-  `url_web` varchar(250) NOT NULL DEFAULT '',
-  `est` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-INSERT INTO `sliders` (`id`, `titulo`, `descripcion`,`img`, `est`) VALUES
-(1, 'Chaquetas & Chompas','coleccion de chaquetas 2024','../../public/images/sliders/slide-01.jpg', 1),
-(2,'Camisas & Blusas','Camisas para hombre y mujer 2024','../../public/images/sliders/slide-02.jpg', 1),
-(3, 'Uniformes de niño & niña','se diseña los uniformes para colegios 2024','../../public/images/sliders/slide-03.jpg', 1),
-(4, 'Pantaloes & Faldas','Ropa formal para este 2024','../../public/images/sliders/slide-04.jpg', 1),
-(5, 'Pijamas de Adultos & Niños','La mejor calidad y diseños para todas las edades','../../public/images/sliders/slide-05.jpg', 1);
-
-
-CREATE TABLE `categorias_productos` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-   
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-INSERT INTO `categorias_productos` (`nombre`) VALUES
-('Hombre'),
-('Mujer'),
-('Niño'),
-('Niña');
-
-CREATE TABLE `sub_categorias_productos` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `id_categoria` int(10) NOT NULL,
-  `descripcion` varchar(100) NOT NULL,
-   `est` int(1) DEFAULT 1,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`id_categoria`) REFERENCES `categorias_productos` (`id`)
-   
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-INSERT INTO `sub_categorias_productos` (`id_categoria`,`descripcion`) VALUES
-(1,'Camisa'),
-(1,'Pantalón'),
-(1,'Chaqueta'),
-(2,'Blusa'),
-(2,'Pantalón'),
-(2,'Vestido'),
-(3,'Camiseta'),
-(3,'Pantalón'),
-(3,'Chaqueta'),
-(4,'Vestido'),
-(4,'Falda'),
-(4,'Blusa');
-
-
-CREATE TABLE `productos` (
-  `id` int(10) NOT NULL,
-  `nombre` varchar(200) NOT NULL,
-  `precio` numeric(10,2) NOT NULL,
-  `existencia` int(10) NOT NULL,
-  `descripcion` varchar(400) NOT NULL,
-  `activo` tinyint(1) DEFAULT 1,
-  `id_categoria` int(10) NOT NULL,
-  `id_proveedor` int(10) NOT NULL,
-  `tipo` varchar(255) DEFAULT NULL,
-   PRIMARY KEY (`id`) USING BTREE,
-   FOREIGN KEY (`id_categoria`) REFERENCES `categorias_productos` (`id`),
-   FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `tallas` (
-  `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `nombre` varchar(50) NOT NULL,
-    `descripcion` varchar(250) NOT NULL,
-     `est` int(1) DEFAULT 1
-
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-INSERT INTO tallas (nombre, descripcion) VALUES
-
-  -- Tallas para niños por edad
-  ('2T', 'Niños (2 años)'),
-  ('3T', 'Niños (3 años)'),
-  ('4T', 'Niños (4 años)'),
-  ('5T', 'Niños (5 años)'),
-  ('6', 'Niños (6 años)'),
-  ('7', 'Niños (7 años)'),
-  ('8', 'Niños (8 años)'),
-  ('10', 'Niños (9-10 años)'),
-  ('12', 'Niños (11-12 años)'),
-  ('14', 'Niños (13-14 años)'),
-  ('16', 'Niños (15-16 años)'),
-
-  -- Tallas para Hombres (Camisetas y camisas)
-  ('S (Hombre)', 'Pecho 97-102 cm, Cintura 81-86 cm'),
-  ('M (Hombre)', 'Pecho 102-107 cm, Cintura 86-91 cm'),
-  ('L (Hombre)', 'Pecho 107-112 cm, Cintura 91-97 cm'),
-  ('XL (Hombre)', 'Pecho 112-117 cm, Cintura 97-102 cm'),
-  ('XXL (Hombre)', 'Pecho 117-122 cm, Cintura 102-107 cm'),
-
-  -- Tallas para Hombres (Pantalones)
-  ('30 (Hombre)', 'Cintura 76 cm, Largo 102 cm'),
-  ('32 (Hombre)', 'Cintura 81 cm, Largo 104 cm'),
-  ('34 (Hombre)', 'Cintura 86 cm, Largo 107 cm'),
-  ('36 (Hombre)', 'Cintura 91 cm, Largo 109 cm'),
-  ('38 (Hombre)', 'Cintura 97 cm, Largo 112 cm'),
-
-  -- Tallas para Mujeres (Camisetas y blusas)
-  ('S (Mujer)', 'Pecho 86-91 cm, Cintura 66-71 cm'),
-  ('M (Mujer)', 'Pecho 91-97 cm, Cintura 71-76 cm'),
-  ('L (Mujer)', 'Pecho 97-102 cm, Cintura 76-81 cm'),
-  ('XL (Mujer)', 'Pecho 102-107 cm, Cintura 81-86 cm'),
-  ('XXL (Mujer)', 'Pecho 107-112 cm, Cintura 86-91 cm'),
-
-  -- Tallas para Mujeres (Pantalones)
-  ('2 (Mujer)', 'Cintura 66 cm, Cadera 91 cm'),
-  ('4 (Mujer)', 'Cintura 69 cm, Cadera 94 cm'),
-  ('6 (Mujer)', 'Cintura 71 cm, Cadera 97 cm'),
-  ('8 (Mujer)', 'Cintura 74 cm, Cadera 100 cm'),
-  ('10 (Mujer)', 'Cintura 76 cm, Cadera 103 cm')
-;
-
 CREATE TABLE `colores` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-   `est` int(1) DEFAULT 1,
-  PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-INSERT INTO colores (nombre) VALUES
-  ('Rojo'),
-  ('Verde'),
-  ('Azul'),
-  ('Amarillo'),
-  ('Negro'),
-  ('Blanco'),
-  ('Gris'),
-  ('Morado'),
-  ('Naranja'),
-  ('Turquesa');
+  `est` int(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `colores` (`id`, `nombre`, `est`) VALUES
+(1, 'Rojo', 1),
+(2, 'Verde', 1),
+(3, 'Azul', 1),
+(4, 'Amarillo', 1),
+(5, 'Negro', 1),
+(6, 'Blanco', 1),
+(7, 'Gris', 1),
+(8, 'Morado', 1),
+(9, 'Naranja', 1),
+(10, 'Turquesa', 1);
+
+
+CREATE TABLE `detalleventas` (
+  `id` int(10) NOT NULL,
+  `idprod` int(10) NOT NULL,
+  `idventa` int(10) NOT NULL,
+  `cantidad` int(10) NOT NULL,
+  `precio` decimal(10,2) NOT NULL,
+  `subtotal` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `detalleventas` (`id`, `idprod`, `idventa`, `cantidad`, `precio`, `subtotal`) VALUES
+(1, 32, 17, 2, 23.00, 46.00),
+(2, 32, 18, 3, 23.00, 69.00),
+(3, 32, 19, 3, 23.00, 69.00),
+(4, 32, 20, 6, 23.00, 138.00),
+(5, 32, 21, 4, 23.00, 92.00),
+(6, 32, 22, 5, 23.00, 115.00),
+(7, 32, 23, 2, 23.00, 46.00),
+(8, 35, 24, 2, 12.00, 24.00),
+(9, 32, 25, 13, 12.00, 156.00),
+(10, 35, 27, 1, 12.00, 12.00),
+(11, 35, 28, 1, 12.00, 12.00),
+(12, 35, 29, 2, 12.00, 24.00),
+(13, 35, 30, 1, 12.00, 12.00),
+(14, 33, 31, 3, 20.00, 60.00),
+(15, 32, 32, 4, 12.00, 48.00),
+(16, 35, 32, 1, 12.00, 12.00),
+(17, 34, 36, 0, 12.00, 0.00),
+(18, 33, 36, 1, 12.00, 12.00),
+(19, 33, 37, 2, 20.00, 40.00),
+(20, 33, 38, 1, 20.00, 20.00);
+
+
+CREATE TABLE `imagenes_productos` (
+  `id` int(10) NOT NULL,
+  `id_producto` int(10) NOT NULL,
+  `img` varchar(250) NOT NULL,
+  `est` int(1) NOT NULL DEFAULT 1,
+  `principal` int(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `imagenes_productos` (`id`, `id_producto`, `img`, `est`, `principal`) VALUES
+(1, 32, '../../public/images/products/product-01.jpg', 1, 1),
+(2, 33, '../../public/images/products/product-02.jpg', 1, 0),
+(3, 34, '../../public/images/products/product-03.jpg', 1, 1),
+(4, 35, '../../public/images/products/product-04.jpg', 1, 0),
+(5, 32, '../../public/images/products/product-03.jpg\r\n', 1, 0),
+(6, 32, '../../public/images/products/product-04.jpg\r\n', 1, 0),
+(7, 32, '../../public/images/products/product-05.jpg\r\n', 1, 0);
+
+
 CREATE TABLE `inventario` (
   `id_producto` int(10) NOT NULL,
   `id_talla` int(10) NOT NULL,
   `id_color` int(10) NOT NULL,
   `stock` int(10) NOT NULL,
   `costo` decimal(10,2) NOT NULL,
-  `precio_venta` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`id_producto`, `id_talla`, `id_color`) USING BTREE,
-  FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`),
-  FOREIGN KEY (`id_talla`) REFERENCES `tallas` (`id`),
-  FOREIGN KEY (`id_color`) REFERENCES `colores` (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `precio_venta` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `inventario` (`id_producto`, `id_talla`, `id_color`, `stock`, `costo`, `precio_venta`) VALUES
+(32, 1, 1, 50, 50.50, 80.50),
+(32, 1, 2, 50, 50.50, 80.50),
+(32, 1, 3, 50, 50.50, 80.50),
+(32, 2, 1, 50, 50.50, 80.50),
+(32, 2, 2, 50, 50.50, 80.50),
+(32, 2, 3, 50, 50.50, 80.50),
+(32, 3, 1, 50, 50.50, 80.50),
+(32, 3, 2, 50, 50.50, 80.50),
+(32, 3, 3, 50, 50.50, 80.50),
+(33, 1, 1, 50, 50.50, 80.50),
+(33, 1, 2, 50, 50.50, 80.50),
+(33, 1, 3, 50, 50.50, 80.50),
+(33, 2, 1, 50, 50.50, 80.50),
+(33, 2, 2, 50, 50.50, 80.50),
+(33, 2, 3, 50, 50.50, 80.50),
+(33, 3, 1, 50, 50.50, 80.50),
+(33, 3, 2, 50, 50.50, 80.50),
+(33, 3, 3, 50, 50.50, 80.50),
+(34, 1, 1, 50, 50.50, 80.50),
+(34, 1, 2, 50, 50.50, 80.50),
+(34, 1, 3, 50, 50.50, 80.50),
+(34, 2, 1, 50, 50.50, 80.50),
+(34, 2, 2, 50, 50.50, 80.50),
+(34, 2, 3, 50, 50.50, 80.50),
+(34, 3, 1, 50, 50.50, 80.50),
+(34, 3, 2, 50, 50.50, 80.50),
+(34, 3, 3, 50, 50.50, 80.50);
+
+CREATE TABLE `productos` (
+  `id` int(10) NOT NULL,
+  `nombre` varchar(200) NOT NULL,
+  `precio` decimal(10,2) NOT NULL,
+  `existencia` int(10) NOT NULL,
+  `descripcion` varchar(400) NOT NULL,
+  `activo` tinyint(1) DEFAULT 1,
+  `id_categoria` int(10) NOT NULL,
+  `id_proveedor` int(10) NOT NULL,
+  `tipo` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `productos` (`id`, `nombre`, `precio`, `existencia`, `descripcion`, `activo`, `id_categoria`, `id_proveedor`, `tipo`) VALUES
+(32, 'Camisa', 10.00, 23, 'Esta camisa es de color rosa claro con lunares blancos. El cuello es en V y tiene mangas largas. El borde del cuello y las mangas son de un color rosa más oscuro. La camisa está hecha de un material ligero y transpirable.', 1, 1, 1, 'Camisa'),
+(33, 'Chaleco deportivo', 11.00, 13, 'Chaleco amarillo con ribete negro. El chaleco es de manga corta y tiene un cuello redondo. El ribete negro se encuentra en el cuello, los puños y el borde inferior del chaleco. El chaleco está hecho de un material ligero y transpirable, como algodón o poliéster. Es una prenda cómoda y fresca que se puede usar en climas cálidos.', 1, 2, 1, 'Chaleco deportivo'),
+(34, 'Camisa con rayas', 11.00, 21, 'La camisa está hecha de un material ligero y transpirable, como algodón o poliéster. Es una prenda cómoda y fresca que se puede usar en climas cálidos o fríos.', 1, 3, 1, 'Camisa con rayas'),
+(35, 'Falda corta', 11.00, 31, 'Tiene pliegues de caja, que son pliegues anchos y uniformemente espaciados que se pliegan planos contra la tela cuando se plancha. La falda tiene una cintura alta, que se coloca a la altura o por encima de la cintura natural.', 1, 4, 1, 'Falda corta');
+
+
+CREATE TABLE `proveedores` (
+  `id` int(10) NOT NULL,
+  `nombre_proveedor` varchar(255) NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `categoria_producto` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 INSERT INTO `proveedores` (`id`, `nombre_proveedor`, `telefono`, `categoria_producto`) VALUES
 (1, 'Alexander Alegria', '+593963616505', 'pantalon');
 
 
-INSERT INTO `productos` (`id`,`id_proveedor`, `nombre`, `precio`, `existencia`, `descripcion`, `activo`, `id_categoria`, `tipo`) VALUES
-(32,1, 'Camisa', 10, 23, 'Esta camisa es de color rosa claro con lunares blancos. El cuello es en V y tiene mangas largas. El borde del cuello y las mangas son de un color rosa más oscuro. La camisa está hecha de un material ligero y transpirable.', 1, 1, 'Camisa'),
-(33, 1,'Chaleco deportivo', 11, 13, 'Chaleco amarillo con ribete negro. El chaleco es de manga corta y tiene un cuello redondo. El ribete negro se encuentra en el cuello, los puños y el borde inferior del chaleco. El chaleco está hecho de un material ligero y transpirable, como algodón o poliéster. Es una prenda cómoda y fresca que se puede usar en climas cálidos.', 1, 2, 'Chaleco deportivo'),
-(34, 1,'Camisa con rayas', 11, 21, 'La camisa está hecha de un material ligero y transpirable, como algodón o poliéster. Es una prenda cómoda y fresca que se puede usar en climas cálidos o fríos.', 1, 3, 'Camisa con rayas'),
-(35, 1,'Falda corta', 11, 31, 'Tiene pliegues de caja, que son pliegues anchos y uniformemente espaciados que se pliegan planos contra la tela cuando se plancha. La falda tiene una cintura alta, que se coloca a la altura o por encima de la cintura natural.', 1, 4, 'Falda corta');
-
- 
-
-CREATE TABLE `imagenes_productos` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `id_producto` int(10) NOT NULL,
-  `img` varchar(250) NOT NULL,
-  `est` int(1) NOT NULL DEFAULT 1,
-  `principal` int(1) NOT NULL DEFAULT 0,
-  FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`),
-  PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-INSERT INTO imagenes_productos (id_producto, img, est, principal) 
-VALUES
-    (32, '../../public/images/products/product-01.jpg', 1, 1),
-    (33, '../../public/images/products/product-02.jpg', 1, 0),
-    (34, '../../public/images/products/product-03.jpg', 1, 1),
-    (35, '../../public/images/products/product-04.jpg', 1, 0);
-
-
-
-
+CREATE TABLE `recibe` (
+  `id` int(10) NOT NULL,
+  `id_venta` int(10) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `direccion` text NOT NULL,
+  `est` int(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 CREATE TABLE `roles` (
-  `id` int(1) AUTO_INCREMENT PRIMARY KEY,
+  `id` int(1) NOT NULL,
   `nombre` varchar(200) NOT NULL,
-   `est` int(1) DEFAULT 1
+  `est` int(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-INSERT INTO `roles` (`nombre`) VALUES ('administrador'), ('cliente');
+
+
+INSERT INTO `roles` (`id`, `nombre`, `est`) VALUES
+(1, 'administrador', 1),
+(2, 'cliente', 1);
+
+CREATE TABLE `sliders` (
+  `id` int(10) NOT NULL,
+  `titulo` varchar(250) NOT NULL DEFAULT '',
+  `descripcion` varchar(250) NOT NULL DEFAULT '',
+  `img` varchar(250) NOT NULL DEFAULT '',
+  `url_web` varchar(250) NOT NULL DEFAULT '',
+  `est` int(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `sliders` (`id`, `titulo`, `descripcion`, `img`, `url_web`, `est`) VALUES
+(1, 'Chaquetas & Chompas', 'coleccion de chaquetas 2024', '../../public/images/sliders/slide-01.jpg', '', 1),
+(2, 'Camisas & Blusas', 'Camisas para hombre y mujer 2024', '../../public/images/sliders/slide-02.jpg', '', 1),
+(3, 'Uniformes de niño & niña', 'se diseña los uniformes para colegios 2024', '../../public/images/sliders/slide-03.jpg', '', 1),
+(4, 'Pantaloes & Faldas', 'Ropa formal para este 2024', '../../public/images/sliders/slide-04.jpg', '', 1),
+(5, 'Pijamas de Adultos & Niños', 'La mejor calidad y diseños para todas las edades', '../../public/images/sliders/slide-05.jpg', '', 1);
+
+
+CREATE TABLE `sub_categorias_productos` (
+  `id` int(10) NOT NULL,
+  `id_categoria` int(10) NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
+  `est` int(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+INSERT INTO `sub_categorias_productos` (`id`, `id_categoria`, `descripcion`, `est`) VALUES
+(1, 1, 'Camisa', 1),
+(2, 1, 'Pantalón', 1),
+(3, 1, 'Chaqueta', 1),
+(4, 2, 'Blusa', 1),
+(5, 2, 'Pantalón', 1),
+(6, 2, 'Vestido', 1),
+(7, 3, 'Camiseta', 1),
+(8, 3, 'Pantalón', 1),
+(9, 3, 'Chaqueta', 1),
+(10, 4, 'Vestido', 1),
+(11, 4, 'Falda', 1),
+(12, 4, 'Blusa', 1);
+
+
+CREATE TABLE `tallas` (
+  `id` int(10) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `descripcion` varchar(250) NOT NULL,
+  `est` int(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+INSERT INTO `tallas` (`id`, `nombre`, `descripcion`, `est`) VALUES
+(1, '2T', 'Niños (2 años)', 1),
+(2, '3T', 'Niños (3 años)', 1),
+(3, '4T', 'Niños (4 años)', 1),
+(4, '5T', 'Niños (5 años)', 1),
+(5, '6', 'Niños (6 años)', 1),
+(6, '7', 'Niños (7 años)', 1),
+(7, '8', 'Niños (8 años)', 1),
+(8, '10', 'Niños (9-10 años)', 1),
+(9, '12', 'Niños (11-12 años)', 1),
+(10, '14', 'Niños (13-14 años)', 1),
+(11, '16', 'Niños (15-16 años)', 1),
+(12, 'S (Hombre)', 'Pecho 97-102 cm, Cintura 81-86 cm', 1),
+(13, 'M (Hombre)', 'Pecho 102-107 cm, Cintura 86-91 cm', 1),
+(14, 'L (Hombre)', 'Pecho 107-112 cm, Cintura 91-97 cm', 1),
+(15, 'XL (Hombre)', 'Pecho 112-117 cm, Cintura 97-102 cm', 1),
+(16, 'XXL (Hombre)', 'Pecho 117-122 cm, Cintura 102-107 cm', 1),
+(17, '30 (Hombre)', 'Cintura 76 cm, Largo 102 cm', 1),
+(18, '32 (Hombre)', 'Cintura 81 cm, Largo 104 cm', 1),
+(19, '34 (Hombre)', 'Cintura 86 cm, Largo 107 cm', 1),
+(20, '36 (Hombre)', 'Cintura 91 cm, Largo 109 cm', 1),
+(21, '38 (Hombre)', 'Cintura 97 cm, Largo 112 cm', 1),
+(22, 'S (Mujer)', 'Pecho 86-91 cm, Cintura 66-71 cm', 1),
+(23, 'M (Mujer)', 'Pecho 91-97 cm, Cintura 71-76 cm', 1),
+(24, 'L (Mujer)', 'Pecho 97-102 cm, Cintura 76-81 cm', 1),
+(25, 'XL (Mujer)', 'Pecho 102-107 cm, Cintura 81-86 cm', 1),
+(26, 'XXL (Mujer)', 'Pecho 107-112 cm, Cintura 86-91 cm', 1),
+(27, '2 (Mujer)', 'Cintura 66 cm, Cadera 91 cm', 1),
+(28, '4 (Mujer)', 'Cintura 69 cm, Cadera 94 cm', 1),
+(29, '6 (Mujer)', 'Cintura 71 cm, Cadera 97 cm', 1),
+(30, '8 (Mujer)', 'Cintura 74 cm, Cadera 100 cm', 1),
+(31, '10 (Mujer)', 'Cintura 76 cm, Cadera 103 cm', 1);
+
 
 
 CREATE TABLE `usuarios` (
@@ -227,35 +292,27 @@ CREATE TABLE `usuarios` (
   `pass` varchar(255) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `direccion` text NOT NULL,
-  `cedula` varchar(20) NOT NULL UNIQUE,
-  `est` int(1) DEFAULT 1,
-    FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`)
+  `cedula` varchar(20) NOT NULL,
+  `est` int(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `usuarios` (`id`,`rol_id`, `email`, `pass`, `nombre`, `direccion`, `cedula`) VALUES
-(2,1, 'paulluna99@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Alexannder Luna','San Miguel de Bolivar','0202433919'),
-(3,2, 'bryan@nose.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Bryan Shiguango','Tena','0202433123'),
-(6,2, 'nicole@hotmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Nicole Anahi','Guaranda','0202433321'),
-(7,2, 'xd@hotmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'xd','user1direcion','0202433231'),
-(8,1, 'admin@admin.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Admin','admin direccion','0202433312');
+INSERT INTO `usuarios` (`id`, `rol_id`, `email`, `pass`, `nombre`, `direccion`, `cedula`, `est`) VALUES
+(2, 1, 'paulluna99@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Alexannder Luna', 'San Miguel de Bolivar', '0202433919', 1),
+(3, 2, 'bryan@nose.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Bryan Shiguango', 'Tena', '0202433123', 1),
+(6, 2, 'nicole@hotmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Nicole Anahi', 'Guaranda', '0202433321', 1),
+(7, 2, 'xd@hotmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'xd', 'user1direcion', '0202433231', 1),
+(8, 1, 'admin@admin.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Admin', 'admin direccion', '0202433312', 1);
+
+
 
 CREATE TABLE `ventas` (
-  `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` int(10) NOT NULL,
   `idcli` int(10) NOT NULL,
   `idPago` varchar(255) NOT NULL,
   `fecha` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-CREATE TABLE `recibe` (
-  `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `id_venta` int(10) NOT NULL,
-  `nombre` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `direccion` text NOT NULL,
-  `est` int(1) DEFAULT 0,
-   FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `ventas` (`id`, `idcli`, `idPago`, `fecha`) VALUES
 (1, 3, 'ch_3ORmlKK3mpQlvJke00WeM6HW', '2023-12-26 21:22:28'),
@@ -298,109 +355,258 @@ INSERT INTO `ventas` (`id`, `idcli`, `idPago`, `fecha`) VALUES
 (38, 6, 'ch_3OeKYFK3mpQlvJke1ShbW12o', '2024-01-30 11:52:44');
 
 
+--
+-- Indices de la tabla `categorias_productos`
+--
+ALTER TABLE `categorias_productos`
+  ADD PRIMARY KEY (`id`);
 
-
-
-
+--
+-- Indices de la tabla `clientes`
+--
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `kEmail` (`email`);
 
+--
+-- Indices de la tabla `colores`
+--
+ALTER TABLE `colores`
+  ADD PRIMARY KEY (`id`);
 
+--
+-- Indices de la tabla `detalleventas`
+--
+ALTER TABLE `detalleventas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fkidprod` (`idprod`) USING BTREE,
+  ADD KEY `fkidventa` (`idventa`) USING BTREE;
+
+--
+-- Indices de la tabla `imagenes_productos`
+--
+ALTER TABLE `imagenes_productos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_producto` (`id_producto`);
+
+--
+-- Indices de la tabla `inventario`
+--
+ALTER TABLE `inventario`
+  ADD PRIMARY KEY (`id_producto`,`id_talla`,`id_color`) USING BTREE,
+  ADD KEY `id_talla` (`id_talla`),
+  ADD KEY `id_color` (`id_color`);
+
+--
+-- Indices de la tabla `productos`
+--
+ALTER TABLE `productos`
+  ADD PRIMARY KEY (`id`) USING BTREE,
+  ADD KEY `id_categoria` (`id_categoria`),
+  ADD KEY `id_proveedor` (`id_proveedor`);
+
+--
+-- Indices de la tabla `proveedores`
+--
+ALTER TABLE `proveedores`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `recibe`
+--
+ALTER TABLE `recibe`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_venta` (`id_venta`);
+
+--
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `sliders`
+--
 ALTER TABLE `sliders`
   ADD PRIMARY KEY (`id`);
 
+--
+-- Indices de la tabla `sub_categorias_productos`
+--
+ALTER TABLE `sub_categorias_productos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_categoria` (`id_categoria`);
 
+--
+-- Indices de la tabla `tallas`
+--
+ALTER TABLE `tallas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `usuarios`
+--
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `kEmail` (`email`);
+  ADD UNIQUE KEY `cedula` (`cedula`),
+  ADD UNIQUE KEY `kEmail` (`email`),
+  ADD KEY `rol_id` (`rol_id`);
 
+--
+-- Indices de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idcli` (`idcli`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `categorias_productos`
+--
+ALTER TABLE `categorias_productos`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `clientes`
+--
 ALTER TABLE `clientes`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
+--
+-- AUTO_INCREMENT de la tabla `colores`
+--
+ALTER TABLE `colores`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
+--
+-- AUTO_INCREMENT de la tabla `detalleventas`
+--
+ALTER TABLE `detalleventas`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
-ALTER TABLE `sliders`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `imagenes_productos`
+--
+ALTER TABLE `imagenes_productos`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
-
-
+--
+-- AUTO_INCREMENT de la tabla `productos`
+--
 ALTER TABLE `productos`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT de la tabla `proveedores`
+--
+ALTER TABLE `proveedores`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `recibe`
+--
+ALTER TABLE `recibe`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT de la tabla `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
+--
+-- AUTO_INCREMENT de la tabla `sliders`
+--
+ALTER TABLE `sliders`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `sub_categorias_productos`
+--
+ALTER TABLE `sub_categorias_productos`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de la tabla `tallas`
+--
+ALTER TABLE `tallas`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
 ALTER TABLE `usuarios`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `detalleventas`
+--
+ALTER TABLE `detalleventas`
+  ADD CONSTRAINT `fk_idprod` FOREIGN KEY (`idprod`) REFERENCES `productos` (`id`),
+  ADD CONSTRAINT `fk_idventa` FOREIGN KEY (`idventa`) REFERENCES `ventas` (`id`);
+
+--
+-- Filtros para la tabla `imagenes_productos`
+--
+ALTER TABLE `imagenes_productos`
+  ADD CONSTRAINT `imagenes_productos_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`);
+
+--
+-- Filtros para la tabla `inventario`
+--
+ALTER TABLE `inventario`
+  ADD CONSTRAINT `inventario_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`),
+  ADD CONSTRAINT `inventario_ibfk_2` FOREIGN KEY (`id_talla`) REFERENCES `tallas` (`id`),
+  ADD CONSTRAINT `inventario_ibfk_3` FOREIGN KEY (`id_color`) REFERENCES `colores` (`id`);
+
+--
+-- Filtros para la tabla `productos`
+--
+ALTER TABLE `productos`
+  ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_productos` (`id`),
+  ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id`);
+
+--
+-- Filtros para la tabla `recibe`
+--
+ALTER TABLE `recibe`
+  ADD CONSTRAINT `recibe_ibfk_1` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id`);
+
+--
+-- Filtros para la tabla `sub_categorias_productos`
+--
+ALTER TABLE `sub_categorias_productos`
+  ADD CONSTRAINT `sub_categorias_productos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_productos` (`id`);
+
+--
+-- Filtros para la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`);
 
 ALTER TABLE `ventas`
   ADD CONSTRAINT `idcli` FOREIGN KEY (`idcli`) REFERENCES `usuarios` (`id`);
-
-INSERT INTO `inventario`(`id_producto`, `id_talla`, `id_color`, `stock`, `costo`, `precio_venta`) 
-VALUES 
-  (32,1,1,50,50.5,80.5),
-    (32,1,2,50,50.5,80.5),
-    (32,1,3,50,50.5,80.5),
-    (32,2,1,50,50.5,80.5),
-    (32,2,2,50,50.5,80.5),
-    (32,2,3,50,50.5,80.5),
-    (32,3,1,50,50.5,80.5),
-    (32,3,2,50,50.5,80.5),
-    (32,3,3,50,50.5,80.5),
-    
-    (33,1,1,50,50.5,80.5),
-    (33,1,2,50,50.5,80.5),
-    (33,1,3,50,50.5,80.5),
-    (33,2,1,50,50.5,80.5),
-    (33,2,2,50,50.5,80.5),
-    (33,2,3,50,50.5,80.5),
-    (33,3,1,50,50.5,80.5),
-    (33,3,2,50,50.5,80.5),
-    (33,3,3,50,50.5,80.5),
-   
-    (34,1,1,50,50.5,80.5),
-    (34,1,2,50,50.5,80.5),
-    (34,1,3,50,50.5,80.5),
-    (34,2,1,50,50.5,80.5),
-    (34,2,2,50,50.5,80.5),
-    (34,2,3,50,50.5,80.5),
-    (34,3,1,50,50.5,80.5),
-    (34,3,2,50,50.5,80.5),
-    (34,3,3,50,50.5,80.5);
-CREATE TABLE `detalleventas` (
-  `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `idprod` int(10) NOT NULL,
-  `idventa` int(10) NOT NULL,
-  `cantidad` int(10) NOT NULL,
-  `precio` numeric(10,2) NOT NULL,
-  `subtotal` numeric(10,2) NOT NULL,
-  CONSTRAINT `fk_idprod` FOREIGN KEY (`idprod`) REFERENCES `productos` (`id`) ,
-  CONSTRAINT `fk_idventa` FOREIGN KEY (`idventa`) REFERENCES `ventas` (`id`) ,
-  KEY `fkidprod` (`idprod`) USING BTREE,
-  KEY `fkidventa` (`idventa`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-
-INSERT INTO `detalleventas` (`id`, `idprod`, `idventa`, `cantidad`, `precio`, `subtotal`) VALUES
-(1, 32, 17, 2, 23, 46),
-(2, 32, 18, 3, 23, 69),
-(3, 32, 19, 3, 23, 69),
-(4, 32, 20, 6, 23, 138),
-(5, 32, 21, 4, 23, 92),
-(6, 32, 22, 5, 23, 115),
-(7, 32, 23, 2, 23, 46),
-(8, 35, 24, 2, 12, 24),
-(9, 32, 25, 13, 12, 156),
-(10, 35, 27, 1, 12, 12),
-(11, 35, 28, 1, 12, 12),
-(12, 35, 29, 2, 12, 24),
-(13, 35, 30, 1, 12, 12),
-(14, 33, 31, 3, 20, 60),
-(15, 32, 32, 4, 12, 48),
-(16, 35, 32, 1, 12, 12),
-(17, 34, 36, 0, 12, 0),
-(18, 33, 36, 1, 12, 12),
-(19, 33, 37, 2, 20, 40),
-(20, 33, 38, 1, 20, 20);
-
 COMMIT;
+
+-- CREATE TABLE `sub_categorias_productos` (
+--   `id` int(10) NOT NULL AUTO_INCREMENT,
+--   `id_categoria` int(10) NOT NULL,
+--   `descripcion` varchar(100) NOT NULL,
+--    `est` int(1) DEFAULT 1,
+--   PRIMARY KEY (`id`),
+--   FOREIGN KEY (`id_categoria`) REFERENCES `categorias_productos` (`id`)
+   
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
