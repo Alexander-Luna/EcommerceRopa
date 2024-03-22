@@ -7,21 +7,26 @@ class Conectar
 {
     protected $dbh;
 
-    /*TODO: Función protegida para la conexión a la base de datos */
     protected function Conexion()
     {
-        try {
-            /*TODO: Cadena de conexión */
-            $dsn = "mysql:host=localhost;dbname=ecommerce1;charset=utf8";
-            //$this->dbh = new PDO($dsn, "dark", "12345");
-            $this->dbh = new PDO($dsn, "root", "123456"); 
-            $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->set_names();
-            return $this->dbh;
-        } catch (PDOException $e) {
-            /*TODO: En caso de error en la conexión a la base de datos */
-            die("¡Error BD!: " . $e->getMessage());
+        $dsn = "mysql:host=localhost;dbname=ecommerce1;charset=utf8";
+
+        $credentials = [
+            ["username" => "dark", "password" => "12345"],
+            ["username" => "root", "password" => "123456"]
+        ];
+
+        foreach ($credentials as $credential) {
+            try {
+                $this->dbh = new PDO($dsn, $credential['username'], $credential['password']);
+                $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->set_names();
+                return $this->dbh;
+            } catch (PDOException $e) {
+                echo "Error BD: " . $e->getMessage() . PHP_EOL;
+            }
         }
+        die("No se pudo establecer conexión con la base de datos.");
     }
 
     /*TODO: Función para establecer el conjunto de caracteres de la conexión */

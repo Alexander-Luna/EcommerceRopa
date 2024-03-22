@@ -40,13 +40,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                     <div class="block2">
                         <div class="block2-pic hov-img0">
                             <img src="${imagenProducto}" alt="Product Image">
-                            <button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 show-modal1">
-                            Ver Producto
-                            </button>
+                            <a href="../product-detail/index.php?id=${producto.id}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 show-modal1 text-decoration-none">
+                              Ver Producto
+                            </a>
                         </div>
                         <div class="block2-txt flex-w flex-t p-t-14">
                             <div class="block2-txt-child1 flex-col-l">
-                                <a href="../product-detail/index.php?id=${producto.id}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">${producto.nombre}</a>
+                                <a href="../product-detail/index.php?id=${producto.id}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 text-decoration-none">${producto.nombre}</a>
                                 <span class="stext-105 cl3">$${producto.precio}</span>
                             </div>
                             <div class="block2-txt-child2 flex-r p-t-3">
