@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-	<title>Home</title>
+	<title>Asotaeco</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php require_once "../html/MainHead.php"; ?>
@@ -28,29 +28,39 @@
 	<!-- Header -->
 	<?php require_once "../html/MainHeader.php"; ?>
 
-	<section class="section-slide mb-5">
-    <div id="sliderContainer" class="carousel slide" data-ride="carousel">
-        <!-- Indicadores -->
-        <ol id="sliderIndicators" class="carousel-indicators">
-            <!-- Los indicadores se agregarán dinámicamente mediante JavaScript -->
-        </ol>
+	
+<section class="section-slide mb-5">
+  <div id="sliderContainer" class="carousel slide" data-ride="carousel">
+    <!-- Indicadores -->
+    <ol id="sliderIndicators" class="carousel-indicators">
+      <!-- Los indicadores se agregarán dinámicamente mediante JavaScript -->
+    </ol>
 
-        <!-- Slides -->
-        <div class="carousel-inner">
-            <!-- Los elementos del slider se agregarán dinámicamente mediante JavaScript -->
-        </div>
-
-        <!-- Controles -->
-        <a class="carousel-control-prev" href="#sliderContainer" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#sliderContainer" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+    <!-- Slides -->
+    <div class="carousel-inner">
+      <!-- Los elementos del slider se agregarán dinámicamente mediante JavaScript -->
     </div>
+
+    <!-- Controles -->
+    <a class="carousel-control-prev" href="#sliderContainer" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#sliderContainer" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
 </section>
+
+<!-- Bootstrap JS y Script personalizado -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  
+</script>
+	
 
 	<!-- <div class="item-slick1" style="background-image: url(../../public/images/slide-03.jpg);">
 			<div class="container h-full">
@@ -75,10 +85,19 @@
 				</div>
 			</div>
 		</div> -->
-
+		<section class="bg0 p-t-23 p-b-140">
+		<div class="container">
+			<div class="p-b-10">
+				<h3 class="ltext-103 cl5">
+					Categorias
+				</h3>
+			</div>
+			</div>
+	
 
 	<!-- Banner -->
 	<div class="sec-banner bg0 p-t-80 p-b-50 position-relative z-index-100">
+		
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
@@ -139,7 +158,7 @@
 						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Niñosss
+									Niños
 								</span>
 
 								<span class="block1-info stext-102 trans-04">
@@ -158,40 +177,40 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<!-- Product -->
 	<section class="bg0 p-t-23 p-b-140">
 		<div class="container">
 			<div class="p-b-10">
 				<h3 class="ltext-103 cl5">
-					Product Overview
+					Productos
 				</h3>
 			</div>
 
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-						All Products
+						Todos los Productos
 					</button>
 
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
-						Women
+						Mujer
 					</button>
 
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
-						Men
+						Hombre
 					</button>
 
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".bag">
-						Bag
+						Niño
 					</button>
 
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".shoes">
-						Shoes
+						Estudiantes
 					</button>
 
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".watches">
-						Watches
+						Deportivo
 					</button>
 				</div>
 
@@ -199,13 +218,13 @@
 					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
 						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
 						<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-						Filter
+						Filtrar
 					</div>
 
 					<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
 						<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
 						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-						Search
+						Busquedad
 					</div>
 				</div>
 
@@ -932,11 +951,12 @@
 			</div>
 		</div>
 	</section>
-
+	</section>
+	
 	<?php require_once "../html/MainJS.php"; ?>
 
-	<!-- Footer -->
-	<?php require_once('../html/footer.php'); ?>
+	
+	
 
 
 
@@ -952,5 +972,6 @@
 
 
 </body>
-
+<!-- Footer -->
+<?php require_once('../html/footer.php'); ?>
 </html>

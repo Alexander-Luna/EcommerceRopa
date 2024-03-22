@@ -1,4 +1,6 @@
-<header class="header-v4">
+
+<header  class="header-v4">
+
     <!-- Header desktop -->
     <div class="container-menu-desktop">
         <!-- Topbar -->
@@ -29,29 +31,101 @@
 
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
-                    <ul class="main-menu">
-                        <li>
-                            <a href="../">Inicio</a>
-                        </li>
-                        <!-- <li class="active-menu"> -->
-                        <li data-label1="hot">
-                            <a href="../shop">Comprar</a>
-                            <ul class="sub-menu">
-                                <li><a href="../shop">Comprar Ahora</a></li>
-                                <li><a href="home-02.html">Homepage 2</a></li>
-                                <li><a href="home-03.html">Homepage 3</a></li>
-                            </ul>
-                        </li>
+    <ul class="main-menu">
+        <li>
+            <a href="../" class="menu-link">Inicio</a>
+        </li>
+        <li class="menu-item-with-submenu">
+            <a href="../shop" class="menu-link">Comprar</a>
+            <ul class="sub-menu">
+                <li><a href="../shop">Comprar Ahora</a></li>
+                <li><a href="home-02.html">Homepage 2</a></li>
+                <li><a href="home-03.html">Homepage 3</a></li>
+            </ul>
+        </li>
+        <li class="menu-item-with-submenu">
+            <a href="" class="menu-link">Categorias</a>
+            <ul class="sub-menu">
+                <li><a href="">Hombre</a></li>
+                <li><a href="">Mujer</a></li>
+                <li><a href="">Niños</a></li>
+                <li><a href="">Estudiantes</a></li>
+                <li><a href="">Deportivo</a></li>
+                <li><a href=""></a></li>
+            </ul>
+        </li>
+       
+        <li class="menu-item-with-submenu">
+            <a href="" class="menu-link">Tallas</a>
+            <ul class="sub-menu">
+                <li><a href="">Hombre</a></li>
+                <li><a href="">Mujer</a></li>
+                <li><a href="">Niños</a></li>
+                <li><a href="">Estudiantes</a></li>
+                <li><a href="">Deportivo</a></li>
+                <li><a href=""></a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="" class="menu-link">Quienes somos</a>
+        </li>
+        
+    </ul>
+</div>
+    <!-- No encuentro el styleeeeeeeeee -->
+<style>
+    .menu-desktop {
+        text-align: center;
+    }
 
-                        <li>
-                            <a href="../about">About</a>
-                        </li>
+    .main-menu {
+        list-style-type: none;
+        padding: 0;
+    }
 
-                        <li>
-                            <a href="../contact">Contáctenos</a>
-                        </li>
-                    </ul>
-                </div>
+    .menu-link {
+        display: block;
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #333;
+        transition: background-color 0.3s ease;
+    }
+
+    .menu-link:hover {
+        background-color: #f0f0f0;
+    }
+
+    .menu-item-with-submenu {
+        position: relative;
+    }
+
+    .sub-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .menu-item-with-submenu:hover .sub-menu {
+        display: block;
+    }
+
+    .sub-menu li {
+        padding: 10px 20px;
+    }
+
+    .sub-menu li a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .sub-menu li a:hover {
+        background-color: #f0f0f0;
+    }
+</style>
 
                 <!-- Icon header -->
                 <div class="wrap-icon-header flex-w flex-r-m">
@@ -147,11 +221,37 @@
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </span>
             </li>
+            <li data-label1="hot">
+                <a href="../shop">Categria</a>
+                <ul class="sub-menu-m">
+                <li><a href="">Hombre</a></li>
+                <li><a href="">Mujer</a></li>
+                <li><a href="">Niños</a></li>
+                <li><a href="">Estudiantes</a></li>
+                <li><a href="">Deportivo</a></li>
+                </ul>
+                <span class="arrow-main-menu-m">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </span>
+            </li>
+            <li data-label1="hot">
+                <a href="../shop">Tallas</a>
+                <ul class="sub-menu-m">
+                <li><a href="">Hombre</a></li>
+                <li><a href="">Mujer</a></li>
+                <li><a href="">Niños</a></li>
+                <li><a href="">Estudiantes</a></li>
+                <li><a href="">Deportivo</a></li>
+                </ul>
+                <span class="arrow-main-menu-m">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </span>
+            </li>
 
 
             <li>
-                <a href="../about">About</a>
-            </li>
+            <a href="" >Quienes somos</a>
+        </li>
 
             <li>
                 <a href="../contact">Contáctenos</a>

@@ -13,7 +13,8 @@ class Conectar
         try {
             /*TODO: Cadena de conexión */
             $dsn = "mysql:host=localhost;dbname=ecommerce1;charset=utf8";
-            $this->dbh = new PDO($dsn, "dark", "12345");
+            //$this->dbh = new PDO($dsn, "dark", "12345");
+            $this->dbh = new PDO($dsn, "root", "123456"); 
             $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->set_names();
             return $this->dbh;

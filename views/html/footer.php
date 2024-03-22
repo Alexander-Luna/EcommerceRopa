@@ -1,145 +1,262 @@
-<footer class="bg3 p-t-75 p-b-32">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-6 col-lg-3 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">
-						Categories
-					</h4>
+<style>
+    
+/* footer section*/
+.footer_section {
+  background-color: #222831;
+  color: #ffffff;
+ 
+}
 
-					<ul>
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Women
-							</a>
-						</li>
+.footer_section h4 {
+  font-size: 28px;
+}
 
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Men
-							</a>
-						</li>
+.footer_section h4,
+.footer_section .footer-logo {
+  
+  font-family: 'Dancing Script', cursive;
+}
 
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Shoes
-							</a>
-						</li>
+.footer_section p {
+  color: #dbdbdb;
+}
 
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Watches
-							</a>
-						</li>
-					</ul>
-				</div>
+.footer_section .footer-col {
+  margin-bottom: 30px;
+}
 
-				<div class="col-sm-6 col-lg-3 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">
-						Help
-					</h4>
+.footer_section .footer_contact .contact_link_box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
 
-					<ul>
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Track Order
-							</a>
-						</li>
+.footer_section .footer_contact .contact_link_box a {
 
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Returns
-							</a>
-						</li>
+  color: #ffffff;
+}
 
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Shipping
-							</a>
-						</li>
+.footer_section .footer_contact .contact_link_box a i {
+  margin-right: 5px;
+}
 
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								FAQs
-							</a>
-						</li>
-					</ul>
-				</div>
+.footer_section .footer_contact .contact_link_box a:hover {
+  color: #00b2ae;
+}
 
-				<div class="col-sm-6 col-lg-3 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">
-						GET IN TOUCH
-					</h4>
+.footer_section .footer-logo {
+  display: block;
+  font-weight: bold;
+  font-size: 38px;
+  line-height: 1;
+  color: #ffffff;
+}
 
-					<p class="stext-107 cl7 size-201">
-						Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879
-					</p>
+.footer_section .footer_social {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
 
-					<div class="p-t-27">
-						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-							<i class="fa fa-facebook"></i>
-						</a>
+.footer_section .footer_social a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #222831;
+  width: 30px;
+  height: 30px;
+  border-radius: 10%;
+  background-color: #00b2ae;
+  border-radius: 100%;
+  margin: 0 2.5px;
+  font-size: 18px;
+}
 
-						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-							<i class="fa fa-instagram"></i>
-						</a>
+.footer_section .footer_social a:hover {
+  color: #ffbe33;
+}
 
-						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-							<i class="fa fa-pinterest-p"></i>
-						</a>
-					</div>
-				</div>
+.footer_section .footer-info {
+  text-align: center;
+  margin-top: 25px;
+}
 
-				<div class="col-sm-6 col-lg-3 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">
-						Newsletter
-					</h4>
+.footer_section .footer-info p {
+  color: #ffffff;
+  margin: 0;
+}
 
-					<form>
-						<div class="wrap-input1 w-full p-b-4">
-							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="email@example.com">
-							<div class="focus-input1 trans-04"></div>
-						</div>
+.footer_section .footer-info p a {
+  color: inherit;
+}
+/*# sourceMappingURL=style.css.map */
+.category-box {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+}
+  /* Style for the map container */
+  .map_main {
+      margin-top: 20px;
+   }
 
-						<div class="p-t-18">
-							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-								Subscribe
-							</button>
-						</div>
-					</form>
-				</div>
-			</div>
+   /* Responsive styling for the map */
+   .map-responsive {
+      overflow: hidden;
+      padding-bottom: 56.25%;
+      position: relative;
+      height: 0;
+   }
 
-			<div class="p-t-40">
-				<div class="flex-c-m flex-w p-b-18">
-					<a href="#" class="m-all-1">
-						<img src="../../public/images/icons/icon-pay-01.png" alt="ICON-PAY">
-					</a>
+   .map-responsive iframe {
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+   }
+  </style>  
+<br><br><br><br><footer class="footer_section">
+    <div class="container">
+      <div class="row">
+      <div class="col-md-4 footer-col">
+          <div class="footer_contact">
+            <h4>
+              Categoria
+            </h4>
+            <div class="contact_link_box">
+              <a href="index.php?modulo=hombre">
+                <span>
+                 Hombre
+                </span>
+              </a>
+              <a href="index.php?modulo=mujer">
+                <span>
+                  Mujer
+                </span>
+              </a>
+              <a href="index.php?modulo=niño">
+                <span>
+                Niño
+                </span>
+              </a>
+              <a href="index.php?modulo=estudiante">
+                <span>
+                Estudiantes
+                </span>
+              </a>
+              <a href="index.php?modulo=deportivo">
+                <span>
+                Deportivo
+                </span>
+              </a>
+              <h4><br>
+              Sobre nosotros
+            </h4>
+            <a href="index.php?modulo=informacion">
+                <span>
+                Quienes somos
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <div class="footer_contact">
+            <h4>
+              Contacto
+            </h4>
+            <div class="contact_link_box">
+              
+              <a href="">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>
+                  Call +593 99 523 6593
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>
+                asotaec@hotmail.com
+                </span>
+              </a>
+              <div class="footer_contact"><br>
+              <h4>
+                 Redes sociales
+                </h4>
+                <div class="social-icons">
+                <a href="https://www.facebook.com/margoty1987" target="_blank">
+                        <ion-icon name="logo-facebook"></ion-icon>
+                    </a>
+                    Facebook
+                    </div>
+                    <div class="footer_contact"><br>
+              <h4>
+                 Terminos legales
+                </h4>
+                <div class="reglamento">
+                    <a href="pdf\ESTATUTO.pdf"  download="nombre-archivo.pdf">
+                        <ion-icon name="document-text-outline"></ion-icon>
+                    </a>
+                    Estatuto
+                </div>
 
-					<a href="#" class="m-all-1">
-						<img src="../../public/images/icons/icon-pay-02.png" alt="ICON-PAY">
-					</a>
-
-					<a href="#" class="m-all-1">
-						<img src="../../public/images/icons/icon-pay-03.png" alt="ICON-PAY">
-					</a>
-
-					<a href="#" class="m-all-1">
-						<img src="../../public/images/icons/icon-pay-04.png" alt="ICON-PAY">
-					</a>
-
-					<a href="#" class="m-all-1">
-						<img src="../../public/images/icons/icon-pay-05.png" alt="ICON-PAY">
-					</a>
-				</div>
-
-				<p class="stext-107 cl6 txt-center">
-					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					Copyright &copy;<script>
-						document.write(new Date().getFullYear());
-					</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-
-				</p>
-			</div>
-		</div>
-	</footer>
+                <div class="reglamento">
+                    <a href="pdf\reglamento-interno (1).pdf" download="nombre-archivo.pdf">
+                        <ion-icon name="document-text-outline"></ion-icon>
+                    </a>
+                    Reglamento Interno
+                </div>
+                </div>
+          </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+        
+          <h4>
+            Hora de Atencion
+          </h4>
+          <span>
+            Lunes - Viernes
+            </span>
+          <p>
+            7.00 Am -6.00 Pm
+          </p>
+          <h4>
+          Ubicación 
+          </h4>
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>
+                  Barrio “Las Palmas”, calle Ayahuasca
+                </span>
+          <div class="map_main">
+                    <div class="map-responsive">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.2313560558673!2d-77.81956842526523!3d-0.9828160353692498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d6a5fdca06774d%3A0x5dbc3647ff4e1453!2sAsociaci%C3%B3n%20%22Asotaeco%22!5e0!3m2!1ses!2sec!4v1706770322235!5m2!1ses!2sec" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                
+        </div>
+       
+      </div>
+      
+    </div>
+    <p class="text-muted text-center">Copyright © 2023 Asotaeco. Todos los derechos reservados.</p>
+  </footer>

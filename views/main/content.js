@@ -71,6 +71,8 @@ function metodosPlantilla() {
     });
   });
 }
+
+
 async function getSliders() {
   try {
     const response = await fetch("../../controllers/router.php?op=getSliders");
@@ -124,19 +126,24 @@ async function getSliders() {
 
     // Agregar los botones de control al contenedor del slider
     const controlsHTML = `
-          <a class="carousel-control-prev" href="#sliderContainer" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#sliderContainer" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-          </a>
+    <a class="carousel-control-prev" href="#sliderContainer" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#sliderContainer" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+
       `;
     sliderContainer.innerHTML += controlsHTML;
 
     // Inicializar el componente del slider de Bootstrap
     $(".carousel").carousel();
+
+    // Llamar a metodosPlantilla para vincular eventos
+    metodosPlantilla();
+
   } catch (error) {
     console.error("Error al obtener sliders:", error);
   }
