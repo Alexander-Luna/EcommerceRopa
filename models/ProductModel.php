@@ -124,6 +124,27 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+    public function getWishList()
+    {
+        $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
+        $p_id = $_GET["id_user"];
+        try {
+            $sql = "SELECT p.nombre,p.id,p.precio,p.existencia, COALESCE(pf.img, '') AS img
+            FROM wish_list AS w
+            INNER JOIN productos AS p ON p.id = w.id_producto
+            LEFT JOIN imagenes_productos AS pf ON p.id = pf.id_producto AND pf.est = 1 AND pf.principal = 1
+            WHERE w.id_usuario = ?;";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $p_id);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
+
     public function getColoresTalla()
     {
         try {

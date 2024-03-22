@@ -38,6 +38,17 @@ class ProductController
             echo json_encode($data);
         }
     }
+    public function getWishList()
+    {
+        $model = new ProductModel();
+        $data = $model->getWishList();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
+
     public function getImgProd()
     {
         $model = new ProductModel();
@@ -48,7 +59,7 @@ class ProductController
             echo json_encode($data);
         }
     }
-    
+
     public function getColoresTalla()
     {
         $model = new ProductModel();

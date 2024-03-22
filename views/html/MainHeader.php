@@ -136,7 +136,7 @@
                         <i class="zmdi zmdi-shopping-cart"></i>
                     </div>
 
-                    <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wish" data-notify="0">
+                    <a href="../shoping-wish" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wish" data-notify="0">
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
 
@@ -165,7 +165,7 @@
                 <i class="zmdi zmdi-shopping-cart"></i>
             </div>
 
-            <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-wish" data-notify="0">
+            <a href="../shoping-wish" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-wish" data-notify="0">
                 <i class="zmdi zmdi-favorite-outline"></i>
             </a>
             <a href="../login" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
@@ -290,9 +290,25 @@
                     .catch(error => console.error('Error:', error));
             });
         });
+        id_user = 2;
+        obtenerUsuario();
+
+        function obtenerUsuario() {
+            const userData = localStorage.getItem('user_data');
+
+            if (userData) {
+                let user = JSON.parse(localStorage.getItem('user_data')) || [];
+                id_user = user.user_id;
+                listadedeseos();
+            } else {
+                //id_user = 0;
+            }
+        }
         carritodecompras();
 
-        function caritodecompras() {
+
+
+        function carritodecompras() {
             const cartData = localStorage.getItem('cart');
 
             if (cartData) {
@@ -303,17 +319,25 @@
                 document.querySelector('.js-show-cart').setAttribute('data-notify', '0');
             }
         }
-        listadedeseos();
 
-        function listadedeseos() {
-            const wishData = localStorage.getItem('wish');
 
-            if (wishData) {
-                let wish = JSON.parse(localStorage.getItem('wish')) || [];
-                let numberOfProducts = wish.length;
-                document.querySelector('.js-show-wish').setAttribute('data-notify', numberOfProducts);
-            } else {
-                document.querySelector('.js-show-wish').setAttribute('data-notify', '10');
+
+        async function listadedeseos() {
+            try {
+                const response = await fetch(
+                    "../../controllers/router.php?op=getWishList&id_user=" + id_user
+                );
+                const wishData = await response.json();
+
+                if (wishData) {
+                    let numberOfProducts = wishData.length;
+                    document.querySelector('.js-show-wish').setAttribute('data-notify', numberOfProducts);
+                } else {
+                    document.querySelector('.js-show-wish').setAttribute('data-notify', '0');
+                }
+            } catch (error) {
+                console.error("Error al obtener la lista de deseos:", error);
+                document.querySelector('.js-show-wish').setAttribute('data-notify', '0');
             }
         }
     });

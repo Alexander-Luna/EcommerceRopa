@@ -25,53 +25,64 @@ if (isset($_REQUEST['op'])) {
 
 function handleGetRequest($action, $productController, $userController)
 {
-    switch ($action) {
-        case 'getProducts':
-            $productController->getProducts();
-            break;
-        case 'getSliders':
-            $productController->getSliders();
-            break;
-        case 'getUserData':
-            $userController->getUserData();
-            break;
-        case 'getProductDetail':
-            $productController->getProductDetail();
-            break;
-        case 'getTallasProd':
-            $productController->getTallasProd();
-            break;
-        case 'getColoresTalla':
-            $productController->getColoresTalla();
-            break;
+    try {
+        switch ($action) {
+            case 'getProducts':
+                $productController->getProducts();
+                break;
+            case 'getSliders':
+                $productController->getSliders();
+                break;
+            case 'getProductDetail':
+                $productController->getProductDetail();
+                break;
+            case 'getTallasProd':
+                $productController->getTallasProd();
+                break;
+            case 'getColoresTalla':
+                $productController->getColoresTalla();
+                break;
             case 'getImgProd':
                 $productController->getImgProd();
                 break;
-        default:
-            handleNotFound();
-            break;
+            case 'getWishList':
+                $productController->getWishList();
+                break;
+            case 'getUserData':
+                $userController->getUserData();
+                break;
+            default:
+                handleNotFound();
+                break;
+        }
+    } catch (error) {
+        handleNotFound();
     }
 }
 
 function handlePostRequest($action, $productController, $userController)
 {
-    switch ($action) {
-        case 'createProduct':
-            $productController->createProduct();
-            break;
-        case 'createUser':
-            $userController->createUser();
-            break;
-        case 'resetpassci':
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $email = $_POST["email"];
-                $ci = $_POST["ci"];
-                $userController->getClientByEmailAndCi($email, $ci);
-            }
-            break;
-        default:
-            handleNotFound();
-            break;
+    try {
+        switch ($action) {
+            case 'createProduct':
+                $productController->createProduct();
+                break;
+            case 'createUser':
+                $userController->createUser();
+                break;
+            case 'resetpassci':
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $email = $_POST["email"];
+                    $ci = $_POST["ci"];
+                    $userController->getClientByEmailAndCi($email, $ci);
+                }
+                break;
+            default:
+                handleNotFound();
+                break;
+        }
+    } catch (error) {
+        handleNotFound();
     }
 }
 

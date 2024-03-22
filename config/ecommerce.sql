@@ -304,14 +304,12 @@ INSERT INTO `usuarios` (`id`, `rol_id`, `email`, `pass`, `nombre`, `direccion`, 
 (8, 1, 'admin@admin.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Admin', 'admin direccion', '0202433312', 1);
 
 
-
 CREATE TABLE `ventas` (
   `id` int(10) NOT NULL,
   `idcli` int(10) NOT NULL,
   `idPago` varchar(255) NOT NULL,
   `fecha` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 
 
 INSERT INTO `ventas` (`id`, `idcli`, `idPago`, `fecha`) VALUES
@@ -354,251 +352,158 @@ INSERT INTO `ventas` (`id`, `idcli`, `idPago`, `fecha`) VALUES
 (37, 6, 'ch_3OeKOcK3mpQlvJke1NAVzgD3', '2024-01-30 11:42:47'),
 (38, 6, 'ch_3OeKYFK3mpQlvJke1ShbW12o', '2024-01-30 11:52:44');
 
-
---
--- Indices de la tabla `categorias_productos`
---
 ALTER TABLE `categorias_productos`
   ADD PRIMARY KEY (`id`);
 
---
--- Indices de la tabla `clientes`
---
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `kEmail` (`email`);
 
---
--- Indices de la tabla `colores`
---
 ALTER TABLE `colores`
   ADD PRIMARY KEY (`id`);
 
---
--- Indices de la tabla `detalleventas`
---
 ALTER TABLE `detalleventas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fkidprod` (`idprod`) USING BTREE,
   ADD KEY `fkidventa` (`idventa`) USING BTREE;
 
---
--- Indices de la tabla `imagenes_productos`
---
 ALTER TABLE `imagenes_productos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_producto` (`id_producto`);
 
---
--- Indices de la tabla `inventario`
---
 ALTER TABLE `inventario`
   ADD PRIMARY KEY (`id_producto`,`id_talla`,`id_color`) USING BTREE,
   ADD KEY `id_talla` (`id_talla`),
   ADD KEY `id_color` (`id_color`);
 
---
--- Indices de la tabla `productos`
---
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `id_categoria` (`id_categoria`),
   ADD KEY `id_proveedor` (`id_proveedor`);
 
---
--- Indices de la tabla `proveedores`
---
 ALTER TABLE `proveedores`
   ADD PRIMARY KEY (`id`);
 
---
--- Indices de la tabla `recibe`
---
 ALTER TABLE `recibe`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_venta` (`id_venta`);
 
---
--- Indices de la tabla `roles`
---
+
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
 
---
--- Indices de la tabla `sliders`
---
 ALTER TABLE `sliders`
   ADD PRIMARY KEY (`id`);
 
---
--- Indices de la tabla `sub_categorias_productos`
---
+
 ALTER TABLE `sub_categorias_productos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_categoria` (`id_categoria`);
 
---
--- Indices de la tabla `tallas`
---
 ALTER TABLE `tallas`
   ADD PRIMARY KEY (`id`);
 
---
--- Indices de la tabla `usuarios`
---
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `cedula` (`cedula`),
   ADD UNIQUE KEY `kEmail` (`email`),
   ADD KEY `rol_id` (`rol_id`);
 
---
--- Indices de la tabla `ventas`
---
+
 ALTER TABLE `ventas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idcli` (`idcli`);
 
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `categorias_productos`
---
 ALTER TABLE `categorias_productos`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- AUTO_INCREMENT de la tabla `clientes`
---
 ALTER TABLE `clientes`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- AUTO_INCREMENT de la tabla `colores`
---
 ALTER TABLE `colores`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
---
--- AUTO_INCREMENT de la tabla `detalleventas`
---
 ALTER TABLE `detalleventas`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
---
--- AUTO_INCREMENT de la tabla `imagenes_productos`
---
 ALTER TABLE `imagenes_productos`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
---
--- AUTO_INCREMENT de la tabla `productos`
---
 ALTER TABLE `productos`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
---
--- AUTO_INCREMENT de la tabla `proveedores`
---
 ALTER TABLE `proveedores`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT de la tabla `recibe`
---
 ALTER TABLE `recibe`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT de la tabla `roles`
---
 ALTER TABLE `roles`
   MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT de la tabla `sliders`
---
+
 ALTER TABLE `sliders`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
---
--- AUTO_INCREMENT de la tabla `sub_categorias_productos`
---
 ALTER TABLE `sub_categorias_productos`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
---
--- AUTO_INCREMENT de la tabla `tallas`
---
+
 ALTER TABLE `tallas`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
 ALTER TABLE `usuarios`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
---
--- AUTO_INCREMENT de la tabla `ventas`
---
 ALTER TABLE `ventas`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `detalleventas`
---
 ALTER TABLE `detalleventas`
   ADD CONSTRAINT `fk_idprod` FOREIGN KEY (`idprod`) REFERENCES `productos` (`id`),
   ADD CONSTRAINT `fk_idventa` FOREIGN KEY (`idventa`) REFERENCES `ventas` (`id`);
 
---
--- Filtros para la tabla `imagenes_productos`
---
+
 ALTER TABLE `imagenes_productos`
   ADD CONSTRAINT `imagenes_productos_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`);
 
---
--- Filtros para la tabla `inventario`
---
+
 ALTER TABLE `inventario`
   ADD CONSTRAINT `inventario_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`),
   ADD CONSTRAINT `inventario_ibfk_2` FOREIGN KEY (`id_talla`) REFERENCES `tallas` (`id`),
   ADD CONSTRAINT `inventario_ibfk_3` FOREIGN KEY (`id_color`) REFERENCES `colores` (`id`);
 
---
--- Filtros para la tabla `productos`
---
+
 ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_productos` (`id`),
   ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id`);
 
---
--- Filtros para la tabla `recibe`
---
+
 ALTER TABLE `recibe`
   ADD CONSTRAINT `recibe_ibfk_1` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id`);
 
---
--- Filtros para la tabla `sub_categorias_productos`
---
+
 ALTER TABLE `sub_categorias_productos`
   ADD CONSTRAINT `sub_categorias_productos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_productos` (`id`);
 
---
--- Filtros para la tabla `usuarios`
---
+
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`);
 
 ALTER TABLE `ventas`
   ADD CONSTRAINT `idcli` FOREIGN KEY (`idcli`) REFERENCES `usuarios` (`id`);
+
+
+CREATE TABLE `wish_list` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(10) NOT NULL,
+  `id_producto` int(10) NOT NULL,
+   `est` int(1) DEFAULT 1,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
+  FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`)
+   
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `wish_list`( `id_usuario`, `id_producto`) VALUES (2,32),(2,33),(2,34),(2,35)
 COMMIT;
 
 -- CREATE TABLE `sub_categorias_productos` (
