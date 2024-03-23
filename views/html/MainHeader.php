@@ -11,8 +11,8 @@
                 </div>
 
                 <div class="right-top-bar flex-w h-full">
-                    <a href="#" class="flex-c-m trans-04 p-lr-25">
-                        dirección
+                    <a href="../direccion/direccion.php" class="flex-c-m trans-04 p-lr-25">
+                        Dirección
                     </a>
 
                     <a href="#" class="flex-c-m trans-04 p-lr-25">
@@ -24,11 +24,14 @@
 
         <div class="wrap-menu-desktop">
             <nav class="limiter-menu-desktop container">
+            <li><h4 class="navbar-brand" >Asotaeco</h4></li>
                 <!-- Logo desktop -->
-                <a href="./" class="logo">
+                <a href="" class="logo">
+                
                     <img src="../../public/images/icons/logo.png" alt="IMG-LOGO">
                 </a>
-
+                                
+                
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
     <ul class="main-menu">
@@ -51,23 +54,22 @@
                 <li><a href="">Niños</a></li>
                 <li><a href="">Estudiantes</a></li>
                 <li><a href="">Deportivo</a></li>
-                <li><a href=""></a></li>
+             
             </ul>
         </li>
        
         <li class="menu-item-with-submenu">
             <a href="" class="menu-link">Tallas</a>
             <ul class="sub-menu">
-                <li><a href="">Hombre</a></li>
-                <li><a href="">Mujer</a></li>
-                <li><a href="">Niños</a></li>
-                <li><a href="">Estudiantes</a></li>
-                <li><a href="">Deportivo</a></li>
-                <li><a href=""></a></li>
+                <li><a href="../tallasg/hombres.php">Hombre</a></li>
+                <li><a href="../tallasg/mujer.php">Mujer</a></li>
+                <li><a href="../tallasg/niños.php">Niños</a></li>
+                
+          
             </ul>
         </li>
         <li>
-            <a href="" class="menu-link">Quienes somos</a>
+            <a href="../infoempresa/informacion.php" class="menu-link">Quienes somos</a>
         </li>
         
     </ul>
