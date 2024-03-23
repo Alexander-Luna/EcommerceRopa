@@ -264,19 +264,30 @@ document.addEventListener("DOMContentLoaded", async function () {
         const selectColor = document.getElementById("select_color");
 
         const tallaSeleccionada = selectTalla.value;
-        const colorSeleccionado = selectColor.value;
+        const tallaTextoSeleccionado =
+          selectTalla.options[selectTalla.selectedIndex].textContent;
 
+        const colorSeleccionado = selectColor.value;
+        const colorTextoSeleccionado =
+          selectColor.options[selectColor.selectedIndex].textContent;
         try {
-          if (tallaSeleccionada === "0" || colorSeleccionado === "0") {
+          if (
+            tallaSeleccionada === "Seleccione una talla" ||
+            colorSeleccionado === "Seleccione un color"
+          ) {
             throw new Error(
               "Por favor seleccione una talla y un color antes de agregar al carrito."
             );
           }
-
+          if (inputStock.value < 1 || inputStock.value === "") {
+            throw new Error(
+              "Por favor seleccione la cantidad de productos antes de agregar al carrito."
+            );
+          }
           const productToAdd = {
-            color: colorSeleccionado,
+            color: colorTextoSeleccionado,
             color_id: colorSeleccionado,
-            talla: tallaSeleccionada,
+            talla: tallaTextoSeleccionado,
             talla_id: tallaSeleccionada,
             cantidad: inputStock.value,
             precio_venta: parseFloat(

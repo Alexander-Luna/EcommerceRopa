@@ -131,7 +131,7 @@
 
 								<div class="size-204 respon6-next">
 									<div class="rs1-select2 bor8 bg0">
-										<select id="select-color" class="js-select2" name="time">
+										<select id="select_color" class="js-select2" name="time">
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
