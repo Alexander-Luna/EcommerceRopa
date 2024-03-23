@@ -15,8 +15,8 @@
                         Dirección
                     </a>
 
-                    <a href="#" class="flex-c-m trans-04 p-lr-25">
-                        teléfono
+                    <a href="../infoempresa/informacion.php" class="flex-c-m trans-04 p-lr-25">
+                        Información
                     </a>
                 </div>
             </div>
@@ -195,12 +195,12 @@
 
             <li>
                 <div class="right-top-bar flex-w h-full">
-                    <a href="#" class="flex-c-m p-lr-10 trans-04">
+                    <a href="../direccion/direccion.php" class="flex-c-m p-lr-10 trans-04">
                         Dirección
                     </a>
 
-                    <a href="#" class="flex-c-m p-lr-10 trans-04">
-                        Teléfono
+                    <a href="../infoempresa/informacion.php" class="flex-c-m p-lr-10 trans-04">
+                        Información
                     </a>
                 </div>
             </li>
@@ -239,11 +239,9 @@
             <li data-label1="hot">
                 <a href="../shop">Tallas</a>
                 <ul class="sub-menu-m">
-                <li><a href="">Hombre</a></li>
-                <li><a href="">Mujer</a></li>
-                <li><a href="">Niños</a></li>
-                <li><a href="">Estudiantes</a></li>
-                <li><a href="">Deportivo</a></li>
+                <li><a href="../tallasg/hombres.php">Hombre</a></li>
+                <li><a href="../tallasg/mujer.php">Mujer</a></li>
+                <li><a href="../tallasg/niño.php">Niños</a></li>
                 </ul>
                 <span class="arrow-main-menu-m">
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -252,7 +250,7 @@
 
 
             <li>
-            <a href="" >Quienes somos</a>
+            <a href="../infoempresa/informacion.php" >Quienes somos</a>
         </li>
 
             <li>
