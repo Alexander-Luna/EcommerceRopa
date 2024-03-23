@@ -1,14 +1,16 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let tallaSeleccionada = "";
   let stockMax = 0;
-  const imgProd = "";
+  let imgProd = ""; // Declarar la variable imgProd
+  let id_prod = ""; // Declarar la variable id_prod
   obtenerIdDelURL();
   reloadSection(stockMax);
 
   document
     .getElementById("select_talla")
     .addEventListener("change", function (event) {
-      preventDefault(event);
+      event.preventDefault(); // Utilizar event.preventDefault() para prevenir el comportamiento predeterminado del evento
+      const selectTalla = document.getElementById("select_talla"); // Obtener el elemento select dentro del evento
       const selectedIndex = selectTalla.selectedIndex;
       const selectedOption = selectTalla.options[selectedIndex];
       const selectedValue = selectedOption.value;
@@ -17,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.log("Texto seleccionado:", selectedText);
       tallaSeleccionada = selectedValue;
     });
+
   obtenerImagenes();
   metodosPlantilla();
 
@@ -27,19 +30,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     tv_stock.textContent = `${stock} Unidades Disponibles`;
     console.log(stock);
   }
+
   function MetodoControlStock(stockMax) {
-    let stock = 0; // Initialize stock variable
+    let stock = 0; // Inicializar la variable stock
     const disminuir = document.getElementById("disminuir");
     const sumar = document.getElementById("sumar");
     const inputStock = document.getElementById("input_stock");
 
-    updateStockLabel(stockMax); // Update label initially
+    updateStockLabel(stockMax); // Actualizar la etiqueta inicialmente
 
     disminuir.addEventListener("click", () => {
       if (stock > 0) {
         stock--;
         inputStock.value = stock;
-        updateStockLabel(stockMax); // Always update label with stockMax on decrease
+        updateStockLabel(stockMax); // Siempre actualizar la etiqueta con stockMax al disminuir
       }
     });
 
@@ -47,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (stock < stockMax) {
         stock++;
         inputStock.value = stock;
-        updateStockLabel(stockMax - stock); // Update label with remaining available stock
+        updateStockLabel(stockMax - stock); // Actualizar la etiqueta con el stock disponible restante
       }
     });
 
@@ -61,16 +65,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         stock = nuevoValor;
       }
       const availableStock = stockMax - stock;
-      inputStock.value = stock; // Update input with actual stock
-      updateStockLabel(availableStock); // Update label with remaining available stock
+      inputStock.value = stock; // Actualizar el input con el stock actual
+      updateStockLabel(availableStock); // Actualizar la etiqueta con el stock disponible restante
     });
   }
 
   function obtenerIdDelURL() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const id = urlParams.get("id");
-    id_prod = id;
+    id_prod = urlParams.get("id");
   }
 
   function reloadSection(stockMax) {
@@ -79,116 +82,98 @@ document.addEventListener("DOMContentLoaded", async function () {
       const precioElement = document.getElementById("tv-precio");
       const descripcionElement = document.getElementById("tv-descripcion");
 
-      const response = fetch(
+      fetch(
         "../../controllers/router.php?op=getProductDetail&id=" + id_prod
-      );
-      response
-        .then((res) => res.json())
-        .then((data) => {
-          const producto = data;
+      ).then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            "Hubo un problema al obtener los detalles del producto."
+          );
+        }
+        response.json().then((producto) => {
           stockMax = producto.stock;
           nombreElement.textContent = producto.nombre;
           precioElement.textContent = `$${producto.precio_venta}`;
           descripcionElement.textContent = producto.descripcion;
           updateStockLabel(stockMax);
           obtenerTallas();
-        })
-        .catch((error) => {
-          console.error("Error al obtener productos:", error);
         });
+      });
     } catch (error) {
-      console.error("Error al obtener productos:", error);
+      console.error("Error al obtener los detalles del producto:", error);
     }
   }
 
   function obtenerTallas() {
-    fetch("../../controllers/router.php?op=getTallasProd&id_prod=" + id_prod)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Hubo un problema al obtener las tallas.");
-        }
-        return response.json();
-      })
-      .then((data) => {
+    fetch(
+      "../../controllers/router.php?op=getTallasProd&id_prod=" + id_prod
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error("Hubo un problema al obtener las tallas del producto.");
+      }
+      response.json().then((data) => {
         const selectTalla = document.getElementById("select_talla");
-        selectTalla.innerHTML = "";
-
-        // Crea una opción por cada talla obtenida y la añade al select
-        const option = document.createElement("option");
-        option.text = "Seleccione una talla";
-        option.value = "0";
-        selectTalla.appendChild(option);
+        selectTalla.innerHTML = "<option>Seleccione una talla</option>";
         data.forEach((talla) => {
           const option = document.createElement("option");
           option.text = talla.talla;
           option.value = talla.id_talla;
           selectTalla.appendChild(option);
         });
-        obtenerColores(data[0].id_talla);
-      })
-      .catch((error) => {
-        console.error("Error al obtener las tallas:", error);
+        if (data.length > 0) {
+          obtenerColores(data[0].id_talla);
+        }
       });
+    });
   }
+
   function obtenerColores(talla) {
     fetch(
       "../../controllers/router.php?op=getColoresTalla&id_prod=" +
         id_prod +
         "&talla=" +
-        talla,
-      {
-        method: "GET",
+        talla
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(
+          "Hubo un problema al obtener los colores disponibles para la talla seleccionada."
+        );
       }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Hubo un problema al obtener los colores.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const selectTalla = document.getElementById("select-color");
-        selectTalla.innerHTML = "<option>Seleccione un color</option>";
+      response.json().then((data) => {
+        const selectColor = document.getElementById("select_color");
+        selectColor.innerHTML = "<option>Seleccione un color</option>";
         data.forEach((color) => {
           const option = document.createElement("option");
           option.text = color.color;
           option.value = color.id_color;
-          selectTalla.appendChild(option);
+          selectColor.appendChild(option);
         });
-      })
-      .catch((error) => {
-        console.error("Error al obtener las tallas:", error);
       });
+    });
   }
+
   function obtenerImagenes() {
-    const galeria = document.getElementById("img-slide"); // Obtener el contenedor por ID
+    const galeria = document.getElementById("img-slide");
     let html = "";
     fetch("../../controllers/router.php?op=getImgProd&id_prod=" + id_prod)
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Hubo un problema al obtener las imágenes");
+          throw new Error(
+            "Hubo un problema al obtener las imágenes del producto."
+          );
         }
         return response.json();
       })
       .then((data) => {
         if (data.length > 0) {
-          // Verifica si hay datos antes de procesarlos
           data.forEach((imagen, index) => {
-            html += `<div class="item-slick3" data-thumb="${imagen.img}">
-                            <div class="wrap-pic-w pos-relative">
-                                <img src="${imagen.img}" alt="IMG-PRODUCT">
-                                <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="${imagen.img}">
-                                    <i class="fa fa-expand"></i>
-                                </a>
-                            </div>
-                      </div>`;
-
+            html += `<div class="item-slick3" data-thumb="${imagen.img}"> <div class="wrap-pic-w pos-relative"> <img src="${imagen.img}" alt="IMG-PRODUCT"> <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="${imagen.img}"> <i class="fa fa-expand"></i> </a> </div> </div>`;
             if (index == 0) {
               imgProd = imagen.img;
             }
             if (index === data.length - 1) {
-              galeria.innerHTML = html; // Asignar el HTML al contenedor galeria
-              initSlickSlider(); // Llamar a la función initSlickSlider() después de terminar el bucle
+              galeria.innerHTML = html;
+              initSlickSlider();
             }
           });
         } else {
@@ -219,7 +204,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // Llama a la función para obtener las imágenes cuando la página se cargue
   function metodosPlantilla() {
     $(".js-select2").each(function () {
       $(this).select2({
@@ -227,12 +211,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         dropdownParent: $(this).next(".dropDownSelect2"),
       });
     });
-
     $(".parallax100").parallax100();
 
     $(".gallery-lb").each(function () {
       $(this).magnificPopup({
-        delegate: "a", 
+        delegate: "a",
         type: "image",
         gallery: {
           enabled: true,
@@ -271,32 +254,43 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
 
-    /*---------------------------------------------*/
-
     $(".js-addcart-detail").each(function () {
       $(this).on("click", function () {
         const nombreElement = document.getElementById("tv-nombre");
         const precioElement = document.getElementById("tv-precio");
         const inputStock = document.getElementById("input_stock");
 
+        const selectTalla = document.getElementById("select_talla");
+        const selectColor = document.getElementById("select_color");
+
+        const tallaSeleccionada = selectTalla.value;
+        const colorSeleccionado = selectColor.value;
+
         try {
+          if (tallaSeleccionada === "0" || colorSeleccionado === "0") {
+            throw new Error(
+              "Por favor seleccione una talla y un color antes de agregar al carrito."
+            );
+          }
+
           const productToAdd = {
-            color: "Azul",
-            talla: "tallaSeleccionada",
+            color: colorSeleccionado,
+            color_id: colorSeleccionado,
+            talla: tallaSeleccionada,
+            talla_id: tallaSeleccionada,
             cantidad: inputStock.value,
-            precio_venta: `${precioElement.textContent}`,
+            precio_venta: parseFloat(
+              precioElement.textContent.replace("$", "")
+            ),
             img: imgProd,
             nombre: nombreElement.textContent,
           };
+
           addToCart(productToAdd);
           swal(nombreElement.textContent, "Agregado al carrito !", "success");
-          if (tallaSeleccionada !== "") {
-          } else {
-            console.log("Seleccione una talla antes de agregar al carrito.");
-          }
         } catch (error) {
-          console.log(error);
-          swal(nombreElement.textContent, "error temporal!", "warning");
+          console.log(error.message);
+          swal("Error", error.message, "warning");
         }
       });
     });

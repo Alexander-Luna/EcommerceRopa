@@ -182,6 +182,7 @@ CREATE TABLE `recibe` (
   `id` int(10) NOT NULL,
   `id_venta` int(10) NOT NULL,
   `nombre` varchar(255) NOT NULL,
+  `telefono` varchar(15) NOT NULL,
   `email` varchar(255) NOT NULL,
   `direccion` text NOT NULL,
   `est` int(1) DEFAULT 0
@@ -503,7 +504,7 @@ CREATE TABLE `wish_list` (
   FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`)
    
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-INSERT INTO `wish_list`( `id_usuario`, `id_producto`) VALUES (2,32),(2,33),(2,34),(2,35)
+INSERT INTO `wish_list`( `id_usuario`, `id_producto`) VALUES (2,32),(2,33),(2,34),(2,35);
 COMMIT;
 
 -- CREATE TABLE `sub_categorias_productos` (

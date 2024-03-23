@@ -36,21 +36,15 @@
 	  </div>
 	</div>
 	<script>
-	  // Obtener el elemento ul con el id "cartList"
 	  const ulCarrito = document.getElementById('cartList');
-	  // Obtener el elemento div con el id "totalPagar"
 	  const divTotalPagar = document.getElementById('totalPagar');
 
-	  // Obtener los productos del localStorage
 	  let cart = JSON.parse(localStorage.getItem('cart'));
 
-	  // Función para crear un elemento li para un producto
 	  function crearElementoProducto(producto) {
-	    // Crear el elemento li para el producto
 	    const liProducto = document.createElement('li');
 	    liProducto.classList.add('header-cart-item', 'flex-w', 'flex-t', 'm-b-12');
 
-	    // Crear el contenido del li con la imagen y la información del producto
 	    const imagenProducto = producto.img ?
 	      producto.img :
 	      "../../public/images/products/defaultprod.png";
