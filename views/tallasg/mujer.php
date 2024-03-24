@@ -27,10 +27,10 @@
                             <p class="text-center">Aquí tienes una guía de tallas para mujeres:</p>
                             <div class="row justify-content-center">
                                 <div class="col-md-6">
-                                    <img src="../tallasg/tallas/tallacamisamujer.jpg" class="img-fluid" alt="Talla Camisa Mujeres">
+                                    <img src="../../public/images/tallas/tallacamisamujer.jpg" class="img-fluid" alt="Talla Camisa Mujeres">
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="../tallasg/tallas/tallapantalonmujer.jpg" class="img-fluid" alt="Talla Pantalón Mujeres">
+                                    <img src="../../public/images/tallas/tallapantalonmujer.jpg" class="img-fluid" alt="Talla Pantalón Mujeres">
                                 </div>
                             </div>
                         </section>

@@ -27,7 +27,7 @@
                             <p class="text-center">Aquí tienes una guía de tallas para niños:</p>
                             <div class="row justify-content-center">
                                 <div class="col-md-6">
-                                    <img src="../tallasg/tallas/tallaniños.jpg" class="img-fluid" alt="Talla Camisa Niños">
+                                    <img src="../../public/images/tallas/tallaniños.jpg" class="img-fluid" alt="Talla Camisa Niños">
                                 </div>
                                
                             </div>

@@ -12,7 +12,7 @@ class Conectar
         $dsn = "mysql:host=localhost;dbname=ecommerce1;charset=utf8";
 
         $credentials = [
-           // ["username" => "dark", "password" => "12345"]
+            ["username" => "dark", "password" => "12345"],
             ["username" => "root", "password" => "123456"]
         ];
 

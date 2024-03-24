@@ -45,17 +45,3 @@
     }
   })()
 </script>
-<script>
-  function addToCart(productDetails) {
-    // Recupera los datos del carrito almacenados en el LocalStorage
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Agrega el nuevo producto al carrito
-    cart.push(productDetails);
-
-    // Guarda el carrito actualizado en el LocalStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }
-
-
-</script>

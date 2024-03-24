@@ -284,8 +284,14 @@ document.addEventListener("DOMContentLoaded", async function () {
               "Por favor seleccione la cantidad de productos antes de agregar al carrito."
             );
           }
+
+          let cart = JSON.parse(localStorage.getItem("cart"));
+          let id = 1;
+          if (cart && cart.length > 0) {
+            id = cart[cart.length - 1].id + 1;
+          }
           const productToAdd = {
-            id: ,
+            id: id,
             color: colorTextoSeleccionado,
             color_id: colorSeleccionado,
             talla: tallaTextoSeleccionado,

@@ -27,10 +27,10 @@
                             <p class="text-center">Aquí tienes una guía de tallas para hombres:</p>
                             <div class="row justify-content-center">
                                 <div class="col-md-6">
-                                    <img src="../tallasg/tallas/tallacamisahombres.jpg" class="img-fluid" alt="Talla Camisa Hombres">
+                                    <img src="../../public/images/tallas/tallacamisahombres.jpg" class="img-fluid" alt="Talla Camisa Hombres">
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="../tallasg/tallas/tallapantalonhombres.jpg" class="img-fluid" alt="Talla Pantalón Hombres">
+                                    <img src="../../public/images/tallas/tallapantalonhombres.jpg" class="img-fluid" alt="Talla Pantalón Hombres">
                                 </div>
                             </div>
                         </section>
