@@ -9,14 +9,8 @@ class UserController
         $users = $userModel->getAllUsers();
         echo json_encode($users);
     }
-    public function registrar()
+    public function registrar($email, $password, $nombre, $direccion, $cedula, $rol)
     {
-        $email = $_POST["email"];
-        $password = $_POST["pass"];
-        $rol = $_POST["rol_id"];
-        $nombre = $_POST["nombre"];
-        $direccion = $_POST["direccion"];
-        $cedula = $_POST["cedula"];
         $userModel = new UserModel();
         $users = $userModel->registrarUsuario($email, $password, $nombre, $direccion, $cedula, $rol);
         echo json_encode($users);

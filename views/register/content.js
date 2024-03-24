@@ -1,7 +1,7 @@
 function submitForm() {
-  const form = document.getElementById("loginForm");
+  const form = document.getElementById("registroForm");
   const formData = new FormData(form);
-  fetch("../../controllers/router.php?op=login", {
+  fetch("../../controllers/router.php?op=registro", {
     method: "POST",
     body: formData,
   })
@@ -10,10 +10,8 @@ function submitForm() {
         swal("Algo salio mal!", "error");
         throw new Error("Error en la solicitud");
       }
-      swal("Inicio de Sesión Exitoso !", "success");
-    })
-    .then((data) => {
-      console.log(data);
+      swal("Registro Exitoso !", "success");
+      window.location.href = "../login/";
     })
     .catch((error) => {
       console.error("Error:", error);

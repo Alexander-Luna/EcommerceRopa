@@ -21,8 +21,7 @@
                 <h1>Regístrate</h1>
             </div>
 
-            <!-- Login Form -->
-            <form method="POST" action="submit">
+            <form id="registroForm">
                 <div class="p-3">
                     <div class="col-10 text-center input-group mb-3 mt-3">
                         <input type="text" id="nombre" class="form-control" name="nombre" placeholder="Nombres y apellidos">
@@ -44,7 +43,7 @@
                     </div>
                 </div>
 
-                <button class="btn btn-primary col-10 p-3 text-center align-content-center mb-3" type="submit">Registrar</button>
+                <button class="btn btn-primary col-10 p-3 text-center align-content-center mb-3" type="button" onclick="submitForm()">Registrar</button>
                 <a href="../resetpass/">¿Olvidé mi contraseña?</a>
 
 
@@ -58,6 +57,7 @@
         </div>
     </div>
     <?php require_once "../html/MainJS.php"; ?>
+    <script src="content.js"></script>
 </body>
 
 </html>

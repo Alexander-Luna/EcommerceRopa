@@ -63,29 +63,44 @@ function handleGetRequest($action, $productController, $userController)
 function handlePostRequest($action, $productController, $userController)
 {
     // try {
-        switch ($action) {
-            case 'login':
+    switch ($action) {
+        case 'login':
+            $email = $_POST["email"];
+            $password = $_POST["pass"];
+            $userController->login($email, $password);
+            break;
+        case 'registro':
+            $email = $_POST["email"];
+            $password = $_POST["pass"];
+            $nombre = $_POST["nombre"];
+            $direccion = $_POST["direccion"];
+            $cedula = $_POST["cedula"];
+
+            if (isset($_POST['rol_id'])) {
+                $rol = $_POST['rol_id'];
+            } else {
+                $rol = 2; 
+            }
+
+            $userController->registrar($email, $password, $nombre, $direccion, $cedula, $rol);
+            break;
+        case 'createUser':
+            $userController->createUser();
+            break;
+        case 'resetpassci':
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $email = $_POST["email"];
-                $password = $_POST["pass"];
-                $userController->login($email, $password);
-                break;
-            case 'createUser':
-                $userController->createUser();
-                break;
-            case 'resetpassci':
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $email = $_POST["email"];
-                    $ci = $_POST["ci"];
-                    $userController->getClientByEmailAndCi($email, $ci);
-                }
-                break;
-            case 'createProduct':
-                $productController->createProduct();
-                break;
-            default:
-                handleNotFound();
-                break;
-        }
+                $ci = $_POST["ci"];
+                $userController->getClientByEmailAndCi($email, $ci);
+            }
+            break;
+        case 'createProduct':
+            $productController->createProduct();
+            break;
+        default:
+            handleNotFound();
+            break;
+    }
     // } catch (error) {
     //     handleNotFound();
     // }
