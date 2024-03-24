@@ -285,6 +285,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             );
           }
           const productToAdd = {
+            id: ,
             color: colorTextoSeleccionado,
             color_id: colorSeleccionado,
             talla: tallaTextoSeleccionado,
