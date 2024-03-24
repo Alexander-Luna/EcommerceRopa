@@ -1,16 +1,8 @@
 <?php
-/* Llamamos al archivo de conexion.php */
-require_once("../../config/Conectar.php");
-if (!isset($_SESSION["usu_id"])) {
-    if (isset($_POST["enviar"]) and $_POST["enviar"] == "si") {
-        require_once("../../models/UserModel.php");
-        $usuario = new UserModel();
-        $usuario->login();
-       
-        die();
-    }
-?>
+session_start(); // Iniciar la sesión si aún no está iniciada
 
+if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_id'])) {
+?>
     <!DOCTYPE html>
     <html lang="es">
 
@@ -32,51 +24,17 @@ if (!isset($_SESSION["usu_id"])) {
                     <h1>Iniciar Sesión</h1>
                 </div>
 
-                <!-- Login Form -->
-                <form action="" method="post">
-                    <?php
-                    if (isset($_GET["m"])) {
-                        switch ($_GET["m"]) {
-                            case "1";
-                    ?>
-
-                                <div class="alert alert-warning" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <strong class="d-block d-sm-inline-block-force">Error!</strong> Datos Incorrectos
-                                </div>
-                            <?php
-                                break;
-
-                            case "2";
-                            ?>
-                                <div class="alert alert-warning" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <strong class="d-block d-sm-inline-block-force">Error!</strong> Campos vacíos
-                                </div>
-                    <?php
-                                break;
-                        }
-                    }
-                    ?>
+                <form id="loginForm">
                     <div class="p-3">
                         <div class="col-10 text-center input-group mb-3 mt-3">
-                            <input type="email" id="email" class="form-control" name="email" placeholder="Correo electrónico">
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Correo electrónico">
                         </div>
-
                         <div class="col-10 text-center input-group mb-3">
-                            <input type="password" id="pass" class="form-control" name="pass" placeholder="Contraseña">
+                            <input type="password" id="pass" name="pass" class="form-control" placeholder="Contraseña">
                         </div>
                     </div>
-
-                    <button class="btn btn-primary col-10 p-3 text-center align-content-center mb-3" type="submit">Entrar</button>
+                    <button class="btn btn-primary col-10 p-3 text-center align-content-center mb-3" type="button" onclick="submitForm()">Entrar</button>
                     <a href="../resetpass/">¿Olvidé mi contraseña?</a>
-
-
-
                 </form>
 
                 <div id="formFooter">
@@ -87,11 +45,18 @@ if (!isset($_SESSION["usu_id"])) {
             </div>
         </div>
         <?php require_once "../html/MainJS.php"; ?>
+        <script src="content.js"></script>
     </body>
 
     </html>
 <?php
 } else {
-    header("Location:" .  "../home/");
+    if ($_SESSION['user_session']['rol_id'] == "1") {
+        // Si el rol del usuario es administrador
+        header("Location: ../admindashboard/");
+    } else {
+        header("Location: ../home/");
+    }
+    exit();
 }
 ?>

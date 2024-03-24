@@ -62,10 +62,12 @@ function handleGetRequest($action, $productController, $userController)
 
 function handlePostRequest($action, $productController, $userController)
 {
-    try {
+    // try {
         switch ($action) {
-            case 'createProduct':
-                $productController->createProduct();
+            case 'login':
+                $email = $_POST["email"];
+                $password = $_POST["pass"];
+                $userController->login($email, $password);
                 break;
             case 'createUser':
                 $userController->createUser();
@@ -77,13 +79,16 @@ function handlePostRequest($action, $productController, $userController)
                     $userController->getClientByEmailAndCi($email, $ci);
                 }
                 break;
+            case 'createProduct':
+                $productController->createProduct();
+                break;
             default:
                 handleNotFound();
                 break;
         }
-    } catch (error) {
-        handleNotFound();
-    }
+    // } catch (error) {
+    //     handleNotFound();
+    // }
 }
 
 function handleInvalidMethod()

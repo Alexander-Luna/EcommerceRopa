@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   calcularSubtotal();
   actualizarSubtotal();
+
   window.onload = function () {
     reloadSection();
     metodosPlantilla();

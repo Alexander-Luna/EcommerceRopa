@@ -5,18 +5,43 @@ class UserController
 {
     public function getUsers()
     {
-        // Obtener usuarios desde el modelo
         $userModel = new UserModel();
         $users = $userModel->getAllUsers();
-
-        // Devolver los usuarios como JSON
         echo json_encode($users);
     }
-    public function getClientByEmailAndCi($email, $ci)
+    public function registrar()
     {
+        $email = $_POST["email"];
+        $password = $_POST["pass"];
+        $rol = $_POST["rol_id"];
+        $nombre = $_POST["nombre"];
+        $direccion = $_POST["direccion"];
+        $cedula = $_POST["cedula"];
         $userModel = new UserModel();
-        $users = $userModel->getClientByEmailAndCi($email, $ci);
-        die(json_encode($users));
+        $users = $userModel->registrarUsuario($email, $password, $nombre, $direccion, $cedula, $rol);
         echo json_encode($users);
+    }
+    public function login($email, $password)
+    {
+        try {
+            $userModel = new UserModel();
+            $userData = $userModel->login($email, $password);
+
+            if ($userData) {
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['user_session'] = $userData;
+                http_response_code(200);
+                echo json_encode($userData);
+            } else {
+                http_response_code(400);
+                echo json_encode(array('error' => 'Inicio de sesión fallido'));
+            }
+        } catch (Exception $e) {
+            // Enviar una respuesta de error en caso de excepción con código HTTP 400
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
+        }
     }
 }

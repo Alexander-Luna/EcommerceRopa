@@ -121,17 +121,15 @@ class UserModel extends Conectar
                     WHERE
                         id = ?";
             $sql = $conectar->prepare($sql);
-            $sql->bindValue(1, encriptarPassword($usu_pass));
+            $sql->bindValue(1,  $this->encriptarPassword($usu_pass));
             $sql->bindValue(2, $usu_id);
             $sql->execute();
             $resultado = $sql->fetchAll();
             return $resultado;
         } catch (PDOException $e) {
-            // Manejo de errores
             die("Error al obtener cliente: " . $e->getMessage());
         }
     }
-    /*TODO: Funcion para login de acceso del usuario */
     public function actualizarPassword($usu_id, $usu_pass)
     {
         try {
@@ -147,53 +145,50 @@ class UserModel extends Conectar
             die("Error al obtener cliente: " . $e->getMessage());
         }
     }
-    public function login()
+    public function login($email, $password)
     {
+        $conexion = parent::Conexion();
+        $sql = "SELECT u.* FROM usuarios u 
+        WHERE u.email = ? AND u.est = 1";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bindValue(1, $email);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
         try {
-            $conectar = parent::conexion();
-            parent::set_names();
-            if (isset($_POST["enviar"])) {
-                $correo = $_POST["email"];
-                $pass = $_POST["pass"];
-                if (empty($correo) and empty($pass)) {
-                    /*TODO: En caso esten vacios correo y contraseña, devolver al index con mensaje = 2 */
-                    header("Location:" . "index.php?m=2");
-                    exit();
-                } else {
-                    $sql = "SELECT password FROM usuarios WHERE email=? and est=1";
-                    $stmt = $conectar->prepare($sql);
-                    $stmt->bindValue(1, $correo);
-                    $stmt->execute();
-                    $resultado1 = $stmt->fetch();
-
-                    if ($resultado1) {
-                        $hashAlmacenado = $resultado1['pass'];
-
-                        // Verifica la contraseña utilizando password_verify
-                        if (password_verify($pass, $hashAlmacenado)) {
-                            $sql = "SELECT * FROM usuarios WHERE email=? and est=1";
-                            $stmt = $conectar->prepare($sql);
-                            $stmt->bindValue(1, $correo);
-                            $stmt->execute();
-                            $resultado = $stmt->fetch();
-
-                            if ($resultado) {
-                                // Establece las variables de sesión
-                                $_SESSION["usu_id"] = $resultado["usu_id"];
-                                $_SESSION["usu_nom"] = $resultado["usu_nom"];
-                                $_SESSION["usu_email"] = $resultado["usu_correo"];
-                                $_SESSION["rol_id"] = $resultado["rol_id"];
-                                // Redirige al usuario a la página de inicio
-                                header("Location: " . "/views/home/");
-                                exit();
-                            }
-                        }
-                    }
-                }
+            if (password_verify($password, $data['pass'])) {
+                $sql1 = "SELECT u.rol_id,u.id as user_id,u.email,u.nombre ,u.direccion ,u.cedula,u.est
+                , r.nombre AS rol_nombre FROM usuarios u JOIN roles r ON u.rol_id = r.id 
+        WHERE u.email = ? AND u.est = 1";
+                $stmt1 = $conexion->prepare($sql1);
+                $stmt1->bindValue(1, $email);
+                $stmt1->execute();
+                $user = $stmt1->fetch(PDO::FETCH_ASSOC);
+                return $user;
             }
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al obtener cliente: " . $e->getMessage());
+            die("Error al iniciar sesión: " . $e->getMessage());
+        }
+    }
+
+
+    public function registrarUsuario($email, $password, $nombre, $direccion, $cedula, $rol_id)
+    {
+        $conexion = parent::Conexion();
+        $hashedPassword =  $this->encriptarPassword($password);
+        $sql = "INSERT INTO usuarios (email, pass, nombre, direccion, cedula, rol_id) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bindValue(1, $email);
+        $stmt->bindValue(2, $hashedPassword);
+        $stmt->bindValue(3, $nombre);
+        $stmt->bindValue(4, $direccion);
+        $stmt->bindValue(5, $cedula);
+        $stmt->bindValue(6, $rol_id);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

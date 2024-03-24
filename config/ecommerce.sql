@@ -292,17 +292,17 @@ CREATE TABLE `usuarios` (
   `email` varchar(200) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `nombre` varchar(255) NOT NULL,
-  `direccion` text NOT NULL,
+  `direccion` text DEFAULT NULL,
   `cedula` varchar(20) NOT NULL,
   `est` int(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `usuarios` (`id`, `rol_id`, `email`, `pass`, `nombre`, `direccion`, `cedula`, `est`) VALUES
-(2, 1, 'paulluna99@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Alexannder Luna', 'San Miguel de Bolivar', '0202433919', 1),
-(3, 2, 'bryan@nose.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Bryan Shiguango', 'Tena', '0202433123', 1),
-(6, 2, 'nicole@hotmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Nicole Anahi', 'Guaranda', '0202433321', 1),
-(7, 2, 'xd@hotmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'xd', 'user1direcion', '0202433231', 1),
-(8, 1, 'admin@admin.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Admin', 'admin direccion', '0202433312', 1);
+(2, 1, 'paulluna99@gmail.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Alexannder Luna', 'San Miguel de Bolivar', '0202433919', 1),
+(3, 2, 'bryan@nose.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Bryan Shiguango', 'Tena', '0202433123', 1),
+(6, 2, 'nicole@hotmail.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Nicole Anahi', 'Guaranda', '0202433321', 1),
+(7, 2, 'xd@hotmail.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'xd', 'user1direcion', '0202433231', 1),
+(8, 1, 'admin@admin.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Admin', 'admin direccion', '0202433312', 1);
 
 
 CREATE TABLE `ventas` (
