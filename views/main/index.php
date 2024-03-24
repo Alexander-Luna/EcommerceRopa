@@ -28,38 +28,37 @@
 	<!-- Header -->
 	<?php require_once "../html/MainHeader.php"; ?>
 
-	
-<section class="section-slide mb-5">
-  <div id="sliderContainer" class="carousel slide" data-ride="carousel">
-    <!-- Indicadores -->
-    <ol id="sliderIndicators" class="carousel-indicators">
-      <!-- Los indicadores se agregarán dinámicamente mediante JavaScript -->
-    </ol>
+				
+			<section class="section-slide mb-5">
+			<div id="sliderContainer" class="carousel slide" data-ride="carousel">
+				<!-- Indicadores -->
+				<ol id="sliderIndicators" class="carousel-indicators">
+				<!-- Los indicadores se agregarán dinámicamente mediante JavaScript -->
+				</ol>
 
-    <!-- Slides -->
-    <div class="carousel-inner">
-      <!-- Los elementos del slider se agregarán dinámicamente mediante JavaScript -->
-    </div>
+				<!-- Slides -->
+				<div class="carousel-inner">
+				<!-- Los elementos del slider se agregarán dinámicamente mediante JavaScript -->
+				</div>
 
-    <!-- Controles -->
-    <a class="carousel-control-prev" href="#sliderContainer" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#sliderContainer" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
-</section>
+				<!-- Controles -->
+				<a class="carousel-control-prev" href="#sliderContainer" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#sliderContainer" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+				</a>
+			</div>
+			
+			</section>
 
 <!-- Bootstrap JS y Script personalizado -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-  
-</script>
+<script> </script>
 	
 
 	<!-- <div class="item-slick1" style="background-image: url(../../public/images/slide-03.jpg);">
@@ -103,7 +102,7 @@
 				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
 					<!-- Block1 -->
 					<div class="block1 wrap-pic-w">
-						<img src="../../public/images/banner-01.jpg" alt="IMG-BANNER">
+						<img src="../../public/images/banner-02.jpg" alt="IMG-BANNER">
 
 						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
@@ -169,6 +168,59 @@
 							<div class="block1-txt-child2 p-b-4 trans-05">
 								<div class="block1-link stext-101 cl0 trans-09">
 									Comprar Ahora
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				
+				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
+					<!-- Block1 -->
+					<div class="block1 wrap-pic-w">
+						<img src="../../public/images/banner-02.jpg" alt="IMG-BANNER">
+
+						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+							<div class="block1-txt-child1 flex-col-l">
+								<span class="block1-name ltext-102 trans-04 p-b-8">
+									Estudiante
+								</span>
+
+								<span class="block1-info stext-102 trans-04">
+									Temporada 2024
+								</span>
+							</div>
+
+							<div class="block1-txt-child2 p-b-4 trans-05">
+								<div class="block1-link stext-101 cl0 trans-09">
+									Comprar ahora
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				
+				
+				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
+					<!-- Block1 -->
+					<div class="block1 wrap-pic-w">
+						<img src="../../public/images/banner-02.jpg" alt="IMG-BANNER">
+
+						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+							<div class="block1-txt-child1 flex-col-l">
+								<span class="block1-name ltext-102 trans-04 p-b-8">
+									Deportivo
+								</span>
+
+								<span class="block1-info stext-102 trans-04">
+									Temporada 2024
+								</span>
+							</div>
+
+							<div class="block1-txt-child2 p-b-4 trans-05">
+								<div class="block1-link stext-101 cl0 trans-09">
+									Comprar ahora
 								</div>
 							</div>
 						</a>
@@ -950,8 +1002,10 @@
 				</a>
 			</div>
 		</div>
+		
 	</section>
 	</section>
+	
 	
 	<?php require_once "../html/MainJS.php"; ?>
 
@@ -973,5 +1027,5 @@
 
 </body>
 <!-- Footer -->
-<?php require_once('../html/footer.php'); ?>
+<br><?php require_once('../html/footer.php'); ?>
 </html>

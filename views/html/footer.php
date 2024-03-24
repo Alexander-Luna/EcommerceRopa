@@ -133,7 +133,7 @@
       position: absolute;
    }
   </style>  
-<br><br><br><br><footer class="footer_section">
+<br><br><br><br><br><footer class="footer_section">
     <div class="container">
       <div class="row">
       <div class="col-md-4 footer-col">
@@ -142,27 +142,27 @@
               Categoria
             </h4>
             <div class="contact_link_box">
-              <a href="index.php?modulo=hombre">
+              <a href="#">
                 <span>
                  Hombre
                 </span>
               </a>
-              <a href="index.php?modulo=mujer">
+              <a href="#">
                 <span>
                   Mujer
                 </span>
               </a>
-              <a href="index.php?modulo=niño">
+              <a href="#">
                 <span>
                 Niño
                 </span>
               </a>
-              <a href="index.php?modulo=estudiante">
+              <a href="#">
                 <span>
                 Estudiantes
                 </span>
               </a>
-              <a href="index.php?modulo=deportivo">
+              <a href="#">
                 <span>
                 Deportivo
                 </span>
@@ -170,7 +170,7 @@
               <h4><br>
               Sobre nosotros
             </h4>
-            <a href="index.php?modulo=informacion">
+            <a href="../infoempresa/informacion.php">
                 <span>
                 Quienes somos
                 </span>
@@ -202,28 +202,27 @@
                  Redes sociales
                 </h4>
                 <div class="social-icons">
-                <a href="https://www.facebook.com/margoty1987" target="_blank">
-                        <ion-icon name="logo-facebook"></ion-icon>
-                    </a>
+                <a href="https://www.facebook.com/margoty1987" target="_blank" >
+                   
+                    <i class="fa fa-facebook"></i>
                     Facebook
                     </div>
-                    <div class="footer_contact"><br>
+                    </a>
+                <div class="footer_contact"><br>
               <h4>
                  Terminos legales
                 </h4>
                 <div class="reglamento">
-                    <a href="pdf\ESTATUTO.pdf"  download="nombre-archivo.pdf">
-                        <ion-icon name="document-text-outline"></ion-icon>
+                    <a href="ESTATUTO.pdf" download="Estatuto.pdf">
+                      <i class="fas fa-file-pdf"></i> Estatuto
                     </a>
-                    Estatuto
-                </div>
+                  </div>
 
-                <div class="reglamento">
-                    <a href="pdf\reglamento-interno (1).pdf" download="nombre-archivo.pdf">
-                        <ion-icon name="document-text-outline"></ion-icon>
+                  <div class="reglamento">
+                    <a href="reglamento-interno (1).pdf" download="Reglamento Interno.pdf" >
+                      <i class="fas fa-file-pdf"></i> Reglamento Interno
                     </a>
-                    Reglamento Interno
-                </div>
+                  </div>
                 </div>
           </div>
             </div>
