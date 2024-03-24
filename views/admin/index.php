@@ -32,7 +32,7 @@
           $email = $_REQUEST['email'] ?? '';
           $pasword = $_REQUEST['pass'] ?? '';
           $pasword = md5($pasword);
-          include_once "../config/db_ecommerce.php";
+          include_once "../../config/Conectar.php";
           $con = mysqli_connect($host, $user, $pass, $db);
           $query = "SELECT id,email,nombre from usuarios where email='" . $email . "' and pass='" . $pasword . "';  ";
           $res = mysqli_query($con, $query);
