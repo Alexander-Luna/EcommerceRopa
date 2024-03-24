@@ -10,7 +10,8 @@ function submitForm() {
         swal("Algo salio mal!", "error");
         throw new Error("Error en la solicitud");
       }
-      swal("Inicio de Sesión Exitoso !", "success");
+      //swal("Inicio de Sesión Exitoso !", "success");
+      window.location.href = "../main/";
     })
     .then((data) => {
       console.log(data);

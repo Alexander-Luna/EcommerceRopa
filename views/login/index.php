@@ -52,10 +52,9 @@ if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_
 <?php
 } else {
     if ($_SESSION['user_session']['rol_id'] == "1") {
-        // Si el rol del usuario es administrador
         header("Location: ../admindashboard/");
     } else {
-        header("Location: ../home/");
+        header("Location: ../main/");
     }
     exit();
 }
