@@ -52,7 +52,7 @@ if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_
 <?php
 } else {
     if ($_SESSION['user_session']['rol_id'] == "1") {
-        header("Location: ../admindashboard/");
+        header("Location: ../admin/");
     } else {
         header("Location: ../main/");
     }

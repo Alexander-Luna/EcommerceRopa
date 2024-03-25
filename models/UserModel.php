@@ -150,6 +150,7 @@ class UserModel extends Conectar
         $conexion = parent::Conexion();
         $sql = "SELECT u.* FROM usuarios u 
         WHERE u.email = ? AND u.est = 1";
+        
         $stmt = $conexion->prepare($sql);
         $stmt->bindValue(1, $email);
         $stmt->execute();
