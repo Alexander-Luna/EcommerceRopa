@@ -1,6 +1,5 @@
 <?php
-session_start(); // Iniciar la sesión si aún no está iniciada
-
+session_start(); 
 if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_id'])) {
 ?>
     <!DOCTYPE html>
@@ -51,11 +50,7 @@ if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_
     </html>
 <?php
 } else {
-    if ($_SESSION['user_session']['rol_id'] == "1") {
-        header("Location: ../admin/");
-    } else {
-        header("Location: ../main/");
-    }
+    header("Location: ../main/");
     exit();
 }
 ?>
