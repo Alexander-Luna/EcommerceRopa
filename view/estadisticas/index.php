@@ -1,39 +1,3 @@
-<?php
-include_once "../config/db_ecommerce.php";
-$con = mysqli_connect($host, $user, $pass, $db);
-
-$queryNumVentas = "SELECT COUNT(id) AS num from ventas 
-where fecha BETWEEN DATE( DATE_SUB(NOW(),INTERVAL 7 DAY) ) AND NOW(); ";
-$resNumVentas = mysqli_query($con, $queryNumVentas);
-$rowNumVentas = mysqli_fetch_assoc($resNumVentas);
-
-$queryNumClientes = "SELECT COUNT(id) AS num from clientes; ";
-$resNumClientes = mysqli_query($con, $queryNumClientes);
-$rowNumClientes = mysqli_fetch_assoc($resNumClientes);
-
-$queryVentasDia = "SELECT
-sum(detalleVentas.subTotal) as total,
-ventas.fecha
-FROM
-ventas
-INNER JOIN detalleVentas ON detalleVentas.idVenta = ventas.id
-GROUP BY DAY(ventas.fecha);";
-$resVentasDia = mysqli_query($con, $queryVentasDia);
-$labelVentas = "";
-$datosVentas = "";
-
-while ($rowVentasDia = mysqli_fetch_assoc($resVentasDia)) {
-  $labelVentas = $labelVentas . "'" . date_format(date_create($rowVentasDia['fecha']), "Y-m-d") . "',";
-  $datosVentas = $datosVentas . $rowVentasDia['total'] . ",";
-}
-$labelVentas = rtrim($labelVentas, ",");
-$datosVentas = rtrim($datosVentas, ",");
-
-?>
-<script>
-  var labelVentas = [<?php echo $labelVentas; ?>];
-  var datosVentas = [<?php echo $datosVentas; ?>];
-</script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -57,7 +21,7 @@ $datosVentas = rtrim($datosVentas, ",");
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3><?php echo $rowNumVentas['num']; ?></h3>
+                <h3 id="numVentas"></h3>
                 <p>Ventas en los ultimos 7 dias</p>
               </div>
               <div class="icon">
@@ -71,7 +35,7 @@ $datosVentas = rtrim($datosVentas, ",");
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3><?php echo $rowNumClientes['num'] ?></h3>
+                <h3 id="numClientes"></h3>
                 <p>Clientes</p>
               </div>
               <div class="icon">
@@ -117,5 +81,5 @@ $datosVentas = rtrim($datosVentas, ",");
         <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
+    <script src="content.js"></script>
   </div>

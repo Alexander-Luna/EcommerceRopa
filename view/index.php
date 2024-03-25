@@ -3,9 +3,6 @@ session_start();
 // if (!isset($_SESSION["user_session"]) && $_SESSION['user_session']['rol_id'] === 1) {
 if (isset($_SESSION['user_session']['rol_id']) && $_SESSION['user_session']['rol_id'] === 1) {
   $modulo = $_REQUEST['modulo'] ?? '';
-  // var_dump($_SESSION['user_session']['rol_id']);
-  // var_dump(!isset($_SESSION['user_session']['rol_id']));
-  // die();
 ?>
   <!DOCTYPE html>
   <html lang="es">
@@ -170,7 +167,7 @@ if (isset($_SESSION['user_session']['rol_id']) && $_SESSION['user_session']['rol
       <?php
       }
       if ($modulo == "estadisticas" || $modulo == "") {
-        include_once "estadisticas.php";
+        include_once "estadisticas/index.php";
       }
       if ($modulo == "usuarios") {
         include_once "usuarios.php";

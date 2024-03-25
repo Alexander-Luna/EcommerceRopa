@@ -19,21 +19,7 @@ INSERT INTO `categorias_productos` (`id`, `nombre`) VALUES
 (3, 'Niño'),
 (4, 'Niña');
 
-CREATE TABLE `clientes` (
-  `id` int(10) NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `pass` varchar(255) NOT NULL,
-  `nombre` varchar(255) NOT NULL,
-  `direccion` text NOT NULL,
-  `cedula` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
-INSERT INTO `clientes` (`id`, `email`, `pass`, `nombre`, `direccion`, `cedula`) VALUES
-(1, 'nose@hotmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Rodolfo', 'Los trigales', '0201062616'),
-(2, 'nico@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'nicole', '', ''),
-(3, 'alex@nose.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Alexander Alegria', '1 de Mayo', ''),
-(4, 'vinicio@hotmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Vinicio ', '1 de mayo', '0201062619');
 
 CREATE TABLE `colores` (
   `id` int(10) NOT NULL,
@@ -356,9 +342,6 @@ INSERT INTO `ventas` (`id`, `idcli`, `idPago`, `fecha`) VALUES
 ALTER TABLE `categorias_productos`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `kEmail` (`email`);
 
 ALTER TABLE `colores`
   ADD PRIMARY KEY (`id`);
@@ -418,8 +401,6 @@ ALTER TABLE `ventas`
 ALTER TABLE `categorias_productos`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
-ALTER TABLE `clientes`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 ALTER TABLE `colores`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;

@@ -1,19 +1,19 @@
 <?php
 require_once 'ProductController.php';
 require_once 'UserController.php';
-
+require_once 'VentasController.php';
 if (isset($_REQUEST['op'])) {
     $action = $_REQUEST['op'];
 
     $productC = new ProductController();
     $userC = new UserController();
-
+    $ventaC = new VentasController();
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
-            handleGetRequest($action, $productC, $userC);
+            handleGetRequest($action, $productC, $userC, $ventaC);
             break;
         case 'POST':
-            handlePostRequest($action, $productC, $userC);
+            handlePostRequest($action, $productC, $userC, $ventaC);
             break;
         default:
             handleInvalidMethod();
@@ -23,7 +23,7 @@ if (isset($_REQUEST['op'])) {
     handleMissingParameter();
 }
 
-function handleGetRequest($action, $productController, $userController)
+function handleGetRequest($action, $productController, $userController, $ventaController)
 {
     try {
         switch ($action) {
@@ -51,6 +51,10 @@ function handleGetRequest($action, $productController, $userController)
             case 'getUserData':
                 $userController->getUserData();
                 break;
+
+                case 'getEstadisticas':
+                    $ventaController->getEstadistica();
+                    break;
             default:
                 handleNotFound();
                 break;
@@ -60,50 +64,50 @@ function handleGetRequest($action, $productController, $userController)
     }
 }
 
-function handlePostRequest($action, $productController, $userController)
+function handlePostRequest($action, $productController, $userController, $ventaC)
 {
-    // try {
-    switch ($action) {
-        case 'login':
-            $email = $_POST["email"];
-            $password = $_POST["pass"];
-            $userController->login($email, $password);
-            break;
-        case 'registro':
-            $email = $_POST["email"];
-            $password = $_POST["pass"];
-            $nombre = $_POST["nombre"];
-            $direccion = $_POST["direccion"];
-            $cedula = $_POST["cedula"];
-
-            if (isset($_POST['rol_id'])) {
-                $rol = $_POST['rol_id'];
-            } else {
-                $rol = 2; 
-            }
-
-            $userController->registrar($email, $password, $nombre, $direccion, $cedula, $rol);
-            break;
-        case 'createUser':
-            $userController->createUser();
-            break;
-        case 'resetpassci':
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    try {
+        switch ($action) {
+            case 'login':
                 $email = $_POST["email"];
-                $ci = $_POST["ci"];
-                $userController->getClientByEmailAndCi($email, $ci);
-            }
-            break;
-        case 'createProduct':
-            $productController->createProduct();
-            break;
-        default:
-            handleNotFound();
-            break;
+                $password = $_POST["pass"];
+                $userController->login($email, $password);
+                break;
+            case 'registro':
+                $email = $_POST["email"];
+                $password = $_POST["pass"];
+                $nombre = $_POST["nombre"];
+                $direccion = $_POST["direccion"];
+                $cedula = $_POST["cedula"];
+
+                if (isset($_POST['rol_id'])) {
+                    $rol = $_POST['rol_id'];
+                } else {
+                    $rol = 2;
+                }
+
+                $userController->registrar($email, $password, $nombre, $direccion, $cedula, $rol);
+                break;
+            case 'createUser':
+                $userController->createUser();
+                break;
+            case 'resetpassci':
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $email = $_POST["email"];
+                    $ci = $_POST["ci"];
+                    $userController->getClientByEmailAndCi($email, $ci);
+                }
+                break;
+            case 'createProduct':
+                $productController->createProduct();
+                break;
+            default:
+                handleNotFound();
+                break;
+        }
+    } catch (error) {
+        handleNotFound();
     }
-    // } catch (error) {
-    //     handleNotFound();
-    // }
 }
 
 function handleInvalidMethod()
