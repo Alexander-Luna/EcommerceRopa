@@ -1,6 +1,6 @@
 <?php
 if (isset($_REQUEST['guardar'])) {
-    include_once "../config/db_ecommerce.php";
+    
     $con = mysqli_connect($host, $user, $pass, $db);
 
     $email = mysqli_real_escape_string($con, $_REQUEST['email'] ?? '');

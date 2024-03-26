@@ -21,9 +21,9 @@ if (isset($_SESSION['user_session'])) {
     <div class="wrapper">
 
       <!-- Preloader -->
-      <div class="preloader flex-column justify-content-center align-items-center">
+      <!-- <div class="preloader flex-column justify-content-center align-items-center">
         <img class="animation__shake" img src="../../public/dist/img/aso.png" height="200" width="200">
-      </div>
+      </div> -->
 
       <!-- Navbar -->
       <nav class="main-header navbar navbar-expand navbar-white navbar-light">

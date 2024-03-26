@@ -1,25 +1,24 @@
-<?php
-include_once "../config/db_ecommerce.php";
-$con = mysqli_connect($host, $user, $pass, $db);
-if (isset($_REQUEST['idBorrar'])) {
-  $id = mysqli_real_escape_string($con, $_REQUEST['idBorrar'] ?? '');
-  $query = "DELETE from usuarios  where id='" . $id . "';";
-  $res = mysqli_query($con, $query);
-  if ($res) {
-?>
+<!-- <?php
+
+      if (isset($_REQUEST['idBorrar'])) {
+        $id = mysqli_real_escape_string($con, $_REQUEST['idBorrar'] ?? '');
+        $query = "DELETE from usuarios  where id='" . $id . "';";
+        $res = mysqli_query($con, $query);
+        if ($res) {
+      ?>
     <div class="alert alert-warning float-right" role="alert">
       Usuario borrado con exito
     </div>
   <?php
-  } else {
+        } else {
   ?>
     <div class="alert alert-danger float-right" role="alert">
       Error al borrar <?php echo mysqli_error($con); ?>
     </div>
 <?php
-  }
-}
-?>
+        }
+      }
+?> -->
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -43,7 +42,21 @@ if (isset($_REQUEST['idBorrar'])) {
           <div class="card">
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example2" class="table table-bordered table-hover">
+              <table id="miTabla" class="datatable table table-bordered table-hover">">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Aquí van los datos de la tabla -->
+                </tbody>
+              </table>
+
+
+              <!-- <table id="example2" class="table table-bordered table-hover">
                 <a href="index.php?modulo=crearUsuario" class="btn btn-success float-right mb-3" aria-hidden="true">Agregar usuarios</a>
                 <thead>
                   <tr>
@@ -75,7 +88,7 @@ if (isset($_REQUEST['idBorrar'])) {
                   }
                   ?>
                 </tbody>
-              </table>
+              </table> -->
             </div>
             <!-- /.card-body -->
           </div>

@@ -1,5 +1,5 @@
 <?php
-include_once "../config/db_ecommerce.php";
+
 $con = mysqli_connect($host, $user, $pass, $db);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['productoId'])) {

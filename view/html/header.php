@@ -19,3 +19,4 @@
 <!-- summernote -->
 <link rel="stylesheet" href="../../public/plugins/summernote/summernote-bs4.min.css">
 <!-- DataTables -->
+<link rel="stylesheet" href="../../public/lib/dataTables/dataTables.dataTables.min.css">

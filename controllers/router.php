@@ -51,10 +51,13 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getUserData':
                 $userController->getUserData();
                 break;
+            case 'getAllUsers':
+                $userController->getAllUsers();
+                break;
 
-                case 'getEstadisticas':
-                    $ventaController->getEstadistica();
-                    break;
+            case 'getEstadisticas':
+                $ventaController->getEstadistica();
+                break;
             default:
                 handleNotFound();
                 break;

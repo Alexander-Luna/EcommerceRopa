@@ -1,5 +1,5 @@
 <?php
-include_once "../config/db_ecommerce.php";
+
 
 // Verificar si se ha enviado un ID de proveedor para eliminar
 if (isset($_GET['id_proveedor'])) {

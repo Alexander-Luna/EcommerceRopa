@@ -1,6 +1,6 @@
 <?php
 // Incluir el archivo de conexión a la base de datos
-include_once "../config/db_ecommerce.php";
+
 $con = mysqli_connect($host, $user, $pass, $db);
 
 

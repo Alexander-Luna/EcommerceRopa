@@ -34,4 +34,5 @@
 
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../../public/dist/js/pages/dashboard.js"></script>
+  <script src="../../public/lib/dataTable/dataTables.min.js"></script>
   <!-- DataTables  & Plugins -->

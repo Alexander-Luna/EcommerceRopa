@@ -1,5 +1,5 @@
 <?php
-include_once "../config/db_ecommerce.php";
+
 $con = mysqli_connect($host, $user, $pass, $db);
 ?>
 <!-- Content Wrapper. Contains page content -->

@@ -9,6 +9,12 @@ class UserController
         $users = $userModel->getAllUsers();
         echo json_encode($users);
     }
+    public function getAllUsers()
+    {
+        $userModel = new UserModel();
+        $users = $userModel->getAllUsers();
+        echo json_encode($users);
+    }
     public function registrar($email, $password, $nombre, $direccion, $cedula, $rol)
     {
         $userModel = new UserModel();
