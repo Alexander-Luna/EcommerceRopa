@@ -185,4 +185,5 @@ $con = mysqli_connect($host, $user, $pass, $db);
             </div>
         </div>
     </div>
+    <script src="content.js"></script>
 </div>

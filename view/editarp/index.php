@@ -196,5 +196,5 @@ $resImagenes = mysqli_query($con, $queryImagenes);
         </div>
         <!-- /.row -->
     </section>
-    <!-- /.content -->
+    <script src="content.js"></script>
 </div>

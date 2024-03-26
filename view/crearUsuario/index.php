@@ -71,5 +71,5 @@ if (isset($_REQUEST['guardar'])) {
       </div>
       <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
+    <script src="content.js"></script>
   </div>

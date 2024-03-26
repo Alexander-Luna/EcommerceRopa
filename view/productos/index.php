@@ -231,31 +231,4 @@ $con = mysqli_connect($host, $user, $pass, $db);
       </section>
       <!-- /.content -->
   </div>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <script>
-$(document).ready(function() {
-    // Manejar el clic en los botones de activar/desactivar
-    $('.btn-activar').click(function() {
-        var productoId = $(this).data('producto-id');
-        $.ajax({
-            type: 'POST',
-            url: 'activar_desactivar_producto.php',
-            data: { productoId: productoId },
-            success: function(response) {
-                if (response === 'Éxito') {
-                    // Actualizar el estado del botón
-                    var btn = $('.btn-activar[data-producto-id="' + productoId + '"]');
-                    if (btn.hasClass('btn-success')) {
-                        btn.removeClass('btn-success').addClass('btn-warning').text('Desactivar');
-                    } else {
-                        btn.removeClass('btn-warning').addClass('btn-success').text('Activar');
-                    }
-                } else {
-                    // Manejar errores si es necesario
-                    console.log('Error al activar/desactivar producto: ' + response);
-                }
-            }
-        });
-    });
-});
-</script>
+  <script src="content.js"></script>

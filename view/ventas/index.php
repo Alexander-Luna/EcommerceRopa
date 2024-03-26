@@ -84,5 +84,5 @@ $con = mysqli_connect($host, $user, $pass, $db);
         </div>
         <!-- /.row -->
     </section>
-    <!-- /.content -->
+    <script src="content.js"></script>
 </div>

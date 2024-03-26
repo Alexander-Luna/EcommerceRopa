@@ -76,5 +76,5 @@ $row=mysqli_fetch_assoc($res);
         </div>
         <!-- /.row -->
     </section>
-    <!-- /.content -->
+    <script src="content.js"></script>
 </div>

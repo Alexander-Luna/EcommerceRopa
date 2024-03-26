@@ -94,5 +94,5 @@ $con = mysqli_connect($host, $user, $pass, $db);
 
                             </thead>
                         </table>
+                        <script src="content.js"></script>
                     </div>
-                    <!-- /.card-body -->
