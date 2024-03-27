@@ -28,7 +28,6 @@
                     <th>Cantidad</th>
                     <th>Estado</th>
                     <th>Proveedor</th>
-                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -63,20 +63,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         title: "Estado",
       },
       { data: "nombre_proveedor", title: "Proveedor" },
-      {
-        data: null,
-        render: function (data, type, row) {
-          return `
-            <button type="button" class="btn btn-outline-warning editar" onclick="editar(${row.id})">
-              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-            </button>
-            <button type="button" class="btn btn-outline-danger eliminar" onclick="Eliminar(${row.id})">
-              <i class="fa fa-trash-o" aria-hidden="true"></i>
-            </button>
-          `;
-        },
-        title: "Acciones",
-      },
     ],
     createdRow: function (row, data, dataIndex) {
       $("td:eq(2)", row).on("click", function () {
