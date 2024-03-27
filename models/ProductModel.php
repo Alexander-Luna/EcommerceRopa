@@ -47,7 +47,29 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+    public function getAllProductsAlert()
+    {
+        
+        try {
+            $conexion = parent::Conexion();
+            $sql = "SELECT prov.*,i.*, p.*, c.nombre as color,catp.nombre as genero, t.descripcion,t.nombre as talla, img.img as imagen
+            FROM inventario i
+            INNER JOIN productos p ON i.id_producto = p.id
+            INNER JOIN categorias_productos catp ON p.id_categoria = catp.id
+            LEFT JOIN colores c ON i.id_color = c.id
+            LEFT JOIN tallas t ON i.id_talla = t.id
+            LEFT JOIN proveedores prov ON i.id_proveedor = prov.id
+            LEFT JOIN imagenes_productos img ON img.id_producto = i.id_producto AND img.est = 1 AND img.principal = 1
+            WHERE i.stock<=i.stock_alert OR i.stock=0";
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
     public function getAllColores()
     {
         try {

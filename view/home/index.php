@@ -114,7 +114,12 @@ if (isset($_SESSION['user_session'])) {
                       <p>Productos</p>
                     </a>
                   </li>
-
+                  <li class="nav-item">
+                    <a href="index.php?modulo=alertas" class="nav-link <?php echo ($modulo == "alertas") ? " active " : " "; ?>  ">
+                      <i class="fa fa-bell-o nav-icon" aria-hidden="true"></i>
+                      <p>Alertas</p>
+                    </a>
+                  </li>
                   <li class="nav-item">
                     <a href="index.php?modulo=publicidad" class="nav-link <?php echo ($modulo == "publicidad") ? " active " : " "; ?> ">
                       <i class="fa fa-bullhorn nav-icon"></i>
@@ -178,6 +183,9 @@ if (isset($_SESSION['user_session'])) {
       }
       if ($modulo == "productos") {
         include_once "../productos/index.php";
+      }
+      if ($modulo == "alertas") {
+        include_once "../alertas/index.php";
       }
       if ($modulo == "reportes") {
         include_once "../reportes/index.php";

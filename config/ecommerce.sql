@@ -97,40 +97,43 @@ CREATE TABLE `inventario` (
   `id_producto` int(10) NOT NULL,
   `id_talla` int(10) NOT NULL,
   `id_color` int(10) NOT NULL,
+  `id_proveedor` int(10) NOT NULL,
   `stock` int(10) NOT NULL,
+  `stock_alert` int(10) DEFAULT (5),
+  `cant_pred` int(10) DEFAULT (0),
   `costo` decimal(10,2) NOT NULL,
   `precio_venta` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-INSERT INTO `inventario` (`id_producto`, `id_talla`, `id_color`, `stock`, `costo`, `precio_venta`) VALUES
-(32, 1, 1, 50, 50.50, 80.50),
-(32, 1, 2, 50, 50.50, 80.50),
-(32, 1, 3, 50, 50.50, 80.50),
-(32, 2, 1, 50, 50.50, 80.50),
-(32, 2, 2, 50, 50.50, 80.50),
-(32, 2, 3, 50, 50.50, 80.50),
-(32, 3, 1, 50, 50.50, 80.50),
-(32, 3, 2, 50, 50.50, 80.50),
-(32, 3, 3, 50, 50.50, 80.50),
-(33, 1, 1, 50, 50.50, 80.50),
-(33, 1, 2, 50, 50.50, 80.50),
-(33, 1, 3, 50, 50.50, 80.50),
-(33, 2, 1, 50, 50.50, 80.50),
-(33, 2, 2, 50, 50.50, 80.50),
-(33, 2, 3, 50, 50.50, 80.50),
-(33, 3, 1, 50, 50.50, 80.50),
-(33, 3, 2, 50, 50.50, 80.50),
-(33, 3, 3, 50, 50.50, 80.50),
-(34, 1, 1, 50, 50.50, 80.50),
-(34, 1, 2, 50, 50.50, 80.50),
-(34, 1, 3, 50, 50.50, 80.50),
-(34, 2, 1, 50, 50.50, 80.50),
-(34, 2, 2, 50, 50.50, 80.50),
-(34, 2, 3, 50, 50.50, 80.50),
-(34, 3, 1, 50, 50.50, 80.50),
-(34, 3, 2, 50, 50.50, 80.50),
-(34, 3, 3, 50, 50.50, 80.50);
+INSERT INTO `inventario` (`id_producto`,`id_proveedor`, `id_talla`, `id_color`, `stock`, `costo`, `precio_venta`) VALUES
+(32, 1,1, 1, 50, 50.50, 80.50),
+(32, 1,1, 2, 50, 50.50, 80.50),
+(32, 1,1, 3, 50, 50.50, 80.50),
+(32, 1,2, 1, 50, 50.50, 80.50),
+(32, 1,2, 2, 50, 50.50, 80.50),
+(32, 1,2, 3, 50, 50.50, 80.50),
+(32, 1,3, 1, 50, 50.50, 80.50),
+(32, 1,3, 2, 50, 50.50, 80.50),
+(32, 1,3, 3, 50, 50.50, 80.50),
+(33, 1,1, 1, 50, 50.50, 80.50),
+(33, 1,1, 2, 50, 50.50, 80.50),
+(33, 1,1, 3, 50, 50.50, 80.50),
+(33, 1,2, 1, 50, 50.50, 80.50),
+(33, 1,2, 2, 50, 50.50, 80.50),
+(33, 1,2, 3, 50, 50.50, 80.50),
+(33, 1,3, 1, 50, 50.50, 80.50),
+(33, 1,3, 2, 50, 50.50, 80.50),
+(33, 1,3, 3, 50, 50.50, 80.50),
+(34, 1,1, 1, 50, 50.50, 80.50),
+(34, 1,1, 2, 50, 50.50, 80.50),
+(34, 1,1, 3, 50, 50.50, 80.50),
+(34, 1,2, 1, 50, 50.50, 80.50),
+(34, 1,2, 2, 50, 50.50, 80.50),
+(34, 1,2, 3, 50, 50.50, 80.50),
+(34, 1,3, 1, 50, 50.50, 80.50),
+(34, 1,3, 2, 50, 50.50, 80.50),
+(34, 1,3, 3, 50, 50.50, 80.50);
 
 CREATE TABLE `productos` (
   `id` int(10) NOT NULL,
@@ -452,12 +455,12 @@ ALTER TABLE `imagenes_productos`
 ALTER TABLE `inventario`
   ADD CONSTRAINT `inventario_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`),
   ADD CONSTRAINT `inventario_ibfk_2` FOREIGN KEY (`id_talla`) REFERENCES `tallas` (`id`),
-  ADD CONSTRAINT `inventario_ibfk_3` FOREIGN KEY (`id_color`) REFERENCES `colores` (`id`);
+  ADD CONSTRAINT `inventario_ibfk_3` FOREIGN KEY (`id_color`) REFERENCES `colores` (`id`),
+  ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id`);
 
 
 ALTER TABLE `productos`
-  ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_productos` (`id`),
-  ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id`);
+  ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_productos` (`id`);
 
 
 ALTER TABLE `recibe`

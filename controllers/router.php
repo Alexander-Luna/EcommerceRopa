@@ -30,6 +30,9 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getProducts':
                 $productController->getProducts();
                 break;
+            case 'getProductsAlert':
+                $productController->getProductsAlert();
+                break;
             case 'getSliders':
                 $productController->getSliders();
                 break;
