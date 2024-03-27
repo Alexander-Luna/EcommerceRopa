@@ -1,26 +1,3 @@
-<!-- <?php
-
-      if (isset($_REQUEST['idBorrar'])) {
-        $id = mysqli_real_escape_string($con, $_REQUEST['idBorrar'] ?? '');
-        $query = "DELETE from usuarios  where id='" . $id . "';";
-        $res = mysqli_query($con, $query);
-        if ($res) {
-      ?>
-    <div class="alert alert-warning float-right" role="alert">
-      Usuario borrado con exito
-    </div>
-  <?php
-        } else {
-  ?>
-    <div class="alert alert-danger float-right" role="alert">
-      Error al borrar <?php echo mysqli_error($con); ?>
-    </div>
-<?php
-        }
-      }
-?> -->
-
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -40,13 +17,14 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <!-- /.card-header -->
+
             <div class="card-body">
-              <table id="miTabla" class="datatable table table-bordered table-hover">">
+              <table id="miTabla" class="datatable table table-bordered table-hover">
                 <thead>
                   <tr>
                     <th>Email</th>
                     <th>Nombre</th>
+                    <th>Rol</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -54,41 +32,6 @@
                   <!-- Aquí van los datos de la tabla -->
                 </tbody>
               </table>
-
-
-              <!-- <table id="example2" class="table table-bordered table-hover">
-                <a href="index.php?modulo=crearUsuario" class="btn btn-success float-right mb-3" aria-hidden="true">Agregar usuarios</a>
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Acciones </a>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
-
-                  $query = "SELECT id,email,nombre from usuarios ;  ";
-                  $res = mysqli_query($con, $query);
-
-                  while ($row = mysqli_fetch_assoc($res)) {
-                  ?>
-
-                    <tr>
-                      <td><?php echo $row['nombre'] ?></td>
-                      <td><?php echo $row['email'] ?></td>
-
-                      <td>
-                        <a href="index.php?modulo=editarUsuario&id=<?php echo $row['id'] ?>" style="margin-right: 5px;"> <i class="btn btn-info btn-sm  fas fa-edit"></i> </a>
-                        <a href="index.php?modulo=usuarios&idBorrar=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm"> <i class="fas fa-trash-alt"></i> </a>
-                      </td>
-                    </tr>
-                  <?php
-                  }
-                  ?>
-                </tbody>
-              </table> -->
             </div>
             <!-- /.card-body -->
           </div>
@@ -100,5 +43,5 @@
     </div>
     <!-- /.container-fluid -->
   </section>
-  <script src="content.js"></script>
+  <script src="../usuarios/content.js"></script>
 </div>

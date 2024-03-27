@@ -1,7 +1,7 @@
   <!-- ./wrapper -->
 
   <!-- jQuery -->
-  <script src="../../public/plugins/jquery/jquery.min.js"></script>
+  <script src="../../public/plugins/jquery/jquery-3.7.1.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
   <script src="../../public/plugins/jquery-ui/jquery-ui.min.js"></script>
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -34,5 +34,28 @@
 
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../../public/dist/js/pages/dashboard.js"></script>
-  <script src="../../public/lib/dataTable/dataTables.min.js"></script>
+  <script src="../../public/lib/dataTables/dataTables.min.js"></script>
   <!-- DataTables  & Plugins -->
+
+
+
+<!-- BROWSER SYNC -->
+<script id="__bs_script__">
+  //<![CDATA[
+  (function() {
+    try {
+      var script = document.createElement('script');
+      if ('async') {
+        script.async = true;
+      }
+      script.src = 'http://HOST:3000/browser-sync/browser-sync-client.js?v=3.0.2'.replace("HOST", location.hostname);
+      if (document.body) {
+        document.body.appendChild(script);
+      } else if (document.head) {
+        document.head.appendChild(script);
+      }
+    } catch (e) {
+      console.error("Browsersync: could not append script tag", e);
+    }
+  })()
+</script>
