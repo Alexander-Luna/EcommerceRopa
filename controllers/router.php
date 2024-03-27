@@ -2,6 +2,8 @@
 require_once 'ProductController.php';
 require_once 'UserController.php';
 require_once 'VentasController.php';
+require_once 'SendWhatsApp.php';
+
 if (isset($_REQUEST['op'])) {
     $action = $_REQUEST['op'];
 
@@ -107,6 +109,13 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             case 'createProduct':
                 $productController->createProduct();
                 break;
+            case 'send_alerta_whatsapp':
+                $data = json_decode(file_get_contents('php://input'), true);
+                $sendWhatsApp = new SendWhatsApp();
+                $sendWhatsApp->enviarMensajes($data['productos']);
+                break;
+
+
             default:
                 handleNotFound();
                 break;

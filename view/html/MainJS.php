@@ -29,6 +29,7 @@
   <!-- overlayScrollbars -->
   <script src="../../public/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
   <!-- AdminLTE App -->
+
   <script src="../../public/dist/js/adminlte.js"></script>
   <!-- AdminLTE for demo purposes -->
 
@@ -37,7 +38,7 @@
   <script src="../../public/lib/dataTables/dataTables.min.js"></script>
   <!-- DataTables  & Plugins -->
 
-
+  <script src="../../public/vendor/sweetalert/sweetalert.min.js"></script>
 
 <!-- BROWSER SYNC -->
 <script id="__bs_script__">

@@ -18,7 +18,7 @@
           <div class="card">
 
             <div class="card-body">
-              <button id="EnviarMensaje" type="button" class="btn btn-outline-success">Enviar Pre-Compra</button>
+              <button id="EnviarMensaje" type="button" class="btn btn-outline-success"><i class="fa fa-whatsapp nav-icon" aria-hidden="true"></i> Enviar Pre-Compra</button>
               <table id="miTabla" class="datatable table table-bordered table-hover">
                 <thead>
                   <tr>
@@ -47,5 +47,4 @@
     <!-- /.container-fluid -->
   </section>
 </div>
-
 <script src="../alertas/content.js"></script>
