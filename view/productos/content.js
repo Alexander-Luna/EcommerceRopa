@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         data: "imagen",
         title: "Imagen",
         render: function (data, type, row) {
+          
           if (data) {
             return (
               '<img src="' +
