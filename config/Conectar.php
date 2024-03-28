@@ -12,9 +12,9 @@ class Conectar
         $dsn = "mysql:host=localhost;dbname=u823153798_ecomerce1;charset=utf8";
 
         $credentials = [
+            ["username" => "u823153798_dark", "password" => "QPiRidRPi|0"],
             ["username" => "dark", "password" => "12345"],
-            ["username" => "root", "password" => "123456"],
-            ["username" => "u823153798_dark", "password" => "QPiRidRPi|0"]
+            ["username" => "root", "password" => "123456"]
         ];
 
         foreach ($credentials as $credential) {
