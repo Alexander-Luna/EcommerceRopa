@@ -9,11 +9,12 @@ class Conectar
 
     protected function Conexion()
     {
-        $dsn = "mysql:host=localhost;dbname=ecommerce1;charset=utf8";
+        $dsn = "mysql:host=localhost;dbname=u823153798_ecomerce1;charset=utf8";
 
         $credentials = [
             ["username" => "dark", "password" => "12345"],
-            ["username" => "root", "password" => "123456"]
+            ["username" => "root", "password" => "123456"],
+            ["username" => "u823153798_dark", "password" => "QPiRidRPi|0"]
         ];
 
         foreach ($credentials as $credential) {
