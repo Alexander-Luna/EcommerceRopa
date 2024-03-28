@@ -30,6 +30,8 @@ class SendWhatsApp
                         "Estado: " . ($producto['stock'] > 0 ? "Disponible" : "Agotado") . "\n",
                 ];
 
+                
+
                 if (!empty($imagen)) {
                     if (!filter_var($imagen, FILTER_VALIDATE_URL)) {
                         throw new Exception("La URL de la imagen no es válida: $imagen");
