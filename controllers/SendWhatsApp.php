@@ -8,7 +8,7 @@ class SendWhatsApp
 {
     public function enviarMensajes($productos)
     {
-        $token = "GA240327220917";
+        $token = "GA240328002226";
 
         try {
             $client = new Client(['verify' => false]);
@@ -18,7 +18,7 @@ class SendWhatsApp
                 "token_qr" => $token,
                 "mensajes" => [],
             ];
-           
+
             foreach ($productos as $producto) {
                 $imagen = "	http://192.168.1.62/tesis/clienteecommerce" . str_replace("//", "/", str_replace("..", "", $producto['imagen']));
 
@@ -30,14 +30,18 @@ class SendWhatsApp
                         "Estado: " . ($producto['stock'] > 0 ? "Disponible" : "Agotado") . "\n",
                 ];
 
-                // if (!empty($imagen)) {
-                //     if (!filter_var($imagen, FILTER_VALIDATE_URL)) {
-                //         throw new Exception("La URL de la imagen no es válida: $imagen");
-                //     }
-                //     $imageContent = file_get_contents($imagen);
-                //     $imageBase64 = base64_encode($imageContent);
-                //     $mensaje["url"] = $imageBase64;
-                // }
+                if (!empty($imagen)) {
+                    if (!filter_var($imagen, FILTER_VALIDATE_URL)) {
+                        throw new Exception("La URL de la imagen no es válida: $imagen");
+                    }
+                    $imageContent = file_get_contents($imagen);
+                    $imageBase64 = base64_encode($imageContent);
+                    $mensaje["url"] = $imageBase64;
+                }
+
+                // $imageData = file_get_contents($imagen);
+                // $base64Image = base64_encode($imageData);
+                // $mensaje["url"] = $base64Image;
 
                 $payload["mensajes"][] = $mensaje;
             }
@@ -54,9 +58,9 @@ class SendWhatsApp
             $body = $response->getBody();
             $jsonResponse = [
                 "http_code" => $httpCode,
-                "body" => $body,
-                "payload" => $payload
+                "body" => $body
             ];
+
             $jsonString = json_encode($jsonResponse);
             http_response_code(200);
             return $jsonString;
