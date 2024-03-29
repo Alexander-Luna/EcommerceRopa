@@ -1,6 +1,6 @@
 <!--===============================================================================================-->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="../../public/plugins/jquery/jquery-3.7.1.min.js"></script>
 <!-- <script src="../../vendor/jquery/jquery-3.2.1.min.js"></script> -->
 <script src="../../vendor/isotope/isotope.pkgd.min.js"></script>
 
