@@ -21,7 +21,7 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
 	<!-- Header -->
 	<?php require_once "../html/MainHeader.php"; ?>
 
-	<section >
+	
 	<section class="section-slide mb-5">
 		<div id="sliderContainer" class="carousel slide" data-ride="carousel">
 			<!-- Indicadores -->
@@ -45,7 +45,7 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
 			</a>
 		</div>
 
-	</section>
+	
 
 	<!-- Bootstrap JS y Script personalizado -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
