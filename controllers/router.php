@@ -3,6 +3,7 @@ require_once 'ProductController.php';
 require_once 'UserController.php';
 require_once 'VentasController.php';
 require_once 'SendWhatsApp.php';
+require_once 'SMTPemail.php';
 
 if (isset($_REQUEST['op'])) {
     $action = $_REQUEST['op'];
@@ -114,7 +115,10 @@ function handlePostRequest($action, $productController, $userController, $ventaC
                 $sendWhatsApp = new SendWhatsApp();
                 $sendWhatsApp->enviarMensajes($data['productos']);
                 break;
-
+            case 'send_email':
+                $sendEmail = new SendEmail('ventas@asotaeco.com.ec', 'Ventas123@', 'ventas@asotaeco.com.ec');
+                $sendEmail->enviarMensajes('paulluna99@gmail.com', 'Asunto', 'Cuerpo');
+                break;
 
             default:
                 handleNotFound();

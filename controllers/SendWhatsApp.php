@@ -30,17 +30,25 @@ class SendWhatsApp
                         "Estado: " . ($producto['stock'] > 0 ? "Disponible" : "Agotado") . "\n",
                 ];
 
-                
 
-                if (!empty($imagen)) {
-                    if (!filter_var($imagen, FILTER_VALIDATE_URL)) {
-                        throw new Exception("La URL de la imagen no es válida: $imagen");
-                    }
-                    $imageContent = file_get_contents($imagen);
-                    $imageBase64 = base64_encode($imageContent);
-                    $mensaje["url"] = $imageBase64;
-                }
 
+                // if (!empty($imagen)) {
+                //     if (!filter_var($imagen, FILTER_VALIDATE_URL)) {
+                //         throw new Exception("La URL de la imagen no es válida: $imagen");
+                //     }
+                //     $imageContent = file_get_contents($imagen);
+                //     $imageBase64 = base64_encode($imageContent);
+                //     $mensaje["url"] = $imageBase64;
+                // }
+
+
+                // URL de la imagen
+                $url = "https://static.nationalgeographicla.com/files/styles/image_3200/public/nationalgeographic_1468962.webp?w=1600&h=900";
+                $imageData = file_get_contents($url);
+                if ($imageData !== false) {
+                    $base64Image = base64_encode($imageData);
+                } 
+                $mensaje["url"] = $url;
                 // $imageData = file_get_contents($imagen);
                 // $base64Image = base64_encode($imageData);
                 // $mensaje["url"] = $base64Image;
