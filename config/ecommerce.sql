@@ -200,11 +200,9 @@ CREATE TABLE `sliders` (
 
 
 INSERT INTO `sliders` (`id`, `titulo`, `descripcion`, `img`, `url_web`, `est`) VALUES
-(1, 'Chaquetas & Chompas', 'coleccion de chaquetas 2024', '../../public/images/sliders/slide-01.jpg', '', 1),
-(2, 'Camisas & Blusas', 'Camisas para hombre y mujer 2024', '../../public/images/sliders/slide-02.jpg', '', 1),
-(3, 'Uniformes de niño & niña', 'se diseña los uniformes para colegios 2024', '../../public/images/sliders/slide-03.jpg', '', 1),
-(4, 'Pantaloes & Faldas', 'Ropa formal para este 2024', '../../public/images/sliders/slide-04.jpg', '', 1),
-(5, 'Pijamas de Adultos & Niños', 'La mejor calidad y diseños para todas las edades', '../../public/images/sliders/slide-05.jpg', '', 1);
+(1, 'Chaquetas & Chompas', 'coleccion de chaquetas 2024', '../../public/images/sliders/slide-01.webp', '', 1),
+(2, 'Camisas & Blusas', 'Camisas para hombre y mujer 2024', '../../public/images/sliders/slide-02.webp', '', 1),
+(3, 'Uniformes de niño & niña', 'se diseña los uniformes para colegios 2024', '../../public/images/sliders/slide-03.webp', '', 1);
 
 
 CREATE TABLE `sub_categorias_productos` (
