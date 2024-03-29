@@ -14,6 +14,7 @@ class Conectar
         $credentials = [
             ["username" => "dark", "password" => "12345"],
             ["username" => "u823153798_dark", "password" => "QPiRidRPi|0"],
+           // ["username" => "dark", "password" => "12345"],
             ["username" => "root", "password" => "123456"]
         ];
 
