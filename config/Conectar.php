@@ -12,8 +12,8 @@ class Conectar
         $dsn = "mysql:host=localhost;dbname=u823153798_ecomerce1;charset=utf8";
 
         $credentials = [
-            ["username" => "dark", "password" => "12345"],
             ["username" => "u823153798_dark", "password" => "QPiRidRPi|0"],
+            ["username" => "dark", "password" => "12345"],
             ["username" => "root", "password" => "123456"]
         ];
 
@@ -42,6 +42,6 @@ class Conectar
     }
     public static function ruta()
     {
-        return "http://localhost/tesis/clienteecommerce";
+        return "https://asotaeco.com";
     }
 }
