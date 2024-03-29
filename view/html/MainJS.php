@@ -6,7 +6,7 @@
   <script src="../../public/plugins/jquery-ui/jquery-ui.min.js"></script>
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script>
-      $.widget.bridge('uibutton', $.ui.button);
+    $.widget.bridge('uibutton', $.ui.button);
   </script>
   <!-- Bootstrap 4 -->
   <script src="../../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -40,23 +40,25 @@
 
   <script src="../../vendor/sweetalert/sweetalert.min.js"></script>
 
-<!-- BROWSER SYNC -->
-<script id="__bs_script__">
-  //<![CDATA[
-  (function() {
+  <!-- BROWSER SYNC -->
+  <script id="__bs_script__">
+    //<![CDATA[
     try {
-      var script = document.createElement('script');
-      if ('async') {
-        script.async = true;
-      }
-      script.src = 'http://HOST:3000/browser-sync/browser-sync-client.js?v=3.0.2'.replace("HOST", location.hostname);
-      if (document.body) {
-        document.body.appendChild(script);
-      } else if (document.head) {
-        document.head.appendChild(script);
-      }
-    } catch (e) {
-      console.error("Browsersync: could not append script tag", e);
-    }
-  })()
-</script>
+      (function() {
+        try {
+          var script = document.createElement('script');
+          if ('async') {
+            script.async = true;
+          }
+          script.src = 'http://HOST:3000/browser-sync/browser-sync-client.js?v=3.0.2'.replace("HOST", location.hostname);
+          if (document.body) {
+            document.body.appendChild(script);
+          } else if (document.head) {
+            document.head.appendChild(script);
+          }
+        } catch (e) {
+          console.error("Browsersync: could not append script tag", e);
+        }
+      })()
+    } catch (error) {}
+  </script>
