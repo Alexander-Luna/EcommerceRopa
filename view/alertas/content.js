@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         var productosConCantPredMayorA0 = tableData.filter(function (producto) {
           return producto.cant_pred > 0;
         });
-        console.log(JSON.stringify({ productos: productosConCantPredMayorA0 }));
+        //console.log(JSON.stringify({ productos: productosConCantPredMayorA0 }));
         var response = await fetch(
           "../../controllers/router.php?op=send_alerta_whatsapp",
           {
@@ -106,6 +106,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             "Exito al enviar los mensajes:!",
             "success"
           );
+          console.log("Entraaa ");
+          console.log(response);
         } else {
           const errorMessage = await response.text();
           throw new Error("Error al enviar los mensajes: " + errorMessage);

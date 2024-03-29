@@ -38,7 +38,7 @@
   <script src="../../public/lib/dataTables/dataTables.min.js"></script>
   <!-- DataTables  & Plugins -->
 
-  <script src="../../public/vendor/sweetalert/sweetalert.min.js"></script>
+  <script src="../../vendor/sweetalert/sweetalert.min.js"></script>
 
 <!-- BROWSER SYNC -->
 <script id="__bs_script__">
