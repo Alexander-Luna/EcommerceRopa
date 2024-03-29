@@ -49,11 +49,7 @@ class SendWhatsApp
 // Uso de la clase SendWhatsApp
 $sendWhatsApp = new SendWhatsApp();
 
-<<<<<<< HEAD
-// Suponiendo que $productos contiene los datos de los productos
-=======
 // Suponiendo que $productos contiene los datos de los productosa
->>>>>>> 211a367f863a34b55da26f865e3f38af1ac76fe3
 $productos = array(
     array(
         'nombre' => 'Producto 1',
