@@ -14,7 +14,6 @@ class Conectar
         $credentials = [
             ["username" => "dark", "password" => "12345"],
             ["username" => "u823153798_dark", "password" => "QPiRidRPi|0"],
-           // ["username" => "dark", "password" => "12345"],
             ["username" => "root", "password" => "123456"]
         ];
 
@@ -40,5 +39,9 @@ class Conectar
             /*TODO: Manejo de errores al establecer el conjunto de caracteres */
             die("¡Error al establecer el conjunto de caracteres!: " . $e->getMessage());
         }
+    }
+    public static function ruta()
+    {
+        return "http://localhost/tesis/clienteecommerce";
     }
 }

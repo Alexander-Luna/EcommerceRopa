@@ -1,6 +1,7 @@
 <?php
 
 require_once '../vendor/autoload.php';
+require_once '../config/Conectar.php';
 
 use GuzzleHttp\Client;
 
@@ -8,72 +9,49 @@ class SendWhatsApp
 {
     public function enviarMensajes($productos)
     {
-        $token = "GA240328002226";
+        $token = "PA240328224634";
 
         try {
+
             $client = new Client(['verify' => false]);
 
-            $payload = [
-                "op" => "registermessage",
-                "token_qr" => $token,
-                "mensajes" => [],
-            ];
-
             foreach ($productos as $producto) {
-                $imagen = "	http://192.168.1.62/tesis/clienteecommerce" . str_replace("//", "/", str_replace("..", "", $producto['imagen']));
-
-                $mensaje = [
-                    "numero" => $producto['telefono'],
-                    "mensaje" => "Nombre del Producto: " . $producto['nombre'] . "\n" .
-                        "Cantidad Predeterminada: " . $producto['cant_pred'] . "\n" .
-                        "Proveedor: " . $producto['nombre_proveedor'] . "\n" .
-                        "Estado: " . ($producto['stock'] > 0 ? "Disponible" : "Agotado") . "\n",
-                ];
-
-
-
-                // if (!empty($imagen)) {
-                //     if (!filter_var($imagen, FILTER_VALIDATE_URL)) {
-                //         throw new Exception("La URL de la imagen no es válida: $imagen");
-                //     }
-                //     $imageContent = file_get_contents($imagen);
-                //     $imageBase64 = base64_encode($imageContent);
-                //     $mensaje["url"] = $imageBase64;
-                // }
-
-
-                // URL de la imagen
-                $url = "https://static.nationalgeographicla.com/files/styles/image_3200/public/nationalgeographic_1468962.webp?w=1600&h=900";
+                $telefono = $producto['telefono'];
+                $url =  Conectar::ruta() . str_replace("//", "/", str_replace("..", "", $producto['imagen']));
                 $imageData = file_get_contents($url);
-                if ($imageData !== false) {
-                    $base64Image = base64_encode($imageData);
-                } 
-                $mensaje["url"] = $url;
-                // $imageData = file_get_contents($imagen);
-                // $base64Image = base64_encode($imageData);
-                // $mensaje["url"] = $base64Image;
+                $base64Image = base64_encode($imageData);
 
-                $payload["mensajes"][] = $mensaje;
+                $payload = array(
+                    "op" => "registermessage",
+                    "token_qr" => $token,
+                    "mensajes" => array(
+                        array(
+                            "numero" => $telefono, "mensaje" => "Hola,👋 *" . $producto['nombre_proveedor'] . "*\n" .
+                                " este es el sistema de alertas automaticas de *ASOTAECO* para hacer un pedido de: \n" .
+                                "*Producto:* " . $producto['nombre'] . "\n" .
+                                "*Descripción:* " . $producto['descripcion'] . "\n" .
+                                "*Tipo:* " . $producto['tipo'] . "\n" .
+                                "*Color:* " . $producto['color'] . "\n" .
+                                "*Talla:* " . $producto['talla'] . "\n" .
+                                "*Cantidad que se desea adquirir:* " . $producto['cant_pred'] . " Unidades\n" .
+                                "Para solicitar este producto, por favor comuníquese a este número lo mas pronto posible.\nAdjunto imagen de la prenda requerida👇"
+                        ),
+                        array("numero" => $telefono, "imagenbase64" => $base64Image)
+                    )
+                );
+                $res = $client->request('POST', 'https://script.google.com/macros/s/AKfycbyoBhxuklU5D3LTguTcYAS85klwFINHxxd-FroauC4CmFVvS0ua/exec', [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                        'Accept' => 'application/json'
+                    ], 'json' =>  $payload
+                ]);
+                $response = [
+                    "http_code" => $res->getStatusCode(),
+                    "sms" => $res->getBody()
+                ];
+                echo $response;
             }
-
-
-            $response = $client->post('https://script.google.com/macros/s/AKfycbyoBhxuklU5D3LTguTcYAS85klwFINHxxd-FroauC4CmFVvS0ua/exec', [
-                'json' => $payload,
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json'
-                ]
-            ]);
-            $httpCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $jsonResponse = [
-                "http_code" => $httpCode,
-                "body" => $body
-            ];
-
-            $jsonString = json_encode($jsonResponse);
-            http_response_code(200);
-            return $jsonString;
+            return json_encode($response);
         } catch (Exception $e) {
             http_response_code(400);
             $errorMsg = "Error al enviar mensajes: " . $e->getMessage();
@@ -87,7 +65,7 @@ class SendWhatsApp
     }
 }
 
-// Ejemplo de uso
+// CAMPOS QUE SE PUEDEN USAR
 $productos = [
     [
         "id_producto" => 32,
