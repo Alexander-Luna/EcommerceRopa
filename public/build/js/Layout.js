@@ -177,19 +177,7 @@ class Layout {
       this.fixLayoutHeight()
     })
 
-    setTimeout(() => {
-      $('body.hold-transition').removeClass('hold-transition')
-    }, 50)
 
-    setTimeout(() => {
-      const $preloader = $(SELECTOR_PRELOADER)
-      if ($preloader) {
-        $preloader.css('height', 0)
-        setTimeout(() => {
-          $preloader.children().hide()
-        }, 200)
-      }
-    }, this._config.preloadDuration)
   }
 
   _max(numbers) {
