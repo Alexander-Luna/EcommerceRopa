@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (cart && cart.length > 0) {
       cart.forEach((producto) => {
         subtotal +=
-          parseFloat(producto.precio_venta.replace("$", "")) *
+          parseFloat(producto.precio_venta) *
           producto.cantidad;
       });
     }
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       cart.length > 0) {
       cart.forEach((producto, index) => {
         const totalProducto =
-          parseFloat(producto.precio_venta.replace("$", "")) *
+          parseFloat(producto.precio_venta) *
           producto.cantidad;
         const row = tableBody.insertRow();
         const imagenProducto = producto.img
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           : "../../public/images/products/defaultprod.png";
         row.innerHTML = `
                   <td class="column-1">
-                      <div class="how-itemcart1" id="productImage_${index}" onclick="eliminarProducto(${index})">
+                      <div onclick="eliminarProductoCarrito(${producto.id})" class="how-itemcart1" id="productImage_${index}" onclick="eliminarProducto(${index})">
                           <img style="height:100px; weight:100px;" src="${imagenProducto}" alt="IMG">
                       </div>
                   </td>

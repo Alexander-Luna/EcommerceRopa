@@ -1,4 +1,3 @@
-<!-- Cart -->
 <div class="wrap-header-cart js-panel-cart">
     <div class="s-full js-hide-cart"></div>
 
@@ -48,7 +47,7 @@
             producto.img :
             "../../public/images/products/defaultprod.png";
         liProducto.innerHTML = `
-            <div class="header-cart-item-img">
+            <div onclick="eliminarProductoCarrito(${producto.id})" id="img_prod" class="header-cart-item-img">
                 <img src="${imagenProducto}" alt="IMG">
             </div>
             <div class="header-cart-item-txt p-t-8">
@@ -61,50 +60,54 @@
         return liProducto;
     }
 
-    // Calcular el total a pagar
     function calcularTotal() {
         let total = 0;
         cart.forEach(producto => {
-            total += producto.cantidad * parseFloat(producto.precio_venta.replace('$', '')); // Convertir el precio a número y sumar al total
+            total += producto.cantidad * parseFloat(producto.precio_venta);
         });
-        return total.toFixed(2); // Redondear el total a 2 decimales
+        return total.toFixed(2);
     }
 
-    // Función para actualizar el total a pagar en el HTML
     function actualizarTotal() {
         const total = calcularTotal();
         divTotalPagar.textContent = `Total: $${total}`;
     }
+    reloadCart();
 
-    // Verificar si hay productos en el carrito
-    if (cart && cart.length > 0) {
-        // Crear un elemento li para cada producto y agregarlo al ul
-        cart.forEach(producto => {
-            const liProducto = crearElementoProducto(producto);
-            ulCarrito.appendChild(liProducto);
-        });
-        // Actualizar el total a pagar
-        actualizarTotal();
-    } else {
-        // Si no hay productos en el carrito, mostrar un mensaje indicando que está vacío
-        const liVacio = document.createElement('li');
-        liVacio.textContent = 'Tu carrito está vacío';
-        ulCarrito.appendChild(liVacio);
-        // Mostrar el total a pagar como $0.00
-        divTotalPagar.textContent = 'Total: $0.00';
+    function reloadCart() {
+        const notifyCart = document.getElementById('notify_cart'); // Obtener el elemento div con id "notify_cart"
+        const nuevoValor = 5; // Reemplazar con el nuevo valor que desees
+
+        if (cart && cart.length > 0) {
+            notifyCart.setAttribute('data-notify', cart.length);
+            cart.forEach(producto => {
+                const liProducto = crearElementoProducto(producto);
+                ulCarrito.appendChild(liProducto);
+            });
+            actualizarTotal();
+        } else {
+            notifyCart.setAttribute('data-notify', 0);
+            const liVacio = document.createElement('li');
+            liVacio.textContent = 'Tu carrito está vacío';
+            ulCarrito.appendChild(liVacio);
+            divTotalPagar.textContent = 'Total: $0.00';
+        }
     }
 
     function addToCart(productDetails) {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         cart.push(productDetails);
         localStorage.setItem('cart', JSON.stringify(cart));
-        location.reload();
+        ulCarrito.innerHTML = "";
+        reloadCart();
     }
 
     function eliminarProductoCarrito(id) {
         let cart = JSON.parse(localStorage.getItem("cart"));
         cart = cart.filter(producto => producto.id !== id);
         localStorage.setItem("cart", JSON.stringify(cart));
-        location.reload();
+        ulCarrito.innerHTML = "";
+
+        reloadCart();
     }
 </script>

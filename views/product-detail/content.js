@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       .then((data) => {
         if (data.length > 0) {
           data.forEach((imagen, index) => {
-            html += `<div class="item-slick3" data-thumb="${imagen.img}"> <div class="wrap-pic-w pos-relative"> <img src="${imagen.img}" alt="IMG-PRODUCT"> <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="${imagen.img}"> <i class="fa fa-expand"></i> </a> </div> </div>`;
+            html += `<div class="item-slick3" data-thumb="${imagen.img}"> <div class="wrap-pic-w pos-relative"> <img name="${imagen.img}" src="${imagen.img}" alt="IMG-PRODUCT"> <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="${imagen.img}"> <i class="fa fa-expand"></i> </a> </div> </div>`;
             if (index == 0) {
               imgProd = imagen.img;
             }
@@ -284,11 +284,12 @@ document.addEventListener("DOMContentLoaded", async function () {
               "Por favor seleccione la cantidad de productos antes de agregar al carrito."
             );
           }
-
           let cart = JSON.parse(localStorage.getItem("cart"));
           let id = 1;
           if (cart && cart.length > 0) {
-            id = cart[cart.length - 1].id + 1;
+              // Utiliza el método reduce para encontrar el ID más grande
+              let maxId = cart.reduce((max, item) => (item.id > max ? item.id : max), 0);
+              id = maxId + 1;
           }
           const productToAdd = {
             id: id,

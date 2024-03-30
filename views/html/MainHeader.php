@@ -75,18 +75,18 @@
 
                     </ul>
                 </div>
-              
+
 
                 <!-- Icon header -->
                 <div class="wrap-icon-header flex-w flex-r-m">
                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
                         <i class="zmdi zmdi-search"></i>
                     </div>
-                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="0">
+                    <div id="notify_cart" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="0">
                         <i class="zmdi zmdi-shopping-cart"></i>
                     </div>
 
-                    <a href="../shoping-wish" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wish" data-notify="0">
+                    <a id="notify_wish" href="../shoping-wish" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wish" data-notify="0">
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
 
@@ -111,11 +111,11 @@
                 <i class="zmdi zmdi-search"></i>
             </div>
 
-            <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="0">
+            <div id="notify_cart" class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="0">
                 <i class="zmdi zmdi-shopping-cart"></i>
             </div>
 
-            <a href="../shoping-wish" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-wish" data-notify="0">
+            <a id="notify_wish" href="../shoping-wish" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-wish" data-notify="0">
                 <i class="zmdi zmdi-favorite-outline"></i>
             </a>
             <a href="../login" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
@@ -291,6 +291,7 @@
     });
 </script>
 
-<!-- Cart -->
-<?php require_once "cart.php"; ?>
+<div id="cart_contain">
+    <?php require_once "cart.php"; ?>
+</div>
 <?php require_once "../components/modal1.php"; ?>
