@@ -7,13 +7,13 @@ class Conectar
     protected function Conexion()
     {
         $dsn = "mysql:host=localhost;dbname=u823153798_ecomerce1;charset=utf8";
-    
+
         $credentials = [
-           // ["username" => "u823153798_dark", "password" => "QPiRidRPi|0"],
+            ["username" => "u823153798_dark", "password" => "QPiRidRPi|0"],
             ["username" => "root", "password" => "123456"],
-            //["username" => "dark", "password" => "12345"]
+            ["username" => "dark", "password" => "12345"]
         ];
-    
+
         foreach ($credentials as $credential) {
             try {
                 $this->dbh = new PDO($dsn, $credential['username'], $credential['password']);
