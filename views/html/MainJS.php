@@ -5,7 +5,7 @@
 <script src="../../vendor/isotope/isotope.pkgd.min.js"></script>
 
 <!--===============================================================================================-->
-<script src="../../vendor/animsition/js/animsition.min.js"></script>
+<script src="../../vendor/animsition/js/animsition.min.js"></script> <!-- js que controla el loader -->
 <!--===============================================================================================-->
 <script src="../../vendor/bootstrap/js/popper.js"></script>
 <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
