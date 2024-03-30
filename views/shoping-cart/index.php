@@ -8,7 +8,7 @@
 	<?php require_once "../html/MainHead.php"; ?>
 </head>
 
-<body class="animsition">
+<body class="">
 
 
 	<!-- Header -->
