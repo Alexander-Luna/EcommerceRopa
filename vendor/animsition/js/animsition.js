@@ -28,7 +28,7 @@
         // e.g. linkElement   :   'a:not([target="_blank"]):not([href^="#"])'
         loading               :    true,
         loadingParentElement  :   'body', //animsition wrapper element
-        loadingClass          :   'animsition-loading',
+        loadingClass          :   '',
         loadingInner          :   '', // e.g '<img src="loading.svg" />'
         timeout               :   false,
         timeoutCountdown      :   5000,
