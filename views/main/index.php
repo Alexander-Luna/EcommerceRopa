@@ -16,7 +16,7 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
 	<?php require_once "../html/MainHead.php"; ?>
 </head>
 
-<body class="">
+<body >
 
 	<!-- Header -->
 	<?php require_once "../html/MainHeader.php"; ?>

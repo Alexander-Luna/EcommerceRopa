@@ -38,6 +38,7 @@
     const divTotalPagar = document.getElementById('totalPagar');
 
     let cart = JSON.parse(localStorage.getItem('cart'));
+    reloadCart();
 
     function crearElementoProducto(producto) {
         const liProducto = document.createElement('li');
@@ -72,7 +73,7 @@
         const total = calcularTotal();
         divTotalPagar.textContent = `Total: $${total}`;
     }
-    reloadCart();
+
 
     function reloadCart() {
         const notifyCart = document.getElementById('notify_cart'); // Obtener el elemento div con id "notify_cart"
@@ -98,16 +99,38 @@
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         cart.push(productDetails);
         localStorage.setItem('cart', JSON.stringify(cart));
-        ulCarrito.innerHTML = "";
-        reloadCart();
+        // while (cart_contain.firstChild) {
+        //     cart_contain.removeChild(cart_contain.firstChild);
+
+        // }
+        document.getElementById('cart_contain').innerHTML = "";
+        fetch('../html/cart.php')
+            .then(response => response.text())
+            .then(html => {
+                // Actualizar la sección del carrito con el HTML recibido
+                document.getElementById('cart_contain').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error al actualizar la sección del carrito:', error);
+            });
     }
+
 
     function eliminarProductoCarrito(id) {
         let cart = JSON.parse(localStorage.getItem("cart"));
         cart = cart.filter(producto => producto.id !== id);
         localStorage.setItem("cart", JSON.stringify(cart));
-        ulCarrito.innerHTML = "";
-
-        reloadCart();
+        // while (cart_contain.firstChild) {
+        //     cart_contain.removeChild(cart_contain.firstChild);
+        // }
+        document.getElementById('cart_contain').innerHTML = "";
+        fetch('../html/cart.php')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('cart_contain').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error al actualizar la sección del carrito:', error);
+            });
     }
 </script>
