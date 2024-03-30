@@ -1,8 +1,5 @@
 <?php
-/*TODO: Inicializando la sesión del usuario */
 session_start();
-
-/*TODO: Clase Conectar */
 class Conectar
 {
     protected $dbh;
@@ -30,13 +27,11 @@ class Conectar
         die("No se pudo establecer conexión con la base de datos.");
     }
 
-    /*TODO: Función para establecer el conjunto de caracteres de la conexión */
     public function set_names()
     {
         try {
             $this->dbh->exec("SET NAMES 'utf8'");
         } catch (PDOException $e) {
-            /*TODO: Manejo de errores al establecer el conjunto de caracteres */
             die("¡Error al establecer el conjunto de caracteres!: " . $e->getMessage());
         }
     }
