@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion = mysqli_real_escape_string($con, $_POST["descripcion"]);
 
     // Procesar la actualización de la descripción en la base de datos
-    $updateQuery = "UPDATE publicidad SET descripcion = '$descripcion' WHERE id = $publicidadId";
+    $updateQuery = "UPDATE sliders SET titulo = '$titulo', descripcion = '$descripcion' WHERE id = $publicidadId";
     mysqli_query($con, $updateQuery);
 
     // Procesar la actualización de la imagen si se proporcionó una nueva
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaCompleta);
 
         // Actualizar la base de datos con la nueva ruta de la imagen
-        $updateImagenQuery = "UPDATE publicidad SET imagen = '$nombreImagen' WHERE id = $publicidadId";
+        $updateImagenQuery = "UPDATE sliders SET img = '$nombreImagen' WHERE id = $publicidadId";
         mysqli_query($con, $updateImagenQuery);
     }
 
@@ -41,4 +41,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: panel.php?modulo=publicidad");
     exit();
 }
-?>

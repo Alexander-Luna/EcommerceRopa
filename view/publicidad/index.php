@@ -1,9 +1,5 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-
-$con = mysqli_connect($host, $user, $pass, $db);
-
-
+include 'conexion.php';
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -24,75 +20,28 @@ $con = mysqli_connect($host, $user, $pass, $db);
         <div class="row">
             <div class="col-12">
                 <div class="card">
+
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <?php require_once "../publicidad/modal.php" ?>
 
-                        <table id="tablaPublicidad" class="table table-bordered table-hover">
+                        <table id="miTabla" class="table table-bordered table-hover">
                             <thead>
-
                                 <tr>
-                                    <th>Imagen</th>
+                                    <th>Titulo</th>
                                     <th>Descripción</th>
+                                    <th>Imagen</th>
                                     <th>Acciones</th>
                                 </tr>
-                                <tbody>
-                                    <?php
-
-                                    $query = "SELECT * FROM publicidad";
-
-                                    $res = mysqli_query($con, $query);
-
-                                    while ($row = mysqli_fetch_assoc($res)) {
-                                    ?>
-
-                                        <tr>
-                                            <td><img src="<?php echo $rutaImagenes . $row['imagen']; ?>" alt="Publicidad" style="max-width: 100px;"></td>
-                                            <td><?php echo $row['descripcion']; ?></td>
-                                            <td>
-                                                <button class="btn btn-info btn-sm btn-editar" data-toggle="modal" data-target="#editarPublicidadModal_<?php echo $row['id']; ?>">
-                                                <i class="fas fa-edit"></i>
-                                                </button>
-                                            
-                                            </td>
-
-                                            <!-- Modal para editar publicidad -->
-                                            <div class="modal fade" id="editarPublicidadModal_<?php echo $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Editar Publicidad</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <!-- Formulario para editar publicidad -->
-                                                            <form action="editar_publicidad.php" method="post" enctype="multipart/form-data">
-                                                                <input type="hidden" name="publicidad_id" value="<?php echo $row['id']; ?>">
-                                                                <div class="form-group">
-                                                                    <label for="descripcion">Descripción:</label>
-                                                                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo $row['descripcion']; ?></textarea>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="imagen">Nueva Imagen:</label>
-                                                                    <input type="file" class="form-control-file" id="imagen" name="imagen">
-                                                                </div>
-                                                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        
-                                        </tr>
-
-                                    <?php
-                                    }
-                                    ?>
-                                </tbody>
-
                             </thead>
+                            <tbody>
+                                <!-- Aquí se llenará la tabla con los datos obtenidos de la base de datos -->
+                            </tbody>
                         </table>
-                        <script src="content.js"></script>
+                        <script src="../publicidad/content.js"></script>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
