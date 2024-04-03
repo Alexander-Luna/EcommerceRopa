@@ -106,7 +106,6 @@ class PublicidadModel extends Conectar
             $titulo = $_POST["titulo"];
             $descripcion = $_POST["descripcion"];
 
-            // Insertar los datos en la base de datos
             $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
             $sql = "INSERT INTO sliders (titulo, descripcion, img, url_web) VALUES (?, ?, ?, ?)";
             $stmt = $conexion->prepare($sql);
@@ -114,30 +113,22 @@ class PublicidadModel extends Conectar
             $stmt->bindValue(2, $descripcion);
 
             $rutaImagenes = '../public/images/sliders/';
-
-            // Verificar si se ha cargado una nueva imagen
             if (!empty($_FILES["img"]["name"])) {
-                // Nombre único de la imagen
-                $nombreImagen = uniqid(); // Sin extensión para la conversión a WebP
-
-                // Mover la imagen a la carpeta deseada
+                $nombreImagen = uniqid();
                 if (!move_uploaded_file($_FILES["img"]["tmp_name"], $rutaImagenes . $nombreImagen . '.webp')) {
                     throw new Exception("Error al mover la imagen a la carpeta de destino");
                 }
 
-                // Asignar la ruta de la imagen en formato WebP al statement
                 $stmt->bindValue(3, "../../public/images/sliders/" . $nombreImagen . '.webp');
             } else {
-                $stmt->bindValue(3, ""); // No se cargó ninguna imagen
+                $stmt->bindValue(3, "");
             }
 
-            // Ruta de la imagen en formato WebP
-            $stmt->bindValue(4, ""); // No se proporcionó la URL web
+            $stmt->bindValue(4, ""); 
             $stmt->execute();
 
-            // Verificar si se ha insertado el registro correctamente
             if ($stmt->rowCount() > 0) {
-                return true; // Se ha insertado correctamente
+                return true; 
             } else {
                 throw new Exception("No se ha podido insertar el registro");
             }
@@ -148,54 +139,30 @@ class PublicidadModel extends Conectar
         }
     }
 
-
-
-
-
     public function deleteSliders()
     {
         try {
-            // Obtener el ID del registro a eliminar
             $id = $_POST["id"];
-
-            // Obtener la ruta de la imagen para eliminarla del servidor
-            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-            $sql = "SELECT img FROM sliders WHERE id = ?";
+            $conexion = parent::Conexion();
+            $stmt_img = $conexion->prepare("SELECT img FROM sliders WHERE id=?");
+            $stmt_img->execute([$id]);
+            $imagenActual = $stmt_img->fetchColumn();
+            if ($imagenActual && file_exists($imagenActual)) {
+                unlink($imagenActual);
+            }
+            $sql = "DELETE FROM sliders WHERE id=?";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $id);
             $stmt->execute();
-
-            // Verificar si se ha encontrado el registro
             if ($stmt->rowCount() > 0) {
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                $imagenPath = $row['img'];
-
-                // Eliminar la imagen del servidor
-                if (unlink($imagenPath)) {
-                    // Eliminar el registro de la base de datos
-                    $sql = "DELETE FROM sliders WHERE id = ?";
-                    $stmt = $conexion->prepare($sql);
-                    $stmt->bindValue(1, $id);
-                    $stmt->execute();
-
-                    // Verificar si se ha eliminado el registro correctamente
-                    if ($stmt->rowCount() > 0) {
-                        return true; // Se ha eliminado correctamente
-                    } else {
-                        throw new Exception("No se ha podido eliminar el registro de la base de datos");
-                    }
-                } else {
-                    throw new Exception("Error al eliminar la imagen del servidor");
-                }
+                return true; // El registro se ha eliminado correctamente
             } else {
-                throw new Exception("No se ha encontrado el registro en la base de datos");
+                throw new Exception("No se ha podido eliminar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al eliminar los datos: " . $e->getMessage());
+            die("Error al eliminar el registro: " . $e->getMessage());
         } catch (Exception $e) {
             die("Error: " . $e->getMessage());
         }
     }
-
-    // Otros métodos para insertar, actualizar, eliminar usuarios, etc.
 }

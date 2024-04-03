@@ -23,7 +23,7 @@ class PublicidadController
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
-    public function putSliders()
+    public function updateSliders()
     {
         try {
             $model = new PublicidadModel();

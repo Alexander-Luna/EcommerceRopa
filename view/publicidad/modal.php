@@ -1,17 +1,17 @@
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Nuevo</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#miModal" data-whatever="@mdo">Nuevo</button>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Editar Publicidad</h5>
+                <h5 class="modal-title" id="title">Editar Publicidad</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form id="formularioPublicidad">
-                    <input type="text" class="form-control" id="id" name="id" required>
+                    <input type="hidden" class="form-control" id="id" name="id" required>
                     <input type="hidden" id="publicidad_id" name="publicidad_id">
                     <div class="form-group">
                         <label for="titulo" class="col-form-label">Título:</label>
@@ -34,3 +34,22 @@
         </div>
     </div>
 </div>
+<script>
+    $('#miModal').on('hidden.bs.modal', function() {
+        document.getElementById("id").value = "";
+        document.getElementById("titulo").value = "";
+        document.getElementById("descripcion").value = "";
+        document.getElementById("imagen").value = "";
+    });
+    $('#exampleModal').on('shown.bs.modal', function() {
+        // Activa el campo id
+        $('#id').prop('disabled', false);
+        // Limpia el valor del campo id
+        $('#publicidad_id').val('');
+        $('#titulo').val('');
+        // Restablece el valor del campo descripción
+        $('#descripcion').val('');
+        // Restablece el valor del campo imagen
+        $('#imagen').val('');
+    });
+</script>

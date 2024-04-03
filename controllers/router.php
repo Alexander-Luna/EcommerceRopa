@@ -137,6 +137,9 @@ function handlePostRequest($action, $productController, $userController, $ventaC
         case 'updateSlider':
             $publicidadController->updateSliders();
             break;
+            case 'deleteSlider':
+                $publicidadController->deleteSliders();
+                break;
         default:
             handleNotFound();
             break;
