@@ -1,4 +1,5 @@
 <?php
+require_once 'ProveedorController.php';
 require_once 'ProductController.php';
 require_once 'PublicidadController.php';
 require_once 'UserController.php';
@@ -12,12 +13,13 @@ if (isset($_REQUEST['op'])) {
     $productC = new ProductController();
     $userC = new UserController();
     $ventaC = new VentasController();
+    $proveedorC = new ProveedorController();
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
-            handleGetRequest($action, $productC, $userC, $ventaC, $publicidadC);
+            handleGetRequest($action, $productC, $userC, $ventaC, $publicidadC, $proveedorC);
             break;
         case 'POST':
-            handlePostRequest($action, $productC, $userC, $ventaC, $publicidadC);
+            handlePostRequest($action, $productC, $userC, $ventaC, $publicidadC, $proveedorC);
             break;
         default:
             handleInvalidMethod();
@@ -27,7 +29,7 @@ if (isset($_REQUEST['op'])) {
     handleMissingParameter();
 }
 
-function handleGetRequest($action, $productController, $userController, $ventaController, $publicidadController)
+function handleGetRequest($action, $productController, $userController, $ventaController, $publicidadController, $proveedorController)
 {
     try {
         switch ($action) {
@@ -69,12 +71,13 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getAllSliders':
                 $publicidadController->getAllSliders();
                 break;
-            case 'getAllSliders':
-                $publicidadController->getAllSliders();
+            case 'getAllProveedores':
+                $proveedorController->getAllProveedores();
                 break;
             case 'getAllSliders':
                 $publicidadController->getAllSliders();
                 break;
+
             default:
                 handleNotFound();
                 break;
@@ -84,7 +87,7 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
     }
 }
 
-function handlePostRequest($action, $productController, $userController, $ventaC, $publicidadController)
+function handlePostRequest($action, $productController, $userController, $ventaC, $publicidadController, $proveedorController)
 {
     // try {
     switch ($action) {
@@ -145,6 +148,16 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             break;
         case 'deleteSlider':
             $publicidadController->deleteSliders();
+            break;
+
+        case 'insertProveedor':
+            $proveedorController->insertProveedores();
+            break;
+        case 'updateProveedor':
+            $proveedorController->updateProveedores();
+            break;
+        case 'deleteProveedor':
+            $proveedorController->deleteProveedores();
             break;
         default:
             handleNotFound();

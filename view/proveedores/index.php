@@ -1,189 +1,51 @@
-<?php
-
-$con = mysqli_connect($host, $user, $pass, $db);
-?>
-
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Proveedores</h1>
-                </div>
-                <div class="col-sm-6">
-                   
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <!-- /.card-header -->
-                    <div class="card-body">
-
-                        <table id="tablaProveedores" class="table table-bordered table-hover">
-                             <a href="#" class="btn btn-success float-right mb-3" data-toggle="modal" data-target="#agregarProveedorModal">Agregar Proveedor</a>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Teléfono</th>
-                                    <th>Tipo</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $query = "SELECT * FROM proveedores";
-                                $res = mysqli_query($con, $query);
-
-                                while ($row = mysqli_fetch_assoc($res)) {
-                                ?>
-                                    <tr>
-                                        <td><?php echo $row['nombre_proveedor']; ?></td>
-                                        <td><?php echo $row['telefono']; ?></td>
-                                        <td><?php echo $row['categoria_producto']; ?></td>
-                                        <td>
-                                        <button class="btn btn-info btn-sm btn-editar" data-toggle="modal" data-target="#editarProveedorModal_<?php echo $row['id_proveedor']; ?>">
-                                        <i class="fas fa-edit"></i>
-                                                </button>
-                                                <a href="eliminar_proveedor.php?id_proveedor=<?php echo $row['id_proveedor']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?');">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                                <button href="enviar_sms.php" class="btn btn-success btn-sm btn-enviar-sms" id="btnEnviarSMS">
-                                                            <i class="fas fa-envelope"></i> 
-                                                    </button>
-
-                                                    <script>
-                                                    document.getElementById('btnEnviarSMS').addEventListener('click', function() {
-                                                        // Realizar una solicitud AJAX a enviarsms.php
-                                                        var xhr = new XMLHttpRequest();
-                                                        xhr.open('GET', 'enviar_sms.php', true);
-                                                        xhr.onreadystatechange = function() {
-                                                            if (xhr.readyState == 4 && xhr.status == 200) {
-                                                                // Manejar la respuesta del servidor si es necesario
-                                                                console.log(xhr.responseText);
-                                                            }
-                                                        };
-                                                        xhr.send();
-                                                    });
-                                                </script>
-
-                                        </td>
-                                        
-                                            <!-- Modal para editar proveedor -->
-                                            <div class="modal fade" id="editarProveedorModal_<?php echo $row['id_proveedor']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Editar Proveedor</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                          
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <!-- Formulario para editar proveedor -->
-                                                            <form action="editar_proveedor.php" method="post">
-                                                                <input type="hidden" name="proveedor_id" value="<?php echo $row['id_proveedor']; ?>">
-                                                                <div class="form-group">
-                                                                    <label for="nombre">Nombre:</label>
-                                                                    <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $row['nombre_proveedor']; ?>" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="telefono">Teléfono:</label>
-                                                                    <input type="text" class="form-control" id="telefono" name="telefono" value="<?php echo $row['telefono']; ?>" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                            <label for="categoria">Categoría:</label>
-                                                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                                    <label class="btn btn-secondary active">
-                                                                        <input type="radio" name="categoria" id="categoriacamisa"" value="camisa" checked> Camisa
-                                                                    </label>
-                                                                    <label class="btn btn-secondary">
-                                                                        <input type="radio" name="categoria" id="categoriapantalon" value="pantalon"> Pantalon
-                                                                    </label>
-                                                                    <label class="btn btn-secondary">
-                                                                        <input type="radio" name="categoria" id="categoriablusa" value="blusa"> Blusa
-                                                                    </label>
-                                                                    <label class="btn btn-secondary">
-                                                                        <input type="radio" name="categoria" id="categoriafalda" value="falda"> Falda
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                    </tr>
-                                <?php
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-
-            </div>
-            <!-- /.col -->
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>proveedores</h1>
         </div>
-        <!-- /.row -->
-    </section>
-    <!-- /.content -->
-</div>
 
-<!-- Modal para agregar proveedor -->
-<div class="modal fade" id="agregarProveedorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Proveedor</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+
+            <div class="card-body">
+              <?php require_once "../proveedores/modal.php" ?>
+              <table id="miTabla" class="datatable table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>RUC</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Aquí van los datos de la tabla -->
+                </tbody>
+              </table>
+
             </div>
-            <div class="modal-body">
-                <!-- Formulario para agregar proveedor -->
-                <form action="agregar_proveedor.php" method="post">
-                    <div class="form-group">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="telefono">Teléfono:</label>
-                        <input type="text" class="form-control" id="telefono" name="telefono" required>
-                    </div>
-                    <div class="form-group">
-                                                                 <label for="categoria">Categoría:</label>
-                                                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                                    <label class="btn btn-secondary active">
-                                                                        <input type="radio" name="categoria" id="categoriacamisa"" value="camisa" checked> Camisa
-                                                                    </label>
-                                                                    <label class="btn btn-secondary">
-                                                                        <input type="radio" name="categoria" id="categoriapantalon" value="pantalon"> Pantalon
-                                                                    </label>
-                                                                    <label class="btn btn-secondary">
-                                                                        <input type="radio" name="categoria" id="categoriablusa" value="blusa"> Blusa
-                                                                    </label>
-                                                                    <label class="btn btn-secondary">
-                                                                        <input type="radio" name="categoria" id="categoriafalda" value="falda"> Falda
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                    <button type="submit" class="btn btn-primary">Agregar Proveedor</button>
-                </form>
-            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
         </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
     </div>
-    <script src="content.js"></script>
+    <!-- /.container-fluid -->
+  </section>
+  <script src="../proveedores/content.js"></script>
 </div>

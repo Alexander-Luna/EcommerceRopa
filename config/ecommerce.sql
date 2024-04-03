@@ -84,13 +84,13 @@ CREATE TABLE `imagenes_productos` (
 
 
 INSERT INTO `imagenes_productos` (`id`, `id_producto`, `img`, `est`, `principal`) VALUES
-(1, 32, '../../public/images/products/product-01.jpg', 1, 1),
-(2, 33, '../../public/images/products/product-02.jpg', 1, 0),
-(3, 34, '../../public/images/products/product-03.jpg', 1, 1),
-(4, 35, '../../public/images/products/product-04.jpg', 1, 0),
-(5, 32, '../../public/images/products/product-03.jpg\r\n', 1, 0),
-(6, 32, '../../public/images/products/product-04.jpg\r\n', 1, 0),
-(7, 32, '../../public/images/products/product-05.jpg\r\n', 1, 0);
+(1, 32, '../../public/images/products/product-01.webp', 1, 1),
+(2, 33, '../../public/images/products/product-02.webp', 1, 0),
+(3, 34, '../../public/images/products/product-03.webp', 1, 1),
+(4, 35, '../../public/images/products/product-04.webp', 1, 0),
+(5, 32, '../../public/images/products/product-03.webp', 1, 0),
+(6, 32, '../../public/images/products/product-04.webp', 1, 0),
+(7, 32, '../../public/images/products/product-05.webp', 1, 0);
 
 
 CREATE TABLE `inventario` (
@@ -157,14 +157,17 @@ INSERT INTO `productos` (`id`, `nombre`, `precio`, `existencia`, `descripcion`, 
 
 CREATE TABLE `proveedores` (
   `id` int(10) NOT NULL,
-  `nombre_proveedor` varchar(255) NOT NULL,
+  `ruc` varchar(15) DEFAULT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `telefono` varchar(20) DEFAULT NULL,
-  `categoria_producto` varchar(255) DEFAULT NULL
+  `direccion` varchar(255) DEFAULT NULL,
+  `est` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-INSERT INTO `proveedores` (`id`, `nombre_proveedor`, `telefono`, `categoria_producto`) VALUES
-(1, 'Alexander Alegria', '+593963616505', 'pantalon');
+INSERT INTO `proveedores` (`id`, `nombre`, `telefono`) VALUES
+(1, 'Alexander Alegria', '+593963616505');
 
 
 CREATE TABLE `recibe` (

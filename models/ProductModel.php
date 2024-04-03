@@ -52,7 +52,7 @@ class ProductModel extends Conectar
         
         try {
             $conexion = parent::Conexion();
-            $sql = "SELECT prov.*,i.*, p.*, c.nombre as color,catp.nombre as genero, t.descripcion,t.nombre as talla, img.img as imagen
+            $sql = "SELECT prov.nombre as prov_nombre,prov.*,i.*, p.*, c.nombre as color,catp.nombre as genero, t.descripcion,t.nombre as talla, img.img as imagen
             FROM inventario i
             INNER JOIN productos p ON i.id_producto = p.id
             INNER JOIN categorias_productos catp ON p.id_categoria = catp.id

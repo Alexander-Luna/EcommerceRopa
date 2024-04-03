@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         },
         title: "Estado",
       },
-      { data: "nombre_proveedor", title: "Proveedor" },
+      { data: "prov_nombre", title: "Proveedor" },
     ],
     createdRow: function (row, data, dataIndex) {
       $("td:eq(2)", row).on("click", function () {
@@ -116,33 +116,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Error al enviar los mensajes:", error);
         swal("Error", error.message, "error");
       }
-
-      // var tableData = miTabla.rows().data().toArray();
-      // var productosConCantPredMayorA0 = tableData.filter(function (producto) {
-      //   return producto.cant_pred > 0;
-      // });
-      // productosConCantPredMayorA0.forEach(function (producto) {
-      //   var mensaje =
-      //     "¡Hola! Me interesa comprar " +
-      //     producto.cant_pred +
-      //     " " +
-      //     producto.nombre +
-      //     " " +
-      //     producto.talla +
-      //     " " +
-      //     producto.color +
-      //     " " +
-      //     " de " +
-      //     producto.genero +
-      //     ". ¿Podrías enviarme más información?";
-      //   var telefono = producto.telefono;
-      //   var enlaceWhatsApp =
-      //     "https://api.whatsapp.com/send?phone=" +
-      //     telefono +
-      //     "&text=" +
-      //     encodeURIComponent(mensaje);
-      //   window.open(enlaceWhatsApp);
-      // });
     });
 
   reloadSection();
