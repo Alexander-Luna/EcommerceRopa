@@ -56,68 +56,6 @@ class VentaModel extends Conectar
 
 
 
-
-
-    public function getAllVentas()
-    {
-        $page = 0;
-        $nitems = 10;
-
-        try {
-            if (isset($_REQUEST['page'])) {
-                $page = $_REQUEST['page'];
-            }
-            if (isset($_REQUEST['nitems'])) {
-                $nitems = $_REQUEST['nitems'];
-            }
-
-            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-
-            $sql = "SELECT i.*, p.*, c.nombre as color,catp.nombre as genero, t.descripcion,t.nombre as talla, img.img as imagen
-            FROM inventario i
-            INNER JOIN Ventaos p ON i.id_Ventao = p.id
-            INNER JOIN categorias_Ventaos catp ON p.id_categoria = catp.id
-            LEFT JOIN colores c ON i.id_color = c.id
-            LEFT JOIN tallas t ON i.id_talla = t.id
-            LEFT JOIN imagenes_Ventaos img ON img.id_Ventao = i.id_Ventao AND img.est = 1 AND img.principal = 1;
-            ";
-
-            // Añadir condiciones para LIMIT y OFFSET solo si los parámetros están presentes
-            if (isset($_REQUEST['page']) && isset($_REQUEST['nitems'])) {
-                $sql .= " LIMIT ? OFFSET ?";
-            }
-
-            $stmt = $conexion->prepare($sql);
-
-            if (isset($_REQUEST['page']) && isset($_REQUEST['nitems'])) {
-                $stmt->bindParam(1, $nitems, PDO::PARAM_INT);
-                $stmt->bindParam(2, $page, PDO::PARAM_INT);
-            }
-
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $data;
-        } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
-        }
-    }
-
-    public function getAllColores()
-    {
-        try {
-            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-            $sql = "SELECT * FROM tallas";
-            $stmt = $conexion->prepare($sql);
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $data;
-        } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
-        }
-    }
-
     public function getVentaDetail()
     {
         $p_id = $_GET["id"];
@@ -139,105 +77,104 @@ class VentaModel extends Conectar
         }
     }
 
-    public function getTallasProd()
-    {
-        $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-        $p_id = $_GET["id_prod"];
-        try {
-            $sql = "SELECT DISTINCT t.id AS id_talla, t.nombre AS talla 
-            FROM inventario AS i
-            INNER JOIN Ventaos AS p ON i.id_Ventao = p.id
-            LEFT JOIN tallas AS t ON i.id_talla = t.id
-            LEFT JOIN colores AS col ON i.id_color = col.id
-            WHERE p.id = ?";
-            $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $p_id);
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $data;
-        } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
-        }
-    }
-    public function getImgProd()
+    public function getAllVentas()
     {
-        $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-        $p_id = $_GET["id_prod"];
         try {
-            $sql = "SELECT DISTINCT pf.img 
-            FROM inventario AS i
-            INNER JOIN imagenes_Ventaos AS pf ON i.id_Ventao = pf.id_Ventao
-            WHERE i.id_Ventao = ? AND pf.est=1";
+            $conexion = parent::Conexion();
+            $sql = "SELECT * FROM ventas";
             $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $p_id);
             $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $data;
+            $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $ventas;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
-        }
-    }
-    public function getWishList()
-    {
-        $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-        $p_id = $_GET["id_user"];
-        try {
-            $sql = "SELECT p.nombre,p.id,p.precio,p.existencia, COALESCE(pf.img, '') AS img
-            FROM wish_list AS w
-            INNER JOIN Ventaos AS p ON p.id = w.id_Ventao
-            LEFT JOIN imagenes_Ventaos AS pf ON p.id = pf.id_Ventao AND pf.est = 1 AND pf.principal = 1
-            WHERE w.id_usuario = ?;";
-            $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $p_id);
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $data;
-        } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            die("Error al obtener ventas: " . $e->getMessage());
         }
     }
 
-    public function getColoresTalla()
+    public function updateVentas()
     {
         try {
-            $p_id = $_GET["id_prod"];
-            $talla = $_GET["talla"];
-            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-            $sql = "SELECT col.id as id_color,col.nombre as color FROM inventario as i
-            INNER JOIN Ventaos p ON i.id_Ventao = p.id
-            INNER JOIN tallas t ON i.id_talla = t.id
-            LEFT JOIN colores col ON i.id_color = col.id
-            WHERE p.id = ? AND i.id_talla=?";
-            $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $p_id);
-            $stmt->bindValue(2, $talla);
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $id = $_POST["id"];
+            $ruc = $_POST["ruc"];
+            $nombre = $_POST["nombre"];
+            $email = $_POST["email"];
+            $telefono = $_POST["telefono"];
+            $direccion = $_POST["direccion"];
 
-            return $data;
+            $conexion = parent::Conexion();
+            $sql = "UPDATE ventas SET ruc=?, nombre=?, email=?, telefono=?, direccion=? WHERE id=?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $ruc);
+            $stmt->bindValue(2, $nombre);
+            $stmt->bindValue(3, $email);
+            $stmt->bindValue(4, $telefono);
+            $stmt->bindValue(5, $direccion);
+            $stmt->bindValue(6, $id);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                return true;
+            } else {
+                throw new Exception("No se ha podido actualizar el registro");
+            }
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            die("Error al actualizar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
         }
     }
 
-
-
-    public function getSliders()
+    public function deleteVentas()
     {
         try {
-            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-            $sql = "SELECT * FROM sliders WHERE est=1";
+            $id = $_POST["id"];
+            $conexion = parent::Conexion();
+            $sql = "UPDATE ventas SET est = CASE WHEN est = 1 THEN 0 ELSE 1 END WHERE id=?";
             $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $id);
             $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $data;
+            if ($stmt->rowCount() > 0) {
+                return true;
+            } else {
+                throw new Exception("No se ha podido cambiar el estado del venta");
+            }
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            die("Error al cambiar el estado del venta: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
         }
     }
-    // Otros métodos para insertar, actualizar, eliminar usuarios, etc.
+
+    public function insertVentas()
+    {
+        try {
+            $ruc = $_POST["ruc"];
+            $nombre = $_POST["nombre"];
+            $email = $_POST["email"];
+            $telefono = $_POST["telefono"];
+            $direccion = $_POST["direccion"];
+
+            $conexion = parent::Conexion();
+            $sql = "INSERT INTO ventas (ruc, nombre, email, telefono, direccion, est) VALUES (?, ?, ?, ?, ?, 1)";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $ruc);
+            $stmt->bindValue(2, $nombre);
+            $stmt->bindValue(3, $email);
+            $stmt->bindValue(4, $telefono);
+            $stmt->bindValue(5, $direccion);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                return true;
+            } else {
+                throw new Exception("No se ha podido insertar el registro");
+            }
+        } catch (PDOException $e) {
+            die("Error al insertar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
 }

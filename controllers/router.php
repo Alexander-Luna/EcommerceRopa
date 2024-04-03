@@ -74,8 +74,8 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getAllProveedores':
                 $proveedorController->getAllProveedores();
                 break;
-            case 'getAllSliders':
-                $publicidadController->getAllSliders();
+            case 'getAllVentas':
+                $ventaController->getAllVentas();
                 break;
 
             default:

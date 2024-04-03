@@ -148,7 +148,7 @@ if (isset($_SESSION['user_session'])) {
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="index.php?modulo=reportes" class="nav-link <?php echo ($modulo == "reportes") ? " active " : " "; ?> ">
+                    <a href="index.php?modulo=mercancias" class="nav-link <?php echo ($modulo == "mercancias") ? " active " : " "; ?> ">
                       <i class="fa fa-table nav-icon"></i>
                       <p>Mercansia</p>
                     </a>
@@ -193,23 +193,23 @@ if (isset($_SESSION['user_session'])) {
       if ($modulo == "ventas") {
         include_once "../ventas/index.php";
       }
-      if ($modulo == "crearUsuario") {
-        include_once "../crearUsuario/index.php";
-      }
-      if ($modulo == "editarUsuario") {
-        include_once "../editarUsuario/index.php";
-      }
+
+
       if ($modulo == "productos") {
         include_once "../productos/index.php";
       }
-      if ($modulo == "editarp") {
-        include_once "../editarp/index.php";
-      }
+
       if ($modulo == "publicidad") {
         include_once "../publicidad/index.php";
       }
       if ($modulo == "proveedores") {
         include_once "../proveedores/index.php";
+      }
+      if ($modulo == "mercancias") {
+        include_once "../mercancias/index.php";
+      }
+      if ($modulo == "ventas-details") {
+        include_once "../ventas-details/index.php";
       }
       ?>
 

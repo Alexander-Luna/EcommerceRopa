@@ -14,20 +14,7 @@ class VentasController
             echo json_encode($data);
         }
     }
-    public function getVentas()
-    {
-        // Obtener datos desde el modelo
-        $model = new VentaModel();
-        $data = $model->getAllVentas();
-        // Verificar si se encontraron datos
-        if ($data === false || empty($data)) {
-            // No se encontraron datos, devolver un código de estado 204 (Sin contenido)
-            http_response_code(204);
-        } else {
-            // Devolver los datos como JSON
-            echo json_encode($data);
-        }
-    }
+ 
 
     public function getVentaDetail()
     {
@@ -39,62 +26,75 @@ class VentasController
             echo json_encode($data);
         }
     }
-    public function getTallasProd()
+  
+
+
+    public function getVentas()
     {
-        $model = new VentaModel();
-        $data = $model->getTallasProd();
-        if ($data === false || empty($data)) {
-            http_response_code(204);
-        } else {
-            echo json_encode($data);
+        $ventaModel = new VentaModel();
+        $ventas = $ventaModel->getAllVentas();
+        echo json_encode($ventas);
+    }
+
+    public function getAllVentas()
+    {
+        $ventaModel = new VentaModel();
+        $ventas = $ventaModel->getAllVentas();
+        echo json_encode($ventas);
+    }
+    public function updateVentas()
+    {
+        try {
+            $model = new VentaModel();
+            $data = $model->updateVentas();
+            if ($data) {
+                http_response_code(200);
+                echo json_encode($data);
+            } else {
+                http_response_code(400);
+                echo json_encode(array('error' => 'Error al actualizar los datos'));
+            }
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
         }
     }
-    public function getWishList()
+ 
+    public function deleteVentas()
     {
-        $model = new VentaModel();
-        $data = $model->getWishList();
-        if ($data === false || empty($data)) {
-            http_response_code(204);
-        } else {
-            echo json_encode($data);
+        try {
+            $model = new VentaModel();
+            $data = $model->deleteVentas();
+
+            if ($data) {
+                http_response_code(200);
+                echo json_encode($data);
+            } else {
+                http_response_code(400);
+                echo json_encode(array('error' => 'Error al eliminar los datos'));
+            }
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
         }
     }
 
-    public function getImgProd()
+    public function insertVentas()
     {
-        $model = new VentaModel();
-        $data = $model->getImgProd();
-        if ($data === false || empty($data)) {
-            http_response_code(204);
-        } else {
-            echo json_encode($data);
-        }
-    }
+        try {
+            $model = new VentaModel();
+            $data = $model->insertVentas();
 
-    public function getColoresTalla()
-    {
-        $model = new VentaModel();
-        $data = $model->getColoresTalla();
-        if ($data === false || empty($data)) {
-            http_response_code(204);
-        } else {
-            echo json_encode($data);
-        }
-    }
-
-
-    public function getSliders()
-    {
-        // Obtener datos desde el modelo
-        $model = new VentaModel();
-        $data = $model->getSliders();
-        // Verificar si se encontraron datos
-        if ($data === false || empty($data)) {
-            // No se encontraron datos, devolver un código de estado 204 (Sin contenido)
-            http_response_code(204);
-        } else {
-            // Devolver los datos como JSON
-            echo json_encode($data);
+            if ($data) {
+                http_response_code(200);
+                echo json_encode($data);
+            } else {
+                http_response_code(400);
+                echo json_encode(array('error' => 'Error al insertar los datos'));
+            }
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
         }
     }
 }

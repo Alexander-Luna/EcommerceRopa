@@ -46,22 +46,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   $(document).on("click", ".btnView", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
-    var ventaId = rowData.id; // Suponiendo que el ID de la venta está en la propiedad "id" de los datos de la fila
-
-    // Abrir una nueva ventana con la URL de ventas-detail y pasar el ID de la venta como parámetro
-    var nuevaVentana = window.open(
-      "../ventas-details/index.php?id=" + ventaId,
-      "_blank"
-    );
-
-    // Enviar el foco a la nueva ventana
-    if (nuevaVentana) {
-      nuevaVentana.focus();
-    } else {
-      alert(
-        "El navegador ha bloqueado la apertura de la ventana emergente. Por favor, habilite las ventanas emergentes para este sitio."
-      );
-    }
   });
 
   // Manejador de eventos para el botón de editar

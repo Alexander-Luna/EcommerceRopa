@@ -299,6 +299,8 @@ CREATE TABLE `ventas` (
   `id` int(10) NOT NULL,
   `idcli` int(10) NOT NULL,
   `idPago` varchar(255) NOT NULL,
+  `metodo_pago` int(1) DEFAULT (1),
+  `est` int(1) DEFAULT (1),
   `fecha` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

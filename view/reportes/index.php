@@ -1,54 +1,47 @@
 <?php
-include("db_ecommerce.php");
-$con = mysqli_connect($host, $user, $pass, $db);
-$query = "SELECT v.id AS idVenta, v.idCli, v.idPago, v.fecha, dv.idProd, dv.cantidad, dv.precio, dv.subTotal
-          FROM ventas v
-          INNER JOIN detalleventas dv ON v.id = dv.idVenta";
-$result = mysqli_query($con, $query);
-
-// Verificar si la consulta fue exitosa
-if (!$result) {
-    die("Error en la consulta: " . mysqli_error($con));
-}
-
-// Aquí puedes procesar los resultados, por ejemplo, imprimir el informe
-echo "<div style='margin: 0 auto; width: 50%; text-align:center;'>";
-echo "<h2>Reporte de Ventas</h2>";
-echo "<table border='1'>
-        <tr>
-            <th>ID Venta</th>
-            <th>ID Cliente</th>
-            <th>ID Pago</th>
-            <th>Fecha</th>
-            <th>ID Producto</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Subtotal</th>
-        </tr>";
-
-while ($row = mysqli_fetch_assoc($result)) {
-    // Formatear el precio con símbolo de dólar
-    $precioConDolar = "$" . number_format($row['precio'], 2);
-    $subtotalConDolar = "$" . number_format($row['subTotal'], 2);
-
-    echo "<tr>
-            <td>{$row['idVenta']}</td>
-            <td>{$row['idCli']}</td>
-            <td>{$row['idPago']}</td>
-            <td>{$row['fecha']}</td>
-            <td>{$row['idProd']}</td>
-            <td>{$row['cantidad']}</td>
-            <td>{$precioConDolar}</td>
-            <td>{$subtotalConDolar}</td>
-          </tr>";
-}
-
-
-echo "</table>";
-echo "</div>";
-
-// Cerrar la conexión
-mysqli_close($con);
-
+include 'conexion.php';
 ?>
 
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Reportes: Informes detallados </h1>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <?php require_once "../reportes/modal.php" ?>
+
+                        <table id="miTabla" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Titulo</th>
+                                    <th>Descripción</th>
+                                    <th>Imagen</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Aquí se llenará la tabla con los datos obtenidos de la base de datos -->
+                            </tbody>
+                        </table>
+                        <script src="../reportes/content.js"></script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

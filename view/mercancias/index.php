@@ -9,7 +9,7 @@ include 'conexion.php';
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Ventas: Ropa que debes conocer </h1>
+                    <h1>Mercancias: Ropa que debes conocer </h1>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -23,16 +23,14 @@ include 'conexion.php';
 
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <?php require_once "../ventas/modal.php" ?>
+                        <?php require_once "../mercancias/modal.php" ?>
 
                         <table id="miTabla" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Cliente</th>
-                                    <th>Comprobante</th>
-                                    <th>Método de Pago</th>
-                                    <th>Estado</th>
-                                    <th>Fecha</th>
+                                    <th>Titulo</th>
+                                    <th>Descripción</th>
+                                    <th>Imagen</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -40,7 +38,7 @@ include 'conexion.php';
                                 <!-- Aquí se llenará la tabla con los datos obtenidos de la base de datos -->
                             </tbody>
                         </table>
-                        <script src="../ventas/content.js"></script>
+                        <script src="../mercancias/content.js"></script>
                     </div>
                 </div>
             </div>

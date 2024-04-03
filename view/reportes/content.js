@@ -1,15 +1,26 @@
 document.addEventListener("DOMContentLoaded", async function () {
+  document.getElementById("btnGuardar").addEventListener("click", function () {
+    insertar(); // Llama a la función insertSlider cuando se hace clic en el botón
+  });
+
   // Inicializar DataTables
   var miTabla = $("#miTabla").DataTable({
     columns: [
-      { data: "ruc" },
-      { data: "nombre" },
-      { data: "email" },
-      { data: "telefono" },
+      { data: "titulo" },
+      { data: "descripcion" },
       {
-        data: "est",
+        data: "img",
+        title: "Imagen",
         render: function (data, type, row) {
-          return data == 1 ? "Activo" : "Desactivado";
+          if (data) {
+            return (
+              '<img src="' +
+              data +
+              '" alt="Producto" style="max-width: 100px; max-height: 100px;"></img>'
+            );
+          } else {
+            return '<img src="../../public/images/products/defaultprod.png" alt="Slider" style="max-width: 100px; max-height: 100px;"></img>';
+          }
         },
       },
       {
@@ -26,23 +37,25 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Manejador de eventos para el botón de editar
   $(document).on("click", ".btnEditar", function () {
+    var dataId = $(this).data("id");
     var rowData = miTabla.row($(this).closest("tr")).data();
     $("#miModal").modal("show");
-    document.getElementById("title").innerText = "Editar Proveedor";
-    $("#id").val(rowData.id);
-    $("#ruc").val(rowData.ruc);
-    $("#nombre").val(rowData.nombre);
-    $("#email").val(rowData.email);
-    $("#telefono").val(rowData.telefono);
-    $("#direccion").val(rowData.direccion);
+
+    document.getElementById("title").value = "Editar Publicidad";
+    document.getElementById("id").value = rowData.id;
+    document.getElementById("titulo").value = rowData.titulo;
+    document.getElementById("descripcion").value = rowData.descripcion;
   });
 
   // Manejador de eventos para el botón de eliminar
   $(document).on("click", ".btnEliminar", function () {
+    var dataId = $(this).data("id");
     var rowData = miTabla.row($(this).closest("tr")).data();
+    // Realizar la solicitud POST al servidor para insertar el nuevo slider
+
     var formData = new FormData();
     formData.append("id", rowData.id);
-    fetch("../../controllers/router.php?op=deleteProveedor", {
+    fetch("../../controllers/router.php?op=deleteSlider", {
       method: "POST",
       body: formData,
     })
@@ -53,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "La acción no se pudo realizar correctamente!",
             "error"
           );
-          throw new Error("Hubo un problema al eliminar Proveedor.");
+          throw new Error("Hubo un problema al eliminar slider.");
         }
         console.log(response);
         $("#miModal").modal("hide");
@@ -70,35 +83,27 @@ document.addEventListener("DOMContentLoaded", async function () {
           "La acción no se pudo realizar correctamente!",
           "error"
         );
-        console.error("Error al eliminar el Proveedor:", error);
+        console.error("Error al insertar el nuevo slider:", error);
       });
-  });
-
-  document.getElementById("btnGuardar").addEventListener("click", function () {
-    insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
 
   function insertar() {
     try {
-      // Obtener los datos del formulario del modal
+      // Obtener los datos del formulario
       const id = document.getElementById("id").value;
-      const ruc = document.getElementById("ruc").value;
-      const nombre = document.getElementById("nombre").value;
-      const email = document.getElementById("email").value;
-      const telefono = document.getElementById("telefono").value;
-      const direccion = document.getElementById("direccion").value;
+      const titulo = document.getElementById("titulo").value;
+      const descripcion = document.getElementById("descripcion").value;
+      const imagen = document.getElementById("imagen").files[0];
 
       // Crear un objeto FormData para enviar los datos al servidor
       const formData = new FormData();
-
-      formData.append("ruc", ruc);
-      formData.append("nombre", nombre);
-      formData.append("email", email);
-      formData.append("telefono", telefono);
-      formData.append("direccion", direccion);
+      formData.append("titulo", titulo);
+      formData.append("descripcion", descripcion);
+      formData.append("img", imagen);
 
       if (id === "") {
-        fetch("../../controllers/router.php?op=insertProveedor", {
+        // Realizar la solicitud POST al servidor para insertar el nuevo slider
+        fetch("../../controllers/router.php?op=insertSlider", {
           method: "POST",
           body: formData,
         })
@@ -109,9 +114,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "La acción no se pudo realizar correctamente!",
                 "error"
               );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo Proveedor."
-              );
+              throw new Error("Hubo un problema al insertar el nuevo slider.");
             }
             console.log(response);
             // Si la inserción fue exitosa, recargar la sección
@@ -129,11 +132,11 @@ document.addEventListener("DOMContentLoaded", async function () {
               "La acción no se pudo realizar correctamente!",
               "error"
             );
-            console.error("Error al insertar el nuevo Proveedor:", error);
+            console.error("Error al insertar el nuevo slider:", error);
           });
       } else {
         formData.append("id", id);
-        fetch("../../controllers/router.php?op=updateProveedor", {
+        fetch("../../controllers/router.php?op=updateSlider", {
           method: "POST",
           body: formData,
         })
@@ -144,9 +147,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "La acción no se pudo realizar correctamente!",
                 "error"
               );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo Proveedor."
-              );
+              throw new Error("Hubo un problema al insertar el nuevo slider.");
             }
             console.log(response);
             $("#miModal").modal("hide");
@@ -158,7 +159,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             reloadSection();
           })
           .catch((error) => {
-            console.error("Error al insertar el nuevo Proveedor:", error);
+            console.error("Error al insertar el nuevo slider:", error);
             swal(
               "Ups! Algo salio mal!",
               "La accion no se pudo realizar correctamente!",
@@ -176,25 +177,24 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
+
   function reloadSection() {
     try {
-      fetch("../../controllers/router.php?op=getAllProveedores").then(
+      fetch("../../controllers/router.php?op=getAllSliders").then(
         (response) => {
           if (!response.ok) {
             throw new Error(
-              "Hubo un problema al obtener los detalles del proveedor."
+              "Hubo un problema al obtener los detalles del producto."
             );
           }
           response.json().then((data) => {
-            // Limpiar los datos existentes en la tabla
             miTabla.clear().draw();
-            // Agregar los nuevos datos a la tabla
-            miTabla.rows.add(data).draw();
+            miTabla.rows.add(data).draw(); // Aquí se modificó para agregar los datos directamente
           });
         }
       );
     } catch (error) {
-      console.error("Error al obtener los detalles del proveedor:", error);
+      console.error("Error al obtener los detalles del producto:", error);
     }
   }
 
