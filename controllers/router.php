@@ -108,9 +108,6 @@ function handlePostRequest($action, $productController, $userController, $ventaC
 
             $userController->registrar($email, $password, $nombre, $direccion, $cedula, $rol);
             break;
-        case 'createUser':
-            $userController->createUser();
-            break;
         case 'resetpassci':
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $email = $_POST["email"];
@@ -131,15 +128,24 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $sendEmail->enviarMensajes('paulluna99@gmail.com', 'Asunto', 'Cuerpo');
             break;
 
+        case 'updateUser':
+            $userController->updateUsers();
+            break;
+        case 'deleteUser':
+            $userController->deleteUsers();
+            break;
+
+
+
         case 'insertSlider':
             $publicidadController->insertSliders();
             break;
         case 'updateSlider':
             $publicidadController->updateSliders();
             break;
-            case 'deleteSlider':
-                $publicidadController->deleteSliders();
-                break;
+        case 'deleteSlider':
+            $publicidadController->deleteSliders();
+            break;
         default:
             handleNotFound();
             break;

@@ -19,12 +19,14 @@
           <div class="card">
 
             <div class="card-body">
+              <?php require_once "../usuarios/modal.php" ?>
               <table id="miTabla" class="datatable table table-bordered table-hover">
                 <thead>
                   <tr>
                     <th>Email</th>
                     <th>Nombre</th>
                     <th>Rol</th>
+                    <th>Estado</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>

@@ -192,4 +192,73 @@ class UserModel extends Conectar
             return false;
         }
     }
+    public function updateUsers()
+    {
+        try {
+            // Obtener los datos del formulario
+            $id = $_POST["id"];
+            $email = $_POST["email"];
+            $nombre = $_POST["nombre"];
+            $direccion = $_POST["direccion"];
+            $cedula = $_POST["cedula"];
+            $rol_id = $_POST["rol_id"];
+
+            // Actualizar los datos en la base de datos
+            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
+            $sql = "UPDATE usuarios SET email=?, nombre=?, direccion=?, cedula=?, rol_id=? WHERE id=?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $email);
+            $stmt->bindValue(2, $nombre);
+            $stmt->bindValue(3, $direccion);
+            $stmt->bindValue(4, $cedula);
+            $stmt->bindValue(5, $rol_id);
+            $stmt->bindValue(6, $id);
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            // Verificar si se ha actualizado el registro correctamente
+            if ($stmt->rowCount() > 0) {
+                return true; // Se ha actualizado correctamente
+            } else {
+                throw new Exception("No se ha podido actualizar el registro");
+            }
+        } catch (PDOException $e) {
+            die("Error al actualizar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+    public function deleteUsers()
+    {
+        try {
+            $id = $_POST["id"];
+            $conexion = parent::Conexion();
+
+            // Obtener el valor actual del campo 'est' para el usuario
+            $stmt = $conexion->prepare("SELECT est FROM usuarios WHERE id=?");
+            $stmt->execute([$id]);
+            $currentStatus = $stmt->fetchColumn();
+
+            // Invertir el valor del campo 'est'
+            $newStatus = ($currentStatus == 1) ? 0 : 1;
+
+            // Actualizar el campo 'est' con el nuevo valor
+            $sql = "UPDATE usuarios SET est = ? WHERE id=?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $newStatus);
+            $stmt->bindValue(2, $id);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                return true; // El estado del usuario se ha cambiado correctamente
+            } else {
+                throw new Exception("No se ha podido cambiar el estado del usuario");
+            }
+        } catch (PDOException $e) {
+            die("Error al cambiar el estado del usuario: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
 }

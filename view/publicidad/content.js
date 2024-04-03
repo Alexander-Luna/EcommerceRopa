@@ -177,9 +177,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  function Eliminar(data) {
-    // $("#miModal").modal("show");
-  }
+
   function reloadSection() {
     try {
       fetch("../../controllers/router.php?op=getAllSliders").then(
