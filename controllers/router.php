@@ -1,25 +1,29 @@
 <?php
+require_once 'Controller.php';
 require_once 'ProveedorController.php';
 require_once 'ProductController.php';
 require_once 'PublicidadController.php';
 require_once 'UserController.php';
 require_once 'VentasController.php';
+require_once 'CompraController.php';
 require_once 'SendWhatsApp.php';
 require_once 'SMTPemail.php';
 
 if (isset($_REQUEST['op'])) {
     $action = $_REQUEST['op'];
     $publicidadC = new PublicidadController();
+    $controller = new Controller();
     $productC = new ProductController();
     $userC = new UserController();
     $ventaC = new VentasController();
+    $compraC = new ComprasController();
     $proveedorC = new ProveedorController();
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
-            handleGetRequest($action, $productC, $userC, $ventaC, $publicidadC, $proveedorC);
+            handleGetRequest($action, $productC, $userC, $ventaC, $compraC, $publicidadC, $proveedorC, $controller);
             break;
         case 'POST':
-            handlePostRequest($action, $productC, $userC, $ventaC, $publicidadC, $proveedorC);
+            handlePostRequest($action, $productC, $userC, $ventaC, $compraC, $publicidadC, $proveedorC, $controller);
             break;
         default:
             handleInvalidMethod();
@@ -29,7 +33,7 @@ if (isset($_REQUEST['op'])) {
     handleMissingParameter();
 }
 
-function handleGetRequest($action, $productController, $userController, $ventaController, $publicidadController, $proveedorController)
+function handleGetRequest($action, $productController, $userController, $ventaController, $compraController, $publicidadController, $proveedorController, $controller)
 {
     try {
         switch ($action) {
@@ -74,15 +78,35 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getAllProveedores':
                 $proveedorController->getAllProveedores();
                 break;
+            case 'getProveedores':
+                $proveedorController->getProveedores();
+                break;
             case 'getAllVentas':
                 $ventaController->getAllVentas();
                 break;
             case 'getVentas':
                 $ventaController->getVentas();
                 break;
-                case 'getDetalleVentas':
-                    $ventaController->getDetalleVentas();
-                    break;
+            case 'getDetalleVentas':
+                $ventaController->getDetalleVentas();
+                break;
+
+
+            case 'getTallas':
+                $controller->getTallas();
+                break;
+            case 'getColores':
+                $controller->getColores();
+                break;
+            case 'getTipoPrenda':
+                $controller->getTipoPrenda();
+                break;
+            case 'getGenero':
+                $controller->getGenero();
+                break;
+            case 'getOcasion':
+                $controller->getOcasion();
+                break;
             default:
                 handleNotFound();
                 break;
@@ -92,7 +116,7 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
     }
 }
 
-function handlePostRequest($action, $productController, $userController, $ventaC, $publicidadController, $proveedorController)
+function handlePostRequest($action, $productController, $userController, $ventaC, $compraController, $publicidadController, $proveedorController, $controller)
 {
     // try {
     switch ($action) {
@@ -163,6 +187,28 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             break;
         case 'deleteProveedor':
             $proveedorController->deleteProveedores();
+            break;
+
+        case 'insertProduct':
+            $productController->insertProduct();
+            break;
+        case 'updateProduct':
+            $productController->updateProduct();
+            break;
+        case 'deleteProduct':
+            $productController->deleteProduct();
+            break;
+
+
+
+        case 'insertCompra':
+            $compraController->insertCompra();
+            break;
+        case 'updateCompra':
+            $publicidadController->updateSliders();
+            break;
+        case 'deleteCompra':
+            $publicidadController->deleteSliders();
             break;
         default:
             handleNotFound();

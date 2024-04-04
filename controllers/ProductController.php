@@ -3,10 +3,51 @@ require_once '../models/ProductModel.php';
 
 class ProductController
 {
-    public function getProducts()
+
+    public function insertProduct()
+    {
+        $model = new ProductModel();
+        $data = $model->insertProduct();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
+    public function updateProduct()
+    {
+        $model = new ProductModel();
+        $data = $model->updateProduct();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
+    public function deleteProduct()
+    {
+        $model = new ProductModel();
+        $data = $model->deleteProduct();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
+    public function getAllProducts()
     {
         $model = new ProductModel();
         $data = $model->getAllProducts();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
+    public function getProducts()
+    {
+        $model = new ProductModel();
+        $data = $model->getProducts();
         if ($data === false || empty($data)) {
             http_response_code(204);
         } else {

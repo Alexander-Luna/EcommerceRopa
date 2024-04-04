@@ -2,6 +2,70 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("btnGuardar").addEventListener("click", function () {
     insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
+  metodosModal();
+  function metodosModal() {
+    try {
+      fetch("../../controllers/router.php?op=getOcasion")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              "Hubo un problema al obtener los datos de ocasión."
+            );
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const selectOcasion = document.getElementById("id_ocasion");
+          selectOcasion.innerHTML = "";
+          data.forEach((ocasion) => {
+            const option = document.createElement("option");
+            option.value = ocasion.id;
+            option.textContent = ocasion.nombre;
+            selectOcasion.appendChild(option);
+          });
+        });
+
+      fetch("../../controllers/router.php?op=getTipoPrenda")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              "Hubo un problema al obtener los datos de tipo de prenda."
+            );
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const selectTipoPrenda = document.getElementById("id_tipo_prenda");
+          selectTipoPrenda.innerHTML = "";
+          data.forEach((tipoPrenda) => {
+            const option = document.createElement("option");
+            option.value = tipoPrenda.id;
+            option.textContent = tipoPrenda.nombre;
+            selectTipoPrenda.appendChild(option);
+          });
+        });
+
+      fetch("../../controllers/router.php?op=getGenero")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Hubo un problema al obtener los datos de género.");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const selectGenero = document.getElementById("id_genero");
+          selectGenero.innerHTML = "";
+          data.forEach((genero) => {
+            const option = document.createElement("option");
+            option.value = genero.id;
+            option.textContent = genero.nombre;
+            selectGenero.appendChild(option);
+          });
+        });
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+    }
+  }
 
   // Inicializar DataTables
   var miTabla = $("#miTabla").DataTable({
@@ -93,95 +157,73 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   function insertar() {
     try {
-      // Obtener los datos del formulario
-      const id = document.getElementById("id").value;
-      const nombre = document.getElementById("titulo").value; // Modificado: Nombre
-      const descripcion = document.getElementById("descripcion").value;
-      const imagen = document.getElementById("imagen").files[0];
+        // Obtener los datos del formulario
+        const id = document.getElementById("id").value;
+        const nombre = document.getElementById("nombre").value;
+        const descripcion = document.getElementById("descripcion").value;
+        const imagenes = document.getElementById("imagenes").files;
 
-      // Crear un objeto FormData para enviar los datos al servidor
-      const formData = new FormData();
-      formData.append("nombre", nombre); // Modificado: Nombre
-      formData.append("descripcion", descripcion);
-      formData.append("img", imagen);
+        // Crear un objeto FormData para enviar los datos al servidor
+        const formData = new FormData();
+        formData.append("nombre", nombre);
+        formData.append("descripcion", descripcion);
+        for (let i = 0; i < imagenes.length; i++) {
+            formData.append("imagenes[]", imagenes[i]);
+        }
 
-      if (id === "") {
-        // Realizar la solicitud POST al servidor para insertar el nuevo producto
-        fetch("../../controllers/router.php?op=insertProduct", {
-          method: "POST",
-          body: formData,
+        // Obtener los valores seleccionados de los selects
+        const genero = document.getElementById("id_genero").value;
+        const tipoPrenda = document.getElementById("id_tipo_prenda").value;
+        const ocasion = document.getElementById("id_ocasion").value;
+        formData.append("id_genero", genero);
+        formData.append("id_tipo_prenda", tipoPrenda);
+        formData.append("id_ocasion", ocasion);
+
+        const url = id === "" ? "../../controllers/router.php?op=insertProduct" : "../../controllers/router.php?op=updateProduct";
+        // Realizar la solicitud POST al servidor para insertar o actualizar el producto
+        fetch(url, {
+            method: "POST",
+            body: formData,
         })
-          .then((response) => {
+        .then((response) => {
             if (!response.ok) {
-              swal(
+                swal(
+                    "Ups! Algo salió mal!",
+                    "La acción no se pudo realizar correctamente!",
+                    "error"
+                );
+                throw new Error(
+                    "Hubo un problema al insertar o actualizar el producto."
+                );
+            }
+            console.log(response);
+            // Si la inserción o actualización fue exitosa, ocultar el modal y mostrar un mensaje de éxito
+            $("#miModal").modal("hide");
+            swal(
+                "En Hora Buena!",
+                "La acción se realizó de manera exitosa!",
+                "success"
+            );
+            reloadSection();
+        })
+        .catch((error) => {
+            swal(
                 "Ups! Algo salió mal!",
                 "La acción no se pudo realizar correctamente!",
                 "error"
-              );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo producto."
-              );
-            }
-            console.log(response);
-            // Si la inserción fue exitosa, recargar la sección
-            $("#miModal").modal("hide");
-            swal(
-              "En Hora Buena!",
-              "La acción se realizó de manera exitosa!",
-              "success"
             );
-            reloadSection();
-          })
-          .catch((error) => {
-            swal(
-              "Ups! Algo salió mal!",
-              "La acción no se pudo realizar correctamente!",
-              "error"
-            );
-            console.error("Error al insertar el nuevo producto:", error);
-          });
-      } else {
-        formData.append("id", id);
-        fetch("../../controllers/router.php?op=updateProduct", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => {
-            if (!response.ok) {
-              swal(
-                "Ups! Algo salió mal!",
-                "La acción no se pudo realizar correctamente!",
-                "error"
-              );
-              throw new Error("Hubo un problema al actualizar el producto.");
-            }
-            console.log(response);
-            $("#miModal").modal("hide");
-            swal(
-              "En Hora Buena!",
-              "La acción se realizó de manera exitosa!",
-              "success"
-            );
-            reloadSection();
-          })
-          .catch((error) => {
-            console.error("Error al actualizar el producto:", error);
-            swal(
-              "Ups! Algo salió mal!",
-              "La acción no se pudo realizar correctamente!",
-              "error"
-            );
-          });
-      }
+            console.error("Error al insertar o actualizar el producto:", error);
+        });
     } catch (error) {
-      console.error("Error al obtener los datos del formulario:", error);
-      swal(
-        "Ups! Algo salió mal!",
-        "La acción no se pudo realizar correctamente!",
-        "error"
-      );
+        console.error("Error al obtener los datos del formulario:", error);
+        swal(
+            "Ups! Algo salió mal!",
+            "La acción no se pudo realizar correctamente!",
+            "error"
+        );
     }
-  }
+}
+
 
   function reloadSection() {
     try {

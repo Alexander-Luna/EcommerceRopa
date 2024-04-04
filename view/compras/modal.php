@@ -13,33 +13,35 @@
                 <form id="formularioProducto">
                     <input type="hidden" class="form-control" id="id" name="id" required>
                     <div class="form-group">
-                        <label for="nombre" class="col-form-label">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        <label class="col-form-label">Producto:</label>
+                        <select class="form-control" id="id_producto" name="id_producto" required>
+                            <option value="">Seleccione...</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="descripcion" class="col-form-label">Descripción:</label>
-                        <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+                        <label class="col-form-label">Cantidad:</label>
+                        <input type="number" class="form-control" id="stock" name="stock" required>
                     </div>
                     <div class="form-group">
-                        <label for="imagen" class="col-form-label">Imagenes:</label>
-                        <input type="file" class="form-control-file" id="imagenes" name="imagenes" multiple>
+                        <label class="col-form-label">Cantidad para alerta:</label>
+                        <input type="number" class="form-control" id="stock_alert" name="stock_alert" required>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-form-label">Genero:</label>
-                        <select class="form-control" id="id_genero" name="id_genero" required>
+                        <label class="col-form-label">Color:</label>
+                        <select class="form-control" id="id_color" name="id_color" required>
                             <option value="">Seleccione...</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Tipo de Prenda:</label>
-                        <select class="form-control" id="id_tipo_prenda" name="id_tipo_prenda" required>
+                        <label class="col-form-label">Talla:</label>
+                        <select class="form-control" id="id_talla" name="id_talla" required>
                             <option value="">Seleccione...</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Ocasión:</label>
-                        <select class="form-control" id="id_ocasion" name="id_ocasion" required>
+                        <label class="col-form-label">Proveedor:</label>
+                        <select class="form-control" id="id_proveedor" name="id_proveedor" required>
                             <option value="">Seleccione...</option>
                         </select>
                     </div>

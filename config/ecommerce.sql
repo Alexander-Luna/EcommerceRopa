@@ -6,20 +6,20 @@ USE `u823153798_ecomerce1`;
 CREATE TABLE genero (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(20)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Crear tabla de tipo de prenda
 CREATE TABLE tipo_prenda (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- Crear tabla de ocasión
 CREATE TABLE ocasion (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Crear tabla de productos
 CREATE TABLE productos (
@@ -32,7 +32,7 @@ CREATE TABLE productos (
     FOREIGN KEY (id_genero) REFERENCES genero(id),
     FOREIGN KEY (id_tipo_prenda) REFERENCES tipo_prenda(id),
     FOREIGN KEY (id_ocasion) REFERENCES ocasion(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Crear tabla de imágenes de productos
 CREATE TABLE imagenes_producto (
@@ -42,20 +42,20 @@ CREATE TABLE imagenes_producto (
     orden INT,
     est INT DEFAULT 1,
     FOREIGN KEY (id_producto) REFERENCES productos(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE colores (
     id INT AUTO_INCREMENT PRIMARY KEY,
     color VARCHAR(255),
     color_hexa VARCHAR(255) DEFAULT"",
     est INT DEFAULT 1
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 CREATE TABLE tallas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     talla VARCHAR(255),
     desc_talla VARCHAR(255) DEFAULT"",
     est INT DEFAULT 1
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- Crear tabla de inventario de productos
 CREATE TABLE inventario (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -68,7 +68,7 @@ CREATE TABLE inventario (
     FOREIGN KEY (id_producto) REFERENCES productos(id),
      FOREIGN KEY (id_talla) REFERENCES tallas(id),
       FOREIGN KEY (id_color) REFERENCES colores(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- Crear tabla de proveedores
@@ -80,7 +80,7 @@ CREATE TABLE proveedores (
     telefono VARCHAR(20) DEFAULT NULL,
     direccion VARCHAR(255) DEFAULT NULL,
     est INT(1) NOT NULL DEFAULT 1
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Crear tabla de relación entre proveedores y productos
 CREATE TABLE productos_proveedores (
@@ -89,7 +89,7 @@ CREATE TABLE productos_proveedores (
     id_proveedor INT,
     FOREIGN KEY (id_producto) REFERENCES productos(id),
     FOREIGN KEY (id_proveedor) REFERENCES proveedores(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 CREATE TABLE `roles` (
@@ -136,7 +136,7 @@ CREATE TABLE compras (
     id_proveedor INT,
     FOREIGN KEY (id_proveedor) REFERENCES proveedores(id),
     FOREIGN KEY (id_user) REFERENCES usuarios(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Crear tabla de detalles de compra
 CREATE TABLE detalles_compra (
@@ -149,7 +149,7 @@ CREATE TABLE detalles_compra (
     est INT DEFAULT 1,
     FOREIGN KEY (id_compra) REFERENCES compras(id),
     FOREIGN KEY (id_variante_producto) REFERENCES inventario(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- Crear tabla de información de quién recibe la venta
 CREATE TABLE recibe (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -158,7 +158,7 @@ CREATE TABLE recibe (
     email VARCHAR(255) NOT NULL,
     direccion TEXT NOT NULL,
     est INT(1) DEFAULT 0
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- Crear tabla de ventas
 CREATE TABLE ventas (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -172,7 +172,7 @@ CREATE TABLE ventas (
     comprobante VARCHAR(255) DEFAULT NULL,
     FOREIGN KEY (id_recibe) REFERENCES recibe(id),
     FOREIGN KEY (id_client) REFERENCES usuarios(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 CREATE TABLE detalles_venta (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_venta INT,
@@ -183,7 +183,7 @@ CREATE TABLE detalles_venta (
     total_producto DECIMAL(10, 2),
     FOREIGN KEY (id_venta) REFERENCES ventas(id),
     FOREIGN KEY (id_variante_producto) REFERENCES inventario(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `wish_list` (
   `id` int(10) NOT NULL AUTO_INCREMENT,

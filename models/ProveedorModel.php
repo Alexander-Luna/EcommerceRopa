@@ -16,7 +16,19 @@ class ProveedorModel extends Conectar
             die("Error al obtener proveedores: " . $e->getMessage());
         }
     }
-
+    public function getProveedores()
+    {
+        try {
+            $conexion = parent::Conexion();
+            $sql = "SELECT * FROM proveedores WHERE est=1";
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute();
+            $proveedores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $proveedores;
+        } catch (PDOException $e) {
+            die("Error al obtener proveedores: " . $e->getMessage());
+        }
+    }
     public function updateProveedores()
     {
         try {

@@ -29,7 +29,22 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+    public function getProducts()
+    {
+        try {
+            $conexion = parent::Conexion();
 
+            $sql = "SELECT  p.*, img.url_imagen as imagen
+            FROM productos p 
+            LEFT JOIN imagenes_producto img ON img.id_producto = p.id AND img.est = 1 AND img.orden = 1";
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
     public function getAllProductsAlert()
     {
         try {
@@ -126,11 +141,11 @@ class ProductModel extends Conectar
     public function getImgProd()
     {
         $conexion = parent::Conexion();
-        $p_id = $_GET["id_prod"];
+        $p_id = $_GET["id"];
         try {
             $sql = "SELECT url_imagen 
                 FROM imagenes_producto
-                WHERE id_producto = ? AND est = 1";
+                WHERE id_producto = ? AND est = 1 AND orden=1";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $p_id);
             $stmt->execute();
@@ -184,6 +199,164 @@ class ProductModel extends Conectar
             return $data;
         } catch (PDOException $e) {
             die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
+
+
+
+    public function updateProduct()
+    {
+        try {
+            $id = $_POST["id"];
+            $titulo = $_POST["titulo"];
+            $descripcion = $_POST["descripcion"];
+
+            // Actualizar los datos en la base de datos
+            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
+            $sql = "UPDATE productos SET titulo=?, descripcion=?, img=? WHERE id=?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $titulo);
+            $stmt->bindValue(2, $descripcion);
+
+            $rutaImagenes = '../public/images/productos/';
+
+            // Verificar si se ha cargado una nueva imagen
+            if (!empty($_FILES["img"]["name"])) {
+                // Nombre único de la imagen
+                $nombreImagen = uniqid(); // Sin extensión para la conversión a WebP
+
+                // Mover la nueva imagen a la carpeta deseada
+                if (!move_uploaded_file($_FILES["img"]["tmp_name"], $rutaImagenes . $nombreImagen . '.webp')) {
+                    throw new Exception("Error al mover la nueva imagen a la carpeta de destino");
+                }
+
+                // Obtener la imagen actual del registro
+                $stmt_img = $conexion->prepare("SELECT img FROM productos WHERE id=?");
+                $stmt_img->execute([$id]);
+                $imagenActual = $stmt_img->fetchColumn();
+
+                // Eliminar la imagen actual si existe
+                if ($imagenActual && file_exists($imagenActual)) {
+                    unlink($imagenActual);
+                }
+
+                // Asignar la ruta de la nueva imagen en formato WebP al statement
+                $stmt->bindValue(3, "../../public/images/products/" . $nombreImagen . '.webp');
+            } else {
+                // No se cargó una nueva imagen, mantener la imagen existente
+                $stmt_img = $conexion->prepare("SELECT img FROM productos WHERE id=?");
+                $stmt_img->execute([$id]);
+                $imagenActual = $stmt_img->fetchColumn();
+                $stmt->bindValue(3, $imagenActual);
+            }
+
+            $stmt->bindValue(4, $id);
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            // Verificar si se ha actualizado el registro correctamente
+            if ($stmt->rowCount() > 0) {
+                return true; // Se ha actualizado correctamente
+            } else {
+                throw new Exception("No se ha podido actualizar el registro");
+            }
+        } catch (PDOException $e) {
+            die("Error al actualizar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function insertProduct()
+    {
+        try {
+            // Obtener los datos enviados por el formulario
+            $nombre = $_POST["nombre"];
+            $descripcion = $_POST["descripcion"];
+            $id_genero = $_POST["id_genero"];
+            $id_tipo_prenda = $_POST["id_tipo_prenda"];
+            $id_ocasion = $_POST["id_ocasion"];
+
+            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
+            $conexion->beginTransaction(); // Iniciar una transacción
+
+            // Insertar el producto en la tabla productos
+            $sqlProducto = "INSERT INTO productos (nombre, descripcion, id_genero, id_tipo_prenda, id_ocasion) VALUES (?, ?, ?, ?, ? )";
+            $stmtProducto = $conexion->prepare($sqlProducto);
+            $stmtProducto->bindValue(1, $nombre);
+            $stmtProducto->bindValue(2, $descripcion);
+            $stmtProducto->bindValue(3, $id_genero);
+            $stmtProducto->bindValue(4, $id_tipo_prenda);
+            $stmtProducto->bindValue(5, $id_ocasion);
+            $stmtProducto->execute();
+
+            // Obtener el ID del producto insertado
+            $id_producto = $conexion->lastInsertId();
+
+            // Insertar las rutas de las imágenes en la tabla imagenes_productos
+            if (!empty($_FILES["imagenes"]["name"])) {
+                $rutaImagenes = '../public/images/products/';
+                for ($i = 0; $i < count($_FILES["imagenes"]["name"]); $i++) {
+                    $nombreImagen = uniqid();
+                    if (!move_uploaded_file($_FILES["imagenes"]["tmp_name"][$i], $rutaImagenes . $nombreImagen . '.webp')) {
+                        throw new Exception("Error al mover la imagen a la carpeta de destino");
+                    }
+                    $url_imagen = "../../public/images/products/" . $nombreImagen . '.webp';
+                    $orden = $i + 1; // Se asigna un orden secuencial a las imágenes
+                    $stmtImagen = $conexion->prepare("INSERT INTO imagenes_producto (id_producto, url_imagen, orden, est) VALUES (?, ?, ?, ?)");
+                    $stmtImagen->bindValue(1, $id_producto);
+                    $stmtImagen->bindValue(2, $url_imagen);
+                    $stmtImagen->bindValue(3, $orden);
+                    $stmtImagen->bindValue(4, 1); // Valor por defecto para est
+                    $stmtImagen->execute();
+                }
+            }
+
+            // Confirmar la transacción
+            $conexion->commit();
+
+            return true; // Todo se ha realizado correctamente
+        } catch (PDOException $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error al insertar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+
+    public function deleteProduct()
+    {
+        try {
+            $id = $_POST["id"];
+            $conexion = parent::Conexion();
+
+            // Obtener el valor actual del campo 'est' para el usuario
+            $stmt = $conexion->prepare("SELECT est FROM productos WHERE id=?");
+            $stmt->execute([$id]);
+            $currentStatus = $stmt->fetchColumn();
+
+            // Invertir el valor del campo 'est'
+            $newStatus = ($currentStatus == 1) ? 0 : 1;
+
+            // Actualizar el campo 'est' con el nuevo valor
+            $sql = "UPDATE productos SET est = ? WHERE id=?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $newStatus);
+            $stmt->bindValue(2, $id);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                return true; // El estado del usuario se ha cambiado correctamente
+            } else {
+                throw new Exception("No se ha podido cambiar el estado del usuario");
+            }
+        } catch (PDOException $e) {
+            die("Error al cambiar el estado del usuario: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
         }
     }
 }
