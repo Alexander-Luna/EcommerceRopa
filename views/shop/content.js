@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         ? producto.imagen
         : "../../public/images/products/defaultprod.png";
       const productoHTML = `
-            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item ${producto.genero.toUpperCase()}">
+            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item ${producto.genero}">
                 <div class="block2">
                     <div class="block2-pic hov-img0">
                         <img src="${imagenProducto}" alt="Product Image">

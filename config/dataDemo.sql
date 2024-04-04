@@ -3,9 +3,9 @@ INSERT INTO `roles` (`id`, `nombre`, `est`) VALUES
 (2, 'cliente', 1);
 
 INSERT INTO `sliders` (`id`, `titulo`, `descripcion`, `img`, `url_web`, `est`) VALUES
-(1, 'Chaquetas & Chompas', 'coleccion de chaquetas 2024', '../../public/images/sliders/slide-01.webp', '', 1),
-(2, 'Camisas & Blusas', 'Camisas para hombre y mujer 2024', '../../public/images/sliders/slide-02.webp', '', 1),
-(3, 'Uniformes de niño & niña', 'se diseña los uniformes para colegios 2024', '../../public/images/sliders/slide-03.webp', '', 1);
+(1, 'Chaquetas & Chompas', 'coleccion de chaquetas 2024', '../../public/images/sliders/slide-01.jpg', '', 1),
+(2, 'Camisas & Blusas', 'Camisas para hombre y mujer 2024', '../../public/images/sliders/slide-02.jpg', '', 1),
+(3, 'Uniformes de niño & niña', 'se diseña los uniformes para colegios 2024', '../../public/images/sliders/slide-03.jpg', '', 1);
 
 
 INSERT INTO `usuarios` (`rol_id`, `email`, `pass`, `nombre`, `direccion`, `cedula`, `est`) VALUES
@@ -26,10 +26,10 @@ VALUES
 
 
 INSERT INTO proveedores (ruc, nombre, email, telefono, direccion, est) VALUES ('1234567890', 'Proveedor Uno', 'proveedoruno@example.com', '1234567890', 'Calle Uno #123', 1),
- ('2345678901', 'Proveedor Dos', 'proveedordos@example.com', '2345678901', 'Avenida Dos #456', 1),
-('3456789012', 'Proveedor Tres', 'proveedortres@example.com', '3456789012', 'Calle Tres #789', 1),
-('4567890123', 'Proveedor Cuatro', 'proveedorcuatro@example.com', '4567890123', 'Avenida Cuatro #012', 1),
- ('5678901234', 'Proveedor Cinco', 'proveedorcinco@example.com', '5678901234', 'Calle Cinco #345', 1);
+ ('2345678901', 'Proveedor Dos', 'proveedordos@example.com', '593985726434', 'Avenida Dos #456', 1),
+('3456789012', 'Proveedor Tres', 'proveedortres@example.com', '593985726434', 'Calle Tres #789', 1),
+('4567890123', 'Proveedor Cuatro', 'proveedorcuatro@example.com', '593985726434', 'Avenida Cuatro #012', 1),
+ ('5678901234', 'Proveedor Cinco', 'proveedorcinco@example.com', '593985726434', 'Calle Cinco #345', 1);
 
 -- Insertar datos en la tabla de ocasión
 INSERT INTO ocasion (nombre) VALUES 
