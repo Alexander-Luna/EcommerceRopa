@@ -11,7 +11,7 @@ INSERT INTO `sliders` (`id`, `titulo`, `descripcion`, `img`, `url_web`, `est`) V
 INSERT INTO `usuarios` (`rol_id`, `email`, `pass`, `nombre`, `direccion`, `cedula`, `est`) VALUES
 ( 1, 'paulluna99@gmail.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Alexannder Luna', 'San Miguel de Bolivar', '0202433919', 1),
 ( 2, 'bryan@nose.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Bryan Shiguango', 'Tena', '0202433123', 1),
-( 2, 'nicole@hotmail.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Nicole Anahi', 'Guaranda', '0202433321', 1),
+( 2, 'user@gmail.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Nicole Anahi', 'Guaranda', '0202433321', 1),
 ( 2, 'xd@hotmail.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'xd', 'user1direcion', '0202433231', 1),
 ( 1, 'admin@admin.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Admin', 'admin direccion', '0202433312', 1);
 

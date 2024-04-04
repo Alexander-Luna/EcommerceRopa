@@ -89,14 +89,71 @@
                     <a id="notify_wish" href="../shoping-wish" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wish" data-notify="0">
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
+                    <?php
+                    session_start();
+                    if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_id'])) {
+                    ?>
+                        <a href="../login" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                            <i class="zmdi zmdi-account-circle"></i>
+                        </a>
+                    <?php } else { ?>
+                        <style>
+                            /* Estilos adicionales */
+                            .menu-item {
+                                cursor: pointer;
+                            }
 
-                    <a href="../login" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
-                        <i class="zmdi zmdi-account-circle"></i>
-                    </a>
+                            .menu-container {
+                                display: none;
+                            }
+
+                            .show-menu {
+                                display: block;
+                            }
+                        </style>
+
+
+
+                        <a href="#" id="menu-toggle" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                            <i class="zmdi zmdi-account-circle"></i>
+                            <?php echo $_SESSION['user_session']['nombre']; ?>
+                        </a>
+
+                        <div class="container mt-5 menu-container" id="menu-container" style="display: none;">
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-6">
+                                    <div class="list-group">
+                                        <a href="../miscompras/" class="list-group-item list-group-item-action menu-item">
+                                            <i class="fa fa-shopping-basket mr-2"></i> Mis Compras
+                                        </a>
+                                        <a href="../favoritos" class="list-group-item list-group-item-action menu-item">
+                                            <i class="fa fa-heart-o mr-2"></i> Favoritos
+                                        </a>
+                                        <a href="../miperfil" class="list-group-item list-group-item-action menu-item">
+                                            <i class="fa fa-user mr-2"></i> Mi Perfil
+                                        </a>
+                                        <a href="../../config/Logout.php" class="list-group-item list-group-item-action menu-item">
+                                            <i class="fa fa-sign-out mr-2"></i> Cerrar Sesión
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
             </nav>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <script>
+           $(document).ready(function(){
+        $("#menu-toggle").click(function(e){
+            e.preventDefault();
+            $("#menu-container").slideToggle();
+        });
+    });
+    </script>
 
     <!-- Header Mobile -->
     <div class="wrap-header-mobile">
