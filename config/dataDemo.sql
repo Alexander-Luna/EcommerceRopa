@@ -1,0 +1,100 @@
+INSERT INTO `roles` (`id`, `nombre`, `est`) VALUES
+(1, 'administrador', 1),
+(2, 'cliente', 1);
+
+INSERT INTO `sliders` (`id`, `titulo`, `descripcion`, `img`, `url_web`, `est`) VALUES
+(1, 'Chaquetas & Chompas', 'coleccion de chaquetas 2024', '../../public/images/sliders/slide-01.webp', '', 1),
+(2, 'Camisas & Blusas', 'Camisas para hombre y mujer 2024', '../../public/images/sliders/slide-02.webp', '', 1),
+(3, 'Uniformes de niño & niña', 'se diseña los uniformes para colegios 2024', '../../public/images/sliders/slide-03.webp', '', 1);
+
+
+INSERT INTO `usuarios` (`rol_id`, `email`, `pass`, `nombre`, `direccion`, `cedula`, `est`) VALUES
+( 1, 'paulluna99@gmail.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Alexannder Luna', 'San Miguel de Bolivar', '0202433919', 1),
+( 2, 'bryan@nose.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Bryan Shiguango', 'Tena', '0202433123', 1),
+( 2, 'nicole@hotmail.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Nicole Anahi', 'Guaranda', '0202433321', 1),
+( 2, 'xd@hotmail.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'xd', 'user1direcion', '0202433231', 1),
+( 1, 'admin@admin.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Admin', 'admin direccion', '0202433312', 1);
+
+
+-- Insertar datos de ejemplo en la tabla recive
+INSERT INTO recibe ( nombre, telefono, email, direccion, est)
+VALUES 
+( 'Juan Perez', '123456789', 'juan@example.com', 'Calle Principal 123', 1),
+( 'María López', '987654321', 'maria@example.com', 'Avenida Central 456', 1),
+( 'Pedro Martinez', '555444333', 'pedro@example.com', 'Plaza Mayor 789', 1);
+
+
+
+INSERT INTO proveedores (ruc, nombre, email, telefono, direccion, est) VALUES ('1234567890', 'Proveedor Uno', 'proveedoruno@example.com', '1234567890', 'Calle Uno #123', 1),
+ ('2345678901', 'Proveedor Dos', 'proveedordos@example.com', '2345678901', 'Avenida Dos #456', 1),
+('3456789012', 'Proveedor Tres', 'proveedortres@example.com', '3456789012', 'Calle Tres #789', 1),
+('4567890123', 'Proveedor Cuatro', 'proveedorcuatro@example.com', '4567890123', 'Avenida Cuatro #012', 1),
+ ('5678901234', 'Proveedor Cinco', 'proveedorcinco@example.com', '5678901234', 'Calle Cinco #345', 1);
+
+-- Insertar datos en la tabla de ocasión
+INSERT INTO ocasion (nombre) VALUES 
+('Formal'), 
+('Uniforme Escolar'), 
+('Deportivo');
+
+-- Insertar datos en la tabla de género
+INSERT INTO genero (nombre) VALUES ('Niño'), ('Niña'), ('Hombre'), ('Mujer');
+
+-- Insertar datos en la tabla de tipo de prenda
+INSERT INTO tipo_prenda (nombre) VALUES 
+('Camisa'), 
+('Pantalón'), 
+('Falda'), 
+('Camiseta'), 
+('Chompa'), 
+('Abrigo');
+INSERT INTO tallas (id, talla, desc_talla, est) VALUES
+(1, 'S', 'Pequeña', 1),
+(2, 'M', 'Mediana', 1),
+(3, 'L', 'Grande', 1);
+INSERT INTO colores (id, color, color_hexa, est) VALUES
+(1, 'Negro', '#000000', 1),
+(2, 'Blanco', '#FFFFFF', 1),
+(3, 'Azul', '#0000FF', 1),
+(4, 'Rojo', '#FF0000', 1),
+(5, 'Verde', '#00FF00', 1),
+(6, 'Gris', '#808080', 1),
+(7, 'Amarillo', '#FFFF00', 1),
+(8, 'Naranja', '#FFA500', 1),
+(9, 'Rosado', '#FFC0CB', 1),
+(10, 'Morado', '#800080', 1);
+
+
+INSERT INTO productos (id, nombre, descripcion, id_genero, id_tipo_prenda, id_ocasion) VALUES
+(1, 'Camisa blanca', 'Camisa blanca de manga larga', 1, 1, 1),
+(2, 'Pantalones vaqueros', 'Pantalones vaqueros azules', 1, 2, 2),
+(3, 'Vestido floral', 'Vestido floral de verano', 2, 3, 3),
+(4, 'Chaqueta de cuero', 'Chaqueta de cuero negro', 1, 4, 1);
+INSERT INTO inventario (id_producto, id_color, id_talla, stock, precio) VALUES
+(1, 1, 1, 50, 29.99),
+(1, 2, 2, 30, 39.99),
+(2, 1, 1, 20, 49.99),
+(2, 3, 2, 10, 59.99);
+
+
+INSERT INTO productos_proveedores (id_producto, id_proveedor) VALUES (1, 1), (2, 2), (3, 3), (4, 4);
+
+INSERT INTO imagenes_producto (id_producto, url_imagen, orden, est) VALUES
+(1, '../../public/images/products/product-01.jpg', 1, 1),
+(1, '../../public/images/products/product-02.jpg', 2, 1),
+(2, '../../public/images/products/product-03.jpg', 1, 1),
+(2, '../../public/images/products/product-04.jpg', 2, 1);
+
+
+-- Insertar datos de ejemplo en la tabla ventas
+INSERT INTO ventas (id_client,fecha, total, id_recibe)
+VALUES 
+(1,'2024-04-03 10:00:00', 150.50, 1),
+(2,'2024-04-03 11:30:00', 200.75, 2),
+(3,'2024-04-03 13:45:00', 100.00, 3);
+-- Insertar datos de ejemplo en la tabla detalles_venta
+INSERT INTO detalles_venta (id_venta, id_variante_producto, cantidad, precio_unitario, total_producto)
+VALUES 
+(1, 1, 2, 25.50, 51.00),
+(1, 2, 1, 35.75, 35.75),
+(2, 3, 3, 20.00, 60.00);

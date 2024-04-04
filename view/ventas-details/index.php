@@ -1,45 +1,83 @@
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Ventas: Ropa que debes conocer </h1>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
+<?php
+session_start();
+// if (!isset($_SESSION["user_session"]) && $_SESSION['user_session']['rol_id'] === 1) {
+if (isset($_SESSION['user_session'])) {
+    $userData = $_SESSION['user_session'];
+    // echo $userData['user'];
+    // die();
+    $modulo = $_REQUEST['modulo'] ?? '';
+?>
+    <!DOCTYPE html>
+    <html lang="es">
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Asotaeco | Dashboard</title>
+        <?php require_once('../html/header.php'); ?>
+    </head>
 
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <?php require_once "../ventas/modal.php" ?>
+    <body class="layout-fixed">
+        <div>
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Ventas: Ropa que debes conocer </h1>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
 
-                        <table id="miTabla" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Cliente</th>
-                                    <th>Comprobante</th>
-                                    <th>Método de Pago</th>
-                                    <th>Estado</th>
-                                    <th>Fecha</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Aquí se llenará la tabla con los datos obtenidos de la base de datos -->
-                            </tbody>
-                        </table>
-                        <script src="../ventas/content.js"></script>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row row-12">
+                                <table id="miTabla" class="table table-bordered col-12" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre Producto</th>
+                                            <th>Imagen</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio Unitario</th>
+                                            <th>Total Producto</th>
+                                            <th>Color</th>
+                                            <th>Talla</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Aquí se llenarán los datos dinámicamente -->
+                                    </tbody>
+                                </table>
+                                <div class="col-2">
+                                    <div class="card-body flex">
+                                        <span>Sub Total: </span><span id="subTotal">$5000</span>
+                                        <br>
+                                        <span>Envio: </span><span id="envio">$5000</span>
+                                        <br>
+                                        <span>Total: </span><span id="total">$5000</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <script src="../ventas-details/content.js"></script>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-</div>
+        <?php require_once('../html/MainJS.php') ?>
+
+    </body>
+
+    </html>
+<?php
+} else {
+    header("Location: ../../index.php");
+    exit();
+}
+?>

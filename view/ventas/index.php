@@ -21,15 +21,16 @@
 
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <?php require_once "../ventas/modal.php" ?>
+                    <?php require_once "../ventas/modal.php" ?>
 
                         <table id="miTabla" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>Cliente</th>
+                                    <th>Recibe</th>
                                     <th>Comprobante</th>
                                     <th>Método de Pago</th>
-                                    <th>Estado</th>
+                                    <th>Pago</th>
                                     <th>Fecha</th>
                                     <th>Acciones</th>
                                 </tr>

@@ -17,20 +17,32 @@
                         <input type="text" class="form-control" id="nombre" name="nombre" required>
                     </div>
                     <div class="form-group">
-                        <label for="precio" class="col-form-label">Precio:</label>
-                        <input type="text" class="form-control" id="precio" name="precio" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="existencia" class="col-form-label">Existencia:</label>
-                        <input type="text" class="form-control" id="existencia" name="existencia" required>
-                    </div>
-                    <div class="form-group">
                         <label for="descripcion" class="col-form-label">Descripción:</label>
                         <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="imagen" class="col-form-label">Imagen:</label>
                         <input type="file" class="form-control-file" id="imagen" name="imagen" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="talla" class="col-form-label">Talla:</label>
+                        <input type="text" class="form-control" id="talla" name="talla" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo" class="col-form-label">Tipo:</label>
+                        <input type="text" class="form-control" id="tipo" name="tipo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="color" class="col-form-label">Color:</label>
+                        <input type="text" class="form-control" id="color" name="color" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock" class="col-form-label">Stock:</label>
+                        <input type="text" class="form-control" id="stock" name="stock" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="genero" class="col-form-label">Género:</label>
+                        <input type="text" class="form-control" id="genero" name="genero" required>
                     </div>
                 </form>
             </div>
@@ -41,21 +53,3 @@
         </div>
     </div>
 </div>
-<script>
-    $('#miModal').on('hidden.bs.modal', function() {
-        document.getElementById("id").value = "";
-        document.getElementById("nombre").value = "";
-        document.getElementById("precio").value = "";
-        document.getElementById("existencia").value = "";
-        document.getElementById("descripcion").value = "";
-        document.getElementById("imagen").value = "";
-    });
-    $('#miModal').on('shown.bs.modal', function() {
-        $('#id').prop('disabled', false);
-        $('#nombre').val('');
-        $('#precio').val('');
-        $('#existencia').val('');
-        $('#descripcion').val('');
-        $('#imagen').val('');
-    });
-</script>

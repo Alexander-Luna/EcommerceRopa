@@ -1,212 +1,72 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  document.getElementById("btnGuardar").addEventListener("click", function () {
-    insertar(); // Llama a la función insertar cuando se hace clic en el botón
-  });
-
-  // Inicializar DataTables
-  var miTabla = $("#miTabla").DataTable({
+  $("#miTabla").DataTable({
     columns: [
-      { data: "idcli" },
-      { data: "idPago" },
+      { data: "nombre_producto" },
       {
-        data: "metodo_pago",
-        title: "Método de Pago",
+        data: "imagen",
         render: function (data, type, row) {
-          return data == 1 ? "Retiro en Oficina" : "Subir Comprobante de Pago";
+          return (
+            '<img src="' + data + '" alt="Producto" style="width: 100px;">'
+          );
         },
       },
-      {
-        data: "est",
-        title: "Estado",
-        render: function (data, type, row) {
-          if (data == 0) {
-            return "Cancelada";
-          } else if (data == 1) {
-            return "Completada";
-          } else {
-            return "Pendiente";
-          }
-        },
-      },
-      { data: "fecha" },
-      {
-        data: null,
-        render: function (data, type, row) {
-          return `
-          <button type="button" class="btn btn-outline-success btnView" data-id="${row.id}">
-                    <i class="fa fa-eye" aria-hidden="true"></i></button>
-          <button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-outline-danger btnEliminar" data-id="${row.id}">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
-        },
-      },
+      { data: "cantidad" },
+      { data: "precio_unitario" },
+      { data: "total_producto" },
+      { data: "color" },
+      { data: "talla" },
     ],
   });
 
-  $(document).on("click", ".btnView", function () {
-    var rowData = miTabla.row($(this).closest("tr")).data();
-  });
-
-  // Manejador de eventos para el botón de editar
-  $(document).on("click", ".btnEditar", function () {
-    var rowData = miTabla.row($(this).closest("tr")).data();
-    $("#miModal").modal("show");
-    document.getElementById("title").textContent = "Editar Venta";
-    document.getElementById("id").value = rowData.id;
-    document.getElementById("idcli").value = rowData.idcli;
-    document.getElementById("idPago").value = rowData.idPago;
-    document.getElementById("metodo_pago").value = rowData.metodo_pago;
-    document.getElementById("fecha").value = rowData.fecha;
-  });
-
-  // Manejador de eventos para el botón de eliminar
-  $(document).on("click", ".btnEliminar", function () {
-    var rowData = miTabla.row($(this).closest("tr")).data();
-    var formData = new FormData();
-    formData.append("id", rowData.id);
-    fetch("../../controllers/router.php?op=deleteVenta", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => {
-        if (!response.ok) {
+  // Función para recargar la sección con los detalles de las ventas
+  function reloadSection() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var id = urlParams.get("id");
+    if (id !== null) {
+      fetch("../../controllers/router.php?op=getDetalleVentas&id="+id)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              "Hubo un problema al obtener los detalles de las ventas. Código: " +
+                response.status
+            );
+          }
+          return response.json();
+        })
+        .then((data) => {
+          $("#miTabla").DataTable().clear().rows.add(data).draw();
+        })
+        .catch((error) => {
+          console.error("Error al obtener los detalles de las ventas:", error);
           swal(
             "Ups! Algo salió mal!",
             "La acción no se pudo realizar correctamente!",
             "error"
           );
-          throw new Error("Hubo un problema al eliminar la venta.");
-        }
-        console.log(response);
-        $("#miModal").modal("hide");
-        swal(
-          "En Hora Buena!",
-          "La acción se realizó de manera exitosa!",
-          "success"
-        );
-        reloadSection();
-      })
-      .catch((error) => {
-        swal(
-          "Ups! Algo salió mal!",
-          "La acción no se pudo realizar correctamente!",
-          "error"
-        );
-        console.error("Error al eliminar la venta:", error);
-      });
-  });
-
-  function insertar() {
-    try {
-      // Obtener los datos del formulario
-      const id = document.getElementById("id").value;
-      const idcli = document.getElementById("idcli").value;
-      const idPago = document.getElementById("idPago").value;
-      const metodo_pago = document.getElementById("metodo_pago").value;
-      const fecha = document.getElementById("fecha").value;
-
-      // Crear un objeto FormData para enviar los datos al servidor
-      const formData = new FormData();
-      formData.append("idcli", idcli);
-      formData.append("idPago", idPago);
-      formData.append("metodo_pago", metodo_pago);
-      formData.append("fecha", fecha);
-
-      if (id === "") {
-        // Realizar la solicitud POST al servidor para insertar la nueva venta
-        fetch("../../controllers/router.php?op=insertVenta", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => {
-            if (!response.ok) {
-              swal(
-                "Ups! Algo salió mal!",
-                "La acción no se pudo realizar correctamente!",
-                "error"
-              );
-              throw new Error("Hubo un problema al insertar la nueva venta.");
-            }
-            console.log(response);
-            // Si la inserción fue exitosa, recargar la sección
-            $("#miModal").modal("hide");
-            swal(
-              "En Hora Buena!",
-              "La acción se realizó de manera exitosa!",
-              "success"
-            );
-            reloadSection();
-          })
-          .catch((error) => {
-            swal(
-              "Ups! Algo salió mal!",
-              "La acción no se pudo realizar correctamente!",
-              "error"
-            );
-            console.error("Error al insertar la nueva venta:", error);
-          });
-      } else {
-        formData.append("id", id);
-        fetch("../../controllers/router.php?op=updateVenta", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => {
-            if (!response.ok) {
-              swal(
-                "Ups! Algo salió mal!",
-                "La acción no se pudo realizar correctamente!",
-                "error"
-              );
-              throw new Error("Hubo un problema al actualizar la venta.");
-            }
-            console.log(response);
-            $("#miModal").modal("hide");
-            swal(
-              "En Hora Buena!",
-              "La acción se realizó de manera exitosa!",
-              "success"
-            );
-            reloadSection();
-          })
-          .catch((error) => {
-            console.error("Error al actualizar la venta:", error);
-            swal(
-              "Ups! Algo salió mal!",
-              "La acción no se pudo realizar correctamente!",
-              "error"
-            );
-          });
-      }
-    } catch (error) {
-      console.error("Error al obtener los datos del formulario:", error);
-      swal(
-        "Ups! Algo salió mal!",
-        "La acción no se pudo realizar correctamente!",
-        "error"
-      );
-    }
-  }
-
-  function reloadSection() {
-    try {
-      fetch("../../controllers/router.php?op=getAllVentas").then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            "Hubo un problema al obtener los detalles de las ventas."
-          );
-        }
-        response.json().then((data) => {
-          miTabla.clear().draw();
-          miTabla.rows.add(data).draw();
         });
-      });
-    } catch (error) {
-      console.error("Error al obtener los detalles de las ventas:", error);
+    } else {
+      console.log("No se ha pasado ningún valor para 'id'");
     }
   }
 
   // Cargar los datos al cargar la página
   reloadSection();
+  calcularSubtotal();
+  function calcularSubtotal() {
+    var subtotal = 0;
+
+    // Iterar sobre los datos de la tabla para sumar los valores de total_producto
+    var tableData = $("#miTabla").DataTable().data();
+    tableData.each(function (dataRow) {
+      subtotal += parseFloat(dataRow.total_producto);
+    });
+
+    // Actualizar el elemento HTML del subtotal
+    $("#subTotal").text("$" + subtotal.toFixed(2));
+
+    // Actualizar el elemento HTML del total sumando el subtotal y el envío
+    var envio = 10; // Valor fijo de envío
+    var total = subtotal + envio;
+    $("#total").text("$" + total.toFixed(2));
+  }
 });

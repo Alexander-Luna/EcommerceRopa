@@ -16,11 +16,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <?php require_once "../productos/modal.php" ?>
-
+                        <?php require_once "../productos/modal.php"; ?>
+                        
                         <table id="miTabla" class="table table-bordered table-hover">
                             <thead>
                                 <tr>

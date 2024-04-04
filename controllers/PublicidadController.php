@@ -23,6 +23,20 @@ class PublicidadController
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
+    public function getSliders()
+    {
+        // Obtener datos desde el modelo
+        $model = new PublicidadModel();
+        $data = $model->getSliders();
+        // Verificar si se encontraron datos
+        if ($data === false || empty($data)) {
+            // No se encontraron datos, devolver un código de estado 204 (Sin contenido)
+            http_response_code(204);
+        } else {
+            // Devolver los datos como JSON
+            echo json_encode($data);
+        }
+    }
     public function updateSliders()
     {
         try {

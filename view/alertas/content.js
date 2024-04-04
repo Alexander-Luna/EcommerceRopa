@@ -106,8 +106,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "Exito al enviar los mensajes:!",
             "success"
           );
-          console.log("Entraaa ");
-          console.log(response);
+//          console.log(response);
         } else {
           const errorMessage = await response.text();
           throw new Error("Error al enviar los mensajes: " + errorMessage);
@@ -131,12 +130,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
       }
       const data = await response.json();
-
-      // Limpiar los datos existentes en la tabla
+      const newData = data.map(item => ({ ...item, cant_pred: 0 }));
       miTabla.clear().draw();
-
-      // Agregar los nuevos datos a la tabla
-      miTabla.rows.add(data).draw();
+      miTabla.rows.add(newData).draw();
     } catch (error) {
       console.error("Error al obtener los detalles del producto:", error);
     }

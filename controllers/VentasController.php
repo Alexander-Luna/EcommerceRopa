@@ -16,10 +16,10 @@ class VentasController
     }
  
 
-    public function getVentaDetail()
+    public function getDetalleVentas()
     {
         $model = new VentaModel();
-        $data = $model->getVentaDetail();
+        $data = $model->getDetalleVentas();
         if ($data === false || empty($data)) {
             http_response_code(204);
         } else {
@@ -32,7 +32,7 @@ class VentasController
     public function getVentas()
     {
         $ventaModel = new VentaModel();
-        $ventas = $ventaModel->getAllVentas();
+        $ventas = $ventaModel->getVentas();
         echo json_encode($ventas);
     }
 

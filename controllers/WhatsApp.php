@@ -9,8 +9,8 @@ class SendWhatsApp
     public function enviarMensajes($productos)
     {
         $token = "PA240328204441";
-
         $client = new Client(['verify' => false]);
+        $respuestas = array();
 
         foreach ($productos as $producto) {
             $messageBody = "Nombre del Producto: " . $producto['nombre'] . "\n";
@@ -36,36 +36,45 @@ class SendWhatsApp
                     'json' => $payload
                 ]);
 
-                echo $response->getStatusCode() . "<br>";
-                echo $response->getBody() . "<br>";
+                $respuesta = array(
+                    'codigo' => $response->getStatusCode(),
+                    'mensaje' => $response->getBody()->getContents()
+                );
+                $respuestas[] = $respuesta;
             } catch (Exception $e) {
                 // Handle errors
-                echo "Error al enviar mensajes: " . $e->getMessage();
+                $respuesta = array(
+                    'codigo' => 500, // Indica un error interno del servidor
+                    'mensaje' => "Error al enviar mensajes: " . $e->getMessage()
+                );
+                $respuestas[] = $respuesta;
             }
         }
+  
+        echo $respuestas;
+     
     }
 }
 
-// Uso de la clase SendWhatsApp
-$sendWhatsApp = new SendWhatsApp();
+// // Uso de la clase SendWhatsApp
+// $sendWhatsApp = new SendWhatsApp();
 
-// Suponiendo que $productos contiene los datos de los productosa
-$productos = array(
-    array(
-        'nombre' => 'Producto 1',
-        'cant_pred' => 5,
-        'nombre_proveedor' => 'Proveedor 1',
-        'stock' => 3,
-        'telefono' => '593981319473' // Número de teléfono para enviar el mensaje
-    ),
-    array(
-        'nombre' => 'Producto 2',
-        'cant_pred' => 10,
-        'nombre_proveedor' => 'Proveedor 2',
-        'stock' => 0,
-        'telefono' => '593981319474' // Otro número de teléfono para enviar el mensaje
-    )
-);
+// // Suponiendo que $productos contiene los datos de los productosa
+// $productos = array(
+//     array(
+//         'nombre' => 'Producto 1',
+//         'cant_pred' => 5,
+//         'nombre_proveedor' => 'Proveedor 1',
+//         'stock' => 3,
+//         'telefono' => '593981319473' // Número de teléfono para enviar el mensaje
+//     ),
+//     array(
+//         'nombre' => 'Producto 2',
+//         'cant_pred' => 10,
+//         'nombre_proveedor' => 'Proveedor 2',
+//         'stock' => 0,
+//         'telefono' => '593981319474' // Otro número de teléfono para enviar el mensaje
+//     )
+// );
 
-$sendWhatsApp->enviarMensajes($productos);
-?>
+// $response = $sendWhatsApp->enviarMensajes($productos);
