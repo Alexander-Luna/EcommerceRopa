@@ -107,10 +107,10 @@ class ProductModel extends Conectar
         $conexion = parent::Conexion();
         $p_id = $_GET["id_prod"];
         try {
-            $sql = "SELECT DISTINCT t.id AS id_talla, t.nombre AS talla 
+            $sql = "SELECT DISTINCT t.id AS id_talla, t.talla 
                 FROM inventario AS i
                 INNER JOIN productos AS p ON i.id_producto = p.id
-                LEFT JOIN Tallas AS t ON i.talla = t.nombre
+                LEFT JOIN tallas AS t ON i.id_talla = t.id
                 WHERE p.id = ?";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $p_id);
@@ -169,12 +169,12 @@ class ProductModel extends Conectar
             $p_id = $_GET["id_prod"];
             $talla = $_GET["talla"];
             $conexion = parent::Conexion();
-            $sql = "SELECT col.id as id_color, col.nombre as color 
+            $sql = "SELECT col.id as id_color, col.color 
                 FROM inventario as i
                 INNER JOIN productos p ON i.id_producto = p.id
-                INNER JOIN Tallas t ON i.talla = t.nombre
-                LEFT JOIN Colores col ON i.id_color = col.id
-                WHERE p.id = ? AND i.talla = ?";
+                INNER JOIN tallas t ON i.id_talla = t.id
+                LEFT JOIN colores col ON i.id_color = col.id
+                WHERE p.id = ? AND i.id_talla = ?";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $p_id);
             $stmt->bindValue(2, $talla);

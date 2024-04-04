@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         response.json().then((producto) => {
           stockMax = producto.stock;
           nombreElement.textContent = producto.nombre;
-          precioElement.textContent = `$${producto.precio_venta}`;
+          precioElement.textContent = `$${producto.precio}`;
           descripcionElement.textContent = producto.descripcion;
           updateStockLabel(stockMax);
           obtenerTallas();
