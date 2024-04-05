@@ -54,6 +54,16 @@ class ProductController
             echo json_encode($data);
         }
     }
+    public function getProductsShop()
+    {
+        $model = new ProductModel();
+        $data = $model->getProductsShop();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
     public function getProductsAlert()
     {
         $model = new ProductModel();

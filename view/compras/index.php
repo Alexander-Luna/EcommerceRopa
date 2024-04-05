@@ -78,7 +78,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-form-label">Agregar Producto</label>
+                                        <label class="col-form-label">Realizar Compra de Productos</label>
                                         <button type="button" id="btnPagar" class="btn btn-primary form-control">Comprar Ahora</button>
                                     </div>
                                 </div>
@@ -94,19 +94,7 @@
 
 
                         <table id="miTabla" class="datatable table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Stock</th>
-                                    <th>Imagen</th>
-                                    <th>Cantidad</th>
-                                    <th>Estado</th>
-                                    <th>Proveedor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Aquí se llenará la tabla con los datos obtenidos de la base de datos -->
-                            </tbody>
+
                         </table>
 
                         <script src="../compras/content.js"></script>

@@ -40,6 +40,9 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getProducts':
                 $productController->getProducts();
                 break;
+                case 'getProductsShop':
+                    $productController->getProductsShop();
+                    break;
             case 'getProductsAlert':
                 $productController->getProductsAlert();
                 break;
@@ -202,7 +205,7 @@ function handlePostRequest($action, $productController, $userController, $ventaC
 
 
         case 'insertCompra':
-            $compraController->insertCompra();
+            $compraController->insertCompras();
             break;
         case 'updateCompra':
             $publicidadController->updateSliders();

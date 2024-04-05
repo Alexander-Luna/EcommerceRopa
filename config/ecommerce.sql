@@ -145,7 +145,6 @@ CREATE TABLE detalles_compra (
     id_variante_producto INT,
     cantidad INT,
     precio_unitario DECIMAL(10, 2),
-    total_producto DECIMAL(10, 2),
     est INT DEFAULT 1,
     FOREIGN KEY (id_compra) REFERENCES compras(id),
     FOREIGN KEY (id_variante_producto) REFERENCES inventario(id)

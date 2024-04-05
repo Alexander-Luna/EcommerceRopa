@@ -96,70 +96,7 @@ INSERT INTO productos (id, nombre, descripcion, id_genero, id_tipo_prenda, id_oc
 (28, 'Bufanda de seda', 'Bufanda de seda suave', 3, 4, 1),
 (29, 'Gabardina', 'Gabardina beige clásica', 2, 5, 2),
 (30, 'Pantalones de vestir', 'Pantalones de vestir de color gris', 1, 6, 3);
-INSERT INTO inventario (id_producto, id_color, id_talla, stock, precio) VALUES
-(1, 1, 1, 50, 29.99),
-(1, 2, 2, 30, 39.99),
-(2, 1, 1, 20, 49.99),
-(2, 3, 2, 10, 59.99),
-(3, 1, 1, 15, 34.99),
-(3, 2, 2, 25, 44.99),
-(4, 1, 1, 10, 69.99),
-(4, 2, 2, 5, 79.99),
-(5, 1, 1, 40, 49.99),
-(5, 2, 2, 20, 59.99),
-(6, 1, 1, 25, 39.99),
-(6, 2, 2, 15, 49.99),
-(7, 1, 1, 30, 59.99),
-(7, 2, 2, 10, 69.99),
-(8, 1, 1, 20, 19.99),
-(8, 2, 2, 15, 24.99),
-(9, 1, 1, 0, 14.99),
-(9, 2, 2, 0, 19.99),
-(10, 1, 1, 5, 79.99),
-(10, 2, 2, 0, 89.99),
-(11, 1, 1, 30, 29.99),
-(11, 2, 2, 20, 34.99),
-(12, 1, 1, 15, 19.99),
-(12, 2, 2, 10, 24.99),
-(13, 1, 1, 25, 69.99),
-(13, 2, 2, 15, 79.99),
-(14, 1, 1, 10, 54.99),
-(14, 2, 2, 5, 64.99),
-(15, 1, 1, 35, 44.99),
-(15, 2, 2, 25, 54.99),
-(16, 1, 1, 20, 39.99),
-(16, 2, 2, 10, 49.99),
-(17, 1, 1, 25, 24.99),
-(17, 2, 2, 15, 29.99),
-(18, 1, 1, 15, 59.99),
-(18, 2, 2, 10, 69.99),
-(19, 1, 1, 10, 89.99),
-(19, 2, 2, 5, 99.99),
-(20, 1, 1, 20, 14.99),
-(20, 2, 2, 15, 19.99),
-(21, 1, 1, 30, 29.99),
-(21, 2, 2, 20, 34.99),
-(22, 1, 1, 15, 39.99),
-(22, 2, 2, 10, 49.99),
-(23, 1, 1, 25, 19.99),
-(23, 2, 2, 15, 24.99),
-(24, 1, 1, 10, 69.99),
-(24, 2, 2, 5, 79.99),
-(25, 1, 1, 35, 44.99),
-(25, 2, 2, 25, 54.99),
-(26, 1, 1, 20, 29.99),
-(26, 2, 2, 10, 34.99),
-(27, 1, 1, 25, 19.99),
-(27, 2, 2, 15, 24.99),
-(28, 1, 1, 15, 39.99),
-(28, 2, 2, 10, 49.99),
-(29, 1, 1, 10, 69.99),
-(29, 2, 2, 5, 79.99),
-(30, 1, 1, 35, 44.99),
-(30, 2, 2, 25, 54.99);
 
-
-INSERT INTO productos_proveedores (id_producto, id_proveedor) VALUES (1, 1), (2, 2), (3, 3), (4, 4);
 
 INSERT INTO imagenes_producto (id_producto, url_imagen, orden, est) VALUES
 (1, '../../public/images/products/product-01.jpg', 1, 1),
@@ -168,15 +105,3 @@ INSERT INTO imagenes_producto (id_producto, url_imagen, orden, est) VALUES
 (2, '../../public/images/products/product-04.jpg', 2, 1);
 
 
--- Insertar datos de ejemplo en la tabla ventas
-INSERT INTO ventas (id_client,fecha, total, id_recibe)
-VALUES 
-(1,'2024-04-03 10:00:00', 150.50, 1),
-(2,'2024-04-03 11:30:00', 200.75, 2),
-(3,'2024-04-03 13:45:00', 100.00, 3);
--- Insertar datos de ejemplo en la tabla detalles_venta
-INSERT INTO detalles_venta (id_venta, id_variante_producto, cantidad, precio_unitario, total_producto)
-VALUES 
-(1, 1, 2, 25.50, 51.00),
-(1, 2, 1, 35.75, 35.75),
-(2, 3, 3, 20.00, 60.00);

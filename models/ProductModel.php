@@ -8,14 +8,16 @@ class ProductModel extends Conectar
         try {
             $conexion = parent::Conexion();
 
-            $sql = "SELECT o.nombre as ocasion,i.*, p.*, c.color, g.nombre as genero, t.desc_talla, t.talla, img.url_imagen as imagen
+            $sql = "SELECT prov.nombre AS prov_nombre, prov.*, i.*, p.*, c.color, g.nombre AS genero, t.desc_talla, t.talla, img.url_imagen AS imagen
             FROM inventario i
-            INNER JOIN productos p ON i.id_producto = p.id
+            INNER JOIN productos_proveedores pp ON i.id_producto = pp.id_producto
+            INNER JOIN productos p ON pp.id_producto = p.id
             INNER JOIN genero g ON p.id_genero = g.id
-            INNER JOIN ocasion o ON p.id_ocasion = o.id
             LEFT JOIN colores c ON i.id_color = c.id
             LEFT JOIN tallas t ON i.id_talla = t.id
-            LEFT JOIN imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1";
+            LEFT JOIN proveedores prov ON pp.id_proveedor = prov.id
+            LEFT JOIN imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
+            ;";
 
 
             $stmt = $conexion->prepare($sql);
@@ -29,6 +31,38 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+    public function getProductsShop()
+    {
+        try {
+            $conexion = parent::Conexion();
+
+            $sql = "SELECT i.*, p.*, c.color, g.nombre AS genero, t.desc_talla, t.talla, img.url_imagen AS imagen
+            FROM (
+                SELECT *,
+                       ROW_NUMBER() OVER (PARTITION BY id_producto ORDER BY precio) AS row_num
+                FROM inventario
+            ) i
+            INNER JOIN productos p ON i.id_producto = p.id
+            INNER JOIN genero g ON p.id_genero = g.id
+            LEFT JOIN colores c ON i.id_color = c.id
+            LEFT JOIN tallas t ON i.id_talla = t.id
+            LEFT JOIN imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
+            WHERE i.row_num = 1;
+            ";
+
+
+            $stmt = $conexion->prepare($sql);
+
+
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
+
     public function getProducts()
     {
         try {

@@ -116,7 +116,7 @@ if (isset($_SESSION['user_session'])) {
                   <li class="nav-item">
                     <a href="index.php?modulo=mercancias" class="nav-link <?php echo ($modulo == "mercancias") ? " active " : " "; ?> ">
                       <i class="fa fa-table nav-icon"></i>
-                      <p>Mercancia</p>
+                      <p>Mercancía</p>
                     </a>
                   </li>
                 </ul>

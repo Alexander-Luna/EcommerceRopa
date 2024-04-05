@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   async function reloadSection() {
     try {
       const response = await fetch(
-        "../../controllers/router.php?op=getProducts"
+        "../../controllers/router.php?op=getProductsShop"
       );
       data = await response.json();
       mostrarElementosEnBloques(data);

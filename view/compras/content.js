@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("btnAdd").addEventListener("click", function () {
-    // Obtener el ID del producto
-    const id = document.getElementById("id_hidden").value;
-
     // Obtener los valores del formulario
     const id_producto = document.getElementById("id_producto").value;
     const id_proveedor = document.getElementById("id_proveedor").value;
@@ -11,103 +8,198 @@ document.addEventListener("DOMContentLoaded", async function () {
     const precio = document.getElementById("precio").value;
     const id_color = document.getElementById("id_color").value;
     const id_talla = document.getElementById("id_talla").value;
+    if (
+      id_producto.trim() !== "" &&
+      id_proveedor.trim() !== "" &&
+      costo.trim() !== "" &&
+      stock.trim() !== "" &&
+      precio.trim() !== "" &&
+      id_color.trim() !== "" &&
+      id_talla.trim() !== ""
+    ) {
+      const id = document.getElementById("id_hidden").value;
+      const nombre_producto =
+        document.getElementById("id_producto").options[
+          document.getElementById("id_producto").selectedIndex
+        ].text;
+      const nombre_proveedor =
+        document.getElementById("id_proveedor").options[
+          document.getElementById("id_proveedor").selectedIndex
+        ].text;
+      const nombre_color =
+        document.getElementById("id_color").options[
+          document.getElementById("id_color").selectedIndex
+        ].text;
+      const nombre_talla =
+        document.getElementById("id_talla").options[
+          document.getElementById("id_talla").selectedIndex
+        ].text;
 
-    // Obtener los nombres visibles seleccionados de los select
-    const nombre_producto =
-      document.getElementById("id_producto").options[
-        document.getElementById("id_producto").selectedIndex
-      ].text;
-    const nombre_proveedor =
-      document.getElementById("id_proveedor").options[
-        document.getElementById("id_proveedor").selectedIndex
-      ].text;
-    const nombre_color =
-      document.getElementById("id_color").options[
-        document.getElementById("id_color").selectedIndex
-      ].text;
-    const nombre_talla =
-      document.getElementById("id_talla").options[
-        document.getElementById("id_talla").selectedIndex
-      ].text;
-
-    if (id === "") {
-      // Si el ID es null, agregar un nuevo producto
-      const uniqueId = Date.now(); // Generar un ID único para el producto
-
-      const producto = {
-        id: uniqueId,
-        id_producto: id_producto,
-        nombre_producto: nombre_producto,
-        id_proveedor: id_proveedor,
-        nombre_proveedor: nombre_proveedor,
-        costo: costo,
-        stock: stock,
-        precio: precio,
-        id_color: id_color,
-        nombre_color: nombre_color,
-        id_talla: id_talla,
-        nombre_talla: nombre_talla,
-      };
-
-      // Obtener los datos guardados en LocalStorage (si existen)
-      let productosGuardados =
-        JSON.parse(localStorage.getItem("productos")) || [];
-
-      // Agregar el nuevo producto al array de productos
-      productosGuardados.push(producto);
-
-      // Guardar el array de productos actualizado en LocalStorage
-      localStorage.setItem("productos", JSON.stringify(productosGuardados));
-
-      // Limpiar los campos del formulario después de agregar el producto
-      //clearFormFields();
-      swal(
-        "En Hora Buena!",
-        "La acción se realizó de manera exitosa!",
-        "success"
-      );
-      reloadSection();
-    } else {
-      // Si el ID no es null, actualizar el producto existente en el localStorage
-      const productosGuardados =
-        JSON.parse(localStorage.getItem("productos")) || [];
-      console.log(id);
-      const index = productosGuardados.findIndex(
-        (producto) => producto.id.toString() === id.toString()
-      );
-
-      if (index !== -1) {
-        // Actualizar el producto existente con los nuevos valores
-        productosGuardados[index].id_producto = id_producto;
-        productosGuardados[index].nombre_producto = nombre_producto;
-        productosGuardados[index].id_proveedor = id_proveedor;
-        productosGuardados[index].nombre_proveedor = nombre_proveedor;
-        productosGuardados[index].costo = costo;
-        productosGuardados[index].stock = stock;
-        productosGuardados[index].precio = precio;
-        productosGuardados[index].id_color = id_color;
-        productosGuardados[index].nombre_color = nombre_color;
-        productosGuardados[index].id_talla = id_talla;
-        productosGuardados[index].nombre_talla = nombre_talla;
-
+      if (id === "") {
+        const uniqueId = Date.now(); // Generar un ID único para el producto
+        const producto = {
+          id: uniqueId,
+          id_producto: id_producto,
+          nombre_producto: nombre_producto,
+          id_proveedor: id_proveedor,
+          nombre_proveedor: nombre_proveedor,
+          costo: costo,
+          stock: stock,
+          precio: precio,
+          id_color: id_color,
+          nombre_color: nombre_color,
+          id_talla: id_talla,
+          nombre_talla: nombre_talla,
+        };
+        let productosGuardados =
+          JSON.parse(localStorage.getItem("productos")) || [];
+        productosGuardados.push(producto);
         localStorage.setItem("productos", JSON.stringify(productosGuardados));
-        document.getElementById("id_hidden").value = "";
         swal(
           "En Hora Buena!",
           "La acción se realizó de manera exitosa!",
           "success"
         );
-        clearFormFields();
         reloadSection();
       } else {
+        const productosGuardados =
+          JSON.parse(localStorage.getItem("productos")) || [];
+        console.log(id);
+        const index = productosGuardados.findIndex(
+          (producto) => producto.id.toString() === id.toString()
+        );
+
+        if (index !== -1) {
+          productosGuardados[index].id_producto = id_producto;
+          productosGuardados[index].nombre_producto = nombre_producto;
+          productosGuardados[index].id_proveedor = id_proveedor;
+          productosGuardados[index].nombre_proveedor = nombre_proveedor;
+          productosGuardados[index].costo = costo;
+          productosGuardados[index].stock = stock;
+          productosGuardados[index].precio = precio;
+          productosGuardados[index].id_color = id_color;
+          productosGuardados[index].nombre_color = nombre_color;
+          productosGuardados[index].id_talla = id_talla;
+          productosGuardados[index].nombre_talla = nombre_talla;
+
+          localStorage.setItem("productos", JSON.stringify(productosGuardados));
+          document.getElementById("id_hidden").value = "";
+          swal(
+            "En Hora Buena!",
+            "La acción se realizó de manera exitosa!",
+            "success"
+          );
+          clearFormFields();
+          reloadSection();
+        } else {
+          swal(
+            "Ups! Algo salió mal!",
+            "La acción no se pudo realizar correctamente!",
+            "error"
+          );
+        }
+      }
+    } else {
+      swal(
+        "Ups! Algo salió mal!",
+        "Por favor, complete todos los campos.",
+        "error"
+      );
+    }
+  });
+
+  document.getElementById("btnPagar").addEventListener("click", function () {
+    // Obtener los productos del localStorage
+    const productos = JSON.parse(localStorage.getItem("productos")) || [];
+
+    // Agrupar los productos por id_proveedor
+    const productosPorProveedor = {};
+    productos.forEach((producto) => {
+      if (!productosPorProveedor[producto.id_proveedor]) {
+        productosPorProveedor[producto.id_proveedor] = {
+          productos: [],
+          totalCompra: 0,
+        };
+      }
+      const costoProducto = parseFloat(producto.costo);
+      const stockProducto = parseInt(producto.stock);
+      const totalProducto = costoProducto * stockProducto;
+      productosPorProveedor[producto.id_proveedor].productos.push(producto);
+      productosPorProveedor[producto.id_proveedor].totalCompra += totalProducto;
+    });
+
+    const promises = [];
+
+    for (const id_proveedor in productosPorProveedor) {
+      const productosProveedor = productosPorProveedor[id_proveedor].productos;
+      const totalCompraProveedor =
+        productosPorProveedor[id_proveedor].totalCompra;
+
+      // Agregar el total de la compra como un campo adicional en cada objeto productosProveedor
+      productosProveedor.forEach((producto) => {
+        producto.total = totalCompraProveedor;
+      });
+
+      promises.push(enviarProductosAlServidor(productosProveedor));
+    }
+
+    Promise.all(promises)
+      .then(() => {
+        // Si todas las inserciones fueron exitosas, eliminar los productos del localStorage
+        eliminarProductosLocalStorage();
+        // Mostrar un mensaje de éxito
+        swal(
+          "En Hora Buena!",
+          "Todas las acciones se realizaron de manera exitosa!",
+          "success"
+        );
+      })
+      .catch((error) => {
         swal(
           "Ups! Algo salió mal!",
           "La acción no se pudo realizar correctamente!",
           "error"
         );
-      }
-    }
+        console.error("Error al insertar los productos:", error);
+      });
   });
+
+  function enviarProductosAlServidor(productos) {
+    return new Promise((resolve, reject) => {
+      try {
+        console.log(productos);
+        const formData = new FormData();
+        formData.append("productos", JSON.stringify(productos));
+        fetch("../../controllers/router.php?op=insertCompra", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              swal(
+                "Ups! Algo salió mal!",
+                "La acción no se pudo realizar correctamente!",
+                "error"
+              );
+              throw new Error("Hubo un problema al insertar los productos.");
+            }
+            console.log(response);
+            resolve();
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  function eliminarProductosLocalStorage() {
+    // Eliminar los productos del localStorage
+    localStorage.removeItem("productos");
+    reloadSection();
+  }
 
   function clearFormFields() {
     // Limpiar los campos del formulario después de agregar el producto

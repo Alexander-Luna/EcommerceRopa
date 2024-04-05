@@ -211,44 +211,70 @@ INNER JOIN usuarios u ON v.id_client = u.id;
     public function insertCompras()
     {
         try {
-            $id_user = $_POST["id_user"]; // Asumiendo que tienes un campo en el formulario para el ID del usuario
-            $total = $_POST["total"];
-            $id_proveedor = $_POST["id_proveedor"];
+            // Obtener el ID del usuario de la sesión
+            session_start();
+            $userData = $_SESSION['user_session'];
+            $id_user =  $userData['user_id'];
+
+            // Obtener los datos de la solicitud y decodificarlos
+            $productos = json_decode($_POST["productos"], true);
+
+            // Verificar si la decodificación fue exitosa
+            if ($productos === null && json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception("Error al decodificar los datos de los productos.");
+            }
+
+            // Tomar el total de compra del primer producto
+            $totalCompra = $productos[0]["total"];
 
             $conexion = parent::Conexion();
             $conexion->beginTransaction(); // Iniciar una transacción
+
             // Insertar datos en la tabla compras
             $sqlCompra = "INSERT INTO compras (id_user, total, id_proveedor) VALUES (?, ?, ?)";
             $stmtCompra = $conexion->prepare($sqlCompra);
             $stmtCompra->bindValue(1, $id_user);
-            $stmtCompra->bindValue(2, $total);
-            $stmtCompra->bindValue(3, $id_proveedor);
+            $stmtCompra->bindValue(2, $totalCompra);
+            $stmtCompra->bindValue(3, $productos[0]["id_proveedor"]);
             $stmtCompra->execute();
 
             // Obtener el ID de la compra insertada
-            $id_compra = $conexion->lastInsertId();
+            $idCompra = $conexion->lastInsertId();
 
-            // Insertar datos en la tabla detalles_compra
-            $productos = $_POST["productos"]; // Asumiendo que tienes un array de productos desde el formulario
             foreach ($productos as $producto) {
-                $id_variante_producto = $producto["id_variante_producto"];
-                $cantidad = $producto["cantidad"];
-                $precio_unitario = $producto["precio_unitario"];
-                $total_producto = $producto["total_producto"];
+                $idProducto = $producto["id_producto"];
+                $cantidad = $producto["stock"]; // Cantidad obtenida del stock
+                $precioUnitario = $producto["costo"]; // Precio unitario obtenido del costo
 
-                $sqlDetalleCompra = "INSERT INTO detalles_compra (id_compra, id_variante_producto, cantidad, precio_unitario, total_producto) VALUES (?, ?, ?, ?, ?)";
+                // Insertar datos en la tabla inventario
+                $sqlInventario = "INSERT INTO inventario (id_producto, id_color, id_talla, stock, precio) VALUES (?, ?, ?, ?, ?)";
+                $stmtInventario = $conexion->prepare($sqlInventario);
+                $stmtInventario->bindValue(1, $idProducto);
+                $stmtInventario->bindValue(2, $producto["id_color"]);
+                $stmtInventario->bindValue(3, $producto["id_talla"]);
+                $stmtInventario->bindValue(4, $cantidad);
+                $stmtInventario->bindValue(5, $precioUnitario);
+                $stmtInventario->execute();
+                $idInventario = $conexion->lastInsertId();
+
+                // Insertar datos en la tabla detalles_compra
+                $sqlDetalleCompra = "INSERT INTO detalles_compra (id_compra, id_variante_producto, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
                 $stmtDetalleCompra = $conexion->prepare($sqlDetalleCompra);
-                $stmtDetalleCompra->bindValue(1, $id_compra);
-                $stmtDetalleCompra->bindValue(2, $id_variante_producto);
+                $stmtDetalleCompra->bindValue(1, $idCompra);
+                $stmtDetalleCompra->bindValue(2, $idInventario);
                 $stmtDetalleCompra->bindValue(3, $cantidad);
-                $stmtDetalleCompra->bindValue(4, $precio_unitario);
-                $stmtDetalleCompra->bindValue(5, $total_producto);
+                $stmtDetalleCompra->bindValue(4, $precioUnitario);
                 $stmtDetalleCompra->execute();
+
+                // Insertar producto proveedor
+                $sqlProductoProveedor = "INSERT INTO productos_proveedores (id_producto, id_proveedor) VALUES (?, ?);";
+                $stmtProductoProveedor = $conexion->prepare($sqlProductoProveedor);
+                $stmtProductoProveedor->bindValue(1, $producto["id_producto"]);
+                $stmtProductoProveedor->bindValue(2, $producto["id_proveedor"]);
+                $stmtProductoProveedor->execute();
             }
 
-            // Confirmar la transacción
             $conexion->commit();
-
             return true; // Todo se ha realizado correctamente
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error

@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Inicializar DataTables
   var miTabla = $("#miTabla").DataTable({
     columns: [
-      { data: "nombre" }, // Nombre
-      { data: "descripcion" }, // Descripción
+      { data: "nombre", title: "Nombre" }, // Nombre
+      { data: "descripcion", title: "Descripción" }, // Descripción
       {
         data: "imagen",
         title: "Imagen",
@@ -87,13 +87,14 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
         },
       },
-      { data: "talla" }, // Talla
-      { data: "ocasion" },
-      { data: "color" }, // Color
-      { data: "stock" }, // Stock
-      { data: "genero" }, // Género
+      { data: "talla", title: "talla" }, // Talla
+      { data: "ocasion", title: "ocacion" },
+      { data: "color", title: "color" }, // Color
+      { data: "stock", title: "stock" }, // Stock
+      { data: "genero", title: "genero" }, // Género
       {
         data: null,
+        title: "Acciones",
         render: function (data, type, row) {
           return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
                   <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
@@ -157,77 +158,79 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   function insertar() {
     try {
-        // Obtener los datos del formulario
-        const id = document.getElementById("id").value;
-        const nombre = document.getElementById("nombre").value;
-        const descripcion = document.getElementById("descripcion").value;
-        const imagenes = document.getElementById("imagenes").files;
+      // Obtener los datos del formulario
+      const id = document.getElementById("id").value;
+      const nombre = document.getElementById("nombre").value;
+      const descripcion = document.getElementById("descripcion").value;
+      const imagenes = document.getElementById("imagenes").files;
 
-        // Crear un objeto FormData para enviar los datos al servidor
-        const formData = new FormData();
-        formData.append("nombre", nombre);
-        formData.append("descripcion", descripcion);
-        for (let i = 0; i < imagenes.length; i++) {
-            formData.append("imagenes[]", imagenes[i]);
-        }
+      // Crear un objeto FormData para enviar los datos al servidor
+      const formData = new FormData();
+      formData.append("nombre", nombre);
+      formData.append("descripcion", descripcion);
+      for (let i = 0; i < imagenes.length; i++) {
+        formData.append("imagenes[]", imagenes[i]);
+      }
 
-        // Obtener los valores seleccionados de los selects
-        const genero = document.getElementById("id_genero").value;
-        const tipoPrenda = document.getElementById("id_tipo_prenda").value;
-        const ocasion = document.getElementById("id_ocasion").value;
-        formData.append("id_genero", genero);
-        formData.append("id_tipo_prenda", tipoPrenda);
-        formData.append("id_ocasion", ocasion);
+      // Obtener los valores seleccionados de los selects
+      const genero = document.getElementById("id_genero").value;
+      const tipoPrenda = document.getElementById("id_tipo_prenda").value;
+      const ocasion = document.getElementById("id_ocasion").value;
+      formData.append("id_genero", genero);
+      formData.append("id_tipo_prenda", tipoPrenda);
+      formData.append("id_ocasion", ocasion);
 
-        const url = id === "" ? "../../controllers/router.php?op=insertProduct" : "../../controllers/router.php?op=updateProduct";
-        // Realizar la solicitud POST al servidor para insertar o actualizar el producto
-        fetch(url, {
-            method: "POST",
-            body: formData,
-        })
+      const url =
+        id === ""
+          ? "../../controllers/router.php?op=insertProduct"
+          : "../../controllers/router.php?op=updateProduct";
+      // Realizar la solicitud POST al servidor para insertar o actualizar el producto
+      fetch(url, {
+        method: "POST",
+        body: formData,
+      })
         .then((response) => {
-            if (!response.ok) {
-                swal(
-                    "Ups! Algo salió mal!",
-                    "La acción no se pudo realizar correctamente!",
-                    "error"
-                );
-                throw new Error(
-                    "Hubo un problema al insertar o actualizar el producto."
-                );
-            }
-            console.log(response);
-            // Si la inserción o actualización fue exitosa, ocultar el modal y mostrar un mensaje de éxito
-            $("#miModal").modal("hide");
+          if (!response.ok) {
             swal(
-                "En Hora Buena!",
-                "La acción se realizó de manera exitosa!",
-                "success"
+              "Ups! Algo salió mal!",
+              "La acción no se pudo realizar correctamente!",
+              "error"
             );
-            reloadSection();
+            throw new Error(
+              "Hubo un problema al insertar o actualizar el producto."
+            );
+          }
+          console.log(response);
+          // Si la inserción o actualización fue exitosa, ocultar el modal y mostrar un mensaje de éxito
+          $("#miModal").modal("hide");
+          swal(
+            "En Hora Buena!",
+            "La acción se realizó de manera exitosa!",
+            "success"
+          );
+          reloadSection();
         })
         .catch((error) => {
-            swal(
-                "Ups! Algo salió mal!",
-                "La acción no se pudo realizar correctamente!",
-                "error"
-            );
-            console.error("Error al insertar o actualizar el producto:", error);
-        });
-    } catch (error) {
-        console.error("Error al obtener los datos del formulario:", error);
-        swal(
+          swal(
             "Ups! Algo salió mal!",
             "La acción no se pudo realizar correctamente!",
             "error"
-        );
+          );
+          console.error("Error al insertar o actualizar el producto:", error);
+        });
+    } catch (error) {
+      console.error("Error al obtener los datos del formulario:", error);
+      swal(
+        "Ups! Algo salió mal!",
+        "La acción no se pudo realizar correctamente!",
+        "error"
+      );
     }
-}
-
+  }
 
   function reloadSection() {
     try {
-      fetch("../../controllers/router.php?op=getProducts").then((response) => {
+      fetch("../../controllers/router.php?op=getAllProducts").then((response) => {
         if (!response.ok) {
           throw new Error(
             "Hubo un problema al obtener los detalles del producto."

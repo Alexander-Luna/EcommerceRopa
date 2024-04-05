@@ -21,22 +21,7 @@
                         <?php require_once "../productos/modal.php"; ?>
                         
                         <table id="miTabla" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Descripción</th>
-                                    <th>Imagen</th>
-                                    <th>Talla</th>
-                                    <th>Tipo</th>
-                                    <th>Color</th>
-                                    <th>Stock</th>
-                                    <th>Género</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Aquí se llenará la tabla con los datos obtenidos de la base de datos -->
-                            </tbody>
+                         
                         </table>
                         <script src="../productos/content.js"></script>
                     </div>
