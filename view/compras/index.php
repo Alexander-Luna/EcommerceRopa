@@ -28,6 +28,7 @@
                                         <select class="form-control" id="id_producto" name="id_producto" required>
                                             <option value="">Seleccione...</option>
                                         </select>
+
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Proveedor:</label>
@@ -67,6 +68,7 @@
                                     <div class="form-group">
                                         <label class="col-form-label">Agregar Producto</label>
                                         <button type="button" id="btnAdd" class="btn btn-info form-control">Guardar</button>
+
                                     </div>
                                 </div>
                                 <div class="col-md-2">

@@ -74,4 +74,14 @@ class Controller
             echo json_encode($data);
         }
     }
+    public function getCategorias()
+    {
+        $model = new InventarioModel();
+        $data = $model->getCategorias();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
 }

@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("btnAdd").addEventListener("click", function () {
-    // Obtener los valores del formulario
     const id_producto = document.getElementById("id_producto").value;
     const id_proveedor = document.getElementById("id_proveedor").value;
     const costo = document.getElementById("costo").value;
@@ -109,10 +108,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   document.getElementById("btnPagar").addEventListener("click", function () {
-    // Obtener los productos del localStorage
     const productos = JSON.parse(localStorage.getItem("productos")) || [];
-
-    // Agrupar los productos por id_proveedor
     const productosPorProveedor = {};
     productos.forEach((producto) => {
       if (!productosPorProveedor[producto.id_proveedor]) {
@@ -134,8 +130,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       const productosProveedor = productosPorProveedor[id_proveedor].productos;
       const totalCompraProveedor =
         productosPorProveedor[id_proveedor].totalCompra;
-
-      // Agregar el total de la compra como un campo adicional en cada objeto productosProveedor
       productosProveedor.forEach((producto) => {
         producto.total = totalCompraProveedor;
       });
@@ -145,9 +139,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     Promise.all(promises)
       .then(() => {
-        // Si todas las inserciones fueron exitosas, eliminar los productos del localStorage
         eliminarProductosLocalStorage();
-        // Mostrar un mensaje de éxito
         swal(
           "En Hora Buena!",
           "Todas las acciones se realizaron de manera exitosa!",
@@ -196,13 +188,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   function eliminarProductosLocalStorage() {
-    // Eliminar los productos del localStorage
     localStorage.removeItem("productos");
     reloadSection();
   }
 
   function clearFormFields() {
-    // Limpiar los campos del formulario después de agregar el producto
     document.getElementById("id_hidden").value = "";
     document.getElementById("id_producto").value = "Seleccione...";
     document.getElementById("id_proveedor").value = "Seleccione...";
@@ -410,69 +400,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     reloadSection();
   });
 
-  function insertar() {
-    try {
-      // Obtener los datos del formulario
-      const id_producto = document.getE;
-      productos.forEach((producto) => {});
-      lementById("id_producto").value;
-      const stock = document.getElementById("stock").value;
-      const stock_alert = document.getElementById("stock_alert").value;
-      const id_color = document.getElementById("id_color").value;
-      const id_talla = document.getElementById("id_talla").value;
-      const id_proveedor = document.getElementById("id_proveedor").value;
-
-      // Crear un objeto FormData para enviar los datos al servidor
-      const formData = new FormData();
-      formData.append("id_producto", id_producto);
-      formData.append("stock", stock);
-      formData.append("stock_alert", stock_alert);
-      formData.append("id_color", id_color);
-      formData.append("id_talla", id_talla);
-      formData.append("id_proveedor", id_proveedor);
-
-      const url = "../../controllers/router.php?op=insertCompra"; // Siempre es una nueva inserción en este caso
-      // Realizar la solicitud POST al servidor para insertar el nuevo producto
-      fetch(url, {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => {
-          if (!response.ok) {
-            swal(
-              "Ups! Algo salió mal!",
-              "La acción no se pudo realizar correctamente!",
-              "error"
-            );
-            throw new Error("Hubo un problema al insertar el nuevo producto.");
-          }
-          console.log(response);
-          // Si la inserción fue exitosa, ocultar el modal y mostrar un mensaje de éxito
-          $("#miModal").modal("hide");
-          swal(
-            "En Hora Buena!",
-            "La acción se realizó de manera exitosa!",
-            "success"
-          );
-          reloadSection();
-        })
-        .catch((error) => {
-          swal(
-            "Ups! Algo salió mal!",
-            "La acción no se pudo realizar correctamente!",
-            "error"
-          );
-          console.error("Error al insertar el nuevo producto:", error);
-        });
-    } catch (error) {
-      console.error("Error al obtener los datos del formulario:", error);
-      swal(
-        "Ups! Algo salió mal!",
-        "La acción no se pudo realizar correctamente!",
-        "error"
-      );
-    }
-  }
+  
 
   function reloadSection() {
     try {

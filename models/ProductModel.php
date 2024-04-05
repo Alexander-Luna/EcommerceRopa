@@ -36,17 +36,16 @@ class ProductModel extends Conectar
         try {
             $conexion = parent::Conexion();
 
-            $sql = "SELECT i.*, p.*, c.color, g.nombre AS genero, t.desc_talla, t.talla, img.url_imagen AS imagen
+            $sql = "SELECT i.*, p.*, g.nombre AS genero, img.url_imagen AS imagen
             FROM (
                 SELECT *,
                        ROW_NUMBER() OVER (PARTITION BY id_producto ORDER BY precio) AS row_num
                 FROM inventario
-            ) i
-            INNER JOIN productos p ON i.id_producto = p.id
-            INNER JOIN genero g ON p.id_genero = g.id
-            LEFT JOIN colores c ON i.id_color = c.id
-            LEFT JOIN tallas t ON i.id_talla = t.id
-            LEFT JOIN imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
+                WHERE stock > 0
+            ) AS i
+            JOIN productos AS p ON i.id_producto = p.id
+            JOIN genero AS g ON p.id_genero = g.id
+            LEFT JOIN imagenes_producto AS img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
             WHERE i.row_num = 1;
             ";
 
@@ -62,7 +61,31 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+    public function getPrecioShop()
+    {
+        try {
+            $talla_id = $_GET['talla_id'];
+            $color_id = $_GET['color_id'];
+            $prod_id = $_GET['prod_id'];
+            $conexion = parent::Conexion();
 
+            $sql = "SELECT id_producto, id_color, id_talla, AVG(precio) AS precio, SUM(stock) AS stock
+                    FROM inventario
+                    WHERE stock > 0 AND id_color = ? AND id_talla = ? AND id_producto = ?
+                    GROUP BY id_producto, id_color, id_talla";
+
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $color_id);
+            $stmt->bindValue(2, $talla_id);
+            $stmt->bindValue(3, $prod_id);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
     public function getProducts()
     {
         try {
@@ -136,10 +159,16 @@ class ProductModel extends Conectar
         $p_id = $_GET["id"];
         try {
             $conexion = parent::Conexion();
-            $sql = "SELECT p.id, p.nombre, p.descripcion, i.precio, i.stock 
+            $sql = "SELECT sub.* 
+            FROM (
+                SELECT p.id, p.nombre, p.descripcion, i.precio, i.stock, i.id_talla, i.id_color,
+                       ROW_NUMBER() OVER (PARTITION BY p.id ORDER BY i.precio) AS row_num
                 FROM inventario AS i
                 INNER JOIN productos AS p ON i.id_producto = p.id
-                WHERE p.id = ?";
+                WHERE p.id = ? AND i.stock > 0
+            ) AS sub
+            WHERE sub.row_num = 1;
+             ";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $p_id);
             $stmt->execute();
@@ -151,26 +180,7 @@ class ProductModel extends Conectar
         }
     }
 
-    public function getTallasProd()
-    {
-        $conexion = parent::Conexion();
-        $p_id = $_GET["id_prod"];
-        try {
-            $sql = "SELECT DISTINCT t.id AS id_talla, t.talla 
-                FROM inventario AS i
-                INNER JOIN productos AS p ON i.id_producto = p.id
-                LEFT JOIN tallas AS t ON i.id_talla = t.id
-                WHERE p.id = ?";
-            $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $p_id);
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $data;
-        } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
-        }
-    }
 
     public function getImgProd()
     {
@@ -190,7 +200,26 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+    public function getAllImgProd()
+    {
+        $conexion = parent::Conexion();
+        $p_id = $_GET["id"];
+        try {
+            $sql = "SELECT * 
+            FROM imagenes_producto
+            WHERE id_producto = ? AND est = 1
+            ORDER BY orden ASC;
+            ";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $p_id);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
     public function getWishList()
     {
         $conexion = parent::Conexion();
@@ -218,12 +247,11 @@ class ProductModel extends Conectar
             $p_id = $_GET["id_prod"];
             $talla = $_GET["talla"];
             $conexion = parent::Conexion();
-            $sql = "SELECT col.id as id_color, col.color 
-                FROM inventario as i
-                INNER JOIN productos p ON i.id_producto = p.id
-                INNER JOIN tallas t ON i.id_talla = t.id
-                LEFT JOIN colores col ON i.id_color = col.id
-                WHERE p.id = ? AND i.id_talla = ?";
+            $sql = "SELECT DISTINCT col.id AS id_color, col.color ,i.id_talla
+                FROM inventario AS i
+                INNER JOIN colores AS col ON i.id_color = col.id
+                WHERE i.id_producto = ? AND i.id_talla = ? AND i.stock > 0;
+            ";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $p_id);
             $stmt->bindValue(2, $talla);
@@ -235,6 +263,30 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+
+    public function getTallasColor()
+    {
+        try {
+            $p_id = $_GET["id_prod"];
+            $color = $_GET["color"];
+            $conexion = parent::Conexion();
+            $sql = "SELECT DISTINCT t.* ,i.id_talla,i.id_color
+                FROM inventario AS i
+                INNER JOIN tallas AS t ON i.id_talla = t.id
+                WHERE i.id_producto = ? AND i.id_color = ? AND i.stock > 0;
+            ";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $p_id);
+            $stmt->bindValue(2, $color);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
+
 
 
 

@@ -64,6 +64,16 @@ class ProductController
             echo json_encode($data);
         }
     }
+    public function getPrecioShop()
+    {
+        $model = new ProductModel();
+        $data = $model->getPrecioShop();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
     public function getProductsAlert()
     {
         $model = new ProductModel();
@@ -84,16 +94,7 @@ class ProductController
             echo json_encode($data);
         }
     }
-    public function getTallasProd()
-    {
-        $model = new ProductModel();
-        $data = $model->getTallasProd();
-        if ($data === false || empty($data)) {
-            http_response_code(204);
-        } else {
-            echo json_encode($data);
-        }
-    }
+   
     public function getWishList()
     {
         $model = new ProductModel();
@@ -115,11 +116,30 @@ class ProductController
             echo json_encode($data);
         }
     }
-
+    public function getAllImgProd()
+    {
+        $model = new ProductModel();
+        $data = $model->getAllImgProd();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
     public function getColoresTalla()
     {
         $model = new ProductModel();
         $data = $model->getColoresTalla();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
+    public function getTallasColor()
+    {
+        $model = new ProductModel();
+        $data = $model->getTallasColor();
         if ($data === false || empty($data)) {
             http_response_code(204);
         } else {

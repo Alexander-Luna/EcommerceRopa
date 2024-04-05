@@ -40,9 +40,12 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getProducts':
                 $productController->getProducts();
                 break;
-                case 'getProductsShop':
-                    $productController->getProductsShop();
-                    break;
+            case 'getProductsShop':
+                $productController->getProductsShop();
+                break;
+            case 'getPrecioShop':
+                $productController->getPrecioShop();
+                break;
             case 'getProductsAlert':
                 $productController->getProductsAlert();
                 break;
@@ -50,14 +53,19 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getProductDetail':
                 $productController->getProductDetail();
                 break;
-            case 'getTallasProd':
-                $productController->getTallasProd();
-                break;
+
             case 'getColoresTalla':
                 $productController->getColoresTalla();
                 break;
+            case 'getTallasColor':
+                $productController->getTallasColor();
+                break;
+
             case 'getImgProd':
                 $productController->getImgProd();
+                break;
+            case 'getAllImgProd':
+                $productController->getAllImgProd();
                 break;
             case 'getWishList':
                 $productController->getWishList();
@@ -110,6 +118,9 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getOcasion':
                 $controller->getOcasion();
                 break;
+                case 'getCategorias':
+                    $controller->getCategorias();
+                    break;
             default:
                 handleNotFound();
                 break;

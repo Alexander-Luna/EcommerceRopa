@@ -23,5 +23,7 @@
 <script src="../../vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="../../public/js/slick-custom.js"></script>
 <script src="../../public/js/main.js"></script>
+<script src="../html/content.js"></script>
 
 <?php require_once '../../update_dev.php'; ?>
+

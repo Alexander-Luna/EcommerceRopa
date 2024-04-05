@@ -244,7 +244,7 @@ INNER JOIN usuarios u ON v.id_client = u.id;
             foreach ($productos as $producto) {
                 $idProducto = $producto["id_producto"];
                 $cantidad = $producto["stock"]; // Cantidad obtenida del stock
-                $precioUnitario = $producto["costo"]; // Precio unitario obtenido del costo
+                $precioUnitario = $producto["precio"]; // Precio unitario obtenido del costo
 
                 // Insertar datos en la tabla inventario
                 $sqlInventario = "INSERT INTO inventario (id_producto, id_color, id_talla, stock, precio) VALUES (?, ?, ?, ?, ?)";
@@ -256,14 +256,14 @@ INNER JOIN usuarios u ON v.id_client = u.id;
                 $stmtInventario->bindValue(5, $precioUnitario);
                 $stmtInventario->execute();
                 $idInventario = $conexion->lastInsertId();
-
+                $costoUnitario = $producto["costo"];
                 // Insertar datos en la tabla detalles_compra
                 $sqlDetalleCompra = "INSERT INTO detalles_compra (id_compra, id_variante_producto, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
                 $stmtDetalleCompra = $conexion->prepare($sqlDetalleCompra);
                 $stmtDetalleCompra->bindValue(1, $idCompra);
                 $stmtDetalleCompra->bindValue(2, $idInventario);
                 $stmtDetalleCompra->bindValue(3, $cantidad);
-                $stmtDetalleCompra->bindValue(4, $precioUnitario);
+                $stmtDetalleCompra->bindValue(4, $costoUnitario);
                 $stmtDetalleCompra->execute();
 
                 // Insertar producto proveedor

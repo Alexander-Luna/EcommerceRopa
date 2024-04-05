@@ -1,5 +1,32 @@
-<header class="header-v4">
+<?php
+session_start();
 
+// Rutas
+$inicio = "../";
+$shop = "../shop";
+$direccion = "../direccion/direccion.php";
+$info_empresa = "../infoempresa/informacion.php";
+$tallas_hombres = "../tallasg/hombres.php";
+$tallas_mujeres = "../tallasg/mujer.php";
+$tallas_niños = "../tallasg/niños.php";
+$login = "../login";
+$mis_compras = "../miscompras/";
+$favoritos = "../favoritos";
+$mi_perfil = "../miperfil";
+$cerrar_sesion = "../../config/Logout.php";
+
+if ($_SESSION['user_session']['rol_id'] == "1") {
+    header("Location: ../../view/");
+    exit();
+}
+?>
+<header class="header-v4">
+<style>
+    #subMenuCat {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+</style>
     <!-- Header desktop -->
     <div class="container-menu-desktop">
         <!-- Topbar -->
@@ -10,11 +37,11 @@
                 </div>
 
                 <div class="right-top-bar flex-w h-full">
-                    <a href="../direccion/direccion.php" class="flex-c-m trans-04 p-lr-25">
+                    <a href="<?php echo $direccion; ?>" class="flex-c-m trans-04 p-lr-25">
                         Dirección
                     </a>
 
-                    <a href="../infoempresa/informacion.php" class="flex-c-m trans-04 p-lr-25">
+                    <a href="<?php echo $info_empresa; ?>" class="flex-c-m trans-04 p-lr-25">
                         Informacion
                     </a>
                 </div>
@@ -27,55 +54,40 @@
                     <h4 class="navbar-brand">Asotaeco</h4>
                 </li>
                 <!-- Logo desktop -->
-                <a href="" class="logo">
-
+                <a href="<?php echo $inicio; ?>" class="logo">
                     <img src="../../public/images/icons/logo.png" alt="IMG-LOGO">
                 </a>
-
 
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
                     <ul class="main-menu">
                         <li>
-                            <a href="../" class="menu-link">Inicio</a>
+                            <a href="<?php echo $inicio; ?>" class="menu-link">Inicio</a>
                         </li>
-                        <li class="menu-item-with-submenu">
-                            <a href="../shop" class="menu-link">Comprar</a>
-                            <ul class="sub-menu">
-                                <li><a href="../shop">Comprar Ahora</a></li>
-                                <li><a href="home-02.html">Homepage 2</a></li>
-                                <li><a href="home-03.html">Homepage 3</a></li>
-                            </ul>
+                        <li>
+                            <a href="<?php echo $shop; ?>" class="menu-link">Comprar</a>
                         </li>
+
                         <li class="menu-item-with-submenu">
                             <a href="" class="menu-link">Categorias</a>
-                            <ul class="sub-menu">
-                                <li><a href="">Hombre</a></li>
-                                <li><a href="">Mujer</a></li>
-                                <li><a href="">Niños</a></li>
-                                <li><a href="">Estudiantes</a></li>
-                                <li><a href="">Deportivo</a></li>
-
+                            <ul id="subMenuCat" class="sub-menu">
                             </ul>
                         </li>
-
+                        <script src="../html/content.js"></script>
                         <li class="menu-item-with-submenu">
                             <a href="" class="menu-link">Tallas</a>
                             <ul class="sub-menu">
-                                <li><a href="../tallasg/hombres.php">Hombre</a></li>
-                                <li><a href="../tallasg/mujer.php">Mujer</a></li>
-                                <li><a href="../tallasg/niños.php">Niños</a></li>
-
-
+                                <li><a href="<?php echo $tallas_hombres; ?>">Hombre</a></li>
+                                <li><a href="<?php echo $tallas_mujeres; ?>">Mujer</a></li>
+                                <li><a href="<?php echo $tallas_niños; ?>">Niños</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="../infoempresa/informacion.php" class="menu-link">Quienes somos</a>
+                            <a href="<?php echo $info_empresa; ?>" class="menu-link">Quienes somos</a>
                         </li>
 
                     </ul>
                 </div>
-
 
                 <!-- Icon header -->
                 <div class="wrap-icon-header flex-w flex-r-m">
@@ -86,80 +98,55 @@
                         <i class="zmdi zmdi-shopping-cart"></i>
                     </div>
 
-                    <a id="notify_wish" href="../shoping-wish" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wish" data-notify="0">
+                    <a id="notify_wish" href="<?php echo $favoritos; ?>" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wish" data-notify="0">
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
                     <?php
-                    session_start();
                     if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_id'])) {
                     ?>
-                        <a href="../login" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                        <a href="<?php echo $login; ?>" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
                             <i class="zmdi zmdi-account-circle"></i>
                         </a>
                     <?php } else { ?>
-                        <style>
-                            /* Estilos adicionales */
-                            .menu-item {
-                                cursor: pointer;
-                            }
+                        <div class="menu-desktop">
+                            <ul class="main-menu">
+                                <li class="menu-item-with-submenu">
+                                    <a href="" class="menu-link  menu-item"> <i class="zmdi zmdi-account-circle mr-2"></i>
+                                        <?php echo $_SESSION['user_session']['nombre']; ?></a>
+                                    <ul class="sub-menu">
 
-                            .menu-container {
-                                display: none;
-                            }
+                                        <li> <a href="<?php echo $mis_compras; ?>" class="list-group-item list-group-item-action menu-item">
+                                                <i class="fa fa-shopping-basket mr-2"></i> Mis Compras
+                                            </a>
+                                        </li>
+                                        <li><a href="<?php echo $favoritos; ?>" class="list-group-item list-group-item-action menu-item">
+                                                <i class="fa fa-heart-o mr-2"></i> Favoritos
+                                            </a>
+                                        </li>
+                                        <li> <a href="<?php echo $mi_perfil; ?>" class="list-group-item list-group-item-action menu-item">
+                                                <i class="fa fa-user mr-2"></i> Mi Perfil
+                                            </a>
+                                        </li>
+                                        <li> <a href="<?php echo $cerrar_sesion; ?>" class="list-group-item list-group-item-action menu-item">
+                                                <i class="fa fa-sign-out mr-2"></i> Cerrar Sesión
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                            .show-menu {
-                                display: block;
-                            }
-                        </style>
-
-
-
-                        <a href="#" id="menu-toggle" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
-                            <i class="zmdi zmdi-account-circle"></i>
-                            <?php echo $_SESSION['user_session']['nombre']; ?>
-                        </a>
-
-                        <div class="container mt-5 menu-container" id="menu-container" style="display: none;">
-                            <div class="row justify-content-center">
-                                <div class="col-12 col-md-6">
-                                    <div class="list-group">
-                                        <a href="../miscompras/" class="list-group-item list-group-item-action menu-item">
-                                            <i class="fa fa-shopping-basket mr-2"></i> Mis Compras
-                                        </a>
-                                        <a href="../favoritos" class="list-group-item list-group-item-action menu-item">
-                                            <i class="fa fa-heart-o mr-2"></i> Favoritos
-                                        </a>
-                                        <a href="../miperfil" class="list-group-item list-group-item-action menu-item">
-                                            <i class="fa fa-user mr-2"></i> Mi Perfil
-                                        </a>
-                                        <a href="../../config/Logout.php" class="list-group-item list-group-item-action menu-item">
-                                            <i class="fa fa-sign-out mr-2"></i> Cerrar Sesión
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            </ul>
                         </div>
                     <?php } ?>
                 </div>
             </nav>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
-    <script>
-           $(document).ready(function(){
-        $("#menu-toggle").click(function(e){
-            e.preventDefault();
-            $("#menu-container").slideToggle();
-        });
-    });
-    </script>
 
     <!-- Header Mobile -->
     <div class="wrap-header-mobile">
         <!-- Logo moblie -->
         <div class="logo-mobile">
-            <a href="../"><img src="../../public/images/icons/logo.png" alt="IMG-LOGO"></a>
+            <a href="<?php echo $inicio; ?>"><img src="../../public/images/icons/logo.png" alt="IMG-LOGO"></a>
         </div>
 
         <!-- Icon header -->
@@ -172,12 +159,45 @@
                 <i class="zmdi zmdi-shopping-cart"></i>
             </div>
 
-            <a id="notify_wish" href="../shoping-wish" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-wish" data-notify="0">
+            <a id="notify_wish" href="<?php echo $favoritos; ?>" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-wish" data-notify="0">
                 <i class="zmdi zmdi-favorite-outline"></i>
             </a>
-            <a href="../login" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
-                <i class="zmdi zmdi-account-circle"></i>
-            </a>
+            <?php
+            if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_id'])) {
+            ?>
+                <a href="<?php echo $login; ?>" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                    <i class="zmdi zmdi-account-circle"></i>
+                </a>
+            <?php } else { ?>
+                <div class="menu-desktop">
+                    <ul class="main-menu">
+                        <li class="menu-item-with-submenu">
+                            <a class="menu-link  menu-item"> <i class="zmdi zmdi-account-circle mr-2"></i>
+                                <?php echo $_SESSION['user_session']['nombre']; ?></a>
+                            <ul class="sub-menu">
+
+                                <li> <a href="<?php echo $mis_compras; ?>" class="list-group-item list-group-item-action menu-item">
+                                        <i class="fa fa-shopping-basket mr-2"></i> Mis Compras
+                                    </a>
+                                </li>
+                                <li><a href="<?php echo $favoritos; ?>" class="list-group-item list-group-item-action menu-item">
+                                        <i class="fa fa-heart-o mr-2"></i> Favoritos
+                                    </a>
+                                </li>
+                                <li> <a href="<?php echo $mi_perfil; ?>" class="list-group-item list-group-item-action menu-item">
+                                        <i class="fa fa-user mr-2"></i> Mi Perfil
+                                    </a>
+                                </li>
+                                <li> <a href="<?php echo $cerrar_sesion; ?>" class="list-group-item list-group-item-action menu-item">
+                                        <i class="fa fa-sign-out mr-2"></i> Cerrar Sesión
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            <?php } ?>
         </div>
 
         <!-- Button show menu -->
@@ -187,7 +207,6 @@
             </span>
         </div>
     </div>
-
 
     <!-- Menu Mobile -->
     <div class="menu-mobile">
@@ -200,11 +219,11 @@
 
             <li>
                 <div class="right-top-bar flex-w h-full">
-                    <a href="../direccion/direccion.php" class="flex-c-m p-lr-10 trans-04">
+                    <a href="<?php echo $direccion; ?>" class="flex-c-m p-lr-10 trans-04">
                         Dirección
                     </a>
 
-                    <a href="../infoempresa/informacion.php" class="flex-c-m p-lr-10 trans-04">
+                    <a href="<?php echo $info_empresa; ?>" class="flex-c-m p-lr-10 trans-04">
                         Informacion
                     </a>
                 </div>
@@ -212,52 +231,37 @@
         </ul>
 
         <ul class="main-menu-m">
-
-
             <li>
-                <a href="../">Inicio</a>
+                <a href="<?php echo $inicio; ?>">Inicio</a>
             </li>
-            <li data-label1="hot">
-                <a href="../shop">Comprar</a>
-                <ul class="sub-menu-m">
-                    <li><a href="../">Comprar Ahora</a></li>
-                    <li><a href="home-02.html">Homepage 2</a></li>
-                    <li><a href="home-03.html">Homepage 3</a></li>
-                </ul>
-                <span class="arrow-main-menu-m">
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </span>
-            </li>
-            <li data-label1="hot">
-                <a href="../shop">Categria</a>
-                <ul class="sub-menu-m">
-                    <li><a href="">Hombre</a></li>
-                    <li><a href="">Mujer</a></li>
-                    <li><a href="">Niños</a></li>
-                    <li><a href="">Estudiantes</a></li>
-                    <li><a href="">Deportivo</a></li>
-                </ul>
-                <span class="arrow-main-menu-m">
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </span>
-            </li>
-            <li data-label1="hot">
-                <a href="../shop">Tallas</a>
-                <ul class="sub-menu-m">
-                    <li><a href="../tallasg/hombres.php">Hombre</a></li>
-                    <li><a href="../tallasg/Mujer.php">Mujer</a></li>
-                    <li><a href="../tallasg/Niños.php">Niños</a></li>
-                </ul>
-                <span class="arrow-main-menu-m">
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </span>
-            </li>
-
-
             <li>
-                <a href="../infoempresa/informacion.php">Quienes somos</a>
+                <a href="<?php echo $shop; ?>">Comprar</a>
             </li>
-
+            <li data-label1="hot">
+                <a>Categorías</a>
+                <li class="menu-item-with-submenu">
+                    <a href="" class="menu-link">Categorias</a>
+                    <ul id="subMenuCat1" class="sub-menu">
+                    </ul>
+                </li>
+                <span class="arrow-main-menu-m">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </span>
+            </li>
+            <li data-label1="hot">
+                <a href="<?php echo $shop; ?>">Tallas</a>
+                <ul class="sub-menu-m">
+                    <li><a href="<?php echo $tallas_hombres; ?>">Hombre</a></li>
+                    <li><a href="<?php echo $tallas_mujeres; ?>">Mujer</a></li>
+                    <li><a href="<?php echo $tallas_niños; ?>">Niños</a></li>
+                </ul>
+                <span class="arrow-main-menu-m">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </span>
+            </li>
+            <li>
+                <a href="<?php echo $info_empresa; ?>">Quienes somos</a>
+            </li>
             <li>
                 <a href="../contact">Contáctenos</a>
             </li>

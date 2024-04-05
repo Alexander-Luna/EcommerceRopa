@@ -102,4 +102,23 @@ class InventarioModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+    public function getCategorias()
+    {
+        $conexion = parent::Conexion();
+        try {
+            $sql = "SELECT id, nombre, 'Genero' AS tabla FROM genero
+            UNION ALL
+            SELECT id, nombre, 'Tipo Prenda' AS tabla FROM tipo_prenda
+            UNION ALL
+            SELECT id, nombre, 'Ocasion' AS tabla FROM ocasion;
+            ";
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
 }
