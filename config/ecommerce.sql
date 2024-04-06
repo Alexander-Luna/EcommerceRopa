@@ -168,6 +168,7 @@ CREATE TABLE ventas (
     est_pago INT DEFAULT 0,
     metodo_pago INT DEFAULT 1, 
     -- 1 Retiro en oficina 2 Transferencia
+    ncomprobante VARCHAR(255) DEFAULT NULL,
     comprobante VARCHAR(255) DEFAULT NULL,
     FOREIGN KEY (id_recibe) REFERENCES recibe(id),
     FOREIGN KEY (id_client) REFERENCES usuarios(id)

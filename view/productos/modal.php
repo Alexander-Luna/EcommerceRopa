@@ -21,8 +21,8 @@
                         <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="imagen" class="col-form-label">Imagenes:</label>
-                        <input type="file" class="form-control-file" id="imagenes" name="imagenes" multiple>
+                        <label for="imagenes" class="col-form-label">Imágenes:</label>
+                        <input type="file" class="form-control-file" id="imagenes" name="imagenes" accept=".jpg, .jpeg, .png" multiple>
                     </div>
 
                     <div class="form-group">

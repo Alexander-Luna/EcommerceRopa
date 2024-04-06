@@ -139,11 +139,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
         console.log(response);
         $("#miModal").modal("hide");
-        swal(
-          "En Hora Buena!",
-          "La acción se realizó de manera exitosa!",
-          "success"
-        );
+        swal({
+          title: "En Hora Buena!",
+          text: "La acción se realizó de manera exitosa!",
+          icon: "success",
+          timer: 1000,
+          buttons: false,
+        });
         reloadSection();
       })
       .catch((error) => {
@@ -203,11 +205,14 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.log(response);
           // Si la inserción o actualización fue exitosa, ocultar el modal y mostrar un mensaje de éxito
           $("#miModal").modal("hide");
-          swal(
-            "En Hora Buena!",
-            "La acción se realizó de manera exitosa!",
-            "success"
-          );
+          swal({
+            title: "En Hora Buena!",
+            text: "La acción se realizó de manera exitosa!",
+            icon: "success",
+            timer: 1000,
+            buttons: false,
+          });
+          
           reloadSection();
         })
         .catch((error) => {

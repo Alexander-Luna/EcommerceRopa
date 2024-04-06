@@ -24,6 +24,6 @@
 <script src="../../public/js/slick-custom.js"></script>
 <script src="../../public/js/main.js"></script>
 <script src="../html/content.js"></script>
-
+<script src="../../public/lib/dataTables/dataTables.min.js"></script>
 <?php require_once '../../update_dev.php'; ?>
 

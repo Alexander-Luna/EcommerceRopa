@@ -54,11 +54,14 @@ document.addEventListener("DOMContentLoaded", async function () {
           JSON.parse(localStorage.getItem("productos")) || [];
         productosGuardados.push(producto);
         localStorage.setItem("productos", JSON.stringify(productosGuardados));
-        swal(
-          "En Hora Buena!",
-          "La acción se realizó de manera exitosa!",
-          "success"
-        );
+        swal({
+          title: "En Hora Buena!",
+          text: "La acción se realizó de manera exitosa!",
+          icon: "success",
+          timer: 1000,
+          buttons: false,
+        });
+       
         reloadSection();
       } else {
         const productosGuardados =
@@ -83,11 +86,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 
           localStorage.setItem("productos", JSON.stringify(productosGuardados));
           document.getElementById("id_hidden").value = "";
-          swal(
-            "En Hora Buena!",
-            "La acción se realizó de manera exitosa!",
-            "success"
-          );
+          swal({
+            title: "En Hora Buena!",
+            text: "La acción se realizó de manera exitosa!",
+            icon: "success",
+            timer: 1000,
+            buttons: false,
+          });
           clearFormFields();
           reloadSection();
         } else {
@@ -140,11 +145,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     Promise.all(promises)
       .then(() => {
         eliminarProductosLocalStorage();
-        swal(
-          "En Hora Buena!",
-          "Todas las acciones se realizaron de manera exitosa!",
-          "success"
-        );
+        swal({
+          title: "En Hora Buena!",
+          text: "La acción se realizó de manera exitosa!",
+          icon: "success",
+          timer: 1000,
+          buttons: false,
+        });
       })
       .catch((error) => {
         swal(
@@ -379,28 +386,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     $("#miModal").modal("show");
   });
 
-  // Manejador de eventos para el botón de eliminar
   $(document).on("click", ".btnEliminar", function () {
     var dataId = $(this).data("id");
     var rowData = miTabla.row($(this).closest("tr")).data();
-
-    // Obtener los productos guardados en localStorage
     let productosGuardados =
       JSON.parse(localStorage.getItem("productos")) || [];
-
-    // Filtrar los productos para eliminar el que tenga el id coincidente
     productosGuardados = productosGuardados.filter(
       (producto) => producto.id !== dataId
     );
-
-    // Guardar los productos actualizados en localStorage
     localStorage.setItem("productos", JSON.stringify(productosGuardados));
-
-    // Realizar cualquier otra acción necesaria, como recargar la tabla
     reloadSection();
   });
-
-  
 
   function reloadSection() {
     try {

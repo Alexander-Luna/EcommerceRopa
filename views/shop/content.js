@@ -24,11 +24,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     var nuevoContenedor = document.createElement("div");
     nuevoContenedor.className = "row isotope-grid"; // Agregar la clase necesaria
 
-    for (
-      var i = numElementosMostrados;
-      i < Math.min(numElementosMostrados + tamanoBloque, data.length);
-      i++
-    ) {
+    // Limpiar el contenido del contenedor existente
+    document.getElementById("container").innerHTML = "";
+
+    // Calcular el índice de inicio y fin para los elementos a mostrar
+    var startIndex = numElementosMostrados;
+    var endIndex = Math.min(numElementosMostrados + tamanoBloque, data.length);
+
+    // Iterar sobre los datos y construir los elementos HTML
+    for (var i = startIndex; i < endIndex; i++) {
       const producto = data[i];
       const imagenProducto = producto.imagen
         ? producto.imagen
@@ -38,22 +42,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <div class="block2">
                     <div class="block2-pic hov-img0">
                         <img src="${imagenProducto}" alt="Product Image">
-                        <a href="../product-detail/index.php?id=${
-                          producto.id
-                        }" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 show-modal1 text-decoration-none">
-                          Ver Producto
+                        <a href="../product-detail/index.php?id=${producto.id}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 show-modal1 text-decoration-none">
+                            Ver Producto
                         </a>
                     </div>
                     <div class="block2-txt flex-w flex-t p-t-14">
                         <div class="block2-txt-child1 flex-col-l">
-                            <a href="../product-detail/index.php?id=${
-                              producto.id
-                            }" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 text-decoration-none">${
-        producto.nombre
-      }</a>
-                            <span class="stext-105 cl3">$${
-                              producto.precio
-                            }</span>
+                            <a href="../product-detail/index.php?id=${producto.id}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 text-decoration-none">${producto.nombre}</a>
+                            <span class="stext-105 cl3">$${producto.precio}</span>
                         </div>
                         <div class="block2-txt-child2 flex-r p-t-3">
                             <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
@@ -123,18 +119,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
 
-    $(".js-addcart-detail").each(function () {
-      var nameProduct = $(this)
-        .parent()
-        .parent()
-        .parent()
-        .parent()
-        .find(".js-name-detail")
-        .html();
-      $(this).on("click", function () {
-        swal(nameProduct, "is added to cart !", "success");
-      });
-    });
+  
     $(".js-pscroll").each(function () {
       $(this).css("position", "relative");
       $(this).css("overflow", "hidden");

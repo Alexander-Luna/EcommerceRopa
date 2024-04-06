@@ -15,3 +15,5 @@
 <link rel="stylesheet" type="text/css" href="../../vendor/perfect-scrollbar/perfect-scrollbar.css">
 <link rel="stylesheet" type="text/css" href="../../public/css/styles.css">
 
+<!-- DataTables -->
+<link rel="stylesheet" href="../../public/lib/dataTables/dataTables.dataTables.min.css">
