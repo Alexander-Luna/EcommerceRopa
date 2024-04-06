@@ -15,7 +15,7 @@ class PublicidadController
                 http_response_code(200);
                 echo json_encode($data);
             } else {
-                http_response_code(400);
+                http_response_code(204);
                 echo json_encode(array('error' => 'Error al obtener los datos'));
             }
         } catch (Exception $e) {
@@ -28,12 +28,9 @@ class PublicidadController
         // Obtener datos desde el modelo
         $model = new PublicidadModel();
         $data = $model->getSliders();
-        // Verificar si se encontraron datos
         if ($data === false || empty($data)) {
-            // No se encontraron datos, devolver un código de estado 204 (Sin contenido)
             http_response_code(204);
         } else {
-            // Devolver los datos como JSON
             echo json_encode($data);
         }
     }
@@ -46,7 +43,7 @@ class PublicidadController
                 http_response_code(200);
                 echo json_encode($data);
             } else {
-                http_response_code(400);
+                http_response_code(204);
                 echo json_encode(array('error' => 'Error al actualizar los datos'));
             }
         } catch (Exception $e) {
@@ -64,7 +61,7 @@ class PublicidadController
                 http_response_code(200);
                 echo json_encode($data);
             } else {
-                http_response_code(400);
+                http_response_code(204);
                 echo json_encode(array('error' => 'Error al insertar los datos'));
             }
         } catch (Exception $e) {
@@ -82,7 +79,7 @@ class PublicidadController
                 http_response_code(200);
                 echo json_encode($data);
             } else {
-                http_response_code(400);
+                http_response_code(204);
                 echo json_encode(array('error' => 'Error al eliminar los datos'));
             }
         } catch (Exception $e) {

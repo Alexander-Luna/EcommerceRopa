@@ -77,10 +77,11 @@
 
     function reloadCart() {
         const notifyCart = document.getElementById('notify_cart'); // Obtener el elemento div con id "notify_cart"
-        const nuevoValor = 5; // Reemplazar con el nuevo valor que desees
+        const cart = JSON.parse(localStorage.getItem('cart')); // Obtener los datos del carrito del localStorage
 
         if (cart && cart.length > 0) {
             notifyCart.setAttribute('data-notify', cart.length);
+            ulCarrito.innerHTML = ''; // Limpiar el contenido del carrito antes de agregar los nuevos productos
             cart.forEach(producto => {
                 const liProducto = crearElementoProducto(producto);
                 ulCarrito.appendChild(liProducto);
@@ -88,6 +89,7 @@
             actualizarTotal();
         } else {
             notifyCart.setAttribute('data-notify', 0);
+            ulCarrito.innerHTML = ''; // Limpiar el contenido del carrito
             const liVacio = document.createElement('li');
             liVacio.textContent = 'Tu carrito está vacío';
             ulCarrito.appendChild(liVacio);
@@ -95,24 +97,15 @@
         }
     }
 
+
+
     function addToCart(productDetails) {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         cart.push(productDetails);
         localStorage.setItem('cart', JSON.stringify(cart));
-        // while (cart_contain.firstChild) {
-        //     cart_contain.removeChild(cart_contain.firstChild);
+        reloadCart();
+     
 
-        // }
-        document.getElementById('cart_contain').innerHTML = "";
-        fetch('../html/cart.php')
-            .then(response => response.text())
-            .then(html => {
-                // Actualizar la sección del carrito con el HTML recibido
-                document.getElementById('cart_contain').innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error al actualizar la sección del carrito:', error);
-            });
     }
 
 
@@ -120,17 +113,7 @@
         let cart = JSON.parse(localStorage.getItem("cart"));
         cart = cart.filter(producto => producto.id !== id);
         localStorage.setItem("cart", JSON.stringify(cart));
-        // while (cart_contain.firstChild) {
-        //     cart_contain.removeChild(cart_contain.firstChild);
-        // }
-        document.getElementById('cart_contain').innerHTML = "";
-        fetch('../html/cart.php')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('cart_contain').innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error al actualizar la sección del carrito:', error);
-            });
+        reloadCart();
+
     }
 </script>

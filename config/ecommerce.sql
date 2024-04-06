@@ -177,9 +177,7 @@ CREATE TABLE detalles_venta (
     id_venta INT,
     id_variante_producto INT,
     cantidad INT,
-   
     precio_unitario DECIMAL(10, 2),
-    total_producto DECIMAL(10, 2),
     FOREIGN KEY (id_venta) REFERENCES ventas(id),
     FOREIGN KEY (id_variante_producto) REFERENCES inventario(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

@@ -23,8 +23,8 @@ class ProveedorController
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-            } else {
-                http_response_code(400);
+           } else {
+                http_response_code(204);
                 echo json_encode(array('error' => 'Error al actualizar los datos'));
             }
         } catch (Exception $e) {
@@ -42,8 +42,8 @@ class ProveedorController
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-            } else {
-                http_response_code(400);
+           } else {
+                http_response_code(204);
                 echo json_encode(array('error' => 'Error al eliminar los datos'));
             }
         } catch (Exception $e) {
@@ -61,8 +61,8 @@ class ProveedorController
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-            } else {
-                http_response_code(400);
+           } else {
+                http_response_code(204);
                 echo json_encode(array('error' => 'Error al insertar los datos'));
             }
         } catch (Exception $e) {

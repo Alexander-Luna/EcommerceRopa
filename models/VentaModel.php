@@ -238,4 +238,40 @@ INNER JOIN usuarios u ON v.id_client = u.id;
             die("Error: " . $e->getMessage());
         }
     }
+
+
+    public function getProductsCliente()
+    {
+        try {
+            $est = $_GET['id'];
+            $conexion = parent::Conexion();
+            $sql = "SELECT v.*, r.nombre AS nombre_recibe, r.telefono AS telefono_recibe, r.email AS email_recibe, r.direccion AS direccion_recibe,
+            u.nombre AS nombre_usuario,
+            dv.cantidad, p.nombre AS nombre_producto, p.descripcion AS descripcion_producto, i.stock AS stock_producto,
+            i.precio AS precio_producto, i.stock_alert AS stock_alert_producto,
+            ip.url_imagen AS imagen_producto, v.est_pago AS estado_pago
+FROM ventas v
+INNER JOIN recibe r ON v.id_recibe = r.id
+INNER JOIN usuarios u ON v.id_client = u.id
+INNER JOIN detalles_venta dv ON v.id = dv.id_venta
+INNER JOIN inventario i ON dv.id_variante_producto = i.id
+INNER JOIN productos p ON i.id_producto = p.id
+INNER JOIN imagenes_producto ip ON p.id = ip.id_producto
+";
+
+            if ($est != null) {
+                $sql += " WHERE v.est_pago = ?;";
+            }
+            $stmt = $conexion->prepare($sql);
+            if ($est != null) {
+                $stmt->bindValue(1, $est);
+            }
+
+            $stmt->execute();
+            $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $ventas;
+        } catch (PDOException $e) {
+            die("Error al obtener ventas: " . $e->getMessage());
+        }
+    }
 }

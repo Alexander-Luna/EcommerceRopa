@@ -49,6 +49,9 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getProductsAlert':
                 $productController->getProductsAlert();
                 break;
+            case 'getProductsCliente':
+                $ventaController->getProductsCliente();
+                break;
 
             case 'getProductDetail':
                 $productController->getProductDetail();
@@ -118,9 +121,9 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getOcasion':
                 $controller->getOcasion();
                 break;
-                case 'getCategorias':
-                    $controller->getCategorias();
-                    break;
+            case 'getCategorias':
+                $controller->getCategorias();
+                break;
             default:
                 handleNotFound();
                 break;

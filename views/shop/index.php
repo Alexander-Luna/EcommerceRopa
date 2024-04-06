@@ -32,7 +32,7 @@
 
 
 	<?php require_once "../html/MainJS.php"; ?>
-	<script type="text/javascript" src="content.js"></script>
+	<script type="text/javascript" src="../shop/content.js"></script>
 
 </body>
 
