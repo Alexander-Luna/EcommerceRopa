@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   document
     .getElementById("btnpagar")
     .addEventListener("click", async function () {
+      event.preventDefault();
       swal({
         title: "¿Esta seguro de realizar la compra?",
         text: "La acción se realizó de manera exitosa!",
@@ -123,7 +124,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     $("#precio").text(CENVIO.toFixed(2));
   });
   function realizarPago() {
-    event.preventDefault();
     // Obtener el carrito de compras del localStorage
     let carrito = [];
     const carritoJSON = localStorage.getItem("cart");
@@ -145,7 +145,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const idEnvio = document.getElementById("id_envio").value;
     const metodoDePago = document.getElementById("metododepago").value;
     const comprobante = document.getElementById("comprobante").value;
-    const comprobantef = document.getElementById("comprobantef").value;
+    const comprobanteInput = document.getElementById("comprobantef");
+    const comprobanteFile = comprobanteInput.files[0]; 
 
     // Crear un nuevo objeto FormData
     const formData = new FormData();
@@ -168,7 +169,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     formData.append("metodo_pago", metodoDePago);
 
     formData.append("ncomprobante", comprobante);
-    formData.append("comprobante", comprobantef);
+    formData.append("comprobante", comprobanteFile);
     // Realizar alguna acción, como enviar los datos al servidor
     enviarDatosAlServidor(formData);
   }

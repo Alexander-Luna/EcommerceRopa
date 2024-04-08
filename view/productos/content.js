@@ -69,6 +69,30 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Inicializar DataTables
   var miTabla = $("#miTabla").DataTable({
+    language: {
+      decimal: "",
+      emptyTable: "No hay datos disponibles en la tabla",
+      info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+      infoEmpty: "Mostrando 0 a 0 de 0 registros",
+      infoFiltered: "(filtrados de un total de _MAX_ registros)",
+      infoPostFix: "",
+      thousands: ",",
+      lengthMenu: "Mostrar _MENU_ registros",
+      loadingRecords: "Cargando...",
+      processing: "Procesando...",
+      search: "Buscar:",
+      zeroRecords: "No se encontraron registros coincidentes",
+      paginate: {
+        first: "Primero",
+        last: "Último",
+        next: "Siguiente",
+        previous: "Anterior",
+      },
+      aria: {
+        sortAscending: ": activar para ordenar la columna ascendente",
+        sortDescending: ": activar para ordenar la columna descendente",
+      },
+    },
     columns: [
       { data: "nombre", title: "Nombre" }, // Nombre
       { data: "descripcion", title: "Descripción" }, // Descripción
@@ -87,11 +111,11 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
         },
       },
-      { data: "talla", title: "talla" }, // Talla
-      { data: "ocasion", title: "ocacion" },
-      { data: "color", title: "color" }, // Color
-      { data: "stock", title: "stock" }, // Stock
-      { data: "genero", title: "genero" }, // Género
+      { data: "talla", title: "Talla" }, // Talla
+      { data: "ocasion", title: "Ocasión" },
+      { data: "color", title: "Color" }, // Color
+      { data: "stock", title: "Stock" }, // Stock
+      { data: "genero", title: "Genero" }, // Género
       {
         data: null,
         title: "Acciones",
@@ -106,14 +130,16 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
   // Manejador de eventos para el botón de editar
   $(document).on("click", ".btnEditar", function () {
-    var dataId = $(this).data("id");
     var rowData = miTabla.row($(this).closest("tr")).data();
     $("#miModal").modal("show");
-
+    console.log(rowData);
+    document.getElementById("descripcion").value = rowData.descripcion;
+    document.getElementById("nombre").value = rowData.nombre;
     document.getElementById("title").innerHTML = "Editar Productos";
     document.getElementById("id").value = rowData.id;
-    document.getElementById("titulo").value = rowData.nombre; // Modificado: Nombre
-    document.getElementById("descripcion").value = rowData.descripcion; // Modificado: Descripción
+    document.getElementById("id_tipo_prenda").value = rowData.id_tipo_prenda;
+    document.getElementById("id_genero").value = rowData.id_genero;
+    document.getElementById("id_ocasion").value = rowData.id_ocasion;
   });
 
   // Manejador de eventos para el botón de eliminar
@@ -212,7 +238,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             timer: 1000,
             buttons: false,
           });
-          
+
           reloadSection();
         })
         .catch((error) => {
@@ -235,17 +261,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   function reloadSection() {
     try {
-      fetch("../../controllers/router.php?op=getAllProducts").then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            "Hubo un problema al obtener los detalles del producto."
-          );
+      fetch("../../controllers/router.php?op=getAllProducts").then(
+        (response) => {
+          if (!response.ok) {
+            throw new Error(
+              "Hubo un problema al obtener los detalles del producto."
+            );
+          }
+          response.json().then((data) => {
+            miTabla.clear().draw();
+            miTabla.rows.add(data).draw(); // Agregar los datos directamente
+          });
         }
-        response.json().then((data) => {
-          miTabla.clear().draw();
-          miTabla.rows.add(data).draw(); // Agregar los datos directamente
-        });
-      });
+      );
     } catch (error) {
       console.error("Error al obtener los detalles del producto:", error);
     }

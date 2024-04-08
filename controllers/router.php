@@ -46,6 +46,9 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getPrecioShop':
                 $productController->getPrecioShop();
                 break;
+            case 'getAllProducts':
+                $productController->getAllProducts();
+                break;
             case 'getProductsAlert':
                 $productController->getProductsAlert();
                 break;

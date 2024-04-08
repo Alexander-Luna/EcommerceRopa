@@ -21,12 +21,12 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
 }
 ?>
 <header class="header-v4">
-<style>
-    #subMenuCat {
-        max-height: 200px;
-        overflow-y: auto;
-    }
-</style>
+    <style>
+        #subMenuCat {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
     <!-- Header desktop -->
     <div class="container-menu-desktop">
         <!-- Topbar -->
@@ -239,14 +239,14 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
             </li>
             <li data-label1="hot">
                 <a>Categorías</a>
-                <li class="menu-item-with-submenu">
-                    <a href="" class="menu-link">Categorias</a>
-                    <ul id="subMenuCat1" class="sub-menu">
-                    </ul>
-                </li>
-                <span class="arrow-main-menu-m">
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </span>
+            <li class="menu-item-with-submenu">
+                <a href="" class="menu-link">Categorias</a>
+                <ul id="subMenuCat1" class="sub-menu">
+                </ul>
+            </li>
+            <span class="arrow-main-menu-m">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span>
             </li>
             <li data-label1="hot">
                 <a href="<?php echo $shop; ?>">Tallas</a>

@@ -265,7 +265,7 @@ INNER JOIN usuarios u ON v.id_client = u.id;
 ";
             if ($est != null) {
                 $sql .= " AND v.est_pago=? ORDER BY v.fecha DESC;";
-            }else{
+            } else {
                 $sql .= " ORDER BY v.fecha DESC;";
             }
             $stmt = $conexion->prepare($sql);
@@ -293,7 +293,7 @@ INNER JOIN usuarios u ON v.id_client = u.id;
             $isenvio = $_POST["isenvio"];
             $metodo_pago = $_POST["metodo_pago"];
             $ncomprobante = $_POST["ncomprobante"];
-            $comprobante = $_POST["comprobante"];
+
 
             $totalVenta = 0;
             foreach ($productos as $producto) {
@@ -321,18 +321,45 @@ INNER JOIN usuarios u ON v.id_client = u.id;
 
             $id_recibe = $conexion->lastInsertId();
 
-            $sqlVenta = "INSERT INTO ventas (id_client,id_recibe,fecha, total, envio,isenvio,est_pago,metodo_pago,ncomprobante,comprobante) VALUES (?, ?, NOW(),?,?,?,?,?,?,?)";
-            $stmtVenta = $conexion->prepare($sqlVenta);
-            $stmtVenta->bindValue(1, $id_user);
-            $stmtVenta->bindValue(2, $id_recibe);
-            $stmtVenta->bindValue(3, $totalVenta);
-            $stmtVenta->bindValue(4, $cenvio);
-            $stmtVenta->bindValue(5, $isenvio);
-            $stmtVenta->bindValue(6, 0);
-            $stmtVenta->bindValue(7, $metodo_pago);
-            $stmtVenta->bindValue(8, $ncomprobante);
-            $stmtVenta->bindValue(9, $comprobante);
-            $stmtVenta->execute();
+
+            if (!empty($_FILES["comprobante"]["tmp_name"])) {
+
+                $rutaImagenes = '../public/comprobantes/';
+                $nombreImagen = uniqid();
+                $nombreArchivo = $_FILES["comprobante"]["name"];
+                $nombreArchivoDestino = $nombreImagen . '.webp';
+                $rutaCompletaArchivo = $rutaImagenes . $nombreArchivoDestino;
+                if (!move_uploaded_file($_FILES["comprobante"]["tmp_name"], $rutaCompletaArchivo)) {
+                    throw new Exception("Error al mover la imagen a la carpeta de destino");
+                }
+                $url_imagen = "../../public/comprobantes/" . $nombreArchivoDestino;
+
+                $sqlVenta = "INSERT INTO ventas (id_client,id_recibe,fecha, total, envio,isenvio,est_pago,metodo_pago,ncomprobante,comprobante) VALUES (?, ?, NOW(),?,?,?,?,?,?,?)";
+                $stmtVenta = $conexion->prepare($sqlVenta);
+                $stmtVenta->bindValue(1, $id_user);
+                $stmtVenta->bindValue(2, $id_recibe);
+                $stmtVenta->bindValue(3, $totalVenta);
+                $stmtVenta->bindValue(4, $cenvio);
+                $stmtVenta->bindValue(5, $isenvio);
+                $stmtVenta->bindValue(6, 0);
+                $stmtVenta->bindValue(7, $metodo_pago);
+                $stmtVenta->bindValue(8, $ncomprobante);
+                $stmtVenta->bindValue(9, $url_imagen);
+                $stmtVenta->execute();
+            } else {
+                $sqlVenta = "INSERT INTO ventas (id_client,id_recibe,fecha, total, envio,isenvio,est_pago,metodo_pago,ncomprobante,comprobante) VALUES (?, ?, NOW(),?,?,?,?,?,?,?)";
+                $stmtVenta = $conexion->prepare($sqlVenta);
+                $stmtVenta->bindValue(1, $id_user);
+                $stmtVenta->bindValue(2, $id_recibe);
+                $stmtVenta->bindValue(3, $totalVenta);
+                $stmtVenta->bindValue(4, $cenvio);
+                $stmtVenta->bindValue(5, $isenvio);
+                $stmtVenta->bindValue(6, 0);
+                $stmtVenta->bindValue(7, $metodo_pago);
+                $stmtVenta->bindValue(8, $ncomprobante);
+                $stmtVenta->bindValue(9, "");
+                $stmtVenta->execute();
+            }
 
             $idVenta = $conexion->lastInsertId();
 
@@ -354,8 +381,6 @@ INNER JOIN usuarios u ON v.id_client = u.id;
                 foreach ($inventarios as $inventario) {
                     $idInventario = $inventario["id"];
                     $stockDisponible = $inventario["stock"];
-
-                    // Si aún hay cantidad por vender y el stock disponible es mayor que 0
                     while ($cantidadVendida > 0 && $stockDisponible > 0) {
                         $cantidadADescontar = min($cantidadVendida, $stockDisponible);
 
@@ -367,8 +392,6 @@ INNER JOIN usuarios u ON v.id_client = u.id;
 
                         $cantidadVendida -= $cantidadADescontar;
                         $stockDisponible -= $cantidadADescontar;
-
-                        // Registrar el detalle de venta
                         $sqlDetalleVenta = "INSERT INTO detalles_venta (id_venta, id_variante_producto, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
                         $stmtDetalleVenta = $conexion->prepare($sqlDetalleVenta);
                         $stmtDetalleVenta->bindValue(1, $idVenta);
@@ -377,8 +400,6 @@ INNER JOIN usuarios u ON v.id_client = u.id;
                         $stmtDetalleVenta->bindValue(4, $precioUnitario);
                         $stmtDetalleVenta->execute();
                     }
-
-                    // Si la cantidad vendida ya se ha descontado completamente, salimos del bucle
                     if ($cantidadVendida <= 0) {
                         break;
                     }

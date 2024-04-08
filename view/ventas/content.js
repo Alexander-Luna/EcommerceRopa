@@ -5,33 +5,59 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Inicializar DataTables
   var miTabla = $("#miTabla").DataTable({
+    language: {
+      decimal: "",
+      emptyTable: "No hay datos disponibles en la tabla",
+      info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+      infoEmpty: "Mostrando 0 a 0 de 0 registros",
+      infoFiltered: "(filtrados de un total de _MAX_ registros)",
+      infoPostFix: "",
+      thousands: ",",
+      lengthMenu: "Mostrar _MENU_ registros",
+      loadingRecords: "Cargando...",
+      processing: "Procesando...",
+      search: "Buscar:",
+      zeroRecords: "No se encontraron registros coincidentes",
+      paginate: {
+        first: "Primero",
+        last: "Último",
+        next: "Siguiente",
+        previous: "Anterior",
+      },
+      aria: {
+        sortAscending: ": activar para ordenar la columna ascendente",
+        sortDescending: ": activar para ordenar la columna descendente",
+      },
+    },
     columns: [
-      { data: "nombre_usuario" },
-      { data: "nombre_recibe" },
-      { data: "comprobante" },
+      { data: "nombre_usuario", title: "Cliente" },
+      { data: "nombre_recibe", title: "Receptor" },
       {
         data: "metodo_pago",
+        title: "Metodo de Pago",
         render: function (data, type, row) {
-          return data == 1 ? "Retiro en Oficina" : "Subir Comprobante de Pago";
+          return data === 0 ? "Pago en Oficina" : data === 1 ? "Deposito" : data === 2 ? "Transferencia" : "Método de pago inválido";
+
         },
       },
       {
         data: "est_pago",
+        title: "Estado de la venta",
         render: function (data, type, row) {
-          if (data == 0) {
-            return "Pendiente";
-          } else if (data == 1) {
-            return "Pagado";
-          } 
+          return data === 0 ? "Pendiente" : data === 1 ? "Pagado" : data === 2 ? "Entregada" : "inválido";
+
         },
       },
-      { data: "fecha" },
+      { data: "fecha", title: "Fecha" },
       {
         data: null,
+        title: "Acciones",
         render: function (data, type, row) {
           return `
           <button type="button" class="btn btn-outline-success btnView" data-id="${row.id}">
                     <i class="fa fa-eye" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-outline-info btnDownload" data-id="${row.id}">
+                    <i class="fa fa-download" aria-hidden="true"></i></button>
           <button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                     <button type="button" class="btn btn-outline-danger btnEliminar" data-id="${row.id}">
@@ -47,6 +73,20 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Redireccionar a la página ventas-details con el ID de la venta como parámetro
     window.location.href = "../ventas-details/index.php?id=" + ventaId;
+  });
+  $(document).on("click", ".btnDownload", function () {
+    var rowData = miTabla.row($(this).closest("tr")).data();
+
+    // Crear un enlace de descarga
+    var link = document.createElement("a");
+    link.href = rowData.comprobante; // Establecer la URL de descarga como la URL de la imagen
+    link.download = "comprobante.webp"; // Establecer el nombre de archivo de descarga
+    link.target = "_blank"; // Abrir en una nueva ventana
+
+    // Simular un clic en el enlace para iniciar la descarga
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link); // Eliminar el enlace después de la descarga para evitar desorden en el DOM
   });
 
   // Manejador de eventos para el botón de editar
