@@ -1,21 +1,18 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  const totalSpan = document.getElementById("totalspan");
-  const subtotalSpan = document.getElementById("subtotal");
-  const cenvioSpan = document.getElementById("cenvio");
-  document
-    .getElementById("btnpagar")
-    .addEventListener("click", async function () {
-      swal({
-        title: "¿Esta seguro de realizar la compra?",
-        text: "La acción se realizó de manera exitosa!",
-        icon: "warning",
-        buttons: ["Cancelar", "Confirmar"],
-      }).then((confirmado) => {
-        if (confirmado) {
-          realizarPago();
-        }
-      });
-    });
+  // document
+  //   .getElementById("btnpagar")
+  //   .addEventListener("click", async function () {
+  //     swal({
+  //       title: "¿Esta seguro de realizar la compra?",
+  //       text: "La acción se realizó de manera exitosa!",
+  //       icon: "warning",
+  //       buttons: ["Cancelar", "Confirmar"],
+  //     }).then((confirmado) => {
+  //       if (confirmado) {
+  //         realizarPago();
+  //       }
+  //     });
+  //   });
   var miTabla = $("#miTabla").DataTable({
     language: {
       decimal: "",
@@ -45,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     searching: false, // Desactivamos la búsqueda
     columns: [
       {
-        data: "img",
+        data: "url_imagen",
         title: "Imagen",
         render: function (data, type, row) {
           return `<img src="${data}" alt="imagen del producto" width="50" />`;
@@ -53,75 +50,22 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
       { data: "nombre", title: "Producto" }, // Nombre del producto
 
-      { data: "talla", title: "Talla" },
-      { data: "color", title: "Color" },
-
-      { data: "talla_id", title: "Talla", visible: false }, // Talla
-      { data: "color_id", title: "Color", visible: false }, // Color
-      {
-        data: null,
-        title: "pedido",
-        render: function (data, type, row) {
-          return `${row.cantidad} X $${row.precio_venta} = $${
-            row["precio_venta"].toFixed(2) * row["cantidad"]
-          }`;
-        },
-      },
-
-      {
-        data: null,
-        title: "Cantidad",
-        render: function (data, type, row) {
-          return ` <td class="column-6">
-          <div class="wrap-num-product flex-w m-l-auto m-r-0">
-              
-          <button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m  btnRestar" data-id="${row.id}">
-                  <i class="fs-16 zmdi zmdi-minus"></i>
-              </button>
-          
-              <input id="input_stock_${row.id}" class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" value="${row.cantidad}">
-              <button class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m  btnSumar" data-id="${row.id}">
-                  <i class="fs-16 zmdi zmdi-plus"></i>
-              </button>
-          
-              </div>
-        </td>`;
-        },
-      },
+      { data: "descripcion", title: "Descipcion" },
       {
         data: null,
         title: "Acciones",
         render: function (data, type, row) {
-          return `
+          return ` <a href="../product-detail/index.php?id=${row.id}" class="btn btn-outline-info btnView" data-id="${row.id}">
+          <i class="fa fa-eye" aria-hidden="true"></i></a>
                     <button type="button" class="btn btn-outline-danger btnEliminar" data-id="${row.id}">
                     <i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
         },
       },
     ],
   });
-  let SUBTOTAL = 0;
-  let CENVIO = 0;
-  let TOTAL = 0;
+
   reloadSection();
 
-  $("#id_envio").change(function () {
-    var opcion_seleccionada = $(this).val();
-    switch (opcion_seleccionada) {
-      case "1":
-        CENVIO = 5; // Precio para Retiro en domicilio
-        break;
-      case "2":
-        CENVIO = 0; // Precio para Retiro en oficina
-        break;
-      case "3":
-        CENVIO = 8; // Precio para Enviar regalo
-        break;
-      default:
-        CENVIO = 0;
-    }
-    reloadSection();
-    $("#precio").text(CENVIO.toFixed(2));
-  });
   function realizarPago() {
     event.preventDefault();
     // Obtener el carrito de compras del localStorage
@@ -133,8 +77,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       swal("Error", "No existen productos en el carrito", "warning");
       //return;
     }
-
-    // Obtener los valores de los campos del formulario
     const nombre = document.getElementById("nombre").value;
     const provincia = document.getElementById("provincias").value;
     const canton = document.getElementById("canton").value;
@@ -190,35 +132,40 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Error al enviar los datos:", error);
       });
   }
-  function reloadSection() {
+  async function reloadSection() {
     try {
-      const productos = JSON.parse(localStorage.getItem("cart")) || [];
       miTabla.clear().draw(); // Limpiar la tabla antes de insertar nuevos datos
-      SUBTOTAL = 0;
 
-      productos.forEach((producto) => {
-        SUBTOTAL +=
-          parseFloat(producto.precio_venta) * parseInt(producto.cantidad);
-      });
-      miTabla.rows.add(productos).draw();
-      TOTAL = SUBTOTAL + CENVIO;
-      // Agregar los productos a la tabla y dibujarla
-      cenvioSpan.textContent = "$" + CENVIO.toFixed(2);
-      totalSpan.textContent = "$" + TOTAL.toFixed(2);
-      subtotalSpan.textContent = "$" + SUBTOTAL.toFixed(2);
+      const response = await fetch(
+        "../../controllers/router.php?op=getWishClient"
+      );
+      data = await response.json();
+      console.log(data);
+      miTabla.rows.add(data).draw();
     } catch (error) {
-      console.error("Error al obtener los detalles del producto:", error);
+      console.error("Error al obtener productos:", error);
     }
   }
 
   $(document).on("click", ".btnEliminar", function () {
     var id = $(this).data("id");
-    let cart = JSON.parse(localStorage.getItem("cart"));
-    cart = cart.filter((producto) => producto.id !== id);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    reloadCart();
-    reloadSection();
+    const formData = new FormData();
+    formData.append("id", id);
+    fetch("../../controllers/router.php?op=deleteWishClient", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.ok) {
+          swal("Excelente!", "Transaccion realizada con exito", "success");
+        }
+      })
+      .catch((error) => {
+        console.error("Error al enviar los datos:", error);
+      });
   });
+
   $(document).on("click", ".btnSumar", async function (event) {
     event.preventDefault();
     var id = $(this).data("id");

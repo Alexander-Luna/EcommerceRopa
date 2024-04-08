@@ -22,6 +22,26 @@ class UserModel extends Conectar
             die("Error al obtener usuarios: " . $e->getMessage());
         }
     }
+    public function getUserData()
+    {
+        try {
+            session_start();
+            $userData = $_SESSION['user_session'];
+            $id_user =  $userData['user_id'];
+            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
+
+            $sql = "SELECT * FROM usuarios WHERE id=?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $id_user);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC); // Cambio realizado aquí, usando fetch() en lugar de fetchAll()
+            return $user;
+        } catch (PDOException $e) {
+            // Manejo de errores
+            die("Error al obtener usuarios: " . $e->getMessage());
+        }
+    }
+
     public function getAllClients()
     {
         try {
@@ -202,8 +222,10 @@ class UserModel extends Conectar
             $direccion = $_POST["direccion"];
             $cedula = $_POST["cedula"];
             $rol_id = $_POST["rol_id"];
+            if ($rol_id == "" || is_null($rol_id)) {
+                $rol_id = 2;
+            }
 
-            // Actualizar los datos en la base de datos
             $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
             $sql = "UPDATE usuarios SET email=?, nombre=?, direccion=?, cedula=?, rol_id=? WHERE id=?";
             $stmt = $conexion->prepare($sql);

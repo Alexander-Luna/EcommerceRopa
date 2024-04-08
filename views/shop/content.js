@@ -7,6 +7,25 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("bmas").addEventListener("click", function () {
     mostrarElementosEnBloques(data);
   });
+  $(document).on("click", ".btnAddWish", function () {
+    var id = $(this).data("id");
+    const formData = new FormData();
+    formData.append("id_producto", id);
+    fetch("../../controllers/router.php?op=insertWishClient", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.ok) {
+          //swal("Excelente!", "Transaccion realizada con exito", "success");
+        }
+      })
+      .catch((error) => {
+        console.error("Error al enviar los datos:", error);
+      });
+  });
+
   let data;
   async function reloadSection() {
     try {
@@ -52,10 +71,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                             <span class="stext-105 cl3">$${producto.precio}</span>
                         </div>
                         <div class="block2-txt-child2 flex-r p-t-3">
-                            <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                            <button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 btnAddWish"  data-id="${producto.id}">
                                 <img class="icon-heart1 dis-block trans-04" src="../../public/images/icons/icon-heart-01.png" alt="Heart Icon">
                                 <img class="icon-heart2 dis-block trans-04 ab-t-l" src="../../public/images/icons/icon-heart-02.png" alt="Heart Icon">
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -119,7 +138,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
 
-  
     $(".js-pscroll").each(function () {
       $(this).css("position", "relative");
       $(this).css("overflow", "hidden");

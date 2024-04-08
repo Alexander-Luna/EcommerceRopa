@@ -28,6 +28,9 @@ if (empty($_SESSION['user_session'])) {
 				<button type="button" id="btncompras" class="nav-link active">Mi Compras</button>
 			</li>
 			<li class="nav-item">
+				<button type="button" id="btnpagado" class="nav-link active">Pagadas</button>
+			</li>
+			<li class="nav-item">
 				<button type="button" id="btnpendiente" class="nav-link">Pendientes</button>
 			</li>
 			<li class="nav-item">

@@ -124,6 +124,9 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getCategorias':
                 $controller->getCategorias();
                 break;
+            case 'getWishClient':
+                $controller->getWishClient();
+                break;
             default:
                 handleNotFound();
                 break;
@@ -231,6 +234,12 @@ function handlePostRequest($action, $productController, $userController, $ventaC
 
         case 'insertVentaClient':
             $ventaController->insertVentaClient();
+            break;
+        case 'insertWishClient':
+            $controller->insertWishClient();
+            break;
+        case 'deleteWishClient':
+            $controller->deleteWishClient();
             break;
         default:
             handleNotFound();

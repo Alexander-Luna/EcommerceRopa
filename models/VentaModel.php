@@ -246,22 +246,28 @@ INNER JOIN usuarios u ON v.id_client = u.id;
             session_start();
             $userData = $_SESSION['user_session'];
             $id_user =  $userData['user_id'];
-            $id_user = 1;
+            //$id_user = 3;
             $est = $_GET['id'];
 
             $conexion = parent::Conexion();
-            $sql = "SELECT v.id AS venta_id, v.fecha AS fecha_venta,v.total, dv.id_variante_producto AS id_producto,
-            SUM(dv.cantidad) AS cantidad_vendida, dv.precio_unitario, p.nombre AS nombre_producto
+            $sql = "SELECT p.id as id_producto,v.id AS venta_id,v.est_pago, v.fecha AS fecha_venta, v.total AS total_venta, v.envio AS costo_envio,
+            v.metodo_pago AS metodo_pago, v.ncomprobante AS numero_comprobante, v.comprobante AS comprobante_adjunto,
+            p.nombre AS nombre_producto, p.descripcion AS descripcion_producto, 
+            dv.cantidad, dv.precio_unitario,
+            iu.url_imagen AS imagen
      FROM ventas v
-     JOIN detalles_venta dv ON v.id = dv.id_venta
-     JOIN inventario inv ON dv.id_variante_producto = inv.id
-     JOIN productos p ON inv.id_producto = p.id
-     LEFT JOIN imagenes_producto ip ON p.id = ip.id_producto
-     WHERE v.id_client=?  AND v.est_pago=? GROUP BY venta_id, id_producto;
+     INNER JOIN detalles_venta dv ON v.id = dv.id_venta
+     INNER JOIN inventario ip ON dv.id_variante_producto = ip.id
+     INNER JOIN productos p ON ip.id_producto = p.id
+     LEFT JOIN imagenes_producto iu ON p.id = iu.id_producto AND iu.orden = 1
+     WHERE v.id_client = ? 
      
 ";
-
-
+            if ($est != null) {
+                $sql .= " AND v.est_pago=? ORDER BY v.fecha DESC;";
+            }else{
+                $sql .= " ORDER BY v.fecha DESC;";
+            }
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $id_user);
             $stmt->bindValue(2, $est);

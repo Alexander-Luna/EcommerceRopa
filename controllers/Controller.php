@@ -84,4 +84,58 @@ class Controller
             echo json_encode($data);
         }
     }
+    public function insertWishClient()
+    {
+        try {
+            $model = new ProductModel();
+            $data = $model->insertWishClient();
+
+            if ($data) {
+                http_response_code(200);
+                echo json_encode($data);
+            } else {
+                http_response_code(204);
+                echo json_encode(array('error' => 'Error al insertar los datos'));
+            }
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
+        }
+    }
+    public function getWishClient()
+    {
+        try {
+            $model = new ProductModel();
+            $data = $model->getWishClient();
+
+            if ($data) {
+                http_response_code(200);
+                echo json_encode($data);
+            } else {
+                http_response_code(204);
+                echo json_encode(array('error' => 'Error al insertar los datos'));
+            }
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
+        }
+    }
+    public function deleteWishClient()
+    {
+        try {
+            $model = new ProductModel();
+            $data = $model->deleteWishClient();
+
+            if ($data) {
+                http_response_code(200);
+                echo json_encode($data);
+            } else {
+                http_response_code(204);
+                echo json_encode(array('error' => 'Error al insertar los datos'));
+            }
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
+        }
+    }
 }

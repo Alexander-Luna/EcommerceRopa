@@ -412,37 +412,89 @@ class ProductModel extends Conectar
             die("Error: " . $e->getMessage());
         }
     }
-
-
-    public function deleteProduct()
+    public function insertWishClient()
     {
         try {
-            $id = $_POST["id"];
+            session_start();
+            $userData = $_SESSION['user_session'];
+
+            $id_producto = $_POST["id_producto"];
+            $id_user =  $userData['user_id'];
             $conexion = parent::Conexion();
+            $conexion->beginTransaction();
 
-            // Obtener el valor actual del campo 'est' para el usuario
-            $stmt = $conexion->prepare("SELECT est FROM productos WHERE id=?");
-            $stmt->execute([$id]);
-            $currentStatus = $stmt->fetchColumn();
+            // Verificar si ya existe una fila con el mismo id_variante_producto y id_usuario
+            $sqlCheckExistence = "SELECT COUNT(*) FROM wish_list WHERE id_usuario = ? AND id_variante_producto = ?";
+            $stmtCheckExistence = $conexion->prepare($sqlCheckExistence);
+            $stmtCheckExistence->execute([$id_user, $id_producto]);
+            $rowCount = $stmtCheckExistence->fetchColumn();
 
-            // Invertir el valor del campo 'est'
-            $newStatus = ($currentStatus == 1) ? 0 : 1;
-
-            // Actualizar el campo 'est' con el nuevo valor
-            $sql = "UPDATE productos SET est = ? WHERE id=?";
-            $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $newStatus);
-            $stmt->bindValue(2, $id);
-            $stmt->execute();
-
-            if ($stmt->rowCount() > 0) {
-                return true; // El estado del usuario se ha cambiado correctamente
-            } else {
-                throw new Exception("No se ha podido cambiar el estado del usuario");
+            if ($rowCount == 0) {
+                // Si no existe, realizar la inserción
+                $sqlProducto = "INSERT INTO wish_list (id_usuario, id_variante_producto) VALUES (?, ?)";
+                $stmtProducto = $conexion->prepare($sqlProducto);
+                $stmtProducto->bindValue(1, $id_user);
+                $stmtProducto->bindValue(2, $id_producto);
+                $stmtProducto->execute();
             }
+
+            // Confirmar la transacción
+            $conexion->commit();
+
+            return true; // Todo se ha realizado correctamente
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del usuario: " . $e->getMessage());
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function getWishClient()
+    {
+        try {
+            session_start();
+            $userData = $_SESSION['user_session'];
+            $id_user =  $userData['user_id'];
+            $conexion = parent::Conexion();
+            $sqlProducto = "SELECT * FROM wish_list w
+                INNER JOIN productos p ON w.id_variante_producto=p.id
+                INNER JOIN imagenes_producto ip ON ip.id_producto=p.id
+                 WHERE w.id_usuario=? AND ip.orden=1";
+            $stmt = $conexion->prepare($sqlProducto);
+            $stmt->bindValue(1, $id_user);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } catch (PDOException $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error al insertar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+
+    public function deleteWishClient()
+    {
+        try {
+            $conexion = parent::Conexion();
+            $conexion->beginTransaction();
+            $id =  $_POST['id'];
+            $sqlDelete = "DELETE FROM wish_list WHERE id = ?";
+            $stmt = $conexion->prepare($sqlDelete);
+            $stmt->bindValue(1, $id);
+            $stmt->execute();
+            $conexion->commit();
+
+            return true;
+        } catch (PDOException $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error al eliminar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
             die("Error: " . $e->getMessage());
         }
     }

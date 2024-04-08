@@ -9,6 +9,12 @@ class UserController
         $users = $userModel->getAllUsers();
         echo json_encode($users);
     }
+    public function getUserData()
+    {
+        $userModel = new UserModel();
+        $users = $userModel->getUserData();
+        echo json_encode($users);
+    }
     public function getAllUsers()
     {
         $userModel = new UserModel();
@@ -23,7 +29,7 @@ class UserController
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al actualizar los datos'));
             }
@@ -32,7 +38,7 @@ class UserController
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
- 
+
     public function deleteUsers()
     {
         try {
@@ -42,7 +48,7 @@ class UserController
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al eliminar los datos'));
             }
@@ -74,7 +80,7 @@ class UserController
                 $_SESSION['user_session'] = $userData;
                 http_response_code(200);
                 echo json_encode($userData);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Inicio de sesión fallido'));
             }
