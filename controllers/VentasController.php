@@ -14,7 +14,7 @@ class VentasController
             echo json_encode($data);
         }
     }
- 
+
 
     public function getDetalleVentas()
     {
@@ -26,7 +26,7 @@ class VentasController
             echo json_encode($data);
         }
     }
-  
+
 
 
     public function getVentas()
@@ -50,7 +50,7 @@ class VentasController
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al actualizar los datos'));
             }
@@ -59,7 +59,7 @@ class VentasController
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
- 
+
     public function deleteVentas()
     {
         try {
@@ -69,7 +69,7 @@ class VentasController
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al eliminar los datos'));
             }
@@ -79,16 +79,16 @@ class VentasController
         }
     }
 
-    public function insertVentas()
+    public function insertVentaClient()
     {
         try {
             $model = new VentaModel();
-            $data = $model->insertVentas();
+            $data = $model->insertVentaClient();
 
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al insertar los datos'));
             }

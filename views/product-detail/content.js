@@ -3,9 +3,77 @@ document.addEventListener("DOMContentLoaded", async function () {
   let stockMax = 0;
   let imgProd = ""; // Declarar la variable imgProd
   let id_prod = "";
-
+  let stockDisponible = 0;
   obtenerIdDelURL();
-  reloadSection(stockMax);
+  reloadSection();
+  document
+    .getElementById("js-addcart-detail")
+    .addEventListener("click", function () {
+      const nombreElement = document.getElementById("tv-nombre");
+      const precioElement = document.getElementById("tv-precio");
+      const inputStock = document.getElementById("input_stock");
+
+      const selectTalla = document.getElementById("id_talla");
+      const selectColor = document.getElementById("id_color");
+
+      const tallaSeleccionada = selectTalla.value;
+      const tallaTextoSeleccionado =
+        selectTalla.options[selectTalla.selectedIndex].textContent;
+
+      const colorSeleccionado = selectColor.value;
+      const colorTextoSeleccionado =
+        selectColor.options[selectColor.selectedIndex].textContent;
+
+      try {
+        if (tallaSeleccionada === "" || colorSeleccionado === "") {
+          throw new Error(
+            "Por favor seleccione una talla y un color antes de agregar al carrito."
+          );
+        }
+        if (
+          inputStock.value === "" ||
+          isNaN(inputStock.value) ||
+          inputStock.value < 1
+        ) {
+          throw new Error(
+            "Por favor seleccione una cantidad válida de productos antes de agregar al carrito."
+          );
+        }
+
+        const cantidadSeleccionada = parseInt(inputStock.value);
+
+        if (cantidadSeleccionada > stockDisponible) {
+          throw new Error(
+            "La cantidad seleccionada es mayor que el stock disponible."
+          );
+        }
+
+        const productToAdd = {
+          id: Date.now(),
+          color: colorTextoSeleccionado,
+          color_id: colorSeleccionado,
+          talla: tallaTextoSeleccionado,
+          talla_id: tallaSeleccionada,
+          cantidad: cantidadSeleccionada,
+          precio_venta: parseFloat(precioElement.textContent.replace("$", "")),
+          img: imgProd,
+          producto_id: id_prod,
+          nombre: nombreElement.textContent,
+        };
+
+        addToCart(productToAdd);
+        swal({
+          title: nombreElement.textContent,
+          text: "Agregado al carrito!",
+          icon: "success",
+          timer: 1000,
+          buttons: false,
+        });
+      } catch (error) {
+        console.log(error.message);
+        swal("Error", error.message, "warning");
+      }
+    });
   function selects() {
     const selectColor = document.getElementById("id_color");
     const selectTalla = document.getElementById("id_talla");
@@ -58,14 +126,16 @@ document.addEventListener("DOMContentLoaded", async function () {
           return response.json(); // No es necesario convertir nuevamente a JSON
         })
         .then((productos) => {
-          // Verificamos si hay al menos un producto en el array
           if (productos.length > 0) {
-            const producto = productos[0]; // Tomamos el primer producto del array
+            const producto = productos[0];
+            console.log(producto);
             stockSpan.textContent = producto.stock;
             precioSpan.textContent = parseFloat(producto.precio).toFixed(2);
+            stockDisponible = producto.stock;
           } else {
             stockSpan.textContent = "No disponible";
             precioSpan.textContent = "No disponible";
+            stockDisponible = 0;
           }
         })
         .catch((error) => {
@@ -73,12 +143,14 @@ document.addEventListener("DOMContentLoaded", async function () {
           // Si hay un error, mostrar "No disponible"
           stockSpan.textContent = "No disponible";
           precioSpan.textContent = "No disponible";
+          stockDisponible = 0;
         });
     } catch (error) {
       console.error("Error al obtener los detalles del producto:", error);
       // Si hay un error, mostrar "No disponible"
       stockSpan.textContent = "No disponible";
       precioSpan.textContent = "No disponible";
+      stockDisponible = 0;
     }
   }
 
@@ -360,70 +432,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         $(this).addClass("js-addedwish-detail");
         $(this).off("click");
-      });
-    });
-
-    $(".js-addcart-detail").each(function () {
-      $(this).on("click", function () {
-        const nombreElement = document.getElementById("tv-nombre");
-        const precioElement = document.getElementById("tv-precio");
-        const inputStock = document.getElementById("input_stock");
-
-        const selectTalla = document.getElementById("id_talla");
-        const selectColor = document.getElementById("id_color");
-
-        const tallaSeleccionada = selectTalla.value;
-        const tallaTextoSeleccionado =
-          selectTalla.options[selectTalla.selectedIndex].textContent;
-
-        const colorSeleccionado = selectColor.value;
-        const colorTextoSeleccionado =
-          selectColor.options[selectColor.selectedIndex].textContent;
-        try {
-          if (
-            tallaSeleccionada === "Seleccione una talla" ||
-            colorSeleccionado === "Seleccione un color"
-          ) {
-            throw new Error(
-              "Por favor seleccione una talla y un color antes de agregar al carrito."
-            );
-          }
-          if (inputStock.value < 1 || inputStock.value === "") {
-            throw new Error(
-              "Por favor seleccione la cantidad de productos antes de agregar al carrito."
-            );
-          }
-          if (precioElement.textContent === "No disponible") {
-            throw new Error(
-              "Este producto no esta disponible en este momento."
-            );
-          }
-          const productToAdd = {
-            id: Date.now(),
-            color: colorTextoSeleccionado,
-            color_id: colorSeleccionado,
-            talla: tallaTextoSeleccionado,
-            talla_id: tallaSeleccionada,
-            cantidad: inputStock.value,
-            precio_venta: parseFloat(
-              precioElement.textContent.replace("$", "")
-            ),
-            img: imgProd,
-            nombre: nombreElement.textContent,
-          };
-
-          addToCart(productToAdd);
-          swal({
-            title: nombreElement.textContent,
-            text: "Agregado al carrito !",
-            icon: "success",
-            timer: 1000,
-            buttons: false,
-          });
-        } catch (error) {
-          console.log(error.message);
-          swal("Error", error.message, "warning");
-        }
       });
     });
 

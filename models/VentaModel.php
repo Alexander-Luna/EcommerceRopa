@@ -243,35 +243,151 @@ INNER JOIN usuarios u ON v.id_client = u.id;
     public function getProductsCliente()
     {
         try {
+            session_start();
+            $userData = $_SESSION['user_session'];
+            $id_user =  $userData['user_id'];
+            $id_user = 1;
             $est = $_GET['id'];
+
             $conexion = parent::Conexion();
-            $sql = "SELECT v.*, r.nombre AS nombre_recibe, r.telefono AS telefono_recibe, r.email AS email_recibe, r.direccion AS direccion_recibe,
-            u.nombre AS nombre_usuario,
-            dv.cantidad, p.nombre AS nombre_producto, p.descripcion AS descripcion_producto, i.stock AS stock_producto,
-            i.precio AS precio_producto, i.stock_alert AS stock_alert_producto,
-            ip.url_imagen AS imagen_producto, v.est_pago AS estado_pago
-FROM ventas v
-INNER JOIN recibe r ON v.id_recibe = r.id
-INNER JOIN usuarios u ON v.id_client = u.id
-INNER JOIN detalles_venta dv ON v.id = dv.id_venta
-INNER JOIN inventario i ON dv.id_variante_producto = i.id
-INNER JOIN productos p ON i.id_producto = p.id
-INNER JOIN imagenes_producto ip ON p.id = ip.id_producto
+            $sql = "SELECT v.id AS venta_id, v.fecha AS fecha_venta,v.total, dv.id_variante_producto AS id_producto,
+            SUM(dv.cantidad) AS cantidad_vendida, dv.precio_unitario, p.nombre AS nombre_producto
+     FROM ventas v
+     JOIN detalles_venta dv ON v.id = dv.id_venta
+     JOIN inventario inv ON dv.id_variante_producto = inv.id
+     JOIN productos p ON inv.id_producto = p.id
+     LEFT JOIN imagenes_producto ip ON p.id = ip.id_producto
+     WHERE v.id_client=?  AND v.est_pago=? GROUP BY venta_id, id_producto;
+     
 ";
 
-            if ($est != null) {
-                $sql += " WHERE v.est_pago = ?;";
-            }
-            $stmt = $conexion->prepare($sql);
-            if ($est != null) {
-                $stmt->bindValue(1, $est);
-            }
 
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $id_user);
+            $stmt->bindValue(2, $est);
             $stmt->execute();
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
         } catch (PDOException $e) {
             die("Error al obtener ventas: " . $e->getMessage());
+        }
+    }
+    public function insertVentaClient()
+    {
+        try {
+            session_start();
+            $userData = $_SESSION['user_session'];
+            $id_user =  $userData['user_id'];
+            $productos = json_decode($_POST["carrito"], true);
+            if ($productos === null && json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception("Error al decodificar los datos de los productos.");
+            }
+            $cenvio = $_POST["cenvio"];
+            $ci = $_POST["ci"];
+            $isenvio = $_POST["isenvio"];
+            $metodo_pago = $_POST["metodo_pago"];
+            $ncomprobante = $_POST["ncomprobante"];
+            $comprobante = $_POST["comprobante"];
+
+            $totalVenta = 0;
+            foreach ($productos as $producto) {
+                $subtotal = $producto["cantidad"] * $producto["precio_venta"];
+                $totalVenta += $subtotal;
+            }
+
+            $conexion = parent::Conexion();
+            $conexion->beginTransaction();
+
+            $nombre = $_POST["nombre"];
+            $telefono = $_POST["telefono"];
+            $email = $_POST["email"];
+            $direccion = $_POST["direccion"];
+
+            $sqlRecive = "INSERT INTO recibe (ci,nombre, telefono,email,direccion,est) VALUES (?,?, ?,?,?,?)";
+            $stmtRecibe = $conexion->prepare($sqlRecive);
+            $stmtRecibe->bindValue(1, $ci);
+            $stmtRecibe->bindValue(2, $nombre);
+            $stmtRecibe->bindValue(3, $telefono);
+            $stmtRecibe->bindValue(4, $email);
+            $stmtRecibe->bindValue(5, $direccion);
+            $stmtRecibe->bindValue(6, 1);
+            $stmtRecibe->execute();
+
+            $id_recibe = $conexion->lastInsertId();
+
+            $sqlVenta = "INSERT INTO ventas (id_client,id_recibe,fecha, total, envio,isenvio,est_pago,metodo_pago,ncomprobante,comprobante) VALUES (?, ?, NOW(),?,?,?,?,?,?,?)";
+            $stmtVenta = $conexion->prepare($sqlVenta);
+            $stmtVenta->bindValue(1, $id_user);
+            $stmtVenta->bindValue(2, $id_recibe);
+            $stmtVenta->bindValue(3, $totalVenta);
+            $stmtVenta->bindValue(4, $cenvio);
+            $stmtVenta->bindValue(5, $isenvio);
+            $stmtVenta->bindValue(6, 0);
+            $stmtVenta->bindValue(7, $metodo_pago);
+            $stmtVenta->bindValue(8, $ncomprobante);
+            $stmtVenta->bindValue(9, $comprobante);
+            $stmtVenta->execute();
+
+            $idVenta = $conexion->lastInsertId();
+
+            foreach ($productos as $producto) {
+                $idProducto = $producto["producto_id"];
+                $idTalla = $producto["talla_id"];
+                $idColor = $producto["color_id"];
+                $precioUnitario = $producto["precio_venta"];
+                $cantidadVendida = $producto["cantidad"];
+
+                $sqlSelectInventario = "SELECT id, stock FROM inventario WHERE id_producto = ? AND id_talla=? AND id_color=?";
+                $stmtSelectInventario = $conexion->prepare($sqlSelectInventario);
+                $stmtSelectInventario->bindValue(1, $idProducto);
+                $stmtSelectInventario->bindValue(2, $idTalla);
+                $stmtSelectInventario->bindValue(3, $idColor);
+                $stmtSelectInventario->execute();
+                $inventarios = $stmtSelectInventario->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach ($inventarios as $inventario) {
+                    $idInventario = $inventario["id"];
+                    $stockDisponible = $inventario["stock"];
+
+                    // Si aún hay cantidad por vender y el stock disponible es mayor que 0
+                    while ($cantidadVendida > 0 && $stockDisponible > 0) {
+                        $cantidadADescontar = min($cantidadVendida, $stockDisponible);
+
+                        $sqlActualizarInventario = "UPDATE inventario SET stock = stock - ? WHERE id = ?";
+                        $stmtActualizarInventario = $conexion->prepare($sqlActualizarInventario);
+                        $stmtActualizarInventario->bindValue(1, $cantidadADescontar);
+                        $stmtActualizarInventario->bindValue(2, $idInventario);
+                        $stmtActualizarInventario->execute();
+
+                        $cantidadVendida -= $cantidadADescontar;
+                        $stockDisponible -= $cantidadADescontar;
+
+                        // Registrar el detalle de venta
+                        $sqlDetalleVenta = "INSERT INTO detalles_venta (id_venta, id_variante_producto, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
+                        $stmtDetalleVenta = $conexion->prepare($sqlDetalleVenta);
+                        $stmtDetalleVenta->bindValue(1, $idVenta);
+                        $stmtDetalleVenta->bindValue(2, $idInventario);
+                        $stmtDetalleVenta->bindValue(3, $cantidadADescontar);
+                        $stmtDetalleVenta->bindValue(4, $precioUnitario);
+                        $stmtDetalleVenta->execute();
+                    }
+
+                    // Si la cantidad vendida ya se ha descontado completamente, salimos del bucle
+                    if ($cantidadVendida <= 0) {
+                        break;
+                    }
+                }
+            }
+
+
+            $conexion->commit();
+            return true;
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+            die("Error al insertar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack();
+            die("Error: " . $e->getMessage());
         }
     }
 }

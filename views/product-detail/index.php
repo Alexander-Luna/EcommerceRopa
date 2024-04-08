@@ -33,20 +33,12 @@
 
 										<div id="sliderIMG" class="slick3 gallery-lb">
 
-											
+
 										</div>
 									</div>
 								</div>
 							</div>
 
-							<!-- <div class="item-slick3" data-thumb="../../public/images/products/product-04.jpg">
-												<div class="wrap-pic-w pos-relative">
-													<img src="../../public/images/products/product-04.jpg" alt="IMG-PRODUCT">
-													<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="../../public/images/products/product-04.jpg">
-														<i class="fa fa-expand"></i>
-													</a>
-												</div>
-											</div> -->
 							<div class="col-md-6 col-lg-5 p-b-30">
 								<div class="p-r-50 p-t-5 p-lr-0-lg">
 									<h4 id="tv-nombre" class="mtext-105 cl2 js-name-detail p-b-14">
@@ -101,14 +93,14 @@
 														<i class="fs-16 zmdi zmdi-minus"></i>
 													</div>
 
-													<input id="input_stock" class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+													<input id="input_stock" class="mtext-104 cl3 txt-center num-product" type="text" name="num-product" value="1" onkeypress="return soloNumeros(event)">
 
 													<div id="sumar" class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 														<i class="fs-16 zmdi zmdi-plus"></i>
 													</div>
 												</div>
 
-												<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+												<button id="js-addcart-detail" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 													Agregar al carrito
 												</button>
 											</div>

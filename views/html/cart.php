@@ -20,15 +20,23 @@
                 <div id="totalPagar" class="header-cart-total w-full p-tb-40">
                 </div>
 
-                <div class="header-cart-buttons flex-w w-full">
+                <?php
+                if (!empty($_SESSION['user_session'])) {
+                ?>
+
                     <a href="../shoping-cart" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-                        Ver Carrito
+                        Comprar Ahora
+                    </a>
+                <?php
+                } else {
+                ?>
+                    <a href="../login" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                        Inicia sesión para comprar
                     </a>
 
-                    <a href="../shoping-cart" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-                        Pagar
-                    </a>
-                </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </div>

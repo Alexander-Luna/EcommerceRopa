@@ -16,15 +16,6 @@ INSERT INTO `usuarios` (`rol_id`, `email`, `pass`, `nombre`, `direccion`, `cedul
 ( 1, 'admin@admin.com', '$2y$12$yQsWj3E.s5L/R6AUPy.t4eGRtkfGoKKRLpBJA8tGItB3/sGDStCTi', 'Admin', 'admin direccion', '0202433312', 1);
 
 
--- Insertar datos de ejemplo en la tabla recive
-INSERT INTO recibe ( nombre, telefono, email, direccion, est)
-VALUES 
-( 'Juan Perez', '123456789', 'juan@example.com', 'Calle Principal 123', 1),
-( 'María López', '987654321', 'maria@example.com', 'Avenida Central 456', 1),
-( 'Pedro Martinez', '555444333', 'pedro@example.com', 'Plaza Mayor 789', 1);
-
-
-
 INSERT INTO proveedores (ruc, nombre, email, telefono, direccion, est) VALUES ('1234567890', 'Proveedor Uno', 'proveedoruno@example.com', '1234567890', 'Calle Uno #123', 1),
  ('2345678901', 'Proveedor Dos', 'proveedordos@example.com', '593985726434', 'Avenida Dos #456', 1),
 ('3456789012', 'Proveedor Tres', 'proveedortres@example.com', '593985726434', 'Calle Tres #789', 1),
@@ -35,6 +26,7 @@ INSERT INTO proveedores (ruc, nombre, email, telefono, direccion, est) VALUES ('
 INSERT INTO ocasion (nombre) VALUES 
 ('Formal'), 
 ('Uniforme Escolar'), 
+('Casual'), 
 ('Deportivo');
 
 -- Insertar datos en la tabla de género

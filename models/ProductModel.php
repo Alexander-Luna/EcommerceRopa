@@ -86,6 +86,7 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+
     public function getProducts()
     {
         try {

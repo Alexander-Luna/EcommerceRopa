@@ -5,16 +5,17 @@ document.addEventListener("DOMContentLoaded", async function () {
   document
     .getElementById("btnpagar")
     .addEventListener("click", async function () {
-      swal({
-        title: "¿Esta seguro de realizar la compra?",
-        text: "La acción se realizó de manera exitosa!",
-        icon: "warning",
-        buttons: ["Cancelar", "Confirmar"],
-      }).then((confirmado) => {
-        if (confirmado) {
-          realizarPago();
-        }
-      });
+      realizarPago();
+
+      // swal({
+      //   title: "¿Esta seguro de realizar la compra?",
+      //   text: "La acción se realizó de manera exitosa!",
+      //   icon: "warning",
+      //   buttons: ["Cancelar", "Confirmar"],
+      // }).then((confirmado) => {
+      //   if (confirmado) {
+      //   }
+      // });
     });
   var miTabla = $("#miTabla").DataTable({
     language: {
@@ -123,7 +124,69 @@ document.addEventListener("DOMContentLoaded", async function () {
     $("#precio").text(CENVIO.toFixed(2));
   });
   function realizarPago() {
-    alert("Entra");
+    event.preventDefault();
+    // Obtener el carrito de compras del localStorage
+    let carrito = [];
+    const carritoJSON = localStorage.getItem("cart");
+    if (carritoJSON) {
+      carrito = JSON.parse(carritoJSON);
+    } else {
+      swal("Error", "No existen productos en el carrito", "warning");
+      //return;
+    }
+
+    // Obtener los valores de los campos del formulario
+    const nombre = document.getElementById("nombre").value;
+    const provincia = document.getElementById("provincias").value;
+    const canton = document.getElementById("canton").value;
+    const direccion = document.getElementById("direccion").value;
+    const email = document.getElementById("email").value;
+    const ci = document.getElementById("ci").value;
+    const telefono = document.getElementById("telefono").value;
+    const idEnvio = document.getElementById("id_envio").value;
+    const metodoDePago = document.getElementById("metododepago").value;
+    const comprobante = document.getElementById("comprobante").value;
+    const comprobantef = document.getElementById("comprobantef").value;
+
+    // Crear un nuevo objeto FormData
+    const formData = new FormData();
+    formData.append("carrito", JSON.stringify(carrito));
+
+    formData.append("nombre", nombre);
+    formData.append("telefono", telefono);
+    formData.append("email", email);
+    formData.append("direccion", provincia + " " + canton + " " + direccion);
+
+    formData.append("total", SUBTOTAL);
+    formData.append("cenvio", CENVIO);
+    formData.append("ci", ci);
+    let isEnvio = 1;
+    if (idEnvio === 1) {
+      isEnvio = 0;
+    }
+    formData.append("isenvio", isEnvio);
+
+    formData.append("metodo_pago", metodoDePago);
+
+    formData.append("ncomprobante", comprobante);
+    formData.append("comprobante", comprobantef);
+    // Realizar alguna acción, como enviar los datos al servidor
+    enviarDatosAlServidor(formData);
+  }
+
+  function enviarDatosAlServidor(formData) {
+    // Aquí puedes enviar los datos al servidor utilizando AJAX, Fetch, etc.
+    // Por ejemplo, usando Fetch:
+    fetch("../../controllers/router.php?op=insertVentaClient", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error al enviar los datos:", error);
+      });
   }
   function reloadSection() {
     try {
@@ -154,15 +217,32 @@ document.addEventListener("DOMContentLoaded", async function () {
     reloadCart();
     reloadSection();
   });
-  $(document).on("click", ".btnSumar", function () {
+  $(document).on("click", ".btnSumar", async function (event) {
+    event.preventDefault();
     var id = $(this).data("id");
     let cart = JSON.parse(localStorage.getItem("cart"));
     let producto = cart.find((producto) => producto.id === id);
     if (producto) {
-      producto.cantidad++; // Incrementar la cantidad del producto
-      localStorage.setItem("cart", JSON.stringify(cart));
-      reloadCart();
-      reloadSection();
+      producto.cantidad++;
+
+      const stockActual = await getPrecioShop(
+        producto.producto_id,
+        producto.color_id,
+        producto.talla_id
+      );
+      // console.log(producto);
+      console.log(stockActual);
+
+      if (stockActual > producto.cantidad) {
+        localStorage.setItem("cart", JSON.stringify(cart));
+        reloadCart();
+        reloadSection();
+      } else {
+        producto.cantidad = stockActual;
+        localStorage.setItem("cart", JSON.stringify(cart));
+        reloadCart();
+        reloadSection();
+      }
     }
   });
   $(document).on("click", ".btnRestar", function () {
@@ -170,10 +250,42 @@ document.addEventListener("DOMContentLoaded", async function () {
     let cart = JSON.parse(localStorage.getItem("cart"));
     let producto = cart.find((producto) => producto.id === id);
     if (producto) {
-      producto.cantidad--; // Incrementar la cantidad del producto
+      const cantidad = producto.cantidad--;
+      if (cantidad < 2) {
+        producto.cantidad = 1;
+      }
       localStorage.setItem("cart", JSON.stringify(cart));
       reloadCart();
       reloadSection();
     }
   });
+
+  async function getPrecioShop(prod_id, talla_id, color_id) {
+    try {
+      const response = await fetch(
+        "../../controllers/router.php?op=getPrecioShop&prod_id=" +
+          prod_id +
+          "&talla_id=" +
+          talla_id +
+          "&color_id=" +
+          color_id
+      );
+      if (!response.ok) {
+        throw new Error(
+          "Hubo un problema al obtener los detalles del producto."
+        );
+      }
+      const productos = await response.json();
+      console.log(productos[0]);
+      if (productos.length > 0) {
+        const producto = productos[0];
+        return producto.stock;
+      } else {
+        return 0;
+      }
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  }
 });

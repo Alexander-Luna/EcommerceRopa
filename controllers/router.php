@@ -133,7 +133,7 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
     }
 }
 
-function handlePostRequest($action, $productController, $userController, $ventaC, $compraController, $publicidadController, $proveedorController, $controller)
+function handlePostRequest($action, $productController, $userController, $ventaController, $compraController, $publicidadController, $proveedorController, $controller)
 {
     // try {
     switch ($action) {
@@ -226,6 +226,11 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             break;
         case 'deleteCompra':
             $publicidadController->deleteSliders();
+            break;
+
+
+        case 'insertVentaClient':
+            $ventaController->insertVentaClient();
             break;
         default:
             handleNotFound();

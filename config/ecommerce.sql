@@ -152,6 +152,7 @@ CREATE TABLE detalles_compra (
 -- Crear tabla de información de quién recibe la venta
 CREATE TABLE recibe (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    ci VARCHAR(15) NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     telefono VARCHAR(15) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -165,6 +166,8 @@ CREATE TABLE ventas (
     id_recibe INT,
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(10, 2),
+    envio DECIMAL(10, 2) DEFAULT 0,
+    isenvio INT DEFAULT 0,
     est_pago INT DEFAULT 0,
     metodo_pago INT DEFAULT 1, 
     -- 1 Retiro en oficina 2 Transferencia

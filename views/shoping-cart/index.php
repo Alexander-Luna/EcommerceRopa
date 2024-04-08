@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (empty($_SESSION['user_session'])) {
+	header("Location: ../main");
+	exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -116,7 +124,7 @@
 										</select>
 										<label class="col-form-label">Información de envio</label>
 										<div class="bor8 bg0 m-b-22">
-											<input name="nombre" id="nombre" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Nombres y Apellidos">
+											<input name="nombre" id="nombre" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"  placeholder="Nombres y Apellidos">
 										</div>
 										<div class="form-group">
 											<select class="form-control" id="provincias" name="provincias" required>
@@ -150,28 +158,41 @@
 										</div>
 
 										<div class="bor8 bg0 m-b-22">
-											<input name="canton" id="canton" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Canton">
+											<input name="canton" id="canton" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"  placeholder="Canton">
 										</div>
 										<div class="bor8 bg0 m-b-22">
-											<input name="direccion" id="direccion" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Dirección">
-										</div>
-
-										<div class="bor8 bg0 m-b-22">
-											<input name="email" id="email" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="email">
+											<input name="direccion" id="direccion" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"  placeholder="Dirección">
 										</div>
 										<div class="bor8 bg0 m-b-22">
-											<input name="telefono" id="telefono" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Teléfono / Celular">
+											<input name="ci" id="ci" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"  placeholder="Documento de identidad">
+										</div>
+										<div class="bor8 bg0 m-b-22">
+											<input name="email" id="email" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"  placeholder="email">
+										</div>
+										<div class="bor8 bg0 m-b-22">
+											<input name="telefono" id="telefono" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"  placeholder="Teléfono / Celular">
 										</div>
 									</div>
-									<div>
-
-										<div class="bor8 bg0 m-b-22">
-											<label for="comprobantef" class="col-form-label">Comprobante de pago:</label>
-											<input type="file" class="form-control-file" id="comprobantef" name="comprobantef" accept=".jpg, .jpeg, .png,.pdf" multiple>
+									<div id=mPago>
+										<div class="form-group">
+											<label for="comprobante" class="col-form-label">Seleccione su método de pago</label>
+											<select class="form-control" id="metododepago" name="provincias" required>
+												<option value="">Seleccione...</option>
+												<option value="0">Pago en oficina</option>
+												<option value="1">Deposito</option>
+												<option value="2">Transferencia</option>
+											</select>
+											<br>
 										</div>
-										<label for="comprobante" class="col-form-label">Número de comprobante:</label>
-										<div class="bor8 bg0 m-b-22">
-											<input name="comprobante" id="comprobante" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Número de comprobante">
+										<div>
+											<div class="bor8 bg0 m-b-22">
+												<label for="comprobantef" class="col-form-label">Comprobante de pago:</label>
+												<input type="file" class="form-control-file" id="comprobantef" name="comprobantef" accept=".jpg, .jpeg, .png,.pdf" multiple>
+											</div>
+											<label for="comprobante" class="col-form-label">Número de comprobante:</label>
+											<div class="bor8 bg0 m-b-22">
+												<input name="comprobante" id="comprobante" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"  placeholder="Número de comprobante">
+											</div>
 										</div>
 
 									</div>

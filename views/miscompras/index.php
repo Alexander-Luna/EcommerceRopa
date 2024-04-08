@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (empty($_SESSION['user_session'])) {
+	header("Location: ../main");
+	exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 

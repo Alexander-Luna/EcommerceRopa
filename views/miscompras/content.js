@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "../../controllers/router.php?op=getProductsCliente&id=" + id
       );
       data = await response.json();
+      console.log(data);
       mostrarElementosEnBloques(data);
     } catch (error) {
       console.error("Error al obtener productos:", error);
