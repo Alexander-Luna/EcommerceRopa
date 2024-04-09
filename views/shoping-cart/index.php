@@ -176,15 +176,15 @@ if (empty($_SESSION['user_session'])) {
 									<div id=mPago>
 										<div class="form-group">
 											<label for="comprobante" class="col-form-label">Seleccione su método de pago</label>
-											<select class="form-control" id="metododepago" name="provincias" required>
+											<select class="form-control" id="metododepago" name="provincias" required onchange="toggleFields()">
 												<option value="">Seleccione...</option>
 												<option value="0">Pago en oficina</option>
-												<option value="1">Deposito</option>
+												<option value="1">Deposito</option> 
 												<option value="2">Transferencia</option>
 											</select>
 											<br>
 										</div>
-										<div>
+										<div id="camposPago">
 											<div class="bor8 bg0 m-b-22">
 												<label for="comprobantef" class="col-form-label">Comprobante de pago:</label>
 												<input type="file" class="form-control-file" id="comprobantef" name="comprobantef" accept=".jpg, .jpeg, .png,.pdf" multiple>
@@ -235,7 +235,7 @@ if (empty($_SESSION['user_session'])) {
 
 
 	<?php require_once "../html/MainJS.php"; ?>
-	<script src="content.js"></script>
+	<script src="content.js"></script>  
 
 </body>
 

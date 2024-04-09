@@ -211,6 +211,22 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.error("Error al obtener los detalles del producto:", error);
     }
   }
+  
+  //OCULTAR METODO DE PAGO
+  function toggleFields() {
+    var metodoPagoSelect = document.getElementById("metododepago");
+    var camposPago = document.getElementById("camposPago");
+
+    if (metodoPagoSelect.value == "0") { // Si es Pago en oficina
+       camposPago.style.display = "none"; // Ocultar campos de pago
+    } else {
+       camposPago.style.display = "block"; // Mostrar campos de pago
+    }
+  }
+
+  // Llamar toggleFields al cargar la página para establecer el estado inicial
+  window.onload = toggleFields;
+
 
   $(document).on("click", ".btnEliminar", function () {
     var id = $(this).data("id");

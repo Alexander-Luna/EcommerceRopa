@@ -3056,12 +3056,17 @@ input.num-product::-webkit-inner-spin-button {
 
 /*---------------------------------------------*/
 .hov-img0 {
+  flex: 0 0 262.5px; /* Establece el ancho predeterminado de cada elemento */
+  height: 325.05px; /* Altura deseada */
+  margin: 5px; /* Margen entre los elementos (opcional) */
   display: block;
   overflow: hidden;
 }
 
 .hov-img0 img{
   width: 100%;
+  height: auto;
+  object-fit: contain;
   -webkit-transition: transform 0.9s ease;
   -o-transition: transform 0.9s ease;
   -moz-transition: transform 0.9s ease;
