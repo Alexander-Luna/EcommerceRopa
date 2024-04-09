@@ -212,21 +212,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
   
-  //OCULTAR METODO DE PAGO
-  function toggleFields() {
-    var metodoPagoSelect = document.getElementById("metododepago");
-    var camposPago = document.getElementById("camposPago");
-
-    if (metodoPagoSelect.value == "0") { // Si es Pago en oficina
-       camposPago.style.display = "none"; // Ocultar campos de pago
-    } else {
-       camposPago.style.display = "block"; // Mostrar campos de pago
-    }
-  }
-
-  // Llamar toggleFields al cargar la página para establecer el estado inicial
-  window.onload = toggleFields;
-
 
   $(document).on("click", ".btnEliminar", function () {
     var id = $(this).data("id");
@@ -308,3 +293,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 });
+
+	function toggleFields() {
+		var paymentMethod = document.getElementById("metododepago").value;
+		var paymentFields = document.getElementById("camposPago");
+
+			if (paymentMethod === "0") {
+				// Pago en oficina selected, hide fields
+				paymentFields.style.display = "none";
+			} else {
+				// Deposito or Transferencia selected, show fields
+				paymentFields.style.display = "block";
+			}
+		}
+
+		// Initialize the fields based on the initial selected option
+		toggleFields();
