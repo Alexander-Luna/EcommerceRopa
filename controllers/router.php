@@ -48,6 +48,9 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getAllProducts':
                 $productController->getAllProducts();
                 break;
+            case 'getAllProductsStock':
+                $productController->getAllProductsStock();
+                break;
             case 'getProductsAlert':
                 $productController->getProductsAlert();
                 break;
@@ -64,6 +67,11 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
                 break;
             case 'getTallasColor':
                 $productController->getTallasColor();
+                break;
+
+
+            case 'downloadStock':
+                $productController->downloadStock();
                 break;
 
             case 'getImgProd':

@@ -43,6 +43,14 @@
                             <option value="">Seleccione...</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Estado:</label>
+                        <select class="form-control" id="est" name="est" required>
+                            <option value="">Seleccione...</option>
+                            <option value="0">Desactivado</option>
+                            <option value="1">Activado</option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -52,3 +60,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#miModal').on('hidden.bs.modal', function() {
+        document.getElementById("id").value = "";
+        document.getElementById("nombre").value = "";
+        document.getElementById("descripcion").value = "";
+        document.getElementById("id_ocasion").value = "";
+        document.getElementById("id_tipo_prenda").value = "";
+        document.getElementById("id_genero").value = "";
+        document.getElementById("imagenes").value = "";
+        document.getElementById("est").value = "";
+    });
+
+    $('#miModal').on('shown.bs.modal', function() {
+        $('#id').prop('disabled', false);
+        $('#id').val('');
+        $('#nombre').val('');
+        $('#descripcion').val('');
+        $('#est').val('');
+        $('#id_ocasion').val('');
+        $('#id_tipo_prenda').val('');
+        $('#id_genero').val('');
+        $('#imagenes').val('');
+    });
+</script>

@@ -34,10 +34,32 @@ class ProductController
             echo json_encode($data);
         }
     }
+    public function downloadStock()
+    {
+        $model1 = new ProductModel();
+        $model = new DownloadPDF();
+        $id = $_GET['id'];
+        $data = $model->downloadStock($model1->getAllProductsStock($id));
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
     public function getAllProducts()
     {
         $model = new ProductModel();
         $data = $model->getAllProducts();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+        }
+    }
+    public function getAllProductsStock()
+    {
+        $model = new ProductModel();
+        $data = $model->getAllProductsStock();
         if ($data === false || empty($data)) {
             http_response_code(204);
         } else {
@@ -94,7 +116,7 @@ class ProductController
             echo json_encode($data);
         }
     }
-   
+
     public function getWishList()
     {
         $model = new ProductModel();

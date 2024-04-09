@@ -8,6 +8,31 @@ class ProductModel extends Conectar
         try {
             $conexion = parent::Conexion();
 
+            $sql = "SELECT tp.nombre as tipo_prenda,tp.*, oc.nombre as ocasion, p.*, g.nombre AS genero, img.url_imagen AS imagen
+            FROM productos p
+            INNER JOIN genero g ON p.id_genero = g.id
+            INNER JOIN ocasion oc ON p.id_ocasion = oc.id
+            INNER JOIN tipo_prenda tp ON p.id_tipo_prenda = tp.id
+            LEFT JOIN imagenes_producto img ON img.id_producto = p.id AND img.est = 1 AND img.orden = 1
+            ;";
+
+
+            $stmt = $conexion->prepare($sql);
+
+
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
+    public function getAllProductsStock()
+    {
+        try {
+            $conexion = parent::Conexion();
+            $id = $_GET['id'];
             $sql = "SELECT oc.nombre as ocasion,prov.nombre AS prov_nombre, prov.*, i.*, p.*, c.color, g.nombre AS genero, t.desc_talla, t.talla, img.url_imagen AS imagen
             FROM inventario i
             INNER JOIN productos_proveedores pp ON i.id_producto = pp.id_producto
@@ -17,12 +42,15 @@ class ProductModel extends Conectar
             LEFT JOIN colores c ON i.id_color = c.id
             LEFT JOIN tallas t ON i.id_talla = t.id
             LEFT JOIN proveedores prov ON pp.id_proveedor = prov.id
-            LEFT JOIN imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
-            ;";
-
+            LEFT JOIN imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1 ";
+            if ($id != null) {
+                $sql .= 'WHERE p.id=?';
+            }
 
             $stmt = $conexion->prepare($sql);
-
+            if ($id != null) {
+                $stmt->bindValue(1, $id);
+            }
 
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -289,69 +317,79 @@ class ProductModel extends Conectar
         }
     }
 
+    public function deleteProduct()
+    {
+        try {
+            $id = $_POST["id"];
+            $conexion = parent::Conexion();
+            $sql = "UPDATE productos SET est = CASE WHEN est = 1 THEN 0 ELSE 1 END WHERE id=?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $id);
+            $stmt->execute();
 
+            if ($stmt->rowCount() > 0) {
+                return true;
+            } else {
+                throw new Exception("No se ha podido cambiar el estado del proveedor");
+            }
+        } catch (PDOException $e) {
+            die("Error al cambiar el estado del proveedor: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
 
 
     public function updateProduct()
     {
         try {
-            $id = $_POST["id"];
-            $titulo = $_POST["titulo"];
+            $id_producto = $_POST["id"];
+            $nombre = $_POST["nombre"];
             $descripcion = $_POST["descripcion"];
+            $id_genero = $_POST["id_genero"];
+            $id_tipo_prenda = $_POST["id_tipo_prenda"];
+            $id_ocasion = $_POST["id_ocasion"];
+            $est = $_POST["est"];
+            $conexion = parent::Conexion();
+            $conexion->beginTransaction();
 
-            // Actualizar los datos en la base de datos
-            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-            $sql = "UPDATE productos SET titulo=?, descripcion=?, img=? WHERE id=?";
-            $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $titulo);
-            $stmt->bindValue(2, $descripcion);
+            $sqlProducto = "UPDATE productos SET nombre=?, descripcion=?, id_genero=?, id_tipo_prenda=?, id_ocasion=?,est=? WHERE id=?";
+            $stmtProducto = $conexion->prepare($sqlProducto);
+            $stmtProducto->bindValue(1, $nombre);
+            $stmtProducto->bindValue(2, $descripcion);
+            $stmtProducto->bindValue(3, $id_genero);
+            $stmtProducto->bindValue(4, $id_tipo_prenda);
+            $stmtProducto->bindValue(5, $id_ocasion);
+            $stmtProducto->bindValue(6, $est);
+            $stmtProducto->bindValue(7, $id_producto);
+            $stmtProducto->execute();
 
-            $rutaImagenes = '../public/images/productos/';
+            // Eliminar las imágenes anteriores del producto (opcional, según la lógica de tu aplicación)
 
-            // Verificar si se ha cargado una nueva imagen
-            if (!empty($_FILES["img"]["name"])) {
-                // Nombre único de la imagen
-                $nombreImagen = uniqid(); // Sin extensión para la conversión a WebP
-
-                // Mover la nueva imagen a la carpeta deseada
-                if (!move_uploaded_file($_FILES["img"]["tmp_name"], $rutaImagenes . $nombreImagen . '.webp')) {
-                    throw new Exception("Error al mover la nueva imagen a la carpeta de destino");
+            // Insertar las nuevas rutas de las imágenes en la tabla imagenes_productos
+            if (!empty($_FILES["imagenes"]["name"])) {
+                $rutaImagenes = '../public/images/products/';
+                for ($i = 0; $i < count($_FILES["imagenes"]["name"]); $i++) {
+                    $nombreImagen = uniqid();
+                    if (!move_uploaded_file($_FILES["imagenes"]["tmp_name"][$i], $rutaImagenes . $nombreImagen . '.webp')) {
+                        throw new Exception("Error al mover la imagen a la carpeta de destino");
+                    }
+                    $url_imagen = "../../public/images/products/" . $nombreImagen . '.webp';
+                    $orden = $i + 1;
+                    $stmtImagen = $conexion->prepare("INSERT INTO imagenes_producto (id_producto, url_imagen, orden, est) VALUES (?, ?, ?, ?)");
+                    $stmtImagen->bindValue(1, $id_producto);
+                    $stmtImagen->bindValue(2, $url_imagen);
+                    $stmtImagen->bindValue(3, $orden);
+                    $stmtImagen->bindValue(4, 1); // Valor por defecto para est
+                    $stmtImagen->execute();
                 }
-
-                // Obtener la imagen actual del registro
-                $stmt_img = $conexion->prepare("SELECT img FROM productos WHERE id=?");
-                $stmt_img->execute([$id]);
-                $imagenActual = $stmt_img->fetchColumn();
-
-                // Eliminar la imagen actual si existe
-                if ($imagenActual && file_exists($imagenActual)) {
-                    unlink($imagenActual);
-                }
-
-                // Asignar la ruta de la nueva imagen en formato WebP al statement
-                $stmt->bindValue(3, "../../public/images/products/" . $nombreImagen . '.webp');
-            } else {
-                // No se cargó una nueva imagen, mantener la imagen existente
-                $stmt_img = $conexion->prepare("SELECT img FROM productos WHERE id=?");
-                $stmt_img->execute([$id]);
-                $imagenActual = $stmt_img->fetchColumn();
-                $stmt->bindValue(3, $imagenActual);
             }
-
-            $stmt->bindValue(4, $id);
-
-            // Ejecutar la consulta
-            $stmt->execute();
-
-            // Verificar si se ha actualizado el registro correctamente
-            if ($stmt->rowCount() > 0) {
-                return true; // Se ha actualizado correctamente
-            } else {
-                throw new Exception("No se ha podido actualizar el registro");
-            }
+            return  $conexion->commit();
         } catch (PDOException $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
             die("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
             die("Error: " . $e->getMessage());
         }
     }

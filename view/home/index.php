@@ -175,6 +175,12 @@ if (isset($_SESSION['user_session'])) {
                     </a>
                   </li>
                   <li class="nav-item">
+                    <a href="index.php?modulo=controlstock" class="nav-link <?php echo ($modulo == "controlstock") ? " active " : " "; ?>  ">
+                      <i class="fa fa-shopping-bag nav-icon" aria-hidden="true"></i>
+                      <p>Stock Productos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="index.php?modulo=alertas" class="nav-link <?php echo ($modulo == "alertas") ? " active " : " "; ?>  ">
                       <i class="fa fa-bell-o nav-icon" aria-hidden="true"></i>
                       <p>Alertas</p>
@@ -304,6 +310,9 @@ if (isset($_SESSION['user_session'])) {
 
       if ($modulo == "usuarios") {
         include_once "../usuarios/index.php";
+      }
+      if ($modulo == "controlstock") {
+        include_once "../controlstock/index.php";
       }
       if ($modulo == "productos") {
         include_once "../productos/index.php";

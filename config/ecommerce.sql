@@ -32,6 +32,7 @@ CREATE TABLE productos (
     id_genero INT,
     id_tipo_prenda INT,
     id_ocasion INT,
+    est INT(1) NOT NULL DEFAULT 1,
     FOREIGN KEY (id_genero) REFERENCES genero(id),
     FOREIGN KEY (id_tipo_prenda) REFERENCES tipo_prenda(id),
     FOREIGN KEY (id_ocasion) REFERENCES ocasion(id)

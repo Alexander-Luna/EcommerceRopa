@@ -111,11 +111,16 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
         },
       },
-      { data: "talla", title: "Talla" }, // Talla
+      { data: "genero", title: "Genero" }, // Talla
       { data: "ocasion", title: "Ocasión" },
-      { data: "color", title: "Color" }, // Color
-      { data: "stock", title: "Stock" }, // Stock
-      { data: "genero", title: "Genero" }, // Género
+      { data: "tipo_prenda", title: "Tipo de Prenda" },
+      {
+        data: "est",
+        title: "Estado",
+        render: function (data, type, row) {
+          return data == 1 ? "Activo" : "Desactivado";
+        },
+      },
       {
         data: null,
         title: "Acciones",
@@ -132,21 +137,18 @@ document.addEventListener("DOMContentLoaded", async function () {
   $(document).on("click", ".btnEditar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     $("#miModal").modal("show");
-    console.log(rowData);
     document.getElementById("descripcion").value = rowData.descripcion;
     document.getElementById("nombre").value = rowData.nombre;
     document.getElementById("title").innerHTML = "Editar Productos";
     document.getElementById("id").value = rowData.id;
+    document.getElementById("est").value = rowData.est;
     document.getElementById("id_tipo_prenda").value = rowData.id_tipo_prenda;
     document.getElementById("id_genero").value = rowData.id_genero;
     document.getElementById("id_ocasion").value = rowData.id_ocasion;
   });
 
-  // Manejador de eventos para el botón de eliminar
   $(document).on("click", ".btnEliminar", function () {
-    var dataId = $(this).data("id");
     var rowData = miTabla.row($(this).closest("tr")).data();
-    // Realizar la solicitud POST al servidor para eliminar el producto
 
     var formData = new FormData();
     formData.append("id", rowData.id);
@@ -186,69 +188,98 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   function insertar() {
     try {
-      // Obtener los datos del formulario
       const id = document.getElementById("id").value;
       const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
       const imagenes = document.getElementById("imagenes").files;
-
-      // Crear un objeto FormData para enviar los datos al servidor
+      const genero = document.getElementById("id_genero").value;
+      const tipoPrenda = document.getElementById("id_tipo_prenda").value;
+      const ocasion = document.getElementById("id_ocasion").value;
+      const est = document.getElementById("est").value;
       const formData = new FormData();
       formData.append("nombre", nombre);
       formData.append("descripcion", descripcion);
       for (let i = 0; i < imagenes.length; i++) {
         formData.append("imagenes[]", imagenes[i]);
       }
-
-      // Obtener los valores seleccionados de los selects
-      const genero = document.getElementById("id_genero").value;
-      const tipoPrenda = document.getElementById("id_tipo_prenda").value;
-      const ocasion = document.getElementById("id_ocasion").value;
+      formData.append("est", est);
       formData.append("id_genero", genero);
       formData.append("id_tipo_prenda", tipoPrenda);
       formData.append("id_ocasion", ocasion);
 
-      const url =
-        id === ""
-          ? "../../controllers/router.php?op=insertProduct"
-          : "../../controllers/router.php?op=updateProduct";
-      // Realizar la solicitud POST al servidor para insertar o actualizar el producto
-      fetch(url, {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => {
-          if (!response.ok) {
+      if (id === "") {
+        fetch("../../controllers/router.php?op=insertProduct", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              swal(
+                "Ups! Algo salio mal!",
+                "La acción no se pudo realizar correctamente!",
+                "error"
+              );
+              throw new Error(
+                "Hubo un problema al insertar el nuevo Ocasion."
+              );
+            }
+            console.log(response);
+            // Si la inserción fue exitosa, recargar la sección
+            $("#miModal").modal("hide");
+            swal({
+              title: "En Hora Buena!",
+              text: "La acción se realizó de manera exitosa!",
+              icon: "success",
+              timer: 1000,
+              buttons: false,
+            });
+            reloadSection();
+          })
+          .catch((error) => {
             swal(
-              "Ups! Algo salió mal!",
+              "Ups! Algo salio mal!",
               "La acción no se pudo realizar correctamente!",
               "error"
             );
-            throw new Error(
-              "Hubo un problema al insertar o actualizar el producto."
-            );
-          }
-          console.log(response);
-          // Si la inserción o actualización fue exitosa, ocultar el modal y mostrar un mensaje de éxito
-          $("#miModal").modal("hide");
-          swal({
-            title: "En Hora Buena!",
-            text: "La acción se realizó de manera exitosa!",
-            icon: "success",
-            timer: 1000,
-            buttons: false,
+            console.error("Error al insertar el nuevo Product:", error);
           });
-
-          reloadSection();
+      } else {
+        formData.append("id", id);
+        fetch("../../controllers/router.php?op=updateProduct", {
+          method: "POST",
+          body: formData,
         })
-        .catch((error) => {
-          swal(
-            "Ups! Algo salió mal!",
-            "La acción no se pudo realizar correctamente!",
-            "error"
-          );
-          console.error("Error al insertar o actualizar el producto:", error);
-        });
+          .then((response) => {
+            if (!response.ok) {
+              swal(
+                "Ups! Algo salio mal!",
+                "La acción no se pudo realizar correctamente!",
+                "error"
+              );
+              throw new Error(
+                "Hubo un problema al insertar el nuevo Product."
+              );
+            }
+            console.log(response);
+            $("#miModal").modal("hide");
+            swal({
+              title: "En Hora Buena!",
+              text: "La acción se realizó de manera exitosa!",
+              icon: "success",
+              timer: 1000,
+              buttons: false,
+            });
+            reloadSection();
+          })
+          .catch((error) => {
+            console.error("Error al insertar el nuevo Product:", error);
+            swal(
+              "Ups! Algo salio mal!",
+              "La accion no se pudo realizar correctamente!",
+              "error"
+            );
+          });
+      }
     } catch (error) {
       console.error("Error al obtener los datos del formulario:", error);
       swal(

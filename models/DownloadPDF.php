@@ -4,6 +4,7 @@ require_once '../config/Conectar.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use TCPDF;
 
 class DownloadPDF extends Conectar
 {
@@ -91,5 +92,80 @@ class DownloadPDF extends Conectar
             http_response_code(400);
             return $e;
         }
+    }
+    public function downloadStock($data)
+    {
+
+        // Crear instancia de TCPDF
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // Establecer información del documento
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Autor');
+        $pdf->SetTitle('Tabla de productos');
+        $pdf->SetSubject('Tabla de productos');
+        $pdf->SetKeywords('TCPDF, PDF, tabla, productos');
+
+        // Establecer márgenes
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // Establecer auto página de ajuste
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        // Establecer el formato de página
+        $pdf->AddPage();
+
+        // Crear tabla HTML
+        $html = '<table border="1">';
+        $html .= '<thead>';
+        $html .= '<tr>';
+        $html .= '<th>Proveedor</th>';
+        $html .= '<th>RUC</th>';
+        $html .= '<th>Ocasión</th>';
+        $html .= '<th>Nombre</th>';
+        $html .= '<th>Email</th>';
+        $html .= '<th>Teléfono</th>';
+        $html .= '<th>Dirección</th>';
+        $html .= '<th>Stock</th>';
+        $html .= '<th>Stock Alert</th>';
+        $html .= '<th>Precio</th>';
+        $html .= '<th>Color</th>';
+        $html .= '<th>Género</th>';
+        $html .= '<th>Talla</th>';
+        $html .= '<th>Imagen</th>';
+        $html .= '</tr>';
+        $html .= '</thead>';
+        $html .= '<tbody>';
+
+        // Recorrer los datos para crear las filas de la tabla
+        foreach ($data as $row) {
+            $html .= '<tr>';
+            $html .= '<td>' . $row['prov_nombre'] . '</td>';
+            $html .= '<td>' . $row['ruc'] . '</td>';
+            $html .= '<td>' . $row['ocasion'] . '</td>';
+            $html .= '<td>' . $row['nombre'] . '</td>';
+            $html .= '<td>' . $row['email'] . '</td>';
+            $html .= '<td>' . $row['telefono'] . '</td>';
+            $html .= '<td>' . $row['direccion'] . '</td>';
+            $html .= '<td>' . $row['stock'] . '</td>';
+            $html .= '<td>' . $row['stock_alert'] . '</td>';
+            $html .= '<td>' . $row['precio'] . '</td>';
+            $html .= '<td>' . $row['color'] . '</td>';
+            $html .= '<td>' . $row['genero'] . '</td>';
+            $html .= '<td>' . $row['talla'] . '</td>';
+            $html .= '<td><img src="' . $row['imagen'] . '" alt="Imagen del producto" style="max-width: 100px; max-height: 100px;"></td>';
+            $html .= '</tr>';
+        }
+
+        $html .= '</tbody>';
+        $html .= '</table>';
+
+        // Escribir contenido HTML en el PDF
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Cerrar documento y devolver el PDF
+        $pdf->Output('tabla_productos.pdf', 'D');
     }
 }
