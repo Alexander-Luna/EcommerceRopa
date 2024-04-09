@@ -111,6 +111,25 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getTallas':
                 $controller->getTallas();
                 break;
+
+
+            case 'getAllTallas':
+                $controller->getAllTallas();
+                break;
+            case 'getAllOcasion':
+                $controller->getAllOcasion();
+                break;
+            case 'getAllColor':
+                $controller->getAllColores();
+                break;
+            case 'getAllTprenda':
+                $controller->getAllTprenda();
+                break;
+            case 'getAllGeneros':
+                $controller->getAllGeneros();
+                break;
+
+
             case 'getVentaUser':
                 $controller->getVentaUser();
                 break;
@@ -234,6 +253,57 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             break;
         case 'deleteCompra':
             $publicidadController->deleteSliders();
+            break;
+
+        case 'insertTalla':
+            $controller->insertTalla();
+            break;
+        case 'updateTalla':
+            $controller->updateTalla();
+            break;
+        case 'deleteTalla':
+            $controller->deleteTalla();
+            break;
+
+        case 'insertColor':
+            $controller->insertColor();
+            break;
+        case 'updateColor':
+            $controller->updateColor();
+            break;
+        case 'deleteColor':
+            $controller->deleteColor();
+            break;
+
+        case 'insertGenero':
+            $controller->insertGenero();
+            break;
+        case 'updateGenero':
+            $controller->updateGenero();
+            break;
+        case 'deleteGenero':
+            $controller->deleteGenero();
+            break;
+
+
+        case 'insertOcasion':
+            $controller->insertOcasion();
+            break;
+        case 'updateOcasion':
+            $controller->updateOcasion();
+            break;
+        case 'deleteOcasion':
+            $controller->deleteOcasion();
+            break;
+
+        case 'insertTprenda':
+            $controller->insertTprenda();
+            break;
+        case 'updateTprenda':
+            $controller->updateTprenda();
+            break;
+        case 'deleteTprenda':
+            $controller->deleteTprenda();
             break;
 
 

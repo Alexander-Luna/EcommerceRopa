@@ -45,20 +45,7 @@ class InventarioModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
-    public function getAllTallas()
-    {
-        $conexion = parent::Conexion();
-        try {
-            $sql = "SELECT * FROM tallas";
-            $stmt = $conexion->prepare($sql);
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $data;
-        } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
-        }
-    }
     public function getTipoPrenda()
     {
         $conexion = parent::Conexion();
