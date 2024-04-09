@@ -9,7 +9,7 @@ class SendWhatsApp
 {
     public function enviarMensajes($productos)
     {
-        $token = "PA240408215111";
+        $token = "PA240409100728";
 
         try {
 

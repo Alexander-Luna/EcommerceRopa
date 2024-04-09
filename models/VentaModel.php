@@ -123,8 +123,7 @@ INNER JOIN usuarios u ON v.id_client = u.id;
             dv.id_venta, 
             dv.cantidad, 
             dv.precio_unitario, 
-            dv.total_producto,
-            p.nombre AS nombre_producto,
+                       p.nombre AS nombre_producto,
             ip.url_imagen AS imagen,
             i.id_color,
             i.id_talla,
@@ -208,36 +207,7 @@ INNER JOIN usuarios u ON v.id_client = u.id;
         }
     }
 
-    public function insertVentas()
-    {
-        try {
-            $ruc = $_POST["ruc"];
-            $nombre = $_POST["nombre"];
-            $email = $_POST["email"];
-            $telefono = $_POST["telefono"];
-            $direccion = $_POST["direccion"];
 
-            $conexion = parent::Conexion();
-            $sql = "INSERT INTO ventas (ruc, nombre, email, telefono, direccion, est) VALUES (?, ?, ?, ?, ?, 1)";
-            $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $ruc);
-            $stmt->bindValue(2, $nombre);
-            $stmt->bindValue(3, $email);
-            $stmt->bindValue(4, $telefono);
-            $stmt->bindValue(5, $direccion);
-            $stmt->execute();
-
-            if ($stmt->rowCount() > 0) {
-                return true;
-            } else {
-                throw new Exception("No se ha podido insertar el registro");
-            }
-        } catch (PDOException $e) {
-            die("Error al insertar los datos: " . $e->getMessage());
-        } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
-        }
-    }
 
 
     public function getProductsCliente()

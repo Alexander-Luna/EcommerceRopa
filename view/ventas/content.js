@@ -36,16 +36,26 @@ document.addEventListener("DOMContentLoaded", async function () {
         data: "metodo_pago",
         title: "Metodo de Pago",
         render: function (data, type, row) {
-          return data === 0 ? "Pago en Oficina" : data === 1 ? "Deposito" : data === 2 ? "Transferencia" : "Método de pago inválido";
-
+          return data === 0
+            ? "Pago en Oficina"
+            : data === 1
+            ? "Deposito"
+            : data === 2
+            ? "Transferencia"
+            : "Método de pago inválido";
         },
       },
       {
         data: "est_pago",
         title: "Estado de la venta",
         render: function (data, type, row) {
-          return data === 0 ? "Pendiente" : data === 1 ? "Pagado" : data === 2 ? "Entregada" : "inválido";
-
+          return data === 0
+            ? "Pendiente"
+            : data === 1
+            ? "Pagado"
+            : data === 2
+            ? "Entregada"
+            : "inválido";
         },
       },
       { data: "fecha", title: "Fecha" },
@@ -69,11 +79,49 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   $(document).on("click", ".btnView", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
-    var ventaId = rowData.id; // Suponiendo que el ID de la venta está en la propiedad "id" de los datos de la fila
+    fetch("../../controllers/router.php?op=getVentaUser&id=" + rowData.id, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          swal(
+            "Ups! Algo salió mal!",
+            "La acción no se pudo realizar correctamente!",
+            "error"
+          );
+          throw new Error("Hubo un problema al obtener el PDF.");
+        }
+        return response.blob(); // Convertir la respuesta en un blob
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().slice(0, 19).replace(/[-T]/g, '').replace(':', '').replace(':', '');
+        const fileName = `ventas_${formattedDate}.pdf`;
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        swal({
+          title: "¡En Hora Buena!",
+          text: "¡La acción se realizó de manera exitosa!",
+          icon: "success",
+          timer: 1000, // tiempo en milisegundos
+          buttons: false // ocultar botones
+        });
+        reloadSection();
+      })
+      .catch((error) => {
+        swal(
+          "Ups! Algo salió mal!",
+          "La acción no se pudo realizar correctamente!",
+          "error"
+        );
+        console.error("Error al obtener el PDF:", error);
+      });
+});
 
-    // Redireccionar a la página ventas-details con el ID de la venta como parámetro
-    window.location.href = "../ventas-details/index.php?id=" + ventaId;
-  });
+
   $(document).on("click", ".btnDownload", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
 

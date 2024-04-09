@@ -1,5 +1,7 @@
 <?php
 require_once '../models/InventarioModel.php';
+require_once '../models/DownloadPDF.php';
+require_once '../models/ProductModel.php';
 
 class Controller
 {
@@ -125,6 +127,24 @@ class Controller
         try {
             $model = new ProductModel();
             $data = $model->deleteWishClient();
+
+            if ($data) {
+                http_response_code(200);
+                echo json_encode($data);
+            } else {
+                http_response_code(204);
+                echo json_encode(array('error' => 'Error al insertar los datos'));
+            }
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
+        }
+    }
+    public function getVentaUser()
+    {
+        try {
+            $model = new DownloadPDF();
+            $data = $model->getVentaUser();
 
             if ($data) {
                 http_response_code(200);
