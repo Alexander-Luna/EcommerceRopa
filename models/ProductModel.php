@@ -136,7 +136,7 @@ class ProductModel extends Conectar
     {
         try {
             $conexion = parent::Conexion();
-            $sql = "SELECT prov.nombre AS prov_nombre, prov.*, i.*, p.*, c.color, g.nombre AS genero, t.desc_talla, t.talla, img.url_imagen AS imagen
+            $sql = "SELECT i.*,i.id as id_inventario,prov.nombre AS prov_nombre, prov.*,prov.id AS id_proveedor, p.*, c.color, g.nombre AS genero, t.desc_talla, t.talla, img.url_imagen AS imagen
             FROM inventario i
             INNER JOIN productos_proveedores pp ON i.id_producto = pp.id_producto
             INNER JOIN productos p ON pp.id_producto = p.id
@@ -145,7 +145,7 @@ class ProductModel extends Conectar
             LEFT JOIN tallas t ON i.id_talla = t.id
             LEFT JOIN proveedores prov ON pp.id_proveedor = prov.id
             LEFT JOIN imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
-            WHERE i.stock_alert >= i.stock OR i.stock = 0;";
+            WHERE i.stock <= 5 OR i.stock = 0;";
             $stmt = $conexion->prepare($sql);
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -489,7 +489,104 @@ class ProductModel extends Conectar
             die("Error: " . $e->getMessage());
         }
     }
+    public function setProductPedido($products)
+    {
+        try {
+            session_start();
+            $userData = $_SESSION['user_session'];
+            $id_user =  $userData['user_id'];
+            $conexion = parent::Conexion();
+            $conexion->beginTransaction();
+            foreach ($products as $product) {
+                $id_inventario = $product['id_inventario'];
+                $id_proveedor = $product['id_proveedor'];
+                $cantidad = $product['cant_pred'];
+                $sqlProducto = "INSERT INTO alertaspedido (id_user, id_inventario, id_proveedor, cantidad) VALUES (?, ?, ?, ?)";
+                $stmtProducto = $conexion->prepare($sqlProducto);
+                $stmtProducto->bindValue(1, $id_user);
+                $stmtProducto->bindValue(2, $id_inventario);
+                $stmtProducto->bindValue(3, $id_proveedor);
+                $stmtProducto->bindValue(4, $cantidad);
+                $stmtProducto->execute();
+            }
 
+            // Confirmar la transacción
+            $conexion->commit();
+
+            return true; // Todo se ha realizado correctamente
+        } catch (PDOException $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error al insertar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function updateProductPedido()
+    {
+        try {
+            $id = $_POST['id'];
+            $descripcion = $_POST['descripcion'];
+            $est = $_POST['est'];
+            $conexion = parent::Conexion();
+            $sql = "UPDATE alertaspedido SET descripcion = ?,est=? WHERE id = ?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $descripcion);
+            $stmt->bindValue(2, $est);
+            $stmt->bindValue(3, $id);
+            $stmt->execute();
+            return true; // Actualización exitosa
+        } catch (PDOException $e) {
+            die("Error al actualizar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function deleteProductPedido()
+    {
+        try {
+            $id = $_POST['id'];
+            $conexion = parent::Conexion();
+            $sql = "DELETE FROM alertaspedido WHERE id = ?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            die("Error al eliminar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function getProductPedido()
+    {
+        try {
+            $conexion = parent::Conexion();
+            $conexion->beginTransaction();
+            $sql = "SELECT ap.*,ap.est as est_ap,ap.id as id_pedido,ap.descripcion as descripcion_ap,pr.nombre as prov_nombre,pr.telefono,t.*,c.*,p.*,ip.* 
+            FROM alertaspedido ap
+            INNER JOIN inventario i ON i.id=ap.id_inventario
+            INNER JOIN tallas t ON t.id=i.id_talla
+            INNER JOIN colores c ON c.id=i.id_color
+            INNER JOIN productos p ON p.id=i.id_producto
+            INNER JOIN proveedores pr ON pr.id=ap.id_proveedor 
+            LEFT JOIN imagenes_producto ip ON ip.id_producto=p.id
+            WHERE ip.orden=1 ORDER BY ap.fecha DESC";
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } catch (PDOException $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error al insertar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error: " . $e->getMessage());
+        }
+    }
     public function getWishClient()
     {
         try {

@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "Exito al enviar los mensajes:!",
             "success"
           );
-//          console.log(response);
+          //          console.log(response);
         } else {
           const errorMessage = await response.text();
           throw new Error("Error al enviar los mensajes: " + errorMessage);
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
       }
       const data = await response.json();
-      const newData = data.map(item => ({ ...item, cant_pred: 0 }));
+      const newData = data.map((item) => ({ ...item, cant_pred: 0 }));
       miTabla.clear().draw();
       miTabla.rows.add(newData).draw();
     } catch (error) {

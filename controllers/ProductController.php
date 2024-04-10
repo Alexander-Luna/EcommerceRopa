@@ -12,6 +12,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function updateProduct()
@@ -22,6 +23,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function deleteProduct()
@@ -32,6 +34,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function downloadStock()
@@ -44,6 +47,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function getAllProducts()
@@ -54,6 +58,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function getAllProductsStock()
@@ -64,6 +69,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function getProducts()
@@ -74,6 +80,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function getProductsShop()
@@ -84,6 +91,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function getPrecioShop()
@@ -94,6 +102,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function getProductsAlert()
@@ -104,6 +113,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function getProductDetail()
@@ -114,9 +124,53 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
-
+    public function setProductPedido($products)
+    {
+        $model = new ProductModel();
+        $data = $model->setProductPedido($products);
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
+    public function getProductPedido()
+    {
+        $model = new ProductModel();
+        $data = $model->getProductPedido();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
+    public function updateProductPedido()
+    {
+        $model = new ProductModel();
+        $data = $model->updateProductPedido();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
+    public function deleteProductPedido()
+    {
+        $model = new ProductModel();
+        $data = $model->deleteProductPedido();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
     public function getWishList()
     {
         $model = new ProductModel();
@@ -125,6 +179,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
 
@@ -136,6 +191,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function getAllImgProd()
@@ -146,6 +202,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function getColoresTalla()
@@ -156,6 +213,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function getTallasColor()
@@ -166,6 +224,7 @@ class ProductController
             http_response_code(204);
         } else {
             echo json_encode($data);
+            http_response_code(200);
         }
     }
 }

@@ -1,12 +1,25 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  document.getElementById("btnAdd").addEventListener("click", function () {
-    const id_producto = document.getElementById("id_producto").value;
-    const id_proveedor = document.getElementById("id_proveedor").value;
-    const costo = document.getElementById("costo").value;
-    const stock = document.getElementById("stock").value;
-    const precio = document.getElementById("precio").value;
-    const id_color = document.getElementById("id_color").value;
-    const id_talla = document.getElementById("id_talla").value;
+  const btnPagar = document.getElementById("btnPagar");
+  const btnAdd = document.getElementById("btnAdd");
+
+  let id_producto = document.getElementById("id_producto").value;
+  let id_proveedor = document.getElementById("id_proveedor").value;
+  let costo = document.getElementById("costo").value;
+  let stock = document.getElementById("stock").value;
+  let precio = document.getElementById("precio").value;
+  let id_color = document.getElementById("id_color").value;
+  let id_talla = document.getElementById("id_talla").value;
+  const idInput = document.getElementById("id_hidden");
+  btnAdd.addEventListener("click", function () {
+    id_producto = document.getElementById("id_producto").value;
+    id_proveedor = document.getElementById("id_proveedor").value;
+    costo = document.getElementById("costo").value;
+    stock = document.getElementById("stock").value;
+    precio = document.getElementById("precio").value;
+    id_color = document.getElementById("id_color").value;
+    id_talla = document.getElementById("id_talla").value;
+    id = idInput.value;
+
     if (
       id_producto.trim() !== "" &&
       id_proveedor.trim() !== "" &&
@@ -16,92 +29,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       id_color.trim() !== "" &&
       id_talla.trim() !== ""
     ) {
-      const id = document.getElementById("id_hidden").value;
-      const nombre_producto =
-        document.getElementById("id_producto").options[
-          document.getElementById("id_producto").selectedIndex
-        ].text;
-      const nombre_proveedor =
-        document.getElementById("id_proveedor").options[
-          document.getElementById("id_proveedor").selectedIndex
-        ].text;
-      const nombre_color =
-        document.getElementById("id_color").options[
-          document.getElementById("id_color").selectedIndex
-        ].text;
-      const nombre_talla =
-        document.getElementById("id_talla").options[
-          document.getElementById("id_talla").selectedIndex
-        ].text;
-
       if (id === "") {
-        const uniqueId = Date.now(); // Generar un ID único para el producto
-        const producto = {
-          id: uniqueId,
-          id_producto: id_producto,
-          nombre_producto: nombre_producto,
-          id_proveedor: id_proveedor,
-          nombre_proveedor: nombre_proveedor,
-          costo: costo,
-          stock: stock,
-          precio: precio,
-          id_color: id_color,
-          nombre_color: nombre_color,
-          id_talla: id_talla,
-          nombre_talla: nombre_talla,
-        };
-        let productosGuardados =
-          JSON.parse(localStorage.getItem("productos")) || [];
-        productosGuardados.push(producto);
-        localStorage.setItem("productos", JSON.stringify(productosGuardados));
-        swal({
-          title: "En Hora Buena!",
-          text: "La acción se realizó de manera exitosa!",
-          icon: "success",
-          timer: 1000,
-          buttons: false,
-        });
-       
-        reloadSection();
+        insertProduct();
       } else {
-        const productosGuardados =
-          JSON.parse(localStorage.getItem("productos")) || [];
-        console.log(id);
-        const index = productosGuardados.findIndex(
-          (producto) => producto.id.toString() === id.toString()
-        );
-
-        if (index !== -1) {
-          productosGuardados[index].id_producto = id_producto;
-          productosGuardados[index].nombre_producto = nombre_producto;
-          productosGuardados[index].id_proveedor = id_proveedor;
-          productosGuardados[index].nombre_proveedor = nombre_proveedor;
-          productosGuardados[index].costo = costo;
-          productosGuardados[index].stock = stock;
-          productosGuardados[index].precio = precio;
-          productosGuardados[index].id_color = id_color;
-          productosGuardados[index].nombre_color = nombre_color;
-          productosGuardados[index].id_talla = id_talla;
-          productosGuardados[index].nombre_talla = nombre_talla;
-
-          localStorage.setItem("productos", JSON.stringify(productosGuardados));
-          document.getElementById("id_hidden").value = "";
-          swal({
-            title: "En Hora Buena!",
-            text: "La acción se realizó de manera exitosa!",
-            icon: "success",
-            timer: 1000,
-            buttons: false,
-          });
-          clearFormFields();
-          reloadSection();
-        } else {
-          swal(
-            "Ups! Algo salió mal!",
-            "La acción no se pudo realizar correctamente!",
-            "error"
-          );
-        }
+        updateProduct();
       }
     } else {
       swal(
@@ -111,9 +42,143 @@ document.addEventListener("DOMContentLoaded", async function () {
       );
     }
   });
+  let entra = 0;
+  function insertProduct() {
+    entra++;
+    console.log(entra);
+    const nombre_producto =
+      document.getElementById("id_producto").options[
+        document.getElementById("id_producto").selectedIndex
+      ].text;
+    const nombre_proveedor =
+      document.getElementById("id_proveedor").options[
+        document.getElementById("id_proveedor").selectedIndex
+      ].text;
+    const nombre_color =
+      document.getElementById("id_color").options[
+        document.getElementById("id_color").selectedIndex
+      ].text;
+    const nombre_talla =
+      document.getElementById("id_talla").options[
+        document.getElementById("id_talla").selectedIndex
+      ].text;
+    const producto = {
+      id: Date.now(),
+      id_producto: id_producto,
+      nombre_producto: nombre_producto,
+      id_proveedor: id_proveedor,
+      nombre_proveedor: nombre_proveedor,
+      costo: costo,
+      stock: stock,
+      precio: precio,
+      id_color: id_color,
+      nombre_color: nombre_color,
+      id_talla: id_talla,
+      nombre_talla: nombre_talla,
+    };
+    let productosGuardados = JSON.parse(localStorage.getItem("productos"));
 
-  document.getElementById("btnPagar").addEventListener("click", function () {
+    btnAdd.disabled = true;
+
+    swal({
+      title: "En Hora Buena!",
+      text: "La acción se realizó de manera exitosa!",
+      icon: "success",
+      timer: 1000,
+      buttons: false,
+    });
+    productosGuardados.push(producto);
+    localStorage.setItem("productos", JSON.stringify(productosGuardados));
+    reloadSection();
+    return;
+  }
+  function updateProduct() {
+    const nombre_producto =
+      document.getElementById("id_producto").options[
+        document.getElementById("id_producto").selectedIndex
+      ].text;
+    const nombre_proveedor =
+      document.getElementById("id_proveedor").options[
+        document.getElementById("id_proveedor").selectedIndex
+      ].text;
+    const nombre_color =
+      document.getElementById("id_color").options[
+        document.getElementById("id_color").selectedIndex
+      ].text;
+    const nombre_talla =
+      document.getElementById("id_talla").options[
+        document.getElementById("id_talla").selectedIndex
+      ].text;
+    const productosGuardados =
+      JSON.parse(localStorage.getItem("productos")) || [];
+    const index = productosGuardados.findIndex(
+      (producto) => producto.id.toString() === id.toString()
+    );
+
+    if (index !== -1) {
+      productosGuardados[index] = {
+        id: id_producto,
+        nombre_producto: nombre_producto,
+        id_proveedor: id_proveedor,
+        nombre_proveedor: nombre_proveedor,
+        costo: costo,
+        stock: stock,
+        precio: precio,
+        id_color: id_color,
+        nombre_color: nombre_color,
+        id_talla: id_talla,
+        nombre_talla: nombre_talla,
+      };
+
+      localStorage.setItem("productos", JSON.stringify(productosGuardados));
+      document.getElementById("id_hidden").value = "";
+      swal({
+        title: "En Hora Buena!",
+        text: "La acción se realizó de manera exitosa!",
+        icon: "success",
+        timer: 1000,
+        buttons: false,
+      });
+      clearFormFields();
+      reloadSection();
+    }
+  }
+  btnPagar.addEventListener("click", function () {
     const productos = JSON.parse(localStorage.getItem("productos")) || [];
+    let productoInvalidoEncontrado = false;
+    productos.forEach((producto) => {
+      if (
+        parseInt(producto.stock) === 0 ||
+        parseFloat(producto.costo) === 0 ||
+        parseFloat(producto.precio) === 0
+      ) {
+        productoInvalidoEncontrado = true;
+        return; // Sale del forEach si encuentra un producto inválido
+      }
+
+      if (!productosPorProveedor[producto.id_proveedor]) {
+        productosPorProveedor[producto.id_proveedor] = {
+          productos: [],
+          totalCompra: 0,
+        };
+      }
+      const costoProducto = parseFloat(producto.costo);
+      const stockProducto = parseInt(producto.stock);
+      const totalProducto = costoProducto * stockProducto;
+      productosPorProveedor[producto.id_proveedor].productos.push(producto);
+      productosPorProveedor[producto.id_proveedor].totalCompra += totalProducto;
+    });
+
+    if (productoInvalidoEncontrado) {
+      reloadSection();
+      swal(
+        "Alerta",
+        "Existe al menos un producto con stock, precio o costo igual a cero.",
+        "warning"
+      );
+      return;
+    }
+
     const productosPorProveedor = {};
     productos.forEach((producto) => {
       if (!productosPorProveedor[producto.id_proveedor]) {
@@ -159,7 +224,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           "La acción no se pudo realizar correctamente!",
           "error"
         );
-        console.error("Error al insertar los productos:", error);
+        //console.error("Error al insertar los productos:", error);
       });
   });
 
@@ -381,31 +446,49 @@ document.addEventListener("DOMContentLoaded", async function () {
     } else {
       imgProd.src = "../../public/images/products/defaultprod.png";
     }
-
-    // Mostrar el formulario modal
     $("#miModal").modal("show");
   });
 
   $(document).on("click", ".btnEliminar", function () {
-    var dataId = $(this).data("id");
     var rowData = miTabla.row($(this).closest("tr")).data();
-    let productosGuardados =
-      JSON.parse(localStorage.getItem("productos")) || [];
-    productosGuardados = productosGuardados.filter(
-      (producto) => producto.id !== dataId
-    );
-    localStorage.setItem("productos", JSON.stringify(productosGuardados));
-    reloadSection();
+    try {
+      let productosGuardados =
+        JSON.parse(localStorage.getItem("productos")) || [];
+      productosGuardados = productosGuardados.filter(
+        (producto) => producto.id !== rowData.id
+      );
+      swal({
+        title: "En Hora Buena!",
+        text: "La acción se realizó de manera exitosa!",
+        icon: "success",
+        timer: 1000,
+        buttons: false,
+      });
+      localStorage.setItem("productos", JSON.stringify(productosGuardados));
+      reloadSection();
+    } catch (error) {
+      swal(
+        "Ups! Algo salió mal!",
+        "La acción no se pudo realizar correctamente!"+error,
+        "error"
+      );
+    }
   });
 
   function reloadSection() {
+    btnPagar.disabled = true;
     try {
       const productos = JSON.parse(localStorage.getItem("productos")) || [];
       miTabla.clear().draw();
       let total = 0;
+
       productos.forEach((producto) => {
         total += parseFloat(producto.precio) * parseInt(producto.stock);
       });
+      if (total > 0) {
+        btnPagar.disabled = false;
+      }
+      document.getElementById("btnAdd").disabled = false;
       document.getElementById("total").textContent = total.toFixed(2);
       miTabla.rows.add(productos).draw();
     } catch (error) {

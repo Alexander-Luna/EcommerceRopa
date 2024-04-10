@@ -1,10 +1,9 @@
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#miModal" data-whatever="@mdo">Nuevo</button>
 
 <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="title">Editar Producto</h5>
+                <h5 class="modal-title" id="title"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -14,35 +13,39 @@
                     <input type="hidden" class="form-control" id="id" name="id" required>
                     <div class="form-group">
                         <label class="col-form-label">Producto:</label>
-                        <select class="form-control" id="id_producto" name="id_producto" required>
-                            <option value="">Seleccione...</option>
-                        </select>
+                        <label class="form-control" id="nombre" name="nombre"></label>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Cantidad:</label>
-                        <input type="number" class="form-control" id="stock" name="stock" required>
+                        <label class="form-control" id="cantidad" name="cantidad"></label>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Cantidad para alerta:</label>
-                        <input type="number" class="form-control" id="stock_alert" name="stock_alert" required>
+                        <label class="col-form-label">Talla:</label>
+                        <label class="form-control" id="talla" name="talla"></label>
                     </div>
 
                     <div class="form-group">
                         <label class="col-form-label">Color:</label>
-                        <select class="form-control" id="id_color" name="id_color" required>
-                            <option value="">Seleccione...</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Talla:</label>
-                        <select class="form-control" id="id_talla" name="id_talla" required>
-                            <option value="">Seleccione...</option>
-                        </select>
+                        <label class="form-control" id="color" name="color"></label>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Proveedor:</label>
-                        <select class="form-control" id="id_proveedor" name="id_proveedor" required>
+                        <label class="form-control" id="prov_nombre" name="prov_nombre"></label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Teléfono:</label>
+                        <label class="form-control" id="telefono" name="telefono"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre" class="col-form-label">Descripción:</label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Estado:</label>
+                        <select class="form-control" id="est" name="est" required>
                             <option value="">Seleccione...</option>
+                            <option value="0">Finalizado</option>
+                            <option value="1">Pendiente</option>
                         </select>
                     </div>
                 </form>

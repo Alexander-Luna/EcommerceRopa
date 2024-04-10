@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     ],
   });
 
-  // Manejador de eventos para el botón de editar
   $(document).on("click", ".btnEditar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     $("#miModal").modal("show");
@@ -60,8 +59,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     $("#telefono").val(rowData.telefono);
     $("#direccion").val(rowData.direccion);
   });
-
-  // Manejador de eventos para el botón de eliminar
   $(document).on("click", ".btnEliminar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();

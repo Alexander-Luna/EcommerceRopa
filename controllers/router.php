@@ -136,8 +136,6 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getAllGeneros':
                 $controller->getAllGeneros();
                 break;
-
-
             case 'getVentaUser':
                 $controller->getVentaUser();
                 break;
@@ -158,6 +156,9 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
                 break;
             case 'getWishClient':
                 $controller->getWishClient();
+                break;
+            case 'getProductPedido':
+                $productController->getProductPedido();
                 break;
             default:
                 handleNotFound();
@@ -206,6 +207,8 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $data = json_decode(file_get_contents('php://input'), true);
             $sendWhatsApp = new SendWhatsApp();
             $sendWhatsApp->enviarMensajes($data['productos']);
+            $productController->setProductPedido($data['productos']);
+
             break;
         case 'send_email':
             $sendEmail = new SendEmail('ventas@asotaeco.com.ec', 'Ventas123@', 'ventas@asotaeco.com.ec');
@@ -323,6 +326,14 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             break;
         case 'deleteWishClient':
             $controller->deleteWishClient();
+            break;
+
+
+        case 'updateProductPedido':
+            $productController->updateProductPedido();
+            break;
+        case 'deleteProductPedido':
+            $productController->deleteProductPedido();
             break;
         default:
             handleNotFound();

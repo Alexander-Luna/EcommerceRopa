@@ -131,6 +131,20 @@ CREATE TABLE `usuarios` (
   CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE alertaspedido (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT,
+    id_inventario INT,
+    id_proveedor INT,
+    cantidad INT DEFAULT 1,
+    `descripcion` text DEFAULT "",
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     `est` int(1) DEFAULT 0,
+    FOREIGN KEY (id_proveedor) REFERENCES proveedores(id),
+    FOREIGN KEY (id_user) REFERENCES usuarios(id),
+      FOREIGN KEY (id_inventario) REFERENCES inventario(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- Crear tabla de compras
 CREATE TABLE compras (
     id INT AUTO_INCREMENT PRIMARY KEY,

@@ -186,7 +186,12 @@ if (isset($_SESSION['user_session'])) {
                       <p>Alertas</p>
                     </a>
                   </li>
-
+                  <li class="nav-item">
+                    <a href="index.php?modulo=alertaspedido" class="nav-link <?php echo ($modulo == "alertaspedido") ? " active " : " "; ?>  ">
+                      <i class="fa fa-bell-o nav-icon" aria-hidden="true"></i>
+                      <p>Alertas de Pedidos</p>
+                    </a>
+                  </li>
                   <li class="nav-item">
                     <a href="index.php?modulo=proveedores" class="nav-link <?php echo ($modulo == "proveedores") ? " active " : " "; ?> ">
                       <i class="fa fa-truck nav-icon"></i>
@@ -319,6 +324,9 @@ if (isset($_SESSION['user_session'])) {
       }
       if ($modulo == "alertas") {
         include_once "../alertas/index.php";
+      }
+      if ($modulo == "alertaspedido") {
+        include_once "../alertaspedido/index.php";
       }
       if ($modulo == "reportes") {
         include_once "../reportes/index.php";
