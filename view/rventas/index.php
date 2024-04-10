@@ -30,12 +30,7 @@
                                         </select>
 
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label">Proveedor:</label>
-                                        <select class="form-control" id="id_proveedor" name="id_proveedor" required>
-                                            <option value="">Seleccione...</option>
-                                        </select>
-                                    </div>
+                                   
                                 </div>
                                 <div class="col-md-2">
                                     <!-- Campo oculto para el ID -->

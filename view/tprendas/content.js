@@ -102,9 +102,10 @@ columns: [
       // Obtener los datos del formulario del modal
       const id = document.getElementById("id").value;
       const nombre = document.getElementById("nombre").value;
+      const est = document.getElementById("est").value;
       const formData = new FormData();
 
-      formData.append("ruc", ruc);
+      formData.append("est", est);
       formData.append("nombre", nombre);
 
       if (id === "") {
