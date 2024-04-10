@@ -5,20 +5,23 @@ USE `u823153798_ecomerce1`;
 -- Crear tabla de género
 CREATE TABLE genero (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(20)
+    nombre VARCHAR(20),
+    est INT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Crear tabla de tipo de prenda
 CREATE TABLE tipo_prenda (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50)
+    nombre VARCHAR(50),
+    est INT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- Crear tabla de ocasión
 CREATE TABLE ocasion (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50)
+    nombre VARCHAR(50),
+    est INT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Crear tabla de productos
