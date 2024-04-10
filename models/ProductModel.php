@@ -463,14 +463,14 @@ class ProductModel extends Conectar
             $conexion->beginTransaction();
 
             // Verificar si ya existe una fila con el mismo id_variante_producto y id_usuario
-            $sqlCheckExistence = "SELECT COUNT(*) FROM wish_list WHERE id_usuario = ? AND id_variante_producto = ?";
+            $sqlCheckExistence = "SELECT COUNT(*) FROM wish_list WHERE id_usuario = ? AND id_producto = ?";
             $stmtCheckExistence = $conexion->prepare($sqlCheckExistence);
             $stmtCheckExistence->execute([$id_user, $id_producto]);
             $rowCount = $stmtCheckExistence->fetchColumn();
 
             if ($rowCount == 0) {
                 // Si no existe, realizar la inserción
-                $sqlProducto = "INSERT INTO wish_list (id_usuario, id_variante_producto) VALUES (?, ?)";
+                $sqlProducto = "INSERT INTO wish_list (id_usuario, id_producto) VALUES (?, ?)";
                 $stmtProducto = $conexion->prepare($sqlProducto);
                 $stmtProducto->bindValue(1, $id_user);
                 $stmtProducto->bindValue(2, $id_producto);
@@ -498,7 +498,7 @@ class ProductModel extends Conectar
             $id_user =  $userData['user_id'];
             $conexion = parent::Conexion();
             $sqlProducto = "SELECT * FROM wish_list w
-                INNER JOIN productos p ON w.id_variante_producto=p.id
+                INNER JOIN productos p ON w.id_producto=p.id
                 INNER JOIN imagenes_producto ip ON ip.id_producto=p.id
                  WHERE w.id_usuario=? AND ip.orden=1";
             $stmt = $conexion->prepare($sqlProducto);

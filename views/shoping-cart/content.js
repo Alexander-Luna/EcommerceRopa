@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const metodoDePago = document.getElementById("metododepago").value;
     const comprobante = document.getElementById("comprobante").value;
     const comprobanteInput = document.getElementById("comprobantef");
-    const comprobanteFile = comprobanteInput.files[0]; 
+    const comprobanteFile = comprobanteInput.files[0];
 
     // Crear un nuevo objeto FormData
     const formData = new FormData();
@@ -185,6 +185,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log(response);
         if (response.ok) {
           swal("Excelente!", "Transaccion realizada con exito", "success");
+          eliminarProductosLocalStorage();
         }
       })
       .catch((error) => {
@@ -211,7 +212,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.error("Error al obtener los detalles del producto:", error);
     }
   }
-  
 
   $(document).on("click", ".btnEliminar", function () {
     var id = $(this).data("id");
@@ -293,19 +293,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 });
+function eliminarProductosLocalStorage() {
+  localStorage.removeItem("cart");
+}
+function toggleFields() {
+  var paymentMethod = document.getElementById("metododepago").value;
+  var paymentFields = document.getElementById("camposPago");
 
-	function toggleFields() {
-		var paymentMethod = document.getElementById("metododepago").value;
-		var paymentFields = document.getElementById("camposPago");
+  if (paymentMethod === "0") {
+    // Pago en oficina selected, hide fields
+    paymentFields.style.display = "none";
+  } else {
+    // Deposito or Transferencia selected, show fields
+    paymentFields.style.display = "block";
+  }
+}
 
-			if (paymentMethod === "0") {
-				// Pago en oficina selected, hide fields
-				paymentFields.style.display = "none";
-			} else {
-				// Deposito or Transferencia selected, show fields
-				paymentFields.style.display = "block";
-			}
-		}
-
-		// Initialize the fields based on the initial selected option
-		toggleFields();
+// Initialize the fields based on the initial selected option
+toggleFields();

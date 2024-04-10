@@ -1,21 +1,20 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let tallaSeleccionada = "";
   let stockMax = 0;
-  let imgProd = ""; // Declarar la variable imgProd
+  let imgProd = ""; 
   let id_prod = "";
   let stockDisponible = 0;
+  const nombreElement = document.getElementById("tv-nombre");
+  const precioElement = document.getElementById("tv-precio");
+  const inputStock = document.getElementById("input_stock");
+
+  const selectTalla = document.getElementById("id_talla");
+  const selectColor = document.getElementById("id_color");
   obtenerIdDelURL();
   reloadSection();
   document
     .getElementById("js-addcart-detail")
     .addEventListener("click", function () {
-      const nombreElement = document.getElementById("tv-nombre");
-      const precioElement = document.getElementById("tv-precio");
-      const inputStock = document.getElementById("input_stock");
-
-      const selectTalla = document.getElementById("id_talla");
-      const selectColor = document.getElementById("id_color");
-
       const tallaSeleccionada = selectTalla.value;
       const tallaTextoSeleccionado =
         selectTalla.options[selectTalla.selectedIndex].textContent;

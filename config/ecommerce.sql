@@ -193,9 +193,9 @@ CREATE TABLE detalles_venta (
 CREATE TABLE `wish_list` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `id_usuario` int(10) NOT NULL,
-  `id_variante_producto` int(10) NOT NULL,
+  `id_producto` int(10) NOT NULL,
   `est` int(1) DEFAULT 1,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
-  FOREIGN KEY (`id_variante_producto`) REFERENCES `inventario` (`id`)
+  FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

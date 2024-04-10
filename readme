@@ -1,1 +1,12 @@
 browser-sync start --proxy "localhost:80" --files "**/*"
+
+# BUGS
+[X] - Tengo productos en el carrito de compras y el carrito sigue en 0 :v
+[X] - cuando se compra que de limpie el carrito 
+[X] - si no inicia sección que salga una alerta y no me redirija de nuevo al inicio 
+[X] - La de favoritos no funciona no funciona 
+[] - arreglar lo de categoría 
+[] - el buscador no filtra 
+[] - El número de compras también se actualice cuando se agrega al carrito en el icono 
+[] - el nombre de usuario no se hace responsive y eso de las compras de los usuarios aún no funciona 
+[] - en el admin hay un apartado que dice clientes alado de usuarios que no funciona
