@@ -93,7 +93,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         sortDescending: ": activar para ordenar la columna descendente",
       },
     },
-    columns: [
+    lengthChange: false,
+columns: [
       { data: "nombre", title: "Nombre" }, // Nombre
       { data: "descripcion", title: "Descripción" }, // Descripción
       {

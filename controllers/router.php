@@ -89,7 +89,12 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getAllUsers':
                 $userController->getAllUsers();
                 break;
-
+            case 'getAllClients':
+                $userController->getAllClients();
+                break;
+            case 'getAllEmpresa':
+                $userController->getAllEmpresa();
+                break;
             case 'getEstadisticas':
                 $ventaController->getEstadistica();
                 break;

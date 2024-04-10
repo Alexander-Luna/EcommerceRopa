@@ -114,7 +114,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       "csvHtml5", // Botón de CSV
       "pdfHtml5", // Botón de PDF
     ],
-    columns: [
+    lengthChange: false,
+columns: [
       {
         data: "imagen",
         title: "Imagen",

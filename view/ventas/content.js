@@ -29,7 +29,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         sortDescending: ": activar para ordenar la columna descendente",
       },
     },
-    columns: [
+    lengthChange: false,
+columns: [
       { data: "nombre_usuario", title: "Cliente" },
       { data: "nombre_recibe", title: "Receptor" },
       {

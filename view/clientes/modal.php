@@ -45,8 +45,7 @@
     </div>
 </div>
 <script>
-    
-      document.getElementById("rol_id").value = "1";
+      document.getElementById("rol_id").value = "2";
     $('#miModal').on('hidden.bs.modal', function() {
         document.getElementById("id").value = "";
         document.getElementById("titulo").value = "";

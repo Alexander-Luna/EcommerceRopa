@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
   $("#miTabla").DataTable({
-    columns: [
+    lengthChange: false,
+columns: [
       { data: "nombre_producto" },
       {
         data: "imagen",

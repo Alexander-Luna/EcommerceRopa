@@ -25,25 +25,24 @@ document.addEventListener("DOMContentLoaded", async function () {
         sortDescending: ": activar para ordenar la columna descendente",
       },
     },
-    columns: [
-      { data: "email" },
-      { data: "nombre" },
+    lengthChange: false,
+columns: [
+      { data: "email" ,title:"Email"},
+      { data: "nombre",title:"Nombre" },
       {
-        data: "rol_id",
+        data: "rol_id",title:"Rol",
         render: function (data, type, row) {
-          // Si el rol_id es 1, mostrar "Administrador", de lo contrario, mostrar "Cliente"
           return data == 1 ? "Administrador" : "Cliente";
         },
       },
       {
-        data: "est",
+        data: "est",title:"Estado",
         render: function (data, type, row) {
-          // Si el rol_id es 1, mostrar "Administrador", de lo contrario, mostrar "Cliente"
           return data == 1 ? "Activo" : "Desactivado";
         },
       },
       {
-        data: null,
+        data: null,title:"Acciones",
         render: function (data, type, row) {
           return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
@@ -207,7 +206,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
   function reloadSection() {
     try {
-      fetch("../../controllers/router.php?op=getAllUsers").then((response) => {
+      fetch("../../controllers/router.php?op=getAllEmpresa").then((response) => {
         if (!response.ok) {
           throw new Error(
             "Hubo un problema al obtener los detalles del producto."

@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Usuarios</h1>
+          <h1>Clientes</h1>
         </div>
 
       </div>
@@ -19,9 +19,8 @@
           <div class="card">
 
             <div class="card-body">
-              <?php require_once "../usuarios/modal.php" ?>
+              <?php require_once "../clientes/modal.php" ?>
               <table id="miTabla" class="datatable table table-bordered table-hover">
-                
               </table>
             </div>
             <!-- /.card-body -->
@@ -34,5 +33,5 @@
     </div>
     <!-- /.container-fluid -->
   </section>
-  <script src="../usuarios/content.js"></script>
+  <script src="../clientes/content.js"></script>
 </div>

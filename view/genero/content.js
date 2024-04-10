@@ -25,16 +25,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         sortDescending: ": activar para ordenar la columna descendente",
       },
     },
+    lengthChange: false,
     columns: [
-      { data: "nombre",title: 'Nombre'},
+      { data: "nombre", title: "Nombre" },
       {
-        data: "est",title: 'Estado',
+        data: "est",
+        title: "Estado",
         render: function (data, type, row) {
           return data == 1 ? "Activo" : "Desactivado";
         },
       },
       {
-        data: null,title: 'Acciones',
+        data: null,
+        title: "Acciones",
         render: function (data, type, row) {
           return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
@@ -117,9 +120,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "La acción no se pudo realizar correctamente!",
                 "error"
               );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo Genero."
-              );
+              throw new Error("Hubo un problema al insertar el nuevo Genero.");
             }
             console.log(response);
             // Si la inserción fue exitosa, recargar la sección
@@ -154,9 +155,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "La acción no se pudo realizar correctamente!",
                 "error"
               );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo Genero."
-              );
+              throw new Error("Hubo un problema al insertar el nuevo Genero.");
             }
             console.log(response);
             $("#miModal").modal("hide");

@@ -22,6 +22,7 @@ class UserModel extends Conectar
             die("Error al obtener usuarios: " . $e->getMessage());
         }
     }
+  
     public function getUserData()
     {
         try {
@@ -42,6 +43,25 @@ class UserModel extends Conectar
         }
     }
 
+    public function getAllEmpresa()
+    {
+        try {
+            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
+
+            $sql = "SELECT * FROM usuarios WHERE rol_id=1";
+
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute();
+
+            // Obtener los resultados
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $users;
+        } catch (PDOException $e) {
+            // Manejo de errores
+            die("Error al obtener usuarios: " . $e->getMessage());
+        }
+    }
     public function getAllClients()
     {
         try {

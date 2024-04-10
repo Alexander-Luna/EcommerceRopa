@@ -25,7 +25,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         sortDescending: ": activar para ordenar la columna descendente",
       },
     },
-    columns: [
+    lengthChange: false,
+columns: [
       { data: "nombre",title: 'Nombre'},
       {
         data: "est",title: 'Estado',

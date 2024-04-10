@@ -6,20 +6,57 @@ class UserController
     public function getUsers()
     {
         $userModel = new UserModel();
-        $users = $userModel->getAllUsers();
-        echo json_encode($users);
+        $data = $userModel->getAllUsers();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
+    public function getAllClients()
+    {
+        $model = new UserModel();
+        $data = $model->getAllClients();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
+    public function getAllEmpresa()
+    {
+        $model = new UserModel();
+        $data = $model->getAllEmpresa();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
     }
     public function getUserData()
     {
         $userModel = new UserModel();
-        $users = $userModel->getUserData();
-        echo json_encode($users);
+        $data = $userModel->getUserData();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
     }
     public function getAllUsers()
     {
         $userModel = new UserModel();
-        $users = $userModel->getAllUsers();
-        echo json_encode($users);
+        $data = $userModel->getAllUsers();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
     }
     public function updateUsers()
     {
@@ -64,8 +101,8 @@ class UserController
     public function registrar($email, $password, $nombre, $direccion, $cedula, $rol)
     {
         $userModel = new UserModel();
-        $users = $userModel->registrarUsuario($email, $password, $nombre, $direccion, $cedula, $rol);
-        echo json_encode($users);
+        $data = $userModel->registrarUsuario($email, $password, $nombre, $direccion, $cedula, $rol);
+        echo json_encode($data);
     }
     public function login($email, $password)
     {

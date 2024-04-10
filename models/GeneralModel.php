@@ -130,7 +130,7 @@ class GeneralModel extends Conectar
             $desc = $_POST["desc_talla"];
 
             $conexion = parent::Conexion();
-            $sql = "INSERT INTO tallas (nombre, desc_talla,est) VALUES (?, ?, 1)";
+            $sql = "INSERT INTO tallas (talla, desc_talla,est) VALUES (?, ?, 1)";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $nombre);
             $stmt->bindValue(2, $desc);

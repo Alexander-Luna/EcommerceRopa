@@ -105,8 +105,8 @@ if (isset($_SESSION['user_session'])) {
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="index.php?modulo=usuarios" class="nav-link <?php echo ($modulo == "clientes") ? " active " : " "; ?> ">
-                      <i class="far fa-address-book-o nav-icon"></i>
+                    <a href="index.php?modulo=clientes" class="nav-link <?php echo ($modulo == "clientes") ? " active " : " "; ?> ">
+                      <i class="far fa-user nav-icon"></i>
                       <p>Clientes</p>
                     </a>
                   </li>
@@ -114,8 +114,8 @@ if (isset($_SESSION['user_session'])) {
                 </ul>
               </li>
 
-              <li class="nav-item <?php echo ($modulo === "genero" || $modulo === "ocasion" || $modulo === "tallas"|| $modulo === "colores"|| $modulo === "tprendas") ? "active menu-open " : ""; ?> ">
-                <a href="#" class="nav-link <?php echo ($modulo === "genero" || $modulo === "ocasion" || $modulo === "tallas"|| $modulo === "colores"|| $modulo === "tprendas") ? "active menu-open " : ""; ?> ">
+              <li class="nav-item <?php echo ($modulo === "genero" || $modulo === "ocasion" || $modulo === "tallas" || $modulo === "colores" || $modulo === "tprendas") ? "active menu-open " : ""; ?> ">
+                <a href="#" class="nav-link <?php echo ($modulo === "genero" || $modulo === "ocasion" || $modulo === "tallas" || $modulo === "colores" || $modulo === "tprendas") ? "active menu-open " : ""; ?> ">
                   <i class="fas fa-archive nav-icon"></i>
                   <p>
                     Categorías
@@ -125,7 +125,7 @@ if (isset($_SESSION['user_session'])) {
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="index.php?modulo=genero" class="nav-link <?php echo ($modulo == "genero") ? " active " : " "; ?>  ">
-                      <i class="fa fa-shopping-bag nav-icon" aria-hidden="true"></i>
+                    <i class="far fa-user nav-icon"></i>
                       <p>Genero</p>
                     </a>
                   </li>
@@ -315,6 +315,9 @@ if (isset($_SESSION['user_session'])) {
 
       if ($modulo == "usuarios") {
         include_once "../usuarios/index.php";
+      }
+      if ($modulo == "clientes") {
+        include_once "../clientes/index.php";
       }
       if ($modulo == "controlstock") {
         include_once "../controlstock/index.php";

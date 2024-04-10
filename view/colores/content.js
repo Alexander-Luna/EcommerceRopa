@@ -25,7 +25,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         sortDescending: ": activar para ordenar la columna descendente",
       },
     },
-    columns: [
+    lengthChange: false,
+columns: [
       { data: "color", title: "Nombre" },
       {
         data: "color_hexa",

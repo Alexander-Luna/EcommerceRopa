@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         pdf: "Exportar a PDF",
       },
     },
+    lengthChange: false,
     columns: [
       { data: "nombre", title: "Nombre" },
       { data: "stock", title: "Stock" },
