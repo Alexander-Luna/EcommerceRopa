@@ -25,6 +25,81 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Error al enviar los datos:", error);
       });
   });
+  let dataColor;
+  reloadSectionColores();
+  async function reloadSectionColores() {
+    try {
+      const response = await fetch(
+        "../../controllers/router.php?op=getColores"
+      );
+      dataColor = await response.json();
+      cargarColores(dataColor);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+    }
+  }
+  // Función para cargar los colores en el diseño
+  function cargarColores(data) {
+    const listaColores = document.getElementById("listaColores");
+
+    // Limpiar la lista de colores
+    listaColores.innerHTML = "";
+
+    // Iterar sobre los colores y crear elementos HTML para cada uno
+    data.forEach((color) => {
+      const listItem = document.createElement("li");
+      listItem.classList.add("p-b-6");
+
+      const spanIcono = document.createElement("span");
+      spanIcono.classList.add("fs-15", "lh-12", "m-r-6");
+      spanIcono.style.color = color.color_hexa;
+
+      const icono = document.createElement("i");
+      icono.classList.add("zmdi", "zmdi-circle");
+
+      spanIcono.appendChild(icono);
+
+      const enlaceColor = document.createElement("a");
+      enlaceColor.href = "#";
+      enlaceColor.classList.add("filter-link", "stext-106", "trans-04");
+      enlaceColor.textContent = color.color;
+
+      listItem.appendChild(spanIcono);
+      listItem.appendChild(enlaceColor);
+
+      listaColores.appendChild(listItem);
+    });
+  }
+
+  // Función para filtrar productos por nombre o descripción
+  function filtrarProductos(keywords,temp) {
+    document.getElementById("container").innerHTML = "";
+
+    // Filtrar productos que coincidan con las palabras clave en el nombre o descripción
+    const productosFiltrados = temp.filter((producto) => {
+      return (
+        producto.nombre.toLowerCase().includes(keywords.toLowerCase()) ||
+        producto.descripcion.toLowerCase().includes(keywords.toLowerCase())
+      );
+    });
+    mostrarElementosEnBloques(productosFiltrados);
+  }
+
+  const campoBusqueda = document.getElementById("searchInput");
+
+  campoBusqueda.addEventListener("keydown", function (event) {
+    const temp=data;
+    if (event.key === "Enter") {
+      const keywords = campoBusqueda.value.trim();
+      console.log("Entra");
+      if (keywords.length > 0) {
+        const productosFiltrados = filtrarProductos(keywords,temp);
+        mostrarElementosEnBloques(productosFiltrados);
+      } else {
+        mostrarElementosEnBloques(data);
+      }
+    }
+  });
 
   let data;
   async function reloadSection() {
