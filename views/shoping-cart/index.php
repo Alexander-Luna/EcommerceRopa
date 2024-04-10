@@ -173,6 +173,7 @@ if (empty($_SESSION['user_session'])) {
 											<input name="telefono" id="telefono" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"  placeholder="Teléfono / Celular">
 										</div>
 									</div>
+									
 									<div id=mPago>
 										<div class="form-group">
 											<label for="comprobante" class="col-form-label">Seleccione su método de pago</label>
@@ -194,7 +195,6 @@ if (empty($_SESSION['user_session'])) {
 												<input name="comprobante" id="comprobante" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"  placeholder="Número de comprobante">
 											</div>
 										</div>
-
 									</div>
 								</div>
 							</div>
@@ -235,7 +235,8 @@ if (empty($_SESSION['user_session'])) {
 
 
 	<?php require_once "../html/MainJS.php"; ?>
-	<script src="content.js"></script>  
+	<script src="content.js"></script> 
+	
 
 </body>
 
