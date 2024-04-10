@@ -108,7 +108,7 @@ class Controller
     }
 
 
-    
+
     public function getCategorias()
     {
         $model = new InventarioModel();
@@ -140,7 +140,7 @@ class Controller
     public function getWishClient()
     {
         try {
-            $model = new ProductModel();
+            $model = new GeneralModel();
             $data = $model->getWishClient();
 
             if ($data) {
@@ -158,7 +158,7 @@ class Controller
     public function deleteWishClient()
     {
         try {
-            $model = new ProductModel();
+            $model = new GeneralModel();
             $data = $model->deleteWishClient();
 
             if ($data) {
@@ -201,7 +201,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al actualizar los datos'));
             }
@@ -210,7 +210,7 @@ class Controller
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
- 
+
     public function deleteTalla()
     {
         try {
@@ -220,7 +220,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al eliminar los datos'));
             }
@@ -239,7 +239,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al insertar los datos'));
             }
@@ -257,7 +257,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al actualizar los datos'));
             }
@@ -266,7 +266,7 @@ class Controller
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
- 
+
     public function deleteOcasion()
     {
         try {
@@ -276,7 +276,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al eliminar los datos'));
             }
@@ -295,7 +295,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al insertar los datos'));
             }
@@ -312,7 +312,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al actualizar los datos'));
             }
@@ -321,7 +321,7 @@ class Controller
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
- 
+
     public function deleteGenero()
     {
         try {
@@ -331,7 +331,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al eliminar los datos'));
             }
@@ -350,7 +350,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al insertar los datos'));
             }
@@ -368,7 +368,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al actualizar los datos'));
             }
@@ -377,7 +377,7 @@ class Controller
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
- 
+
     public function deleteColor()
     {
         try {
@@ -387,7 +387,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al eliminar los datos'));
             }
@@ -406,7 +406,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al insertar los datos'));
             }
@@ -423,7 +423,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al actualizar los datos'));
             }
@@ -432,7 +432,7 @@ class Controller
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
- 
+
     public function deleteTprenda()
     {
         try {
@@ -442,7 +442,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al eliminar los datos'));
             }
@@ -461,7 +461,7 @@ class Controller
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
-           } else {
+            } else {
                 http_response_code(204);
                 echo json_encode(array('error' => 'Error al insertar los datos'));
             }

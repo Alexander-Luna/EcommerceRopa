@@ -425,4 +425,51 @@ class GeneralModel extends Conectar
             die("Error: " . $e->getMessage());
         }
     }
+    public function getWishClient()
+    {
+        try {
+            session_start();
+            $userData = $_SESSION['user_session'];
+            $id_user =  $userData['user_id'];
+            $conexion = parent::Conexion();
+            $sqlProducto = "SELECT w.id as id_fav,w.*,p.*,ip.* FROM wish_list w
+                INNER JOIN productos p ON w.id_producto=p.id
+                INNER JOIN imagenes_producto ip ON ip.id_producto=p.id
+                 WHERE w.id_usuario=? AND ip.orden=1";
+            $stmt = $conexion->prepare($sqlProducto);
+            $stmt->bindValue(1, $id_user);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } catch (PDOException $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error al insertar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+
+    public function deleteWishClient()
+    {
+        try {
+            $conexion = parent::Conexion();
+            $conexion->beginTransaction();
+            $id =  $_POST['id'];
+            $sqlDelete = "DELETE FROM wish_list WHERE id = ?";
+            $stmt = $conexion->prepare($sqlDelete);
+            $stmt->bindValue(1, $id);
+            $stmt->execute();
+            $conexion->commit();
+
+            return true;
+        } catch (PDOException $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error al eliminar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error: " . $e->getMessage());
+        }
+    }
 }

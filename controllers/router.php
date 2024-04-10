@@ -166,6 +166,10 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getProductPedido':
                 $productController->getProductPedido();
                 break;
+
+            case 'getReporteVentas':
+                $ventaController->getReporteVentas();
+                break;
             default:
                 handleNotFound();
                 break;
@@ -333,9 +337,7 @@ function handlePostRequest($action, $productController, $userController, $ventaC
         case 'deleteWishClient':
             $controller->deleteWishClient();
             break;
-        case 'getReporteVentas':
-            $ventaController->getReporteVentas();
-            break;
+
 
         case 'updateProductPedido':
             $productController->updateProductPedido();

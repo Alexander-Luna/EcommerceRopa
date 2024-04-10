@@ -150,29 +150,44 @@ INNER JOIN usuarios u ON v.id_client = u.id
             die("Error al obtener ventas: " . $e->getMessage());
         }
     }
-    public function  getReporteVentas()
+    public function getReporteVentas()
     {
-        $fecha_ini = $_POST['fecha_ini'];
-        $fecha_fin = $_POST['fecha_fin'];
-        return $fecha_ini . " " . $fecha_fin;
+        $fecha_ini = $_GET['fecha_ini'];
+        $fecha_fin = $_GET['fecha_fin'];
+        $fecha_ini_mysql = $this->convertirFecha($fecha_ini);
+        $fecha_fin_mysql = $this->convertirFecha($fecha_fin);
+        if ($fecha_ini_mysql > $fecha_fin_mysql) {
+            $temp = $fecha_ini_mysql;
+            $fecha_ini_mysql = $fecha_fin_mysql;
+            $fecha_fin_mysql = $temp;
+        }
         try {
             $conexion = parent::Conexion();
             $sql = "SELECT v.*, r.nombre AS nombre_recibe, r.telefono AS telefono_recibe, r.email AS email_recibe, r.direccion AS direccion_recibe,
-            u.nombre AS nombre_usuario
-FROM ventas v
-INNER JOIN recibe r ON v.id_recibe = r.id
-INNER JOIN usuarios u ON v.id_client = u.id
-        WHERE est_pago=0;";
-            //v.fecha=2024-04-10 16:32:48
+                u.nombre AS nombre_usuario
+                FROM ventas v
+                INNER JOIN recibe r ON v.id_recibe = r.id
+                INNER JOIN usuarios u ON v.id_client = u.id
+                WHERE DATE(v.fecha) BETWEEN :fecha_ini AND :fecha_fin";
+
             $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $fecha_ini);
-            $stmt->bindValue(2, $fecha_fin);
+            $stmt->bindParam(':fecha_ini', $fecha_ini_mysql);
+            $stmt->bindParam(':fecha_fin', $fecha_fin_mysql);
             $stmt->execute();
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
         } catch (PDOException $e) {
             die("Error al obtener ventas: " . $e->getMessage());
         }
+    }
+
+
+    public function convertirFecha($fecha)
+    {
+        $partes = explode('/', $fecha);
+        $fecha_convertida =  $partes[0] . '-' . $partes[1] . '-' . $partes[2];
+
+        return $fecha_convertida;
     }
 
     public function updateVentas()

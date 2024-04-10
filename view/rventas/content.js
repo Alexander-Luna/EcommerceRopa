@@ -1,15 +1,24 @@
 document.addEventListener("DOMContentLoaded", async function () {
+  let total_entregado = 0,
+    total_pendiente = 0;
   document
     .getElementById("miformulario")
     .addEventListener("submit", function (event) {
       event.preventDefault(); // Evitar que el formulario se envíe automáticamente
-      try {
-        const formData = new FormData(this); // Pasar el formulario actual como argumento
 
-        fetch("../../controllers/router.php?op=getReporteVentas", {
-          method: "POST", // Cambiar a POST si quieres enviar datos de formulario
-          body: formData,
-        })
+      try {
+        const fechaIni = document.getElementById("fecha_ini").value;
+        const fechaFin = document.getElementById("fecha_fin").value;
+
+        fetch(
+          "../../controllers/router.php?op=getReporteVentas&fecha_ini=" +
+            fechaIni +
+            "&fecha_fin=" +
+            fechaFin,
+          {
+            method: "GET",
+          }
+        )
           .then((response) => {
             if (!response.ok) {
               throw new Error(
@@ -17,7 +26,21 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
             }
             response.json().then((data) => {
-              // Aquí manejas la respuesta como lo necesites
+              total_entregado = 0;
+              total_pendiente = 0;
+              data.forEach((venta) => {
+                if (venta.est === 1) {
+                  total_pendiente += venta.total;
+                } else {
+                  total_entregado += venta.total;
+                }
+              });
+
+              document.getElementById("total_p").textContent =
+                "$" + parseFloat(total_pendiente).toFixed(2);
+              document.getElementById("total_e").textContent =
+                "$" + parseFloat(total_entregado).toFixed(2);
+
               miTabla.clear().draw();
               miTabla.rows.add(data).draw();
             });
@@ -33,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
   // Inicializar DataTables
-  var miTabla = $("#miTabla").DataTable({
+  let miTabla = $("#miTabla").DataTable({
     language: {
       decimal: "",
       emptyTable: "No hay datos disponibles en la tabla",
@@ -54,32 +77,43 @@ document.addEventListener("DOMContentLoaded", async function () {
         previous: "Anterior",
       },
       aria: {
-        sortAscending: ": activar para ordenar la columna ascendente",
-        sortDescending: ": activar para ordenar la columna descendente",
+        sortAscending: ": actilet para ordenar la columna ascendente",
+        sortDescending: ": actilet para ordenar la columna descendente",
       },
     },
     lengthChange: false,
     columns: [
-      { data: "fecha", title: "Fecha" }, 
+      {
+        title: "Fecha",
+        render: function (data, type, row) {
+          return row.fecha;
+        },
+      },
       {
         title: "Sub Total",
         render: function (data, type, row) {
-          var subtotal = parseInt(row.stock) * parseFloat(row.costo);
-          return subtotal.toFixed(2); 
+          return parseInt(row.total).toFixed(2);
         },
       },
       {
         title: "Envió",
         render: function (data, type, row) {
-          var subtotal = parseFloat(row.envio);
+          let subtotal = parseFloat(row.envio);
           return subtotal.toFixed(2);
         },
       },
       {
         title: "Total",
         render: function (data, type, row) {
-          var subtotal = parseInt(row.total) + parseFloat(row.envio);
-          return subtotal.toFixed(2); 
+          let subtotal = parseInt(row.total) + parseFloat(row.envio);
+          return subtotal.toFixed(2);
+        },
+      },
+      {
+        data: "est",
+        title: "Estado",
+        render: function (data, type, row) {
+          return data === 0 ? "Pendiente" : "Entregada";
         },
       },
       {

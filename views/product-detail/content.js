@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let tallaSeleccionada = "";
   let stockMax = 0;
-  let imgProd = ""; 
+  let imgProd = "";
   let id_prod = "";
   let stockDisponible = 0;
   const nombreElement = document.getElementById("tv-nombre");
@@ -127,7 +127,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         .then((productos) => {
           if (productos.length > 0) {
             const producto = productos[0];
-            console.log(producto);
             stockSpan.textContent = producto.stock;
             precioSpan.textContent = parseFloat(producto.precio).toFixed(2);
             stockDisponible = producto.stock;
@@ -242,9 +241,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             "Hubo un problema al obtener los detalles del producto."
           );
         }
-        response.json().then((producto) => {
-          console.log("realodad");
-          console.log(producto);
+        const product = response.json();
+        console.log(product);
+
+        product.then((producto) => {
           nombreElement.textContent = producto.nombre;
           descripcionElement.textContent = producto.descripcion;
           getTallas(producto.id_color);

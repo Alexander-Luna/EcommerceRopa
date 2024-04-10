@@ -44,10 +44,26 @@
                         <label class="col-form-label">Descargar</label>
 
                         <div class="row">
-                            <button type="button" id="btnPdf" class="mr-2 btn btn-warning col-md-2 form-control">PDF</button>
 
-                            <button type="button" id="btnPdf" class="btn btn-warning col-md-2 form-control">PDF</button>
-
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="col-form-label">Ventas Pendientes:</label>
+                                    <label class="form-control" id="total_p" name="total_p">$0.00</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="col-form-label">Ventas Entregadas:</label>
+                                    <label class="form-control" id="total_e" name="total_e">$0.00</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="col-form-label">Descargar</label>
+                                    <button type="button" id="btnPdf" class="btn btn-danger form-control">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</button>
+                                </div>
+                            </div>
                         </div>
                         <table id="miTabla" class="datatable table table-bordered table-hover">
 

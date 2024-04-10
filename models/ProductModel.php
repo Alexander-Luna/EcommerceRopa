@@ -191,13 +191,16 @@ class ProductModel extends Conectar
             $conexion = parent::Conexion();
             $sql = "SELECT sub.* 
             FROM (
-                SELECT p.id, p.nombre, p.descripcion, i.precio, i.stock, i.id_talla, i.id_color,
+                SELECT p.id, p.nombre, p.descripcion, COALESCE(i.precio, 'No disponible') AS precio, 
+                       COALESCE(i.stock, 0) AS stock, COALESCE(i.id_talla, 'Sin talla') AS id_talla, 
+                       COALESCE(i.id_color, 'Sin color') AS id_color,
                        ROW_NUMBER() OVER (PARTITION BY p.id ORDER BY i.precio) AS row_num
-                FROM inventario AS i
-                INNER JOIN productos AS p ON i.id_producto = p.id
-                WHERE p.id = ? AND i.stock > 0
+                FROM productos AS p
+                LEFT JOIN inventario AS i ON i.id_producto = p.id
+                WHERE p.id = ?
             ) AS sub
             WHERE sub.row_num = 1;
+            ;
              ";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $p_id);
@@ -587,51 +590,5 @@ class ProductModel extends Conectar
             die("Error: " . $e->getMessage());
         }
     }
-    public function getWishClient()
-    {
-        try {
-            session_start();
-            $userData = $_SESSION['user_session'];
-            $id_user =  $userData['user_id'];
-            $conexion = parent::Conexion();
-            $sqlProducto = "SELECT * FROM wish_list w
-                INNER JOIN productos p ON w.id_producto=p.id
-                INNER JOIN imagenes_producto ip ON ip.id_producto=p.id
-                 WHERE w.id_usuario=? AND ip.orden=1";
-            $stmt = $conexion->prepare($sqlProducto);
-            $stmt->bindValue(1, $id_user);
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $data;
-        } catch (PDOException $e) {
-            $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al insertar los datos: " . $e->getMessage());
-        } catch (Exception $e) {
-            $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
-        }
-    }
-
-
-    public function deleteWishClient()
-    {
-        try {
-            $conexion = parent::Conexion();
-            $conexion->beginTransaction();
-            $id =  $_POST['id'];
-            $sqlDelete = "DELETE FROM wish_list WHERE id = ?";
-            $stmt = $conexion->prepare($sqlDelete);
-            $stmt->bindValue(1, $id);
-            $stmt->execute();
-            $conexion->commit();
-
-            return true;
-        } catch (PDOException $e) {
-            $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al eliminar los datos: " . $e->getMessage());
-        } catch (Exception $e) {
-            $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
-        }
-    }
+   
 }
