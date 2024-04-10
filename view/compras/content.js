@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       id_talla: id_talla,
       nombre_talla: nombre_talla,
     };
-    let productosGuardados = JSON.parse(localStorage.getItem("productos"));
+    let productosGuardados = JSON.parse(localStorage.getItem("productos"))|| [];
 
     btnAdd.disabled = true;
 
@@ -146,6 +146,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   btnPagar.addEventListener("click", function () {
     const productos = JSON.parse(localStorage.getItem("productos")) || [];
     let productoInvalidoEncontrado = false;
+    const productosPorProveedor = {};
     productos.forEach((producto) => {
       if (
         parseInt(producto.stock) === 0 ||
@@ -179,7 +180,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
 
-    const productosPorProveedor = {};
+  
     productos.forEach((producto) => {
       if (!productosPorProveedor[producto.id_proveedor]) {
         productosPorProveedor[producto.id_proveedor] = {

@@ -98,6 +98,7 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getEstadisticas':
                 $ventaController->getEstadistica();
                 break;
+
             case 'getSliders':
                 $publicidadController->getSliders();
                 break;
@@ -332,7 +333,9 @@ function handlePostRequest($action, $productController, $userController, $ventaC
         case 'deleteWishClient':
             $controller->deleteWishClient();
             break;
-
+        case 'getReporteVentas':
+            $ventaController->getReporteVentas();
+            break;
 
         case 'updateProductPedido':
             $productController->updateProductPedido();

@@ -66,8 +66,7 @@ class VentaModel extends Conectar
             u.nombre AS nombre_usuario
 FROM ventas v
 INNER JOIN recibe r ON v.id_recibe = r.id
-INNER JOIN usuarios u ON v.id_client = u.id;
-;
+INNER JOIN usuarios u ON v.id_client = u.id
         
         WHERE est_pago=0;
         ";
@@ -144,6 +143,30 @@ INNER JOIN usuarios u ON v.id_client = u.id;
         ";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $id);
+            $stmt->execute();
+            $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $ventas;
+        } catch (PDOException $e) {
+            die("Error al obtener ventas: " . $e->getMessage());
+        }
+    }
+    public function  getReporteVentas()
+    {
+        $fecha_ini = $_POST['fecha_ini'];
+        $fecha_fin = $_POST['fecha_fin'];
+        return $fecha_ini . " " . $fecha_fin;
+        try {
+            $conexion = parent::Conexion();
+            $sql = "SELECT v.*, r.nombre AS nombre_recibe, r.telefono AS telefono_recibe, r.email AS email_recibe, r.direccion AS direccion_recibe,
+            u.nombre AS nombre_usuario
+FROM ventas v
+INNER JOIN recibe r ON v.id_recibe = r.id
+INNER JOIN usuarios u ON v.id_client = u.id
+        WHERE est_pago=0;";
+            //v.fecha=2024-04-10 16:32:48
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $fecha_ini);
+            $stmt->bindValue(2, $fecha_fin);
             $stmt->execute();
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
