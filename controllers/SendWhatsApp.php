@@ -7,9 +7,14 @@ use GuzzleHttp\Client;
 
 class SendWhatsApp
 {
+    public function getToken()
+    {
+        return "PA240409100728";
+    }
+
     public function enviarMensajes($productos)
     {
-        $token = "PA240409100728";
+
 
         try {
 
@@ -23,13 +28,13 @@ class SendWhatsApp
 
                 $payload = array(
                     "op" => "registermessage",
-                    "token_qr" => $token,
+                    "token_qr" => $this->getToken(),
                     "mensajes" => array(
                         array(
                             "numero" => $telefono, "mensaje" => "Hola,👋 *" . $producto['nombre_proveedor'] . "*\n" .
                                 " este es el sistema de alertas automaticas de *ASOTAECO* para hacer un pedido de: \n" .
-                                "*Producto:* " . $producto['nombre'] . "\n" .
-                                "*Descripción:* " . $producto['descripcion'] . "\n" .
+                                "*Producto:* " . $producto['nombre_producto'] . "\n" .
+                                "*Descripción:* " . $producto['descripcion_producto'] . "\n" .
                                 "*Tipo:* " . $producto['tipo'] . "\n" .
                                 "*Color:* " . $producto['color'] . "\n" .
                                 "*Talla:* " . $producto['talla'] . "\n" .
@@ -63,32 +68,40 @@ class SendWhatsApp
             return $errorJson;
         }
     }
-}
+    public function enviarMensaje()
+    {
+        try {
 
-// CAMPOS QUE SE PUEDEN USAR
-$productos = [
-    [
-        "id_producto" => 32,
-        "id_talla" => 1,
-        "id_color" => 1,
-        "id_proveedor" => 1,
-        "stock" => 50,
-        "stock_alert" => 5,
-        "cant_pred" => 0,
-        "costo" => "50.50",
-        "precio_venta" => "80.50",
-        "id" => 32,
-        "nombre" => "Camisa",
-        "precio" => "10.00",
-        "existencia" => 23,
-        "descripcion" => "Niños (2 años)",
-        "activo" => 1,
-        "id_categoria" => 1,
-        "tipo" => "Camisa",
-        "color" => "Rojo",
-        "genero" => "Hombre",
-        "talla" => "2T",
-        "imagen" => "..\/..\/public\/images\/products\/product-01.jpg",
-        "telefono" => "51986321853"
-    ]
-];
+            $client = new Client(['verify' => false]);
+
+            $telefono = "593985726434";
+            $payload = array(
+                "op" => "registermessage",
+                "token_qr" => $this->getToken(),
+                "mensajes" => array(
+                    array(
+                        "numero" => $telefono, "mensaje" => "Hola,👋 Adjunto imagen de la prenda requerida👇"
+                    )
+                    //array("numero" => $telefono, "imagenbase64" => $base64Image)
+                )
+            );
+            $res = $client->request('POST', 'https://script.google.com/macros/s/AKfycbyoBhxuklU5D3LTguTcYAS85klwFINHxxd-FroauC4CmFVvS0ua/exec', [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json'
+                ], 'json' =>  $payload
+            ]);
+            
+            return json_encode($res);
+        } catch (Exception $e) {
+            http_response_code(400);
+            $errorMsg = "Error al enviar mensajes: " . $e->getMessage();
+            $errorResponse = [
+                "http_code" => http_response_code(),
+                "error" => $errorMsg
+            ];
+            $errorJson = json_encode($errorResponse);
+            return $errorJson;
+        }
+    }
+}

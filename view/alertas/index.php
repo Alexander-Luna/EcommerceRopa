@@ -20,18 +20,7 @@
             <div class="card-body">
               <button id="EnviarMensaje" type="button" class="btn btn-outline-success"><i class="fa fa-whatsapp nav-icon" aria-hidden="true"></i> Enviar Pre-Compra</button>
               <table id="miTabla" class="datatable table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>Producto</th>
-                    <th>Stock</th>
-                    <th>Imagen</th>
-                    <th>Cantidad</th>
-                    <th>Estado</th>
-                    <th>Proveedor</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Aquí van los datos de la tabla -->
+               
                 </tbody>
               </table>
             </div>

@@ -37,9 +37,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     },
     lengthChange: false,
     columns: [
-      { data: "nombre", title: "Nombre" },
-      { data: "stock", title: "Stock" },
-
+      { data: "nombre_producto", title: "Nombre" },
+      { data: "talla", title: "Talla" },
+      { data: "color", title: "Color" },
+      { data: "total_stock", title: "Stock" },
       { data: "cant_pred", title: "Cantidad Pre-Compra" },
       {
         data: "imagen",
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       { data: "prov_nombre", title: "Proveedor" },
     ],
     createdRow: function (row, data, dataIndex) {
-      $("td:eq(2)", row).on("click", function () {
+      $("td:eq(4)", row).on("click", function () {
         var cantidad = data.cant_pred;
         var input = $('<input type="number" value="' + cantidad + '">');
         $(this).html(input);

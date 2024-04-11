@@ -216,6 +216,7 @@ function handlePostRequest($action, $productController, $userController, $ventaC
         case 'send_alerta_whatsapp':
             $data = json_decode(file_get_contents('php://input'), true);
             $sendWhatsApp = new SendWhatsApp();
+            //$sendWhatsApp->enviarMensaje();
             $sendWhatsApp->enviarMensajes($data['productos']);
             $productController->setProductPedido($data['productos']);
 

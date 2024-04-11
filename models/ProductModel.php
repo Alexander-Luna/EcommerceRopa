@@ -136,16 +136,50 @@ class ProductModel extends Conectar
     {
         try {
             $conexion = parent::Conexion();
-            $sql = "SELECT i.*,i.id as id_inventario,prov.nombre AS prov_nombre, prov.*,prov.id AS id_proveedor, p.*, c.color, g.nombre AS genero, t.desc_talla, t.talla, img.url_imagen AS imagen
-            FROM inventario i
-            INNER JOIN productos_proveedores pp ON i.id_producto = pp.id_producto
-            INNER JOIN productos p ON pp.id_producto = p.id
-            INNER JOIN genero g ON p.id_genero = g.id
-            LEFT JOIN colores c ON i.id_color = c.id
-            LEFT JOIN tallas t ON i.id_talla = t.id
-            LEFT JOIN proveedores prov ON pp.id_proveedor = prov.id
-            LEFT JOIN imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
-            WHERE i.stock <= 5 OR i.stock = 0;";
+            $sql = "SELECT 
+            i.id_producto, 
+            i.id_talla, 
+            i.id_color, 
+            SUM(i.stock) AS total_stock, 
+            prov.nombre AS prov_nombre, 
+            prov.id AS id_proveedor, 
+            p.nombre AS nombre_producto, 
+            p.descripcion AS descripcion_producto,
+            c.color, 
+            t.desc_talla, 
+            t.talla, 
+            img.url_imagen AS imagen
+        FROM 
+            inventario i
+        INNER JOIN (
+            SELECT 
+                id_producto, 
+                id_proveedor, 
+                MIN(id) AS min_id
+            FROM 
+                productos_proveedores
+            GROUP BY 
+                id_producto, 
+                id_proveedor
+        ) AS pp ON i.id_producto = pp.id_producto
+        INNER JOIN 
+            productos p ON pp.id_producto = p.id
+        INNER JOIN 
+            colores c ON i.id_color = c.id
+        INNER JOIN 
+            tallas t ON i.id_talla = t.id
+        INNER JOIN 
+            proveedores prov ON pp.id_proveedor = prov.id
+        LEFT JOIN 
+            imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
+        WHERE 
+            p.est = 1
+        GROUP BY 
+            i.id_producto, 
+            i.id_talla, 
+            i.id_color, 
+            prov.id
+     HAVING total_stock <= 5";
             $stmt = $conexion->prepare($sql);
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
