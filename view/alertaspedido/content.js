@@ -192,12 +192,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   });
 
- 
   $(document).on("click", ".btnShop", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     const uniqueId = Date.now();
+    console.log(rowData);
     const producto = {
       id: uniqueId,
+      id_color: rowData.id_color,
+      nombre_color: rowData.color,
+      id_talla: rowData.id_talla,
+      nombre_talla: rowData.talla,
       id_producto: rowData.id_producto,
       nombre_producto: rowData.nombre,
       id_proveedor: rowData.id_proveedor,
@@ -205,10 +209,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       costo: 0,
       stock: rowData.cantidad,
       precio: 0,
-      id_color: rowData.id_color,
-      nombre_color: rowData.color,
-      id_talla: rowData.id_talla,
-      nombre_talla: rowData.talla,
     };
     let productosGuardados =
       JSON.parse(localStorage.getItem("productos")) || [];

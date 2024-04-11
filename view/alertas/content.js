@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         var productosConCantPredMayorA0 = tableData.filter(function (producto) {
           return producto.cant_pred > 0;
         });
+        console.log(productosConCantPredMayorA0);
         //console.log(JSON.stringify({ productos: productosConCantPredMayorA0 }));
         var response = await fetch(
           "../../controllers/router.php?op=send_alerta_whatsapp",

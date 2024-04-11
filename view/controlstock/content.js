@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
   metodosModal();
   document.getElementById("btnDPDF").addEventListener("click", function () {
-
     const selectProducto = document.getElementById("id_producto");
     const productId = selectProducto.value;
     fetch("../../controllers/router.php?op=downloadStock&id=" + productId, {
@@ -115,7 +114,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       "pdfHtml5", // Botón de PDF
     ],
     lengthChange: false,
-columns: [
+    columns: [
       {
         data: "imagen",
         title: "Imagen",
@@ -136,12 +135,12 @@ columns: [
       { data: "ocasion", title: "Ocasión" },
       { data: "color", title: "Color" },
       { data: "genero", title: "Género" },
-      { data: "stock", title: "Stock" },
+      { data: "stock_total", title: "Stock" },
       {
-        data: "precio",
+        data: "precio_promedio",
         title: "Precio",
         render: function (data, type, row) {
-          return "$" + data;
+          return "$" + parseFloat(data).toFixed(2);
         },
       },
     ],

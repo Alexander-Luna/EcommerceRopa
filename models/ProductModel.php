@@ -33,18 +33,41 @@ class ProductModel extends Conectar
         try {
             $conexion = parent::Conexion();
             $id = $_GET['id'];
-            $sql = "SELECT oc.nombre as ocasion,prov.nombre AS prov_nombre, prov.*, i.*, p.*, c.color, g.nombre AS genero, t.desc_talla, t.talla, img.url_imagen AS imagen
-            FROM inventario i
-            INNER JOIN productos_proveedores pp ON i.id_producto = pp.id_producto
-            INNER JOIN productos p ON pp.id_producto = p.id
-            INNER JOIN genero g ON p.id_genero = g.id
-            INNER JOIN ocasion oc ON p.id_ocasion = oc.id
-            LEFT JOIN colores c ON i.id_color = c.id
-            LEFT JOIN tallas t ON i.id_talla = t.id
-            LEFT JOIN proveedores prov ON pp.id_proveedor = prov.id
-            LEFT JOIN imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1 ";
+            $sql = "SELECT 
+            SUM(i.stock) as stock_total,
+            oc.nombre as ocasion, 
+            i.*, 
+            p.*, 
+            c.color, 
+            g.nombre AS genero, 
+            t.desc_talla, 
+            t.talla, 
+            img.url_imagen AS imagen,
+            AVG(i.precio) as precio_promedio
+        FROM 
+            inventario i
+        INNER JOIN 
+            productos p ON i.id_producto = p.id
+        INNER JOIN 
+            genero g ON p.id_genero = g.id
+        INNER JOIN 
+            ocasion oc ON p.id_ocasion = oc.id
+        LEFT JOIN 
+            colores c ON i.id_color = c.id
+        LEFT JOIN 
+            tallas t ON i.id_talla = t.id
+        LEFT JOIN 
+            imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1 
+        
+        
+                        ";
             if ($id != null) {
-                $sql .= 'WHERE p.id=?';
+                $sql .= 'WHERE 
+                p.id = ? 
+            GROUP BY 
+                p.id, oc.nombre, c.color, g.nombre, t.desc_talla, t.talla, img.url_imagen';
+            }else{
+                $sql .= ' GROUP BY i.id_talla,i.id_color,i.id_producto';
             }
 
             $stmt = $conexion->prepare($sql);
@@ -137,6 +160,7 @@ class ProductModel extends Conectar
         try {
             $conexion = parent::Conexion();
             $sql = "SELECT 
+            i.id as id_inventario,
             i.id_producto, 
             i.id_talla, 
             i.id_color, 
@@ -147,7 +171,9 @@ class ProductModel extends Conectar
             p.descripcion AS descripcion_producto,
             c.color, 
             t.desc_talla, 
-            t.talla, 
+            t.talla,
+            t.*,
+            c.*, 
             img.url_imagen AS imagen
         FROM 
             inventario i
@@ -603,7 +629,7 @@ class ProductModel extends Conectar
         try {
             $conexion = parent::Conexion();
             $conexion->beginTransaction();
-            $sql = "SELECT ap.*,ap.est as est_ap,ap.id as id_pedido,ap.descripcion as descripcion_ap,pr.nombre as prov_nombre,pr.telefono,t.*,c.*,p.*,ip.* 
+            $sql = "SELECT i.id_color,i.id_talla,ap.*,ap.est as est_ap,ap.id as id_pedido,ap.descripcion as descripcion_ap,pr.nombre as prov_nombre,pr.telefono,t.*,c.*,p.*,ip.* 
             FROM alertaspedido ap
             INNER JOIN inventario i ON i.id=ap.id_inventario
             INNER JOIN tallas t ON t.id=i.id_talla
