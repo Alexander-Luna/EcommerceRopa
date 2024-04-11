@@ -68,7 +68,7 @@ FROM ventas v
 INNER JOIN recibe r ON v.id_recibe = r.id
 INNER JOIN usuarios u ON v.id_client = u.id
         
-        WHERE est_pago=0;
+        WHERE est_pago!=2;
         ";
             $stmt = $conexion->prepare($sql);
             $stmt->execute();
@@ -190,25 +190,17 @@ INNER JOIN usuarios u ON v.id_client = u.id
         return $fecha_convertida;
     }
 
-    public function updateVentas()
+    public function updateVenta()
     {
         try {
             $id = $_POST["id"];
-            $ruc = $_POST["ruc"];
-            $nombre = $_POST["nombre"];
-            $email = $_POST["email"];
-            $telefono = $_POST["telefono"];
-            $direccion = $_POST["direccion"];
+            $est = $_POST["est"];
 
             $conexion = parent::Conexion();
-            $sql = "UPDATE ventas SET ruc=?, nombre=?, email=?, telefono=?, direccion=? WHERE id=?";
+            $sql = "UPDATE ventas SET est_pago=? WHERE id=?";
             $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $ruc);
-            $stmt->bindValue(2, $nombre);
-            $stmt->bindValue(3, $email);
-            $stmt->bindValue(4, $telefono);
-            $stmt->bindValue(5, $direccion);
-            $stmt->bindValue(6, $id);
+            $stmt->bindValue(1, $est);
+            $stmt->bindValue(2, $id);
             $stmt->execute();
 
             if ($stmt->rowCount() > 0) {
@@ -223,12 +215,12 @@ INNER JOIN usuarios u ON v.id_client = u.id
         }
     }
 
-    public function deleteVentas()
+    public function deleteVenta()
     {
         try {
             $id = $_POST["id"];
             $conexion = parent::Conexion();
-            $sql = "UPDATE ventas SET est = CASE WHEN est = 1 THEN 0 ELSE 1 END WHERE id=?";
+            $sql = "UPDATE ventas SET est = CASE WHEN est_pago = 1 THEN 2 ELSE 1 END WHERE id=?";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $id);
             $stmt->execute();

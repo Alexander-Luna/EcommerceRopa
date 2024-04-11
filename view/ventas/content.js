@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
 
-  // Inicializar DataTables
   var miTabla = $("#miTabla").DataTable({
     language: {
       decimal: "",
@@ -30,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
     },
     lengthChange: false,
-columns: [
+    columns: [
       { data: "nombre_usuario", title: "Cliente" },
       { data: "nombre_recibe", title: "Receptor" },
       {
@@ -60,6 +59,13 @@ columns: [
         },
       },
       { data: "fecha", title: "Fecha" },
+      {
+        data: "total",
+        title: "Total",
+        render: function (data, type, row) {
+          return "$" + data;
+        },
+      },
       {
         data: null,
         title: "Acciones",
@@ -97,9 +103,14 @@ columns: [
       .then((blob) => {
         const url = window.URL.createObjectURL(blob);
         const currentDate = new Date();
-        const formattedDate = currentDate.toISOString().slice(0, 19).replace(/[-T]/g, '').replace(':', '').replace(':', '');
+        const formattedDate = currentDate
+          .toISOString()
+          .slice(0, 19)
+          .replace(/[-T]/g, "")
+          .replace(":", "")
+          .replace(":", "");
         const fileName = `ventas_${formattedDate}.pdf`;
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
         a.download = fileName;
         a.click();
@@ -108,7 +119,7 @@ columns: [
           text: "¡La acción se realizó de manera exitosa!",
           icon: "success",
           timer: 1000, // tiempo en milisegundos
-          buttons: false // ocultar botones
+          buttons: false, // ocultar botones
         });
         reloadSection();
       })
@@ -120,34 +131,34 @@ columns: [
         );
         console.error("Error al obtener el PDF:", error);
       });
-});
-
+  });
 
   $(document).on("click", ".btnDownload", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
 
     // Crear un enlace de descarga
     var link = document.createElement("a");
-    link.href = rowData.comprobante; // Establecer la URL de descarga como la URL de la imagen
-    link.download = "comprobante.webp"; // Establecer el nombre de archivo de descarga
-    link.target = "_blank"; // Abrir en una nueva ventana
-
-    // Simular un clic en el enlace para iniciar la descarga
+    link.href = rowData.comprobante;
+    link.download = "comprobante.webp";
+    link.target = "_blank";
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link); // Eliminar el enlace después de la descarga para evitar desorden en el DOM
+    document.body.removeChild(link);
   });
 
-  // Manejador de eventos para el botón de editar
   $(document).on("click", ".btnEditar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     $("#miModal").modal("show");
+    console.log(rowData);
     document.getElementById("title").textContent = "Editar Venta";
     document.getElementById("id").value = rowData.id;
-    document.getElementById("idcli").value = rowData.idcli;
-    document.getElementById("idPago").value = rowData.idPago;
-    document.getElementById("metodo_pago").value = rowData.metodo_pago;
-    document.getElementById("fecha").value = rowData.fecha;
+    document.getElementById("id_cliente").value = rowData.idcli;
+    document.getElementById("recibe").textContent = rowData.nombre_recibe;
+    document.getElementById("cliente").textContent = rowData.nombre_usuario;
+    document.getElementById("direccion").textContent = rowData.direccion_recibe;
+    document.getElementById("telefono").textContent = rowData.telefono_recibe;
+    document.getElementById("fecha").textContent = rowData.fecha;
+    document.getElementById("est").value = rowData.est_pago;
   });
 
   // Manejador de eventos para el botón de eliminar
@@ -191,84 +202,41 @@ columns: [
     try {
       // Obtener los datos del formulario
       const id = document.getElementById("id").value;
-      const idcli = document.getElementById("idcli").value;
-      const idPago = document.getElementById("idPago").value;
-      const metodo_pago = document.getElementById("metodo_pago").value;
-      const fecha = document.getElementById("fecha").value;
-
-      // Crear un objeto FormData para enviar los datos al servidor
+      const est = document.getElementById("est").value;
       const formData = new FormData();
-      formData.append("idcli", idcli);
-      formData.append("idPago", idPago);
-      formData.append("metodo_pago", metodo_pago);
-      formData.append("fecha", fecha);
+      formData.append("id", id);
+      formData.append("est", est);
 
-      if (id === "") {
-        // Realizar la solicitud POST al servidor para insertar la nueva venta
-        fetch("../../controllers/router.php?op=insertVenta", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => {
-            if (!response.ok) {
-              swal(
-                "Ups! Algo salió mal!",
-                "La acción no se pudo realizar correctamente!",
-                "error"
-              );
-              throw new Error("Hubo un problema al insertar la nueva venta.");
-            }
-            console.log(response);
-            // Si la inserción fue exitosa, recargar la sección
-            $("#miModal").modal("hide");
-            swal(
-              "En Hora Buena!",
-              "La acción se realizó de manera exitosa!",
-              "success"
-            );
-            reloadSection();
-          })
-          .catch((error) => {
+      fetch("../../controllers/router.php?op=updateVenta", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          if (!response.ok) {
             swal(
               "Ups! Algo salió mal!",
               "La acción no se pudo realizar correctamente!",
               "error"
             );
-            console.error("Error al insertar la nueva venta:", error);
-          });
-      } else {
-        formData.append("id", id);
-        fetch("../../controllers/router.php?op=updateVenta", {
-          method: "POST",
-          body: formData,
+            throw new Error("Hubo un problema al actualizar la venta.");
+          }
+          console.log(response);
+          $("#miModal").modal("hide");
+          swal(
+            "En Hora Buena!",
+            "La acción se realizó de manera exitosa!",
+            "success"
+          );
+          reloadSection();
         })
-          .then((response) => {
-            if (!response.ok) {
-              swal(
-                "Ups! Algo salió mal!",
-                "La acción no se pudo realizar correctamente!",
-                "error"
-              );
-              throw new Error("Hubo un problema al actualizar la venta.");
-            }
-            console.log(response);
-            $("#miModal").modal("hide");
-            swal(
-              "En Hora Buena!",
-              "La acción se realizó de manera exitosa!",
-              "success"
-            );
-            reloadSection();
-          })
-          .catch((error) => {
-            console.error("Error al actualizar la venta:", error);
-            swal(
-              "Ups! Algo salió mal!",
-              "La acción no se pudo realizar correctamente!",
-              "error"
-            );
-          });
-      }
+        .catch((error) => {
+          console.error("Error al actualizar la venta:", error);
+          swal(
+            "Ups! Algo salió mal!",
+            "La acción no se pudo realizar correctamente!",
+            "error"
+          );
+        });
     } catch (error) {
       console.error("Error al obtener los datos del formulario:", error);
       swal(

@@ -332,6 +332,12 @@ function handlePostRequest($action, $productController, $userController, $ventaC
         case 'insertVentaClient':
             $ventaController->insertVentaClient();
             break;
+        case 'updateVenta':
+            $ventaController->updateVenta();
+            break;
+        case 'deleteVenta':
+            $ventaController->deleteVenta();
+            break;
         case 'insertWishClient':
             $controller->insertWishClient();
             break;
