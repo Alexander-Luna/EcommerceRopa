@@ -40,7 +40,7 @@
                                 <div class="col-md-2">
                                     <!-- Campo oculto para el ID -->
                                     <div class="form-group">
-                                        <label class="col-form-label">Costo Unitario:</label>
+                                        <label class="col-form-label">Costo Unitario Compra:</label>
                                         <input type="number" class="form-control" id="costo" name="costo" required>
                                     </div>
                                     <div class="form-group">
@@ -48,7 +48,7 @@
                                         <input type="number" class="form-control" id="stock" name="stock" required>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-form-label">Precio Unitario:</label>
+                                        <label class="col-form-label">Precio Unitario Público:</label>
                                         <input type="number" class="form-control" id="precio" name="precio" required>
                                     </div>
                                 </div>

@@ -41,8 +41,6 @@
                                 </div>
                             </div>
                         </form>
-                        <label class="col-form-label">Descargar</label>
-
                         <div class="row">
 
                             <div class="col-md-2">
