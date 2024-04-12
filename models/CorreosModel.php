@@ -7,8 +7,9 @@ require_once '../config/Conectar.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class SmtpModel
+class CorreosModel
 {
+    private $mail;
 
     public function enviarCorreo()
     {

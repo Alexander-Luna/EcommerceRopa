@@ -19,8 +19,8 @@ class SmtpModel extends Conectar
         $this->mail->SMTPAuth = true;
         $this->mail->Username = 'info@asotaeco.com';
         $this->mail->Password = 'Asotaeco1@';
-        $this->mail->SMTPSecure = 'ssl';
-        $this->mail->Port = 465;
+        $this->mail->SMTPSecure = 'tls'; // Cambio a TLS
+        $this->mail->Port = 587; // Puerto típico para TLS
     }
 
     public function enviarCorreo($email, $nombre, $asunto, $body)

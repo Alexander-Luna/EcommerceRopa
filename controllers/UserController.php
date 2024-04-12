@@ -1,6 +1,6 @@
 <?php
 require_once '../models/UserModel.php';
-require_once '../models/SmtpModel.php';
+require_once '../models/CorreosModel.php';
 class UserController
 {
     public function getUsers()
@@ -38,7 +38,7 @@ class UserController
     }
     public function sendEmail()
     {
-        $model = new SmtpModel();
+        $model = new CorreosModel();
         $data = $model->enviarCorreo();
         if ($data === false || empty($data)) {
             http_response_code(204);
