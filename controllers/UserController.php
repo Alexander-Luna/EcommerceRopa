@@ -25,6 +25,18 @@ class UserController
             http_response_code(200);
         }
     }
+    public function resetPassClient()
+    {
+        $model = new UserModel();
+        $data = $model->resetPassClient();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
+ 
     public function getAllEmpresa()
     {
         $model = new UserModel();

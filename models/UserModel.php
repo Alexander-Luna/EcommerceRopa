@@ -1,6 +1,6 @@
 <?php
 require_once '../config/Conectar.php'; // Asegúrate de incluir la clase Conectar
-
+require_once 'SendEmail.php';
 class UserModel extends Conectar
 {
     public function getAllUsers()
@@ -22,7 +22,7 @@ class UserModel extends Conectar
             die("Error al obtener usuarios: " . $e->getMessage());
         }
     }
-  
+
     public function getUserData()
     {
         try {
@@ -43,6 +43,20 @@ class UserModel extends Conectar
         }
     }
 
+    public function resetPassClient()
+    {
+        try {
+            $conexion = parent::Conexion();
+            $email = $_POST["email"];
+            $ci = $_POST["ci"];
+            $model = new SendEmail();
+            $model->enviarCorreo($email, "Alexander", "asunto", "Body probando correo");
+            return true;
+        } catch (Exception $e) {
+            // Manejo de errores
+            die("Error al obtener usuarios: " . $e->getMessage());
+        }
+    }
     public function getAllEmpresa()
     {
         try {

@@ -4,14 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("submit", function (e) {
       e.preventDefault(); // Evita que el formulario se envíe normalmente
 
-      // Obtener los datos del formulario
-      var formData = new FormData(this);
+      const form = document.getElementById("miForm");
+      const formData = new FormData(form);
       console.log("FormData:", formData);
-
-      // Enviar los datos mediante Fetch
       fetch("../../controllers/router.php?op=resetpassci", {
-        method: "POST", // Método HTTP
-        body: formData, // Datos a enviar
+        method: "POST",
+        body: formData,
       })
         .then((response) => {
           if (!response.ok) {
@@ -19,16 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
             throw new Error("Error en la solicitud");
           }
           console.log(response.text());
-          return response.text(); // Convertir la respuesta a texto
+          return response.text();
         })
         .then((data) => {
-          // Manejar la respuesta del servidor
           console.log("Respuesta del servidor:", data);
-          // Aquí puedes realizar otras acciones según la respuesta del servidor
         })
         .catch((error) => {
           console.error("Error:", error);
-          // Manejar errores de la solicitud Fetch
         });
     });
 });

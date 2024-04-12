@@ -22,3 +22,15 @@ browser-sync start --proxy "localhost:80" --files "**/*"
 [] - Cancelar Ventas
 [] - Cancelar compras
 [] - Colocar fondo de las paginas 90a586 
+[] - Modal para el shoping cart
+[] - Registro falta el telefono
+[] - Campos obligatorios en el registro
+[] - Referencia en el shoping cart
+
+Administrador
+[] - Cambiar en compras comprar publicar
+[] - Alertas cambiar la logica para seleccionar con un check
+[] - Estado en ventas en vez de entregado enviado 
+[] - Ventana flotante para productos en ventas
+[] - Quitar boton de eliminar ventas
+[] - Editar producto

@@ -39,7 +39,7 @@ if (!isset($_SESSION["usu_id"])) {
                                 <h2 class="fs-6 fw-normal text-center text-secondary m-0 px-md-5">Por favor ingrese su correo electrónico y su cédula para recuperar su contraseña</h2>
                             </div>
                         </div>
-                        <form id="verificationForm" method="POST" >
+                        <form id="miForm" method="POST" >
                             <div class="row gy-3 gy-md-4 overflow-hidden">
                                 <div class="col-12">
                                     <label for="email" class="form-label">Correo electrónico <span class="text-danger">*</span></label>

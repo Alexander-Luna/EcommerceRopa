@@ -125,8 +125,6 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getTallas':
                 $controller->getTallas();
                 break;
-
-
             case 'getAllTallas':
                 $controller->getAllTallas();
                 break;
@@ -166,7 +164,6 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getProductPedido':
                 $productController->getProductPedido();
                 break;
-
             case 'getReporteVentas':
                 $ventaController->getReporteVentas();
                 break;
@@ -200,15 +197,10 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             } else {
                 $rol = 2;
             }
-
             $userController->registrar($email, $password, $nombre, $direccion, $cedula, $rol);
             break;
         case 'resetpassci':
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $email = $_POST["email"];
-                $ci = $_POST["ci"];
-                $userController->getClientByEmailAndCi($email, $ci);
-            }
+            $userController->resetPassClient();
             break;
         case 'createProduct':
             $productController->createProduct();
