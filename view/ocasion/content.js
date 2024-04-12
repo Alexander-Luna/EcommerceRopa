@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
     },
     lengthChange: false,
-columns: [
-      { data: "nombre",title: 'Nombre'},
+    columns: [
+      { data: "nombre", title: "Nombre" },
       {
         data: "est",
         title: "Estado",
@@ -38,7 +38,8 @@ columns: [
         },
       },
       {
-        data: null,title: 'Acciones',
+        data: null,
+        title: "Acciones",
         render: function (data, type, row) {
           return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>`;
@@ -118,9 +119,7 @@ columns: [
                 "La acción no se pudo realizar correctamente!",
                 "error"
               );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo Ocasion."
-              );
+              throw new Error("Hubo un problema al insertar el nuevo Ocasion.");
             }
             console.log(response);
             // Si la inserción fue exitosa, recargar la sección
@@ -155,9 +154,7 @@ columns: [
                 "La acción no se pudo realizar correctamente!",
                 "error"
               );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo Ocasion."
-              );
+              throw new Error("Hubo un problema al insertar el nuevo Ocasion.");
             }
             console.log(response);
             $("#miModal").modal("hide");

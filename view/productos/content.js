@@ -129,9 +129,7 @@ columns: [
         title: "Acciones",
         render: function (data, type, row) {
           return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
-                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                  <button type="button" class="btn btn-outline-danger btnEliminar" data-id="${row.id}">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>`;
         },
       },
     ],

@@ -151,9 +151,7 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
 
         <!-- Icon header -->
         <div class="wrap-icon-header flex-w flex-r-m m-r-15">
-            <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-                <i class="zmdi zmdi-search"></i>
-            </div>
+            
 
             <div id="notify_cart" class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="0">
                 <i class="zmdi zmdi-shopping-cart"></i>
@@ -162,42 +160,8 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
             <a id="notify_wish" href="<?php echo $favoritos; ?>" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-wish" data-notify="0">
                 <i class="zmdi zmdi-favorite-outline"></i>
             </a>
-            <?php
-            if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_id'])) {
-            ?>
-                <a href="<?php echo $login; ?>" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
-                    <i class="zmdi zmdi-account-circle"></i>
-                </a>
-            <?php } else { ?>
-                <div class="menu-desktop">
-                    <ul class="main-menu">
-                        <li class="menu-item-with-submenu">
-                            <a class="menu-link  menu-item"> <i class="zmdi zmdi-account-circle mr-2"></i>
-                                <?php echo $_SESSION['user_session']['nombre']; ?></a>
-                            <ul class="sub-menu">
 
-                                <li> <a href="<?php echo $mis_compras; ?>" class="list-group-item list-group-item-action menu-item">
-                                        <i class="fa fa-shopping-basket mr-2"></i> Mis Compras
-                                    </a>
-                                </li>
-                                <li><a href="<?php echo $favoritos; ?>" class="list-group-item list-group-item-action menu-item">
-                                        <i class="fa fa-heart-o mr-2"></i> Favoritos
-                                    </a>
-                                </li>
-                                <li> <a href="<?php echo $mi_perfil; ?>" class="list-group-item list-group-item-action menu-item">
-                                        <i class="fa fa-user mr-2"></i> Mi Perfil
-                                    </a>
-                                </li>
-                                <li> <a href="<?php echo $cerrar_sesion; ?>" class="list-group-item list-group-item-action menu-item">
-                                        <i class="fa fa-sign-out mr-2"></i> Cerrar Sesión
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div>
-            <?php } ?>
+           
         </div>
 
         <!-- Button show menu -->
@@ -210,27 +174,11 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
 
     <!-- Menu Mobile -->
     <div class="menu-mobile">
-        <ul class="topbar-mobile">
-            <li>
-                <div class="left-top-bar">
-                    Descuentos por temporada y promociones exclusivas para nuestros clientes.
-                </div>
-            </li>
-
-            <li>
-                <div class="right-top-bar flex-w h-full">
-                    <a href="<?php echo $direccion; ?>" class="flex-c-m p-lr-10 trans-04">
-                        Dirección
-                    </a>
-
-                    <a href="<?php echo $info_empresa; ?>" class="flex-c-m p-lr-10 trans-04">
-                        Informacion
-                    </a>
-                </div>
-            </li>
-        </ul>
+     
 
         <ul class="main-menu-m">
+      
+
             <li>
                 <a href="<?php echo $inicio; ?>">Inicio</a>
             </li>
@@ -259,6 +207,7 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </span>
             </li>
+            
             <li>
                 <a href="<?php echo $info_empresa; ?>">Quienes somos</a>
             </li>
