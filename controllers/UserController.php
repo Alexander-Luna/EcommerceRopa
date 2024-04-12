@@ -1,6 +1,6 @@
 <?php
 require_once '../models/UserModel.php';
-require_once '../models/CorreosModel.php';
+//require_once '../models/CorreosModel.php';
 class UserController
 {
     public function getUsers()
@@ -38,14 +38,14 @@ class UserController
     }
     public function sendEmail()
     {
-        $model = new CorreosModel();
-        $data = $model->enviarCorreo();
-        if ($data === false || empty($data)) {
-            http_response_code(204);
-        } else {
-            echo json_encode($data);
-            http_response_code(200);
-        }
+        // $model = new CorreosModel();
+        // $data = $model->enviarCorreo();
+        // if ($data === false || empty($data)) {
+        //     http_response_code(204);
+        // } else {
+        //     echo json_encode($data);
+        //     http_response_code(200);
+        // }
     }
     public function getAllEmpresa()
     {
@@ -126,11 +126,11 @@ class UserController
         $data = $userModel->registrarUsuario($email, $password, $nombre, $direccion, $cedula, $rol);
         echo json_encode($data);
     }
-    public function login($email, $password)
+    public function login()
     {
         try {
             $userModel = new UserModel();
-            $userData = $userModel->login($email, $password);
+            $userData = $userModel->login();
 
             if ($userData) {
                 if (session_status() == PHP_SESSION_NONE) {

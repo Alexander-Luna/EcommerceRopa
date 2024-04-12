@@ -7,7 +7,6 @@ require_once 'UserController.php';
 require_once 'VentasController.php';
 require_once 'CompraController.php';
 require_once 'SendWhatsApp.php';
-require_once 'SMTPemail.php';
 if (isset($_REQUEST['op'])) {
     $action = $_REQUEST['op'];
     $publicidadC = new PublicidadController();

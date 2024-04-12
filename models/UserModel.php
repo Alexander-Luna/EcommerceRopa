@@ -1,6 +1,6 @@
 <?php
 require_once '../config/Conectar.php';
-require_once 'SmtpModel.php';
+
 class UserModel extends Conectar
 {
     public function getAllUsers()
@@ -50,16 +50,16 @@ class UserModel extends Conectar
             $email = $_POST["email"];
 
             $ci = $_POST["ci"];
-            // Crear una instancia del modelo SmtpModel
-            $smtpModel = new SmtpModel();
+            // // Crear una instancia del modelo SmtpModel
+            // $smtpModel = new SmtpModel();
 
-            // Llamar al método enviarCorreo
-            $resultadoEnvio = $smtpModel->enviarCorreo(
-                'paulluna99@gmail.com',
-                'Nombre Destinatario',
-                'Asunto del Correo',
-                'Cuerpo del Correo'
-            );
+            // // Llamar al método enviarCorreo
+            // $resultadoEnvio = $smtpModel->enviarCorreo(
+            //     'paulluna99@gmail.com',
+            //     'Nombre Destinatario',
+            //     'Asunto del Correo',
+            //     'Cuerpo del Correo'
+            // );
         } catch (Exception $e) {
             // Manejo de errores
             die("Error al obtener usuarios: " . $e->getMessage());
