@@ -1,5 +1,5 @@
 <?php
-require_once '../config/Conectar.php'; 
+require_once '../config/Conectar.php';
 require_once '../vendor/autoload.php';
 require_once '../config/smtp.php';
 require_once 'SmtpModel.php';
@@ -50,6 +50,8 @@ class UserModel extends Conectar
         try {
             $conexion = parent::Conexion();
             $email = $_POST["email"];
+            echo $email;
+            die();
             $ci = $_POST["ci"];
             $model = new SmtpModel();
             $model->enviarCorreo($email, "Alexander", "asunto", "Body probando correo");

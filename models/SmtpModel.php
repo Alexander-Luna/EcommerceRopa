@@ -13,9 +13,7 @@ class SmtpModel extends Conectar
 
     public function __construct()
     {
-
         $this->mail = new PHPMailer(true);
-        // Configuración del servidor SMTP
         $this->mail->isSMTP();
         $this->mail->Host = SMTP_HOST;
         $this->mail->SMTPAuth = true;

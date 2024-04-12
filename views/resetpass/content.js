@@ -1,28 +1,33 @@
-document.addEventListener("DOMContentLoaded", function () {
-  document
-    .getElementById("verificationForm")
-    .addEventListener("submit", function (e) {
-      e.preventDefault(); 
-      const form = document.getElementById("miForm");
-      const formData = new FormData(form);
-      console.log("FormData:", formData);
-      fetch("../../controllers/router.php?op=resetpassci", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => {
-          if (!response.ok) {
-            console.error("Error en la solicitud");
-            throw new Error("Error en la solicitud");
+document.addEventListener("DOMContentLoaded", async function () {
+  document.getElementById("btnentrar").addEventListener("click", submitForm);
+
+  function submitForm() {
+    event.preventDefault();
+    const form = document.getElementById("miForm");
+    const formData = new FormData(form);
+    fetch("../../controllers/router.php?op=resetpassci", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          swal("Algo salio mal!" + response, "error");
+          console.log(response);
+          throw new Error("Error en la solicitud");
+        }
+        if (response.status === 200) {
+          if (response.rol_id === 1) {
+            window.location.href = "../admin/";
+          } else {
+            window.location.href = "../main/";
           }
-          console.log(response.text());
-          return response.text();
-        })
-        .then((data) => {
-          console.log("Respuesta del servidor:", data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    });
+        } else {
+          swal("Error", "Usuario o contraseña incorrectos", "warning");
+          return;
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
 });

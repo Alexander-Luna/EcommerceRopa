@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   function submitForm() {
     const form = document.getElementById("miForm");
     const formData = new FormData(form);
-    // formData.append("email", email);
-    // formData.append("pass", pass);
     fetch("../../controllers/router.php?op=login", {
       method: "POST",
       body: formData,

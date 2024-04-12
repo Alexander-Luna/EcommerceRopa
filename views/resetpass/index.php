@@ -65,7 +65,7 @@ if (!isset($_SESSION["usu_id"])) {
                                 </div>
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <button class="btn btn-primary btn-lg" type="submit">Verificar</button>
+                                        <button id="btnentrar" class="btn btn-primary btn-lg" type="submit">Verificar</button>
                                     </div>
                                 </div>
                             </div>
