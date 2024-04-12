@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("btnentrar").addEventListener("click", submitForm);
-
-  function submitForm() {
-    event.preventDefault();
+  function submitForm(event) { // Agrega el parámetro event aquí
+    event.preventDefault(); // Llama a preventDefault() con el evento pasado como parámetro
     const form = document.getElementById("miForm");
     const formData = new FormData(form);
     fetch("../../controllers/router.php?op=resetpassci", {
