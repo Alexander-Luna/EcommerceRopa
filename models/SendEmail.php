@@ -20,7 +20,7 @@ class SendEmail
         $this->mail->Host = 'smtp.hostinger.com';
         $this->mail->SMTPAuth = true;
         $this->mail->Username = 'info@asotaeco.com'; // Reemplaza con tu correo
-        $this->mail->Password = 'Asotaeco1'; // Reemplaza con tu contraseña
+        $this->mail->Password = 'Asotaeco1@'; // Reemplaza con tu contraseña
         $this->mail->SMTPSecure = 'ssl';
         $this->mail->Port = 465;
     }
