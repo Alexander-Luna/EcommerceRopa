@@ -15,16 +15,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.log(response);
           throw new Error("Error en la solicitud");
         }
-        if (response.status === 200) {
-          if (response.rol_id === 1) {
-            window.location.href = "../admin/";
-          } else {
-            window.location.href = "../main/";
-          }
-        } else {
-          swal("Error", "Usuario o contraseña incorrectos", "warning");
-          return;
-        }
+        console.log(response.json());
       })
       .catch((error) => {
         console.error("Error:", error);
