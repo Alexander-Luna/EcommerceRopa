@@ -89,7 +89,6 @@ INSERT INTO productos (id, nombre, descripcion, id_genero, id_tipo_prenda, id_oc
 (29, 'Gabardina', 'Gabardina beige clásica', 2, 5, 2),
 (30, 'Pantalones de vestir', 'Pantalones de vestir de color gris', 1, 6, 3);
 
-
 INSERT INTO imagenes_producto (id_producto, url_imagen, orden, est) VALUES
 (1, '../../public/images/products/product-01.jpg', 1, 1),
 (1, '../../public/images/products/product-02.jpg', 2, 1),

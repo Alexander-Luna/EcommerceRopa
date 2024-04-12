@@ -27,24 +27,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     },
     lengthChange: false,
     columns: [
+      { data: "cedula", title: "cedula" },
       { data: "email", title: "Email" },
       { data: "nombre", title: "Nombre" },
-      {
-        data: "est",
-        title: "Estado",
-        render: function (data, type, row) {
-          // Si el rol_id es 1, mostrar "Administrador", de lo contrario, mostrar "Cliente"
-          return data == 1 ? "Activo" : "Desactivado";
-        },
-      },
+      { data: "direccion", title: "Direccion" },
+      { data: "telefono", title: "Telefono" },
       {
         data: null,
         title: "Acciones",
         render: function (data, type, row) {
           return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-outline-danger btnEliminar" data-id="${row.id}">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>`;
         },
       },
     ],
@@ -60,7 +53,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     $("#nombre").val(rowData.nombre);
     $("#direccion").val(rowData.direccion);
     $("#cedula").val(rowData.cedula);
-    $("#rol_id").val(rowData.rol_id);
   });
 
   // Manejador de eventos para el botón de eliminar
@@ -110,16 +102,15 @@ document.addEventListener("DOMContentLoaded", async function () {
       const nombre = document.getElementById("nombre").value;
       const direccion = document.getElementById("direccion").value;
       const cedula = document.getElementById("cedula").value;
-      const rol_id = document.getElementById("rol_id").value;
-
-      // Crear un objeto FormData para enviar los datos al servidor
+      const telefono = document.getElementById("telefono").value;
       const formData = new FormData();
 
       formData.append("email", email);
       formData.append("nombre", nombre);
       formData.append("direccion", direccion);
       formData.append("cedula", cedula);
-      formData.append("rol_id", rol_id);
+      formData.append("telefono", telefono);
+      formData.append("rol_id", 2);
 
       if (id === "") {
         formData.append("pass", cedula);

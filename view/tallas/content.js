@@ -30,18 +30,19 @@ columns: [
       { data: "talla",title: 'Nombre'},
       { data: "desc_talla",title: 'Descripción'},
       {
-        data: "est",title: 'Estado',
+        data: "est",
+        title: "Estado",
         render: function (data, type, row) {
-          return data == 1 ? "Activo" : "Desactivado";
+          return data == 1
+            ? '<button class="badge bg-success border-0 btnEliminar" data-id="${row.id}">Activado</button>'
+            : '<button class="badge bg-danger border-0 btnEliminar" data-id="${row.id}">Desactivado</button>';
         },
       },
       {
         data: null,title: 'Acciones',
         render: function (data, type, row) {
           return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-outline-danger btnEliminar" data-id="${row.id}">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>`;
         },
       },
     ],

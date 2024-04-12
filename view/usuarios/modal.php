@@ -25,8 +25,12 @@
                         <input type="text" class="form-control" id="direccion" name="direccion" required>
                     </div>
                     <div class="form-group">
+                        <label for="telefono" class="col-form-label">Teléfono:</label>
+                        <input type="number" class="form-control" id="telefono" name="telefono">
+                    </div>
+                    <div class="form-group">
                         <label for="cedula" class="col-form-label">Cédula:</label>
-                        <input type="text" class="form-control" id="cedula" name="cedula" required>
+                        <input type="number" class="form-control" id="cedula" name="cedula" required>
                     </div>
                     <div class="form-group">
                         <label for="rol_id" class="col-form-label">Rol:</label>
@@ -45,8 +49,7 @@
     </div>
 </div>
 <script>
-    
-      document.getElementById("rol_id").value = "1";
+    document.getElementById("rol_id").value = "1";
     $('#miModal').on('hidden.bs.modal', function() {
         document.getElementById("id").value = "";
         document.getElementById("titulo").value = "";

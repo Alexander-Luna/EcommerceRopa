@@ -200,7 +200,7 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $userController->resetPassClient();
             break;
         case 'sendEmail':
-            $userController->sendEmail();
+            $controller->sendEmail();
             break;
         case 'createProduct':
             $productController->createProduct();

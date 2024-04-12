@@ -26,28 +26,32 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
     },
     lengthChange: false,
-columns: [
-      { data: "email" ,title:"Email"},
-      { data: "nombre",title:"Nombre" },
+    columns: [
+      { data: "nombre", title: "Nombre" },
+      { data: "email", title: "Email" },
+      { data: "telefono", title: "Teléfono" },
       {
-        data: "rol_id",title:"Rol",
+        data: "rol_id",
+        title: "Rol",
         render: function (data, type, row) {
           return data == 1 ? "Administrador" : "Cliente";
         },
       },
       {
-        data: "est",title:"Estado",
+        data: "est",
+        title: "Estado",
         render: function (data, type, row) {
-          return data == 1 ? "Activo" : "Desactivado";
+          return data == 1
+            ? '<button class="badge bg-success border-0 btnEliminar" data-id="${row.id}">Activado</button>'
+            : '<button class="badge bg-danger border-0 btnEliminar" data-id="${row.id}">Desactivado</button>';
         },
       },
       {
-        data: null,title:"Acciones",
+        data: null,
+        title: "Acciones",
         render: function (data, type, row) {
           return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-outline-danger btnEliminar" data-id="${row.id}">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>`;
         },
       },
     ],
@@ -114,14 +118,14 @@ columns: [
       const direccion = document.getElementById("direccion").value;
       const cedula = document.getElementById("cedula").value;
       const rol_id = document.getElementById("rol_id").value;
-
-      // Crear un objeto FormData para enviar los datos al servidor
+      const telefono = document.getElementById("telefono").value;
       const formData = new FormData();
 
       formData.append("email", email);
       formData.append("nombre", nombre);
       formData.append("direccion", direccion);
       formData.append("cedula", cedula);
+      formData.append("telefono", telefono);
       formData.append("rol_id", rol_id);
 
       if (id === "") {
@@ -149,7 +153,7 @@ columns: [
               timer: 1000,
               buttons: false,
             });
-            
+
             reloadSection();
           })
           .catch((error) => {
@@ -206,19 +210,21 @@ columns: [
   }
   function reloadSection() {
     try {
-      fetch("../../controllers/router.php?op=getAllEmpresa").then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            "Hubo un problema al obtener los detalles del producto."
-          );
+      fetch("../../controllers/router.php?op=getAllEmpresa").then(
+        (response) => {
+          if (!response.ok) {
+            throw new Error(
+              "Hubo un problema al obtener los detalles del producto."
+            );
+          }
+          response.json().then((data) => {
+            // Limpiar los datos existentes en la tabla
+            miTabla.clear().draw();
+            // Agregar los nuevos datos a la tabla
+            miTabla.rows.add(data).draw();
+          });
         }
-        response.json().then((data) => {
-          // Limpiar los datos existentes en la tabla
-          miTabla.clear().draw();
-          // Agregar los nuevos datos a la tabla
-          miTabla.rows.add(data).draw();
-        });
-      });
+      );
     } catch (error) {
       console.error("Error al obtener los detalles del producto:", error);
     }

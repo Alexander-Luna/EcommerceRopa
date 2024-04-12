@@ -36,17 +36,7 @@ class UserController
             http_response_code(200);
         }
     }
-    public function sendEmail()
-    {
-        // $model = new CorreosModel();
-        // $data = $model->enviarCorreo();
-        // if ($data === false || empty($data)) {
-        //     http_response_code(204);
-        // } else {
-        //     echo json_encode($data);
-        //     http_response_code(200);
-        // }
-    }
+   
     public function getAllEmpresa()
     {
         $model = new UserModel();

@@ -26,14 +26,11 @@
                     </div>
                     <div class="form-group">
                         <label for="cedula" class="col-form-label">Cédula:</label>
-                        <input type="text" class="form-control" id="cedula" name="cedula" required>
+                        <input type="number" class="form-control" id="cedula" name="cedula" required>
                     </div>
                     <div class="form-group">
-                        <label for="rol_id" class="col-form-label">Rol:</label>
-                        <select class="form-control" id="rol_id" name="rol_id" required>
-                            <option value="1">Administrador</option>
-                            <option value="2">Cliente</option>
-                        </select>
+                        <label for="telefono" class="col-form-label">Teléfono:</label>
+                        <input type="number" class="form-control" id="telefono" name="telefono">
                     </div>
                 </form>
             </div>

@@ -123,6 +123,7 @@ CREATE TABLE `usuarios` (
   `pass` varchar(255) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `direccion` text DEFAULT NULL,
+  `telefono` varchar(15) DEFAULT NULL,
   `cedula` varchar(20) NOT NULL,
   `est` int(1) DEFAULT 1,
   UNIQUE KEY `cedula` (`cedula`),

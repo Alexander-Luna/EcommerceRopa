@@ -3,6 +3,7 @@ require_once '../models/InventarioModel.php';
 require_once '../models/DownloadPDF.php';
 require_once '../models/ProductModel.php';
 require_once '../models/GeneralModel.php';
+require_once '../models/CorreosModel.php';
 class Controller
 {
 
@@ -153,6 +154,17 @@ class Controller
         } catch (Exception $e) {
             http_response_code(400);
             echo json_encode(array('error' => $e->getMessage()));
+        }
+    }
+    public function sendEmail()
+    {
+        $model = new CorreosModel();
+        $data = $model->enviarCorreo();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
         }
     }
     public function deleteWishClient()

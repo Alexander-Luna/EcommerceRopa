@@ -259,26 +259,27 @@ class UserModel extends Conectar
     public function updateUsers()
     {
         try {
-            // Obtener los datos del formulario
             $id = $_POST["id"];
             $email = $_POST["email"];
             $nombre = $_POST["nombre"];
             $direccion = $_POST["direccion"];
             $cedula = $_POST["cedula"];
             $rol_id = $_POST["rol_id"];
+            $telefono = $_POST["telefono"];
             if ($rol_id == "" || is_null($rol_id)) {
                 $rol_id = 2;
             }
 
             $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-            $sql = "UPDATE usuarios SET email=?, nombre=?, direccion=?, cedula=?, rol_id=? WHERE id=?";
+            $sql = "UPDATE usuarios SET email=?, nombre=?, direccion=?, cedula=?, telefono=?, rol_id=? WHERE id=?";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $email);
             $stmt->bindValue(2, $nombre);
             $stmt->bindValue(3, $direccion);
             $stmt->bindValue(4, $cedula);
-            $stmt->bindValue(5, $rol_id);
-            $stmt->bindValue(6, $id);
+            $stmt->bindValue(5, $telefono);
+            $stmt->bindValue(6, $rol_id);
+            $stmt->bindValue(7, $id);
 
             // Ejecutar la consulta
             $stmt->execute();

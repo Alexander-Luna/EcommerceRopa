@@ -63,19 +63,6 @@ if (isset($_SESSION['user_session'])) {
             </div>
           </div>
 
-          <!-- SidebarSearch Form -->
-          <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-              <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-sidebar">
-                  <i class="fas fa-search fa-fw"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Sidebar Menu -->
-          <!-- Sidebar Menu -->
           <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
               <!-- Ecommerce -->
@@ -97,7 +84,7 @@ if (isset($_SESSION['user_session'])) {
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview ml-3">
                   <li class="nav-item">
                     <a href="index.php?modulo=usuarios" class="nav-link <?php echo ($modulo == "usuarios") ? " active " : " "; ?> ">
                       <i class="far fa-user nav-icon"></i>
@@ -122,10 +109,10 @@ if (isset($_SESSION['user_session'])) {
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview ml-3">
                   <li class="nav-item">
                     <a href="index.php?modulo=genero" class="nav-link <?php echo ($modulo == "genero") ? " active " : " "; ?>  ">
-                    <i class="far fa-user nav-icon"></i>
+                      <i class="far fa-user nav-icon"></i>
                       <p>Genero</p>
                     </a>
                   </li>
@@ -159,15 +146,15 @@ if (isset($_SESSION['user_session'])) {
 
 
 
-              <li class="nav-item <?php echo ($modulo === "productos" || $modulo === "alertas" || $modulo === "proveedores") ? "active menu-open " : ""; ?> ">
-                <a href="#" class="nav-link <?php echo ($modulo === "productos" || $modulo === "alertas" || $modulo === "proveedores") ? "active menu-open " : ""; ?> ">
+              <li class="nav-item <?php echo ($modulo === "alertaspedido" || $modulo === "productos" || $modulo === "alertas" || $modulo === "controlstock" || $modulo === "proveedores") ? "active menu-open " : ""; ?> ">
+                <a href="#" class="nav-link <?php echo ($modulo === "alertaspedido" || $modulo === "productos" || $modulo === "alertas" || $modulo === "controlstock"  || $modulo === "proveedores") ? "active menu-open " : ""; ?> ">
                   <i class="fas fa-archive nav-icon"></i>
                   <p>
                     Inventario
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview ml-3">
                   <li class="nav-item">
                     <a href="index.php?modulo=productos" class="nav-link <?php echo ($modulo == "productos") ? " active " : " "; ?>  ">
                       <i class="fa fa-shopping-bag nav-icon" aria-hidden="true"></i>
@@ -202,26 +189,26 @@ if (isset($_SESSION['user_session'])) {
               </li>
 
 
-              <li class="nav-item <?php echo ($modulo === "compras" || $modulo === "rcompras") ? "active menu-open " : ""; ?> ">
-                <a href="#" class="nav-link <?php echo ($modulo === "compras" || $modulo === "rcompras") ? "active menu-open " : ""; ?> ">
+              <li class="nav-item <?php echo ($modulo === "publicados" || $modulo === "rpublicados") ? "active menu-open " : ""; ?> ">
+                <a href="#" class="nav-link <?php echo ($modulo === "publicados" || $modulo === "rpublicados") ? "active menu-open " : ""; ?> ">
                   <i class="fas fa-book nav-icon"></i>
                   <p>
-                    Compras
+                    publicados
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview ml-3">
 
                   <li class="nav-item">
-                    <a href="index.php?modulo=compras" class="nav-link <?php echo ($modulo == "compras") ? " active " : " "; ?> ">
+                    <a href="index.php?modulo=publicados" class="nav-link <?php echo ($modulo == "publicados") ? " active " : " "; ?> ">
                       <i class="fa fa-table nav-icon"></i>
-                      <p>Compras</p>
+                      <p>publicar</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="index.php?modulo=rcompras" class="nav-link <?php echo ($modulo == "rcompras") ? " active " : " "; ?> ">
+                    <a href="index.php?modulo=rpublicados" class="nav-link <?php echo ($modulo == "rpublicados") ? " active " : " "; ?> ">
                       <i class="fa fa-table nav-icon"></i>
-                      <p>Reporte Compras</p>
+                      <p>Reporte publicados</p>
                     </a>
                   </li>
                 </ul>
@@ -236,7 +223,7 @@ if (isset($_SESSION['user_session'])) {
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview ml-3">
                   <li class="nav-item">
                     <a href="index.php?modulo=ventas" class="nav-link <?php echo ($modulo == "ventas") ? " active " : " "; ?> ">
                       <i class="fa fa-table nav-icon"></i>
@@ -251,7 +238,6 @@ if (isset($_SESSION['user_session'])) {
                   </li>
                 </ul>
               </li>
-
               <li class="nav-item <?php echo ($modulo === "publicidad") ? "active menu-open " : ""; ?> ">
                 <a href="#" class="nav-link <?php echo ($modulo === "publicidad") ? "active menu-open " : ""; ?> ">
                   <i class="fas fa-cogs nav-icon"></i>
@@ -260,7 +246,7 @@ if (isset($_SESSION['user_session'])) {
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview ml-3">
                   <li class="nav-item">
                     <a href="index.php?modulo=publicidad" class="nav-link <?php echo ($modulo == "publicidad") ? " active " : " "; ?> ">
                       <i class="fa fa-bullhorn nav-icon"></i>
@@ -340,11 +326,11 @@ if (isset($_SESSION['user_session'])) {
       if ($modulo == "rventas") {
         include_once "../rventas/index.php";
       }
-      if ($modulo == "compras") {
-        include_once "../compras/index.php";
+      if ($modulo == "publicados") {
+        include_once "../publicados/index.php";
       }
-      if ($modulo == "rcompras") {
-        include_once "../rcompras/index.php";
+      if ($modulo == "rpublicados") {
+        include_once "../rpublicados/index.php";
       }
       if ($modulo == "productos") {
         include_once "../productos/index.php";

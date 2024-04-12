@@ -119,7 +119,9 @@ columns: [
         data: "est",
         title: "Estado",
         render: function (data, type, row) {
-          return data == 1 ? "Activo" : "Desactivado";
+          return data == 1
+            ? '<button class="badge bg-success border-0 btnEliminar" data-id="${row.id}">Activado</button>'
+            : '<button class="badge bg-danger border-0 btnEliminar" data-id="${row.id}">Desactivado</button>';
         },
       },
       {

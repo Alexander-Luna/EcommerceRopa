@@ -67,10 +67,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
       {
         data: "est_ap",
-        render: function (data, type, row) {
-          return data === 0 ? "Finalizado" : "Pendiente";
-        },
         title: "Estado",
+        render: function (data, type, row) {
+          return data == 1
+            ? '<button class="badge bg-success border-0">Pendiente</button>'
+            : '<button class="badge bg-danger border-0">Finalizado</button>';
+        },
       },
       { data: "fecha", title: "Fecha del Pedido" },
 

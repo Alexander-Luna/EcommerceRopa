@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Compras: Ropa que debes conocer </h1>
+                    <h1>Publicar Productos </h1>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -80,8 +80,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-form-label">Realizar Compra de Productos</label>
-                                        <button type="button" id="btnPagar" class="btn btn-primary form-control">Comprar Ahora</button>
+                                        <label class="col-form-label">Productos disponibles</label>
+                                        <button type="button" id="btnPagar" class="btn btn-primary form-control">Publicar</button>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -92,14 +92,9 @@
                                 </div>
                             </div>
                         </form>
-
-
-
                         <table id="miTabla" class="datatable table table-bordered table-hover">
-
                         </table>
-
-                        <script src="../compras/content.js"></script>
+                        <script src="../publicados/content.js"></script>
                     </div>
                 </div>
             </div>
