@@ -2,8 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("verificationForm")
     .addEventListener("submit", function (e) {
-      e.preventDefault(); // Evita que el formulario se envíe normalmente
-
+      e.preventDefault(); 
       const form = document.getElementById("miForm");
       const formData = new FormData(form);
       console.log("FormData:", formData);

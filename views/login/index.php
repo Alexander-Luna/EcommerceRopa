@@ -1,5 +1,5 @@
 <?php
-session_start(); 
+session_start();
 if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_id'])) {
 ?>
     <!DOCTYPE html>
@@ -23,7 +23,7 @@ if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_
                     <h1>Iniciar Sesión</h1>
                 </div>
 
-                <form id="loginForm">
+                <form id="miForm">
                     <div class="p-3">
                         <div class="col-10 text-center input-group mb-3 mt-3">
                             <input type="email" name="email" id="email" class="form-control" placeholder="Correo electrónico">
@@ -32,11 +32,11 @@ if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_
                             <input type="password" id="pass" name="pass" class="form-control" placeholder="Contraseña">
                         </div>
                     </div>
-                    <button class="btn btn-primary col-10 p-3 text-center align-content-center mb-3" type="button" onclick="submitForm()">Entrar</button>
+                    <button id="btnentrar" class="btn btn-primary col-10 p-3 text-center align-content-center mb-3" type="button">Entrar</button>
                     <a href="../resetpass/">¿Olvidé mi contraseña?</a>
                 </form>
 
-                <div id="formFooter">
+                <div>
                     <p>¿Aun no tienes una cuenta?</p>
                     <a class="underlineHover" href="../register/">Regístrate</a>
                 </div>
@@ -44,7 +44,7 @@ if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_
             </div>
         </div>
         <?php require_once "../html/MainJS.php"; ?>
-        <script src="content.js"></script>
+        <script src="../login/content.js"></script>
     </body>
 
     </html>

@@ -116,11 +116,11 @@ class UserController
         $data = $userModel->registrarUsuario($email, $password, $nombre, $direccion, $cedula, $rol);
         echo json_encode($data);
     }
-    public function login($email, $password)
+    public function login()
     {
         try {
             $userModel = new UserModel();
-            $userData = $userModel->login($email, $password);
+            $userData = $userModel->login();
 
             if ($userData) {
                 if (session_status() == PHP_SESSION_NONE) {

@@ -1,6 +1,8 @@
 <?php
-require_once '../config/Conectar.php'; // Asegúrate de incluir la clase Conectar
-require_once 'SendEmail.php';
+require_once '../config/Conectar.php'; 
+require_once '../vendor/autoload.php';
+require_once '../config/smtp.php';
+require_once 'SmtpModel.php';
 class UserModel extends Conectar
 {
     public function getAllUsers()
@@ -49,7 +51,7 @@ class UserModel extends Conectar
             $conexion = parent::Conexion();
             $email = $_POST["email"];
             $ci = $_POST["ci"];
-            $model = new SendEmail();
+            $model = new SmtpModel();
             $model->enviarCorreo($email, "Alexander", "asunto", "Body probando correo");
             return true;
         } catch (Exception $e) {
@@ -199,8 +201,10 @@ class UserModel extends Conectar
             die("Error al obtener cliente: " . $e->getMessage());
         }
     }
-    public function login($email, $password)
+    public function login()
     {
+        $email = $_POST["email"];
+        $password = $_POST["pass"];
         $conexion = parent::Conexion();
         $sql = "SELECT u.* FROM usuarios u 
         WHERE u.email = ? AND u.est = 1";

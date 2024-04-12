@@ -181,9 +181,7 @@ function handlePostRequest($action, $productController, $userController, $ventaC
     // try {
     switch ($action) {
         case 'login':
-            $email = $_POST["email"];
-            $password = $_POST["pass"];
-            $userController->login($email, $password);
+            $userController->login();
             break;
         case 'registro':
             $email = $_POST["email"];
@@ -213,10 +211,7 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $productController->setProductPedido($data['productos']);
 
             break;
-        case 'send_email':
-            $sendEmail = new SendEmail('ventas@asotaeco.com.ec', 'Ventas123@', 'ventas@asotaeco.com.ec');
-            $sendEmail->enviarMensajes('paulluna99@gmail.com', 'Asunto', 'Cuerpo');
-            break;
+     
 
         case 'updateUser':
             $userController->updateUsers();

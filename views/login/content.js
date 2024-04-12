@@ -1,28 +1,34 @@
-function submitForm() {
-  const form = document.getElementById("loginForm");
-  const formData = new FormData(form);
-  fetch("../../controllers/router.php?op=login", {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => {
-      if (!response.ok) {
-        swal("Algo salio mal!", "error");
-        throw new Error("Error en la solicitud");
-      }
-      if (response.status === 200) {
-        if (response.rol_id === 1) {
-          window.location.href = "../admin/";
-        } else {
-          window.location.href = "../main/";
-        }
-      } else {
-        swal("Error", "Usuario o contraseña incorrectos", "warning");
-        return;
-      }
-      //swal("Inicio de Sesión Exitoso !", "success");
+document.addEventListener("DOMContentLoaded", async function () {
+  document.getElementById("btnentrar").addEventListener("click", submitForm);
+
+  function submitForm() {
+    const form = document.getElementById("miForm");
+    const formData = new FormData(form);
+    // formData.append("email", email);
+    // formData.append("pass", pass);
+    fetch("../../controllers/router.php?op=login", {
+      method: "POST",
+      body: formData,
     })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
+      .then((response) => {
+        if (!response.ok) {
+          swal("Algo salio mal!" + response, "error");
+          console.log(response);
+          throw new Error("Error en la solicitud");
+        }
+        if (response.status === 200) {
+          if (response.rol_id === 1) {
+            window.location.href = "../admin/";
+          } else {
+            window.location.href = "../main/";
+          }
+        } else {
+          swal("Error", "Usuario o contraseña incorrectos", "warning");
+          return;
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+});
