@@ -1,61 +1,41 @@
 <?php
 
 require_once '../vendor/autoload.php';
+require_once '../config/smtp.php';
+require_once '../config/Conectar.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class SendEmail
+class SmtpModel extends Conectar
 {
-    private $smtpHost = 'smtp.hostinger.com';
-    private $smtpPort = 465;
-    private $smtpUsername;
-    private $smtpPassword;
-    private $senderEmail;
+    private $mail;
 
-    public function __construct($smtpUsername, $smtpPassword, $senderEmail)
+    public function __construct()
     {
-        $this->smtpUsername = $smtpUsername;
-        $this->smtpPassword = $smtpPassword;
-        $this->senderEmail = $senderEmail;
+        $this->mail = new PHPMailer(true);
+        $this->mail->isSMTP();
+        $this->mail->Host = 'smtp.hostinger.com';
+        $this->mail->SMTPAuth = true;
+        $this->mail->Username = 'info@asotaeco.com';
+        $this->mail->Password = 'Asotaeco1@';
+        $this->mail->SMTPSecure = 'ssl';
+        $this->mail->Port = 465;
     }
 
-    public function enviarMensajes($destinatario, $asunto, $cuerpo)
+    public function enviarCorreo($email, $nombre, $asunto, $body)
     {
-        $mail = new PHPMailer(true);
-
         try {
-            // Configuración del servidor SMTP
-            $mail->isSMTP();
-            $mail->Host = $this->smtpHost;
-            $mail->Port = $this->smtpPort;
-            $mail->SMTPAuth = true;
-            $mail->Username = $this->smtpUsername;
-            $mail->Password = $this->smtpPassword;
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-
-            // Configuración del remitente y destinatario
-            $mail->setFrom($this->senderEmail, 'Nombre del Remitente');
-            $mail->addAddress($destinatario);
-
-            // Contenido del correo
-            $mail->isHTML(true);
-            $mail->Subject = $asunto;
-            $mail->Body = $cuerpo;
-
-            // Enviar el correo
-            $mail->send();
-            http_response_code(201);
-            echo json_encode('Correo enviado correctamente');
+            $this->mail->setFrom('info@asotaeco.com', 'Asotaeco');
+            $this->mail->addAddress($email, $nombre);
+            $this->mail->isHTML(true);
+            $this->mail->Subject = $asunto;
+            $this->mail->Body = $body;
+            $this->mail->AltBody = strip_tags($body);
+            $rta = $this->mail->send();
+            return $rta;
         } catch (Exception $e) {
-            http_response_code(400);
-            $errorMsg = "Error al enviar mensajes: " . $e->getMessage();
-            $errorResponse = [
-                "http_code" => http_response_code(),
-                "error" => $errorMsg
-            ];
-            $errorJson = json_encode($errorResponse);
-            return $errorJson;
+            return false;
         }
     }
 }
