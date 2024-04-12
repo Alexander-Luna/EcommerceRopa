@@ -1,7 +1,5 @@
 <?php
 require_once '../config/Conectar.php';
-require_once '../vendor/autoload.php';
-require_once '../config/smtp.php';
 require_once 'SmtpModel.php';
 class UserModel extends Conectar
 {
@@ -50,12 +48,18 @@ class UserModel extends Conectar
         try {
             $conexion = parent::Conexion();
             $email = $_POST["email"];
-            echo $email;
-            die();
+
             $ci = $_POST["ci"];
-            $model = new SmtpModel();
-            $model->enviarCorreo($email, "Alexander", "asunto", "Body probando correo");
-            return true;
+            // Crear una instancia del modelo SmtpModel
+            $smtpModel = new SmtpModel();
+
+            // Llamar al método enviarCorreo
+            $resultadoEnvio = $smtpModel->enviarCorreo(
+                'paulluna99@gmail.com',
+                'Nombre Destinatario',
+                'Asunto del Correo',
+                'Cuerpo del Correo'
+            );
         } catch (Exception $e) {
             // Manejo de errores
             die("Error al obtener usuarios: " . $e->getMessage());

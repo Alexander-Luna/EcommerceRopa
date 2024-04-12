@@ -1,6 +1,6 @@
 <?php
 require_once '../models/UserModel.php';
-
+require_once '../models/SmtpModel.php';
 class UserController
 {
     public function getUsers()
@@ -36,7 +36,17 @@ class UserController
             http_response_code(200);
         }
     }
- 
+    public function sendEmail()
+    {
+        $model = new SmtpModel();
+        $data = $model->enviarCorreo();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
     public function getAllEmpresa()
     {
         $model = new UserModel();
@@ -116,11 +126,11 @@ class UserController
         $data = $userModel->registrarUsuario($email, $password, $nombre, $direccion, $cedula, $rol);
         echo json_encode($data);
     }
-    public function login()
+    public function login($email, $password)
     {
         try {
             $userModel = new UserModel();
-            $userData = $userModel->login();
+            $userData = $userModel->login($email, $password);
 
             if ($userData) {
                 if (session_status() == PHP_SESSION_NONE) {
