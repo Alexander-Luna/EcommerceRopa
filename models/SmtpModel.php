@@ -26,6 +26,25 @@ class SmtpModel extends Conectar
     public function enviarCorreo($email, $nombre, $asunto, $body)
     {
         try {
+            $body1 = <<<HTML
+          
+            <html>
+                <head>
+                    <meta charset="utf-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <title>
+                    </title>
+                    <meta name="description" content="">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <link rel="stylesheet" href="">
+                </head>
+                <body>
+                    <p>asdasdasdasdasdasd</p>
+
+                    <script src="" async defer></script>
+                </body>
+            </html>
+            HTML;
             $this->mail->setFrom('info@asotaeco.com', 'Asotaeco'); // Reemplaza con tu correo y nombre
             $this->mail->addAddress($email, $nombre); // Reemplaza con el correo y nombre del destinatario
             $this->mail->isHTML(true);
@@ -33,11 +52,14 @@ class SmtpModel extends Conectar
             $this->mail->Body = $body;
             //$url = Conectar::ruta() . str_replace("//", "/", str_replace("..", "", $producto['imagen']));
             //$this->mail->addAttachment($url, 'nombre_imagen.jpg'); // Reemplaza 'nombre_imagen.jpg' con el nombre que desees para la imagen adjunta
-            $this->mail->send();
-            return true;
+            $this->mail->msgHTML($body1);
+            $this->mail->AltBody = strip_tags($body);
+            $rta = $this->mail->send();
+            var_dump($rta);
+            die();
+            return $rta;
         } catch (Exception $e) {
             return false;
         }
     }
 }
-?>
