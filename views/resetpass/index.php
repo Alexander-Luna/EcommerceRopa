@@ -85,7 +85,6 @@ if (!isset($_SESSION["usu_id"])) {
             </div>
         </div>
     </div>
-    <?php require_once "../html/MainJS.php"; ?>
     <?php require_once "../resetpass/content.php"; ?>
 </body>
 
