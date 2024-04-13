@@ -8,23 +8,23 @@ browser-sync start --proxy "localhost:80" --files "**/*"
 [X] - El número de compras también se actualice cuando se agrega al carrito en el icono 
 [X] - Quitar el numero de elementos a mostrar del datatable 
 [X] - en el admin hay un apartado que dice clientes alado de usuarios que no funciona
+[X] - Footer cliente
+[X] - Imágenes de producto detalle
+[X] - El nombre de usuario no se hace responsive y eso de las compras de los usuarios aún no funciona 
+[X] - Eliminar librería de animación
+[X] - Registro falta el teléfono
+[X] - Campos obligatorios en el registro
 [] - arreglar lo de categoría 
 [] - Restablecer contraseña
 [] - Enviar Correos de pedidos
 [] - Correos de ventas
 [] - El buscador no filtra
-[] - El nombre de usuario no se hace responsive y eso de las compras de los usuarios aún no funciona 
 [] - Reporte de compras
-[] - Imágenes de producto detalle
-[] - Footer cliente
-[] - Eliminar librería de animación
 [] - Reporte de Ventas
 [] - Cancelar Ventas
 [] - Cancelar compras
 [] - Colocar fondo de las paginas 90a586 
 [] - Modal para el shoping cart
-[] - Registro falta el teléfono
-[] - Campos obligatorios en el registro
 [] - Referencia en el shoping cart
 
 Administrador

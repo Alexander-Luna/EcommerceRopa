@@ -3,6 +3,7 @@
   .footer_section {
     background-color: #222831;
     color: #ffffff;
+    width: 100%;
 
   }
 
@@ -132,6 +133,14 @@
     height: 100%;
     width: 100%;
     position: absolute;
+  }
+  .footer_section {
+    background-color: #222831;
+    color: #ffffff;
+    width: 100%;
+    position:relative;
+    bottom: 0;
+    left: 0;
   }
 </style>
 <br><br><br><br><br>

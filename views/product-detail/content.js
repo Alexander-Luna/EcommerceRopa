@@ -321,11 +321,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
   }
 
-  function obtenerImagenes() {
+  async function obtenerImagenes() {
     const galeria = document.getElementById("sliderIMG");
-
     let html = "";
-    fetch("../../controllers/router.php?op=getAllImgProd&id=" + id_prod)
+    await fetch("../../controllers/router.php?op=getAllImgProd&id=" + id_prod)
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -337,22 +336,30 @@ document.addEventListener("DOMContentLoaded", async function () {
       .then((data) => {
         if (data.length > 0) {
           data.forEach((imagen, index) => {
-            html += `<div class="item-slick3" data-thumb="${imagen.url_imagen}">
-                        <div class="wrap-pic-w pos-relative">
-                            <img src="${imagen.url_imagen}" alt="IMG-PRODUCT">
-                            <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="${imagen.url_imagen}">
-                                <i class="fa fa-expand"></i>
-                            </a>
-                        </div>
-                    </div>`;
-            if (index == 0) {
-              imgProd = imagen.url_imagen;
+            console.log(imagen);
+            if (imagen.orden === 1) {
+              imgProd=imagen.url_imagen;
+
+              html += `<div id="imageContainer" class="border rounded-4 mb-3 d-flex justify-content-center">
+              <a data-fslightbox="mygalley" class="rounded-4" data-type="image" href="#">
+                <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="${imagen.url_imagen}" />
+              </a>
+            </div>
+            <div class="d-flex justify-content-center mb-3">
+            <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" data-type="image" href="${imagen.url_imagen}">
+            <img width="60" height="60" class="rounded-2" src="${imagen.url_imagen}" />
+          </a>`;
+            } else {
+              html += `
+              <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" data-type="image"  href="${imagen.url_imagen}">
+              <img width="60" height="60" class="rounded-2" src="${imagen.url_imagen}" />
+            </a>`;
             }
           });
+          html += `</div>`;
           galeria.innerHTML = html;
-          setTimeout(() => {
-            initSlickSlider(galeria);
-          }, 100); // Cambia el valor del retraso según sea necesario
+          // Ahora que las imágenes están en el DOM, agregamos el evento de clic
+          agregarEventoClicImagenes();
         } else {
           console.error("No hay imágenes disponibles para este producto");
         }
@@ -362,90 +369,38 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
   }
 
-  function initSlickSlider(galeria) {
-    if (galeria) {
-      $(galeria).slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        infinite: true,
-        autoplay: false,
-        autoplaySpeed: 6000,
-        arrows: true,
-        dots: true,
-        pauseOnFocus: false,
-        pauseOnHover: false,
-        appendArrows: $(galeria).siblings(".wrap-slick3-arrows"),
-        appendDots: $(galeria).siblings(".wrap-slick3-dots"),
-      });
-    } else {
-      console.error(
-        "No se pudo inicializar el slider: no se encontró el contenedor de la galería"
-      );
-    }
-  }
+  function agregarEventoClicImagenes() {
+    // Selecciona todas las imágenes con la clase 'item-thumb'
+    var images = document.querySelectorAll(".item-thumb");
 
-  function metodosPlantilla() {
-    $(".js-select2").each(function () {
-      $(this).select2({
-        minimumResultsForSearch: 20,
-        dropdownParent: $(this).next(".dropDownSelect2"),
-      });
-    });
-    $(".parallax100").parallax100();
+    // Agrega un evento de clic a cada imagen
+    images.forEach(function (image) {
+      image.addEventListener("click", function (event) {
+        // Previene el comportamiento predeterminado del enlace
+        event.preventDefault();
 
-    $(".gallery-lb").each(function () {
-      $(this).magnificPopup({
-        delegate: "a",
-        type: "image",
-        gallery: {
-          enabled: true,
-        },
-        mainClass: "mfp-fade",
-      });
-    });
+        // Obtiene la URL de la imagen grande
+        var imageURL = this.getAttribute("href");
 
-    $(".js-addwish-b2, .js-addwish-detail").on("click", function (e) {
-      e.preventDefault();
-    });
+        // Obtiene el contenedor de imagen
+        var imageContainer = document.getElementById("imageContainer");
 
-    $(".js-addwish-b2").each(function () {
-      var nameProduct = $(this).parent().parent().find(".js-name-b2").html();
-      $(this).on("click", function () {
-        swal(nameProduct, "is added to wishlist !", "success");
+        // Crea un nuevo elemento de imagen
+        var newImage = document.createElement("img");
+        newImage.src = imageURL;
+        newImage.className = "rounded-4 fit";
+        newImage.style.maxWidth = "100%";
+        newImage.style.maxHeight = "100vh";
+        newImage.style.margin = "auto";
 
-        $(this).addClass("js-addedwish-b2");
-        $(this).off("click");
-      });
-    });
+        // Limpia el contenido actual del contenedor de imagen
+        imageContainer.innerHTML = "";
 
-    $(".js-addwish-detail").each(function () {
-      var nameProduct = $(this)
-        .parent()
-        .parent()
-        .parent()
-        .find(".js-name-detail")
-        .html();
-
-      $(this).on("click", function () {
-        swal(nameProduct, "is added to wishlist !", "success");
-
-        $(this).addClass("js-addedwish-detail");
-        $(this).off("click");
-      });
-    });
-
-    $(".js-pscroll").each(function () {
-      $(this).css("position", "relative");
-      $(this).css("overflow", "hidden");
-      var ps = new PerfectScrollbar(this, {
-        wheelSpeed: 1,
-        scrollingThreshold: 1000,
-        wheelPropagation: false,
-      });
-
-      $(window).on("resize", function () {
-        ps.update();
+        // Agrega la nueva imagen al contenedor
+        imageContainer.appendChild(newImage);
       });
     });
   }
+
+
 });

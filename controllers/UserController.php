@@ -110,10 +110,10 @@ class UserController
 
 
 
-    public function registrar($email, $password, $nombre, $direccion, $cedula, $rol)
+    public function registrar()
     {
         $userModel = new UserModel();
-        $data = $userModel->registrarUsuario($email, $password, $nombre, $direccion, $cedula, $rol);
+        $data = $userModel->registrarUsuario();
         echo json_encode($data);
     }
     public function login()

@@ -7,7 +7,11 @@ function submitForm() {
   })
     .then((response) => {
       if (!response.ok) {
-        swal("Algo salio mal!", "error");
+        swal(
+          "Ups! Algo salió mal!",
+          "Revise que su email o numero de cédula no se encuentre ya registrado!",
+          "error"
+        );
         throw new Error("Error en la solicitud");
       }
       swal("Registro Exitoso !", "success");

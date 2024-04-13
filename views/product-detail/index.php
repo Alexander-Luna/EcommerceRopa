@@ -24,19 +24,8 @@
 					<tbody>
 						<tr>
 							<div class="col-md-6 col-lg-7 p-b-30">
-								<div class="p-l-25 p-r-30 p-lr-0-lg">
-
-
-									<div class="wrap-slick3 flex-sb flex-w">
-										<div class="wrap-slick3-dots"></div>
-										<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
-
-										<div id="sliderIMG" class="slick3 gallery-lb">
-
-
-										</div>
-									</div>
-								</div>
+								<aside id="sliderIMG" class="col-lg-8">
+								</aside>
 							</div>
 
 							<div class="col-md-6 col-lg-5 p-b-30">

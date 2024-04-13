@@ -183,18 +183,7 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $userController->login();
             break;
         case 'registro':
-            $email = $_POST["email"];
-            $password = $_POST["pass"];
-            $nombre = $_POST["nombre"];
-            $direccion = $_POST["direccion"];
-            $cedula = $_POST["cedula"];
-
-            if (isset($_POST['rol_id'])) {
-                $rol = $_POST['rol_id'];
-            } else {
-                $rol = 2;
-            }
-            $userController->registrar($email, $password, $nombre, $direccion, $cedula, $rol);
+            $userController->registrar();
             break;
         case 'resetpassci':
             $userController->resetPassClient();

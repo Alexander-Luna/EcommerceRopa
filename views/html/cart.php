@@ -69,17 +69,14 @@
         return liProducto;
     }
 
-    function calcularTotal() {
+
+
+    function actualizarTotal(cart) {
         let total = 0;
         cart.forEach(producto => {
             total += producto.cantidad * parseFloat(producto.precio_venta);
         });
-        return total.toFixed(2);
-    }
-
-    function actualizarTotal() {
-        const total = calcularTotal();
-        divTotalPagar.textContent = `Total: $${total}`;
+        divTotalPagar.textContent = `Total: $${total.toFixed(2)}`;
     }
 
 
@@ -94,7 +91,7 @@
                     const liProducto = crearElementoProducto(producto);
                     ulCarrito.appendChild(liProducto);
                 });
-                actualizarTotal();
+                actualizarTotal(cart);
             } else {
                 notifyCart.setAttribute('data-notify', 0);
                 ulCarrito.innerHTML = ''; // Limpiar el contenido del carrito

@@ -52,17 +52,21 @@ if (empty($_SESSION['user_session'])) {
                                         <input type="hidden" class="form-control" id="id_hidden" name="id_hidden" required>
                                         <div class="form-group">
                                             <label class="col-form-label">Cédula:</label>
-                                            <input type="text" class="form-control" id="cedula" name="cedula" oninput="limitarCaracteres(this, 10)" pattern="[0-9]*" title="Solo se permiten dígitos" required>
-
+                                            <input type="text" class="form-control" id="cedula" name="cedula" readonly oninput="limitarCaracteres(this, 10)" pattern="[0-9]*" title="Solo se permiten dígitos" required>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-form-label">Email:</label>
                                             <input type="email" class="form-control" id="email" name="email" required>
                                         </div>
+
                                         <div class="form-group">
                                             <label class="col-form-label">Nombres y Apellidos:</label>
                                             <input type="text" class="form-control" id="nombres" name="nombres" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Teléfono:</label>
+                                            <input type="number" class="form-control" id="telefono" pattern="[0-9]*" name="telefono">
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">Dirección:</label>
@@ -70,7 +74,7 @@ if (empty($_SESSION['user_session'])) {
                                         </div>
                                         <div class="form-group">
                                             <br>
-                                            <button type="button" id="btnActualizar" class="btn btn-success form-control">Guardar</button>
+                                            <button type="button" id="btnActualizar" class="btn btn-success form-control">Actualizar mis datos</button>
                                         </div>
                                         <div class="form-group">
                                             <br>

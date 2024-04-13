@@ -29,7 +29,7 @@ class UserModel extends Conectar
             session_start();
             $userData = $_SESSION['user_session'];
             $id_user =  $userData['user_id'];
-            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
+            $conexion = parent::Conexion();
 
             $sql = "SELECT * FROM usuarios WHERE id=?";
             $stmt = $conexion->prepare($sql);
@@ -237,23 +237,42 @@ class UserModel extends Conectar
     }
 
 
-    public function registrarUsuario($email, $password, $nombre, $direccion, $cedula, $rol_id)
+    public function registrarUsuario()
     {
-        $conexion = parent::Conexion();
-        $hashedPassword =  $this->encriptarPassword($password);
-        $sql = "INSERT INTO usuarios (email, pass, nombre, direccion, cedula, rol_id) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $conexion->prepare($sql);
-        $stmt->bindValue(1, $email);
-        $stmt->bindValue(2, $hashedPassword);
-        $stmt->bindValue(3, $nombre);
-        $stmt->bindValue(4, $direccion);
-        $stmt->bindValue(5, $cedula);
-        $stmt->bindValue(6, $rol_id);
-        $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
+        try {
+            $email = $_POST["email"];
+            $password = $_POST["pass"];
+            $nombre = $_POST["nombre"];
+            $provincias = $_POST["provincias"];
+            $direccion = $_POST["direccion"];
+            $cedula = $_POST["cedula"];
+
+            if (isset($_POST['rol_id'])) {
+                $rol = $_POST['rol_id'];
+            } else {
+                $rol = 2;
+            }
+
+            $conexion = parent::Conexion();
+            $hashedPassword =  $this->encriptarPassword($password);
+            $sql = "INSERT INTO usuarios (email, pass, nombre, direccion, cedula, rol_id) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $email);
+            $stmt->bindValue(2, $hashedPassword);
+            $stmt->bindValue(3, $nombre);
+            $stmt->bindValue(4, $provincias . " - " . $direccion);
+            $stmt->bindValue(5, $cedula);
+            $stmt->bindValue(6, $rol);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                return true;
+            } else {
+                return $stmt;
+            }
+        } catch (PDOException $e) {
+            die("Error al actualizar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
         }
     }
     public function updateUsers()

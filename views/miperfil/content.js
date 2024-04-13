@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       document.getElementById("email").value = data.email;
       document.getElementById("nombres").value = data.nombre;
       document.getElementById("direccion").value = data.direccion;
+      document.getElementById("telefono").value = data.telefono;
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -33,12 +34,14 @@ document.addEventListener("DOMContentLoaded", async function () {
       const direccion = document.getElementById("direccion").value;
       const email = document.getElementById("email").value;
       const cedula = document.getElementById("cedula").value;
+      const telefono = document.getElementById("telefono").value;
       const formData = new FormData();
       formData.append("nombre", nombres);
       formData.append("id", id);
       formData.append("direccion", direccion);
       formData.append("email", email);
       formData.append("cedula", cedula);
+      formData.append("telefono", telefono);
 
       fetch("../../controllers/router.php?op=updateUser", {
         method: "POST",

@@ -91,14 +91,11 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
 
                 <!-- Icon header -->
                 <div class="wrap-icon-header flex-w flex-r-m">
-                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-                        <i class="zmdi zmdi-search"></i>
-                    </div>
                     <div id="notify_cart" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="0">
                         <i class="zmdi zmdi-shopping-cart"></i>
                     </div>
 
-                    <a id="notify_wish" href="<?php echo $favoritos; ?>" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wish" data-notify="0">
+                    <a id="notify_wish" href="<?php echo $favoritos; ?>" class=" icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wish" data-notify="+">
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
                     <?php
@@ -151,7 +148,7 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
 
         <!-- Icon header -->
         <div class="wrap-icon-header flex-w flex-r-m m-r-15">
-            
+
 
             <div id="notify_cart" class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="0">
                 <i class="zmdi zmdi-shopping-cart"></i>
@@ -161,7 +158,7 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
                 <i class="zmdi zmdi-favorite-outline"></i>
             </a>
 
-           
+
         </div>
 
         <!-- Button show menu -->
@@ -174,40 +171,59 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
 
     <!-- Menu Mobile -->
     <div class="menu-mobile">
-     
+
 
         <ul class="main-menu-m">
-      
+            <?php
+            if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_id'])) {
+            ?>
+                <li>
+                    <a href="<?php echo $login; ?>" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                        <i class="zmdi zmdi-account-circle"></i> Iniciar Sesión
+                    </a>
+                </li>
+            <?php } else { ?>
+                <div class="menu-desktop">
+                    <ul class="main-menu">
+                        <li class="menu-item-with-submenu">
+                            <button class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                                <i class="zmdi zmdi-account-circle"></i> <?php echo $_SESSION['user_session']['nombre']; ?>
+                            </button>
+                            <ul class="sub-menu">
 
+                                <li> <a href="<?php echo $mis_compras; ?>" class="list-group-item list-group-item-action menu-item">
+                                        <i class="fa fa-shopping-basket mr-2"></i> Mis Compras
+                                    </a>
+                                </li>
+                                <li><a href="<?php echo $favoritos; ?>" class="list-group-item list-group-item-action menu-item">
+                                        <i class="fa fa-heart-o mr-2"></i> Favoritos
+                                    </a>
+                                </li>
+                                <li> <a href="<?php echo $mi_perfil; ?>" class="list-group-item list-group-item-action menu-item">
+                                        <i class="fa fa-user mr-2"></i> Mi Perfil
+                                    </a>
+                                </li>
+                                <li> <a href="<?php echo $cerrar_sesion; ?>" class="list-group-item list-group-item-action menu-item">
+                                        <i class="fa fa-sign-out mr-2"></i> Cerrar Sesión
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            <?php } ?>
             <li>
                 <a href="<?php echo $inicio; ?>">Inicio</a>
             </li>
             <li>
                 <a href="<?php echo $shop; ?>">Comprar</a>
             </li>
-            <li data-label1="hot">
-                <a>Categorías</a>
-            <li class="menu-item-with-submenu">
-                <a href="" class="menu-link">Categorias</a>
-                <ul id="subMenuCat1" class="sub-menu">
-                </ul>
-            </li>
+
             <span class="arrow-main-menu-m">
                 <i class="fa fa-angle-right" aria-hidden="true"></i>
             </span>
             </li>
-            <li data-label1="hot">
-                <a href="<?php echo $shop; ?>">Tallas</a>
-                <ul class="sub-menu-m">
-                    <li><a href="<?php echo $tallas_hombres; ?>">Hombre</a></li>
-                    <li><a href="<?php echo $tallas_mujeres; ?>">Mujer</a></li>
-                    <li><a href="<?php echo $tallas_niños; ?>">Niños</a></li>
-                </ul>
-                <span class="arrow-main-menu-m">
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </span>
-            </li>
-            
             <li>
                 <a href="<?php echo $info_empresa; ?>">Quienes somos</a>
             </li>
@@ -217,21 +233,7 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
         </ul>
     </div>
 
-    <!-- Modal Search -->
-    <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-        <div class="container-search-header">
-            <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-                <img src="../../public/images/icons/icon-close2.png" alt="CLOSE">
-            </button>
-
-            <form class="wrap-search-header flex-w p-l-15">
-                <button class="flex-c-m trans-04">
-                    <i class="zmdi zmdi-search"></i>
-                </button>
-                <input class="plh3" type="text" name="search" placeholder="Search...">
-            </form>
-        </div>
-    </div>
+   
 </header>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
