@@ -28,12 +28,14 @@
 
 
 
-	<?php require_once "../html/footer.php"; ?>
 
 
 	<?php require_once "../html/MainJS.php"; ?>
 	<script type="text/javascript" src="../shop/content.js"></script>
 
+
 </body>
+<!-- Footer -->
+<br><?php require_once('../html/footer.php'); ?>
 
 </html>

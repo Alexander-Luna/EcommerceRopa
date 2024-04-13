@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 
-
 <head>
 	<title>Detalles del Producto</title>
 	<meta charset="UTF-8">
@@ -11,13 +10,11 @@
 
 <body>
 
-	<!-- Header -->
-	<?php require_once "../html/MainHeader.php"; ?>
+	<?php require_once "../html/MainHeader.php" ?>
 
 
 
 	<!-- Product Detail -->
-	<section class="sec-product bg0 p-t-65 p-b-60">
 		<div class="container">
 			<div class="row">
 				<table class="your-table-class">
@@ -98,15 +95,12 @@
 
 								</div>
 							</div>
-
 			</div>
-
 		</div>
-	</section>
-	<?php require_once "../html/footer.php"; ?>
-	<?php require_once "../html/MainJS.php"; ?>
-	<script src="content.js"></script>
 
+	<?php require_once "../html/MainJS.php"; ?>
+	<script src="../product-detail/content.js"></script>
 </body>
+<?php require_once('../html/footer.php'); ?>
 
 </html>

@@ -1,11 +1,5 @@
 <style>
-  /* footer section*/
-  .footer_section {
-    background-color: #222831;
-    color: #ffffff;
-    width: 100%;
 
-  }
 
   .footer_section h4 {
     font-size: 28px;
@@ -241,5 +235,5 @@
     </div>
 
   </div>
-  <p class="text-muted text-center">Copyright © 2023 Asotaeco. Todos los derechos reservados.</p>
+  <p class="text-muted text-center">Copyright © <?php echo date("Y"); ?> Asotaeco. Todos los derechos reservados.</p>
 </footer>
