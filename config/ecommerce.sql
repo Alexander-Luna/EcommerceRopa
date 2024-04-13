@@ -176,6 +176,7 @@ CREATE TABLE recibe (
     telefono VARCHAR(15) NOT NULL,
     email VARCHAR(255) NOT NULL,
     direccion TEXT NOT NULL,
+    referencia TEXT NOT NULL,
     est INT(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- Crear tabla de ventas
@@ -188,6 +189,7 @@ CREATE TABLE ventas (
     envio DECIMAL(10, 2) DEFAULT 0,
     isenvio INT DEFAULT 0,
     est_pago INT DEFAULT 0,
+    guia_servi VARCHAR(50) DEFAULT NULL,
     metodo_pago INT DEFAULT 1, 
     -- 1 Retiro en oficina 2 Transferencia
     ncomprobante VARCHAR(255) DEFAULT NULL,

@@ -163,7 +163,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
         }
         try {
             $conexion = parent::Conexion();
-            $sql = "SELECT v.*, r.nombre AS nombre_recibe, r.telefono AS telefono_recibe, r.email AS email_recibe, r.direccion AS direccion_recibe,
+            $sql = "SELECT v.*, r.nombre AS nombre_recibe, r.telefono AS telefono_recibe, r.email AS email_recibe, r.direccion AS direccion_recibe, r.referencia AS referencia_recibe,
                 u.nombre AS nombre_usuario
                 FROM ventas v
                 INNER JOIN recibe r ON v.id_recibe = r.id
@@ -294,7 +294,6 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $metodo_pago = $_POST["metodo_pago"];
             $ncomprobante = $_POST["ncomprobante"];
 
-
             $totalVenta = 0;
             foreach ($productos as $producto) {
                 $subtotal = $producto["cantidad"] * $producto["precio_venta"];
@@ -308,15 +307,17 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $telefono = $_POST["telefono"];
             $email = $_POST["email"];
             $direccion = $_POST["direccion"];
+            $referencia = $_POST["referencia"];
 
-            $sqlRecive = "INSERT INTO recibe (ci,nombre, telefono,email,direccion,est) VALUES (?,?, ?,?,?,?)";
+            $sqlRecive = "INSERT INTO recibe (ci,nombre, telefono,email,direccion,referencia,est) VALUES (?,?, ?,?,?,?,?)";
             $stmtRecibe = $conexion->prepare($sqlRecive);
             $stmtRecibe->bindValue(1, $ci);
             $stmtRecibe->bindValue(2, $nombre);
             $stmtRecibe->bindValue(3, $telefono);
             $stmtRecibe->bindValue(4, $email);
             $stmtRecibe->bindValue(5, $direccion);
-            $stmtRecibe->bindValue(6, 1);
+            $stmtRecibe->bindValue(6, $referencia);
+            $stmtRecibe->bindValue(7, 1);
             $stmtRecibe->execute();
 
             $id_recibe = $conexion->lastInsertId();

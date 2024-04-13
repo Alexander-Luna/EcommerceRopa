@@ -104,15 +104,35 @@ document.addEventListener("DOMContentLoaded", async function () {
   let CENVIO = 0;
   let TOTAL = 0;
   reloadSection();
+  // Script para controlar el menú desplegable
+  $(document).ready(function () {
+    $(".card-header").click(function () {
+      // Encuentra el elemento card-body dentro de la card actual
+      var menuBody = $(this).siblings(".card-body");
+
+      // Encuentra el elemento toggleIcon dentro del card-header actual
+      var toggleIcon = $(this).find("#toggleIcon");
+
+      // Despliega o contrae el menú body
+      menuBody.slideToggle();
+
+      // Cambia el icono de toggleIcon
+      toggleIcon.text(function (i, text) {
+        return text === "+" ? "-" : "+";
+      });
+    });
+  });
 
   $("#id_envio").change(function () {
     var opcion_seleccionada = $(this).val();
     switch (opcion_seleccionada) {
       case "1":
-        CENVIO = 5; // Precio para Retiro en domicilio
+        CENVIO = 5;
+     
         break;
       case "2":
         CENVIO = 0; // Precio para Retiro en oficina
+        BloquearInfoPago(true);
         break;
       case "3":
         CENVIO = 8; // Precio para Enviar regalo
@@ -123,6 +143,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     reloadSection();
     $("#precio").text(CENVIO.toFixed(2));
   });
+  function BloquearInfoPago(block) {
+    if (block) {
+      document.getElementById("infopago").disabled = true;
+    } else {
+      document.getElementById("infopago").disabled = false;
+    }
+  }
   function realizarPago() {
     // Obtener el carrito de compras del localStorage
     let carrito = [];
@@ -184,7 +211,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       .then((response) => {
         console.log(response);
         if (response.ok) {
-          swal("Excelente!", "Transaccion realizada con exito", "success");
+          swal("Excelente!", "Transacción realizada con éxito", "success");
           eliminarProductosLocalStorage();
         }
       })
