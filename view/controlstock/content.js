@@ -49,6 +49,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Error al obtener el PDF:", error);
       });
   });
+  let id1 = 0;
+  let entra = true;
   function metodosModal() {
     try {
       const selectProducto = document.getElementById("id_producto");
@@ -72,15 +74,19 @@ document.addEventListener("DOMContentLoaded", async function () {
             option.value = product.id;
             option.textContent = product.nombre + " - " + product.descripcion;
             selectOcasion.appendChild(option);
+            if (entra) {
+              entra = false;
+              id1 = product.id;
+              reloadSection(id1);
+            }
           });
         });
-      reloadSection(selectProducto.value);
+     
     } catch (error) {
       console.error("Error al obtener los datos:", error);
     }
   }
 
-  // Inicializar DataTables
   var miTabla = $("#miTabla").DataTable({
     language: {
       decimal: "",

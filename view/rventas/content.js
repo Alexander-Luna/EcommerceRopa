@@ -77,10 +77,17 @@ document.addEventListener("DOMContentLoaded", async function () {
         previous: "Anterior",
       },
       aria: {
-        sortAscending: ": actilet para ordenar la columna ascendente",
-        sortDescending: ": actilet para ordenar la columna descendente",
+        sortAscending: ": activar para ordenar la columna ascendente",
+        sortDescending: ": activar para ordenar la columna descendente",
       },
     },
+    dom: "Bfrtip", // Agregar los botones de descarga
+    buttons: [
+      "copyHtml5", // Botón de copiar
+      "excelHtml5", // Botón de Excel
+      "csvHtml5", // Botón de CSV
+      "pdfHtml5", // Botón de PDF
+    ],
     lengthChange: false,
     columns: [
       {

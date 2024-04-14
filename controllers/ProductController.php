@@ -108,7 +108,7 @@ class ProductController
     public function getProductsAlert()
     {
         $model = new ProductModel();
-        $data = $model->getAllProductsAlert();
+        $data = $model->getProductsAlert();
         if ($data === false || empty($data)) {
             http_response_code(204);
         } else {

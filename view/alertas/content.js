@@ -1,98 +1,176 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  // Inicializar DataTables
-  var miTabla = $("#miTabla").DataTable({
-    language: {
-      sProcessing: "Procesando...",
-      sLengthMenu: "Mostrar _MENU_ registros",
-      sZeroRecords: "No se encontraron resultados",
-      sEmptyTable: "Ningún dato disponible en esta tabla",
-      sInfo:
-        "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-      sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-      sInfoPostFix: "",
-      sSearch: "Buscar:",
-      sUrl: "",
-      sInfoThousands: ",",
-      sLoadingRecords: "Cargando...",
-      oPaginate: {
-        sFirst: "Primero",
-        sLast: "Último",
-        sNext: "Siguiente",
-        sPrevious: "Anterior",
-      },
-      oAria: {
-        sSortAscending:
-          ": Activar para ordenar la columna de manera ascendente",
-        sSortDescending:
-          ": Activar para ordenar la columna de manera descendente",
-      },
-      buttons: {
-        copy: "Copiar",
-        colvis: "Visibilidad",
-        print: "Imprimir",
-        excel: "Exportar a Excel",
-        pdf: "Exportar a PDF",
+ // Inicializar DataTables
+var miTabla = $("#miTabla").DataTable({
+  language: {
+    decimal: "",
+    emptyTable: "No hay datos disponibles en la tabla",
+    info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+    infoEmpty: "Mostrando 0 a 0 de 0 registros",
+    infoFiltered: "(filtrados de un total de _MAX_ registros)",
+    infoPostFix: "",
+    thousands: ",",
+    lengthMenu: "Mostrar _MENU_ registros",
+    loadingRecords: "Cargando...",
+    processing: "Procesando...",
+    search: "Buscar:",
+    zeroRecords: "No se encontraron registros coincidentes",
+    paginate: {
+      first: "Primero",
+      last: "Último",
+      next: "Siguiente",
+      previous: "Anterior",
+    },
+    aria: {
+      sortAscending: ": activar para ordenar la columna ascendente",
+      sortDescending: ": activar para ordenar la columna descendente",
+    },
+  },
+  dom: "Bfrtip", // Agregar los botones de descarga
+  buttons: [
+    "copyHtml5", // Botón de copiar
+    "excelHtml5", // Botón de Excel
+    "csvHtml5", // Botón de CSV
+    "pdfHtml5", // Botón de PDF
+  ],
+  lengthChange: false,
+  select: {
+    style: "multi",
+    selector: 'td:first-child input[type="checkbox"]',
+  },
+  columns: [
+    {
+      data: null,
+      title: "",
+      render: function (data, type, row) {
+        return '<input type="checkbox">';
       },
     },
-    lengthChange: false,
-    columns: [
-      { data: "nombre_producto", title: "Nombre" },
-      { data: "talla", title: "Talla" },
-      { data: "color", title: "Color" },
-      { data: "total_stock", title: "Stock" },
-      { data: "cant_pred", title: "Cantidad Pre-Compra" },
-      {
-        data: "imagen",
-        title: "Imagen",
-        render: function (data, type, row) {
-          if (data) {
-            return (
-              '<img src="' +
-              data +
-              '" alt="Producto" style="max-width: 100px; max-height: 100px;">'
-            );
-          } else {
-            return '<img src="../../public/images/products/defaultprod.png" alt="Producto por defecto" style="max-width: 100px; max-height: 100px;">';
-          }
-        },
+    { data: "nombre_producto", title: "Nombre" },
+    { data: "talla", title: "Talla" },
+    { data: "color", title: "Color" },
+    { data: "total_stock", title: "Stock" },
+    { data: "cant_pred", title: "Cantidad Pre-Compra" },
+    {
+      data: "imagen",
+      title: "Imagen",
+      render: function (data, type, row) {
+        if (data) {
+          return (
+            '<img src="' +
+            data +
+            '" alt="Producto" style="max-width: 100px; max-height: 100px;">'
+          );
+        } else {
+          return '<img src="../../public/images/products/defaultprod.png" alt="Producto por defecto" style="max-width: 100px; max-height: 100px;">';
+        }
       },
-      {
-        data: "stock",
-        render: function (data, type, row) {
-          return data > 0 ? "Disponible" : "Agotado";
-        },
-        title: "Estado",
+    },
+    {
+      data: "total_stock",
+      render: function (data, type, row) {
+        return data > 0 ? "Disponible" : "Agotado";
       },
-      { data: "prov_nombre", title: "Proveedor" },
-    ],
-    createdRow: function (row, data, dataIndex) {
-      $("td:eq(4)", row).on("click", function () {
-        var cantidad = data.cant_pred;
-        var input = $('<input type="number" value="' + cantidad + '">');
-        $(this).html(input);
-        input.on("keydown", function (e) {
-          if (e.keyCode === 13) {
-            var nuevaCantidad = $(this).val();
-            data.cant_pred = nuevaCantidad;
-            miTabla.row($(this).closest("tr")).data(data).draw();
-          }
-        });
-        input.select();
+      title: "Estado",
+    },
+  ],
+  createdRow: function (row, data, dataIndex) {
+    $("td:eq(5)", row).on("click", function () {
+      var cantidad = data.cant_pred;
+      var input = $('<input type="number" value="' + cantidad + '">');
+      $(this).html(input);
+      input.on("keydown", function (e) {
+        if (e.keyCode === 13) {
+          var nuevaCantidad = $(this).val();
+          data.cant_pred = nuevaCantidad;
+          miTabla.row($(this).closest("tr")).data(data).draw();
+        }
       });
-    },
-  });
+      input.select();
+    });
+  },
+});
+
+// Función para marcar los checkboxes basados en las filas seleccionadas
+function marcarCheckboxes() {
+  var rows = miTabla.rows({ selected: true }).nodes(); // Obtener todas las filas seleccionadas
+  $('input[type="checkbox"]', rows).prop("checked", true); // Marcar los checkboxes de las filas seleccionadas
+}
+
+// Crear un evento para el dibujo completo de la tabla
+miTabla.on("draw.dt", function () {
+  marcarCheckboxes(); // Llamar a la función para marcar los checkboxes
+});
+
+// Configurar la cabecera para el checkbox "Seleccionar todo"
+$("#miTabla thead th:first-child").html(
+  '<input type="checkbox" id="select-all-checkbox">'
+);
+
+// Crear un evento para el checkbox "Seleccionar todo"
+$("#select-all-checkbox").on("click", function () {
+  var rows = miTabla.rows({ search: "applied" }).nodes(); // Obtener todas las filas de la tabla
+  $('input[type="checkbox"]', rows).prop("checked", this.checked); // Marcar/desmarcar los checkboxes de todas las filas
+});
+
+// Crear un evento para la selección/deselección de una fila
+miTabla.on("select.dt deselect.dt", function () {
+  marcarCheckboxes(); // Llamar a la función para marcar los checkboxes
+});
+
+
+// Agregar el checkbox "Seleccionar todo" en el encabezado de la tabla
+$("#miTabla thead th:first-child").html(
+  '<input type="checkbox" id="select-all-checkbox">'
+);
+
+// Evento para seleccionar/deseleccionar todas las filas
+$("#select-all-checkbox").on("click", function () {
+  var rows = miTabla.rows({ search: "applied" }).nodes();
+  $('input[type="checkbox"]', rows).prop("checked", this.checked);
+});
+
 
   document
     .getElementById("EnviarMensaje")
     .addEventListener("click", async function () {
       try {
-        var tableData = miTabla.rows().data().toArray();
-        var productosConCantPredMayorA0 = tableData.filter(function (producto) {
+        // Obtener filas seleccionadas
+        var selectedRows = miTabla.rows({ selected: true }).data().toArray();
+
+        // Verificar si no hay ninguna fila seleccionada
+        if (selectedRows.length === 0) {
+          throw new Error("Por favor seleccione al menos un producto.");
+        }
+
+        // Filtrar solo los productos con cantidad predeterminada mayor a 0
+        var productosConCantPredMayorA0 = selectedRows.filter(function (
+          producto
+        ) {
           return producto.cant_pred > 0;
         });
-        console.log(productosConCantPredMayorA0);
-        //console.log(JSON.stringify({ productos: productosConCantPredMayorA0 }));
+
+        // Verificar si no hay productos con cantidad predeterminada mayor a 0
+        if (productosConCantPredMayorA0.length === 0) {
+          throw new Error(
+            "Ningún producto seleccionado tiene una cantidad predeterminada mayor a 0."
+          );
+        }
+
+        // Obtener el valor seleccionado del proveedor
+        var idProveedor = document.getElementById("id_proveedor").value;
+
+        // Verificar si se seleccionó un proveedor
+        if (!idProveedor) {
+          throw new Error("Por favor seleccione un proveedor.");
+        }
+        console.log(idProveedor);
+        // Agregar el id_proveedor al objeto de datos a enviar
+        var dataToSend = {
+          productos: productosConCantPredMayorA0,
+          id_proveedor: idProveedor,
+        };
+
+        // Enviar la solicitud con los datos
         var response = await fetch(
           "../../controllers/router.php?op=send_alerta_whatsapp",
           {
@@ -100,16 +178,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ productos: productosConCantPredMayorA0 }),
+            body: JSON.stringify(dataToSend),
           }
         );
+
         if (response.ok) {
           swal(
             "Mensajes Enviados",
             "Exito al enviar los mensajes:!",
             "success"
           );
-          //          console.log(response);
         } else {
           const errorMessage = await response.text();
           throw new Error("Error al enviar los mensajes: " + errorMessage);
@@ -133,6 +211,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
       }
       const data = await response.json();
+      console.log(data);
       const newData = data.map((item) => ({ ...item, cant_pred: 0 }));
       miTabla.clear().draw();
       miTabla.rows.add(newData).draw();

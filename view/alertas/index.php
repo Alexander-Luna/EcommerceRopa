@@ -18,9 +18,9 @@
           <div class="card">
 
             <div class="card-body">
-              <button id="EnviarMensaje" type="button" class="btn btn-outline-success"><i class="fa fa-whatsapp nav-icon" aria-hidden="true"></i> Enviar Pre-Compra</button>
+              <?php require_once '../alertas/modal.php'; ?>
               <table id="miTabla" class="datatable table table-bordered table-hover">
-               
+
                 </tbody>
               </table>
             </div>

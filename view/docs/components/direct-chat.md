@@ -148,7 +148,7 @@ The direct chat widget extends the card component to create a beautiful chat int
           <div class="input-group">
             <input type="text" name="message" placeholder="Type Message ..." class="form-control">
             <span class="input-group-append">
-              <button type="button" class="btn btn-primary">Send</button>
+              <button type="button" class="btn btn-primary m-1">Send</button>
             </span>
           </div>
         </form>
@@ -297,7 +297,7 @@ The direct chat widget extends the card component to create a beautiful chat int
           <div class="input-group">
             <input type="text" name="message" placeholder="Type Message ..." class="form-control">
             <span class="input-group-append">
-              <button type="button" class="btn btn-primary">Send</button>
+              <button type="button" class="btn btn-primary m-1">Send</button>
             </span>
           </div>
         </form>
@@ -489,7 +489,7 @@ The direct chat widget extends the card component to create a beautiful chat int
       <div class="input-group">
         <input type="text" name="message" placeholder="Type Message ..." class="form-control">
         <span class="input-group-append">
-          <button type="button" class="btn btn-primary">Send</button>
+          <button type="button" class="btn btn-primary m-1">Send</button>
         </span>
       </div>
     </form>
@@ -648,7 +648,7 @@ Of course you can use direct chat with a outline card by adding the class `.card
           <div class="input-group">
             <input type="text" name="message" placeholder="Type Message ..." class="form-control">
             <span class="input-group-append">
-              <button type="button" class="btn btn-primary">Send</button>
+              <button type="button" class="btn btn-primary m-1">Send</button>
             </span>
           </div>
         </form>
@@ -797,7 +797,7 @@ Of course you can use direct chat with a outline card by adding the class `.card
           <div class="input-group">
             <input type="text" name="message" placeholder="Type Message ..." class="form-control">
             <span class="input-group-append">
-              <button type="button" class="btn btn-primary">Send</button>
+              <button type="button" class="btn btn-primary m-1">Send</button>
             </span>
           </div>
         </form>

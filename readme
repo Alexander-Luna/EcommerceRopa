@@ -14,19 +14,19 @@ browser-sync start --proxy "localhost:80" --files "**/*"
 [X] - Eliminar librería de animación
 [X] - Registro falta el teléfono
 [X] - Campos obligatorios en el registro
+[X] - arreglar lo de categoría 
+[X] - El buscador no filtra
+[X] - Modal para el shoping cart
+[X] - Referencia en el shoping cart
 [] - Imagenes Productos Agregar 
-[] - arreglar lo de categoría 
 [] - Restablecer contraseña
 [] - Enviar Correos de pedidos
 [] - Correos de ventas
-[] - El buscador no filtra
 [] - Reporte de compras
 [] - Reporte de Ventas
 [] - Cancelar Ventas
 [] - Cancelar compras
 [] - Colocar fondo de las paginas 90a586 
-[] - Modal para el shoping cart
-[] - Referencia en el shoping cart
 
 Administrador
 [X] - Cambiar en compras comprar publicar

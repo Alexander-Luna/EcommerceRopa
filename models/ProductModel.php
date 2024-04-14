@@ -66,7 +66,7 @@ class ProductModel extends Conectar
                 p.id = ? 
             GROUP BY 
                 p.id, oc.nombre, c.color, g.nombre, t.desc_talla, t.talla, img.url_imagen';
-            }else{
+            } else {
                 $sql .= ' GROUP BY i.id_talla,i.id_color,i.id_producto';
             }
 
@@ -156,57 +156,42 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
-    public function getAllProductsAlert()
+    public function getProductsAlert()
     {
         try {
             $conexion = parent::Conexion();
             $sql = "SELECT 
-            i.id as id_inventario,
+            i.id AS id_inventario,
             i.id_producto, 
             i.id_talla, 
             i.id_color, 
             SUM(i.stock) AS total_stock, 
-            prov.nombre AS prov_nombre, 
-            prov.id AS id_proveedor, 
             p.nombre AS nombre_producto, 
             p.descripcion AS descripcion_producto,
             c.color, 
             t.desc_talla, 
             t.talla,
-            t.*,
-            c.*, 
             img.url_imagen AS imagen
         FROM 
             inventario i
-        INNER JOIN (
-            SELECT 
-                id_producto, 
-                id_proveedor, 
-                MIN(id) AS min_id
-            FROM 
-                productos_proveedores
-            GROUP BY 
-                id_producto, 
-                id_proveedor
-        ) AS pp ON i.id_producto = pp.id_producto
         INNER JOIN 
-            productos p ON pp.id_producto = p.id
+            productos p ON i.id_producto = p.id
         INNER JOIN 
             colores c ON i.id_color = c.id
         INNER JOIN 
             tallas t ON i.id_talla = t.id
-        INNER JOIN 
-            proveedores prov ON pp.id_proveedor = prov.id
         LEFT JOIN 
-            imagenes_producto img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
+            imagenes_producto img ON img.id_producto = i.id_producto AND img.orden = 1
         WHERE 
-            p.est = 1
+            p.est = 1 
         GROUP BY 
             i.id_producto, 
             i.id_talla, 
-            i.id_color, 
-            prov.id
-     HAVING total_stock <= 5";
+            i.id_color
+        HAVING 
+            SUM(i.stock) <= 5
+        ;";
+
             $stmt = $conexion->prepare($sql);
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -561,9 +546,10 @@ class ProductModel extends Conectar
             $id_user =  $userData['user_id'];
             $conexion = parent::Conexion();
             $conexion->beginTransaction();
+            $data = json_decode(file_get_contents('php://input'), true);
+            $id_proveedor = $data['id_proveedor'];
             foreach ($products as $product) {
                 $id_inventario = $product['id_inventario'];
-                $id_proveedor = $product['id_proveedor'];
                 $cantidad = $product['cant_pred'];
                 $sqlProducto = "INSERT INTO alertaspedido (id_user, id_inventario, id_proveedor, cantidad) VALUES (?, ?, ?, ?)";
                 $stmtProducto = $conexion->prepare($sqlProducto);
@@ -651,5 +637,4 @@ class ProductModel extends Conectar
             die("Error: " . $e->getMessage());
         }
     }
-   
 }

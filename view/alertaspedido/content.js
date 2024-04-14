@@ -2,39 +2,36 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Inicializar DataTables
   var miTabla = $("#miTabla").DataTable({
     language: {
-      sProcessing: "Procesando...",
-      sLengthMenu: "Mostrar _MENU_ registros",
-      sZeroRecords: "No se encontraron resultados",
-      sEmptyTable: "Ningún dato disponible en esta tabla",
-      sInfo:
-        "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-      sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-      sInfoPostFix: "",
-      sSearch: "Buscar:",
-      sUrl: "",
-      sInfoThousands: ",",
-      sLoadingRecords: "Cargando...",
-      oPaginate: {
-        sFirst: "Primero",
-        sLast: "Último",
-        sNext: "Siguiente",
-        sPrevious: "Anterior",
+      decimal: "",
+      emptyTable: "No hay datos disponibles en la tabla",
+      info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+      infoEmpty: "Mostrando 0 a 0 de 0 registros",
+      infoFiltered: "(filtrados de un total de _MAX_ registros)",
+      infoPostFix: "",
+      thousands: ",",
+      lengthMenu: "Mostrar _MENU_ registros",
+      loadingRecords: "Cargando...",
+      processing: "Procesando...",
+      search: "Buscar:",
+      zeroRecords: "No se encontraron registros coincidentes",
+      paginate: {
+        first: "Primero",
+        last: "Último",
+        next: "Siguiente",
+        previous: "Anterior",
       },
-      oAria: {
-        sSortAscending:
-          ": Activar para ordenar la columna de manera ascendente",
-        sSortDescending:
-          ": Activar para ordenar la columna de manera descendente",
-      },
-      buttons: {
-        copy: "Copiar",
-        colvis: "Visibilidad",
-        print: "Imprimir",
-        excel: "Exportar a Excel",
-        pdf: "Exportar a PDF",
+      aria: {
+        sortAscending: ": activar para ordenar la columna ascendente",
+        sortDescending: ": activar para ordenar la columna descendente",
       },
     },
+    dom: "Bfrtip", // Agregar los botones de descarga
+    buttons: [
+      "copyHtml5", // Botón de copiar
+      "excelHtml5", // Botón de Excel
+      "csvHtml5", // Botón de CSV
+      "pdfHtml5", // Botón de PDF
+    ],
     lengthChange: false,
     columns: [
       { data: "nombre", title: "Nombre" },
