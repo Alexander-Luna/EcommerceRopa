@@ -88,7 +88,7 @@ class ProductModel extends Conectar
         try {
             $conexion = parent::Conexion();
 
-            $sql = "SELECT i.*, p.*, g.nombre AS genero, img.url_imagen AS imagen
+            $sql = "SELECT i.*, p.*,oc.nombre as ocasion, g.nombre AS genero, img.url_imagen AS imagen
             FROM (
                 SELECT *,
                        ROW_NUMBER() OVER (PARTITION BY id_producto ORDER BY precio) AS row_num
@@ -97,6 +97,7 @@ class ProductModel extends Conectar
             ) AS i
             JOIN productos AS p ON i.id_producto = p.id
             JOIN genero AS g ON p.id_genero = g.id
+            JOIN ocasion AS oc ON oc.id = p.id_ocasion
             LEFT JOIN imagenes_producto AS img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
             WHERE i.row_num = 1;
             ";

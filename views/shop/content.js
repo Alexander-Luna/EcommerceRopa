@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  // Variables para rastrear el número de elementos mostrados y el tamaño del bloque
+  // Obtener la URL actual
+  // Obtener la URL actual
+
   var numElementosMostrados = 0;
   var tamanoBloque = 16; // Número de elementos a mostrar en cada bloque
   reloadSection();
@@ -7,6 +9,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("bmas").addEventListener("click", function () {
     mostrarElementosEnBloques(data);
   });
+  var url = window.location.href;
+  var urlParams = new URLSearchParams(new URL(url).search);
+  var filterValue = urlParams.has("filter") ? urlParams.get("filter") : null;
+
   $(document).on("click", ".btnAddWish", function () {
     var id = $(this).data("id");
     const formData = new FormData();
@@ -108,15 +114,49 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   function filtrarPorGenero(genero) {
-    for (let i = 0; i < productos.length; i++) {
-      const generoProducto = productos[i]
-        .querySelector(".genero")
-        .getAttribute("data-genero")
-        .toLowerCase();
-      if (genero === "") {
+    console.log(genero);
+    if (genero === "Uniforme Escolar" || genero === "Deportivo") {
+      for (let i = 0; i < productos.length; i++) {
+        const generoProducto = productos[i]
+          .querySelector(".ocasion")
+          .getAttribute("data-ocasion")
+          .toLowerCase();
+        if (genero === "") {
+          productos[i].style.display = "block";
+        } else {
+          if (generoProducto === genero.toLowerCase()) {
+            productos[i].style.display = "block";
+          } else {
+            productos[i].style.display = "none";
+          }
+        }
+      }
+    } else {
+      for (let i = 0; i < productos.length; i++) {
+        const generoProducto = productos[i]
+          .querySelector(".genero")
+          .getAttribute("data-genero")
+          .toLowerCase();
+        if (genero === "") {
+          productos[i].style.display = "block";
+        } else {
+          if (generoProducto === genero.toLowerCase()) {
+            productos[i].style.display = "block";
+          } else {
+            productos[i].style.display = "none";
+          }
+        }
+      }
+    }
+    if (genero === "Niños") {
+      for (let i = 0; i < productos.length; i++) {
+        const generoProducto = productos[i]
+          .querySelector(".genero")
+          .getAttribute("data-genero")
+          .toLowerCase();
         productos[i].style.display = "block";
-      } else {
-        if (generoProducto === genero.toLowerCase()) {
+        genero = genero.slice(0, -2);
+        if (generoProducto.includes(genero.toLowerCase())) {
           productos[i].style.display = "block";
         } else {
           productos[i].style.display = "none";
@@ -151,6 +191,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Iterar sobre los datos y construir los elementos HTML
     for (var i = startIndex; i < endIndex; i++) {
       const producto = data[i];
+      console.log(producto);
       const imagenProducto = producto.imagen
         ? producto.imagen
         : "../../public/images/products/defaultprod.png";
@@ -168,6 +209,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                             <a href="../product-detail/index.php?id=${producto.id}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 text-decoration-none">${producto.nombre}</a>
                             <span class="stext-105 cl3">$${producto.precio}</span>
                             <input type="hidden" class="genero" data-genero="${producto.genero}">
+                            <input type="hidden" class="ocasion" data-ocasion="${producto.ocasion}">
+                           
                             </div>
                         <div class="block2-txt-child2 flex-r p-t-3">
                             <button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 btnAddWish"  data-id="${producto.id}">
@@ -179,17 +222,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                 </div>
             </div>
         `;
-      // Agregar el HTML del producto al nuevo contenedor
       nuevoContenedor.innerHTML += productoHTML;
     }
-
-    // Obtener una referencia al contenedor existente
     var contenedorExistente = document.getElementById("container");
-
-    // Insertar el nuevo contenedor justo después del contenedor existente
-    contenedorExistente.insertAdjacentElement("afterend", nuevoContenedor);
-
-    // Actualizar el contador de elementos mostrados
+    contenedorExistente.insertAdjacentElement("beforebegin", nuevoContenedor);
     numElementosMostrados += tamanoBloque;
+    if (filterValue !== null) {
+      filtrarPorGenero(filterValue);
+    }
   }
 });
