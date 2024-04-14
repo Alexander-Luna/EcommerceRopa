@@ -3,32 +3,32 @@
 	<div class="container">
 		<div class="flex-w flex-sb-m p-b-52">
 			<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+				<button id="btnall" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
 					Todos los Productos
 				</button>
 
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Mujer">
+				<button id="btnmujer" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Mujer">
 					Mujeres
 				</button>
 
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Hombre">
+				<button id="btnhombre" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Hombre">
 					Hombres
 				</button>
 
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Niño">
+				<button id="btnninio" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Niño">
 					Niños
 				</button>
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Niña">
+				<button  id="btnninia" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Niña">
 					Niñas
 				</button>
 			</div>
 
 			<div class="flex-w flex-c-m m-tb-10">
-				<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+				<!-- <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
 					<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
 					<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
 					Filtrar
-				</div>
+				</div> -->
 
 				<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
 					<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
@@ -43,9 +43,7 @@
 						<i class="zmdi zmdi-search"></i>
 					</button>
 
-					<!-- Cambios realizados -->
 					<input id="searchInput" class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Buscar...">
-					<!-- Fin de los cambios realizados -->
 				</div>
 			</div>
 
@@ -128,7 +126,7 @@
 						</div>
 
 						<ul id="listaColores">
-							<!-- Los colores se cargarán aquí dinámicamente -->
+							
 						</ul>
 					</div>
 				</div>

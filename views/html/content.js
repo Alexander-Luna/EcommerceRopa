@@ -31,10 +31,8 @@ function reloadSection() {
       .then((data) => {
         // Obtener los elementos <ul> donde se agregarán los elementos
         const ul = document.getElementById("subMenuCat");
-        const ul1 = document.getElementById("subMenuCat1");
         // Limpiar el contenido actual de los <ul>
         ul.innerHTML = "";
-        ul1.innerHTML = "";
         // Recorrer los datos y agregar elementos <li> a los <ul> correspondientes
 
         data.forEach((categoria) => {
@@ -48,16 +46,13 @@ function reloadSection() {
           li.appendChild(a);
           ul.appendChild(li);
           li1.appendChild(a1);
-          ul1.appendChild(li1);
         });
 
         // Si hay más de 5 elementos, añadir la clase 'scrollable'
         if (data.length > 5) {
           ul.classList.add("scrollable");
-          ul1.classList.add("scrollable");
         } else {
           ul.classList.remove("scrollable");
-          ul1.classList.remove("scrollable");
         }
       });
   } catch (error) {

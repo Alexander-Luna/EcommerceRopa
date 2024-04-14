@@ -135,8 +135,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   $(document).on("click", ".btnDownload", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
-
-    // Crear un enlace de descarga
     var link = document.createElement("a");
     link.href = rowData.comprobante;
     link.download = "comprobante.webp";

@@ -176,20 +176,28 @@ if (empty($_SESSION['user_session'])) {
 														</select>
 														<br>
 													</div>
-
-													<div class="bor8 bg0 m-b-22">
+													<div class="form-group">
+														<label class="col-form-label">Canton:</label>
 														<input name="canton" id="canton" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Canton">
 													</div>
-													<div class="bor8 bg0 m-b-22">
+													<div class="form-group">
+														<label class="col-form-label">Dirección:</label>
 														<input name="direccion" id="direccion" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Dirección">
 													</div>
-													<div class="bor8 bg0 m-b-22">
+													<div class="form-group">
+														<label class="col-form-label">Referencia:</label>
+														<input name="referencia" id="referencia" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Dirección">
+													</div>
+													<div class="form-group">
+														<label class="col-form-label">Cédula:</label>
 														<input name="ci" id="ci" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Documento de identidad">
 													</div>
-													<div class="bor8 bg0 m-b-22">
+													<div class="form-group">
+														<label class="col-form-label">Email:</label>
 														<input name="email" id="email" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="email">
 													</div>
-													<div class="bor8 bg0 m-b-22">
+													<div class="form-group">
+														<label class="col-form-label">Teléfono:</label>
 														<input name="telefono" id="telefono" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Teléfono / Celular">
 													</div>
 												</div>
@@ -205,10 +213,15 @@ if (empty($_SESSION['user_session'])) {
 											<div class="card-body" id="menuBody" style="display: none;">
 												<div id=mPago>
 													<div class="form-group">
+														<label class="col-form-label">Titular de cuenta: Asociación de producción textil ASOTAECO</label>
+														<label class="col-form-label">Numero de cuenta interbancaria: 1703100010128998</label>
+														<label class="col-form-label">Tipo de cuenta: Ahorros</label>
+														<label class="col-form-label">Institución Bancaria: CACPE PASTAZA</label>
+													</div>
+													<div class="form-group">
 														<label for="comprobante" class="col-form-label">Seleccione su método de pago</label>
-														<select class="form-control" id="metododepago" name="provincias" required onchange="toggleFields()">
+														<select class="form-control" id="metododepago" name="metododepago" required onchange="toggleFields()">
 															<option value="">Seleccione...</option>
-															<option value="0">Pago en oficina</option>
 															<option value="1">Deposito</option>
 															<option value="2">Transferencia</option>
 														</select>

@@ -71,36 +71,59 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  // Función para filtrar productos por nombre o descripción
-  function filtrarProductos(keywords,temp) {
-    document.getElementById("container").innerHTML = "";
-
-    // Filtrar productos que coincidan con las palabras clave en el nombre o descripción
-    const productosFiltrados = temp.filter((producto) => {
-      return (
-        producto.nombre.toLowerCase().includes(keywords.toLowerCase()) ||
-        producto.descripcion.toLowerCase().includes(keywords.toLowerCase())
-      );
-    });
-    mostrarElementosEnBloques(productosFiltrados);
-  }
-
   const campoBusqueda = document.getElementById("searchInput");
+  const productos = document.getElementsByClassName("isotope-item");
 
-  campoBusqueda.addEventListener("keydown", function (event) {
-    const temp=data;
-    if (event.key === "Enter") {
-      const keywords = campoBusqueda.value.trim();
-      console.log("Entra");
-      if (keywords.length > 0) {
-        const productosFiltrados = filtrarProductos(keywords,temp);
-        mostrarElementosEnBloques(productosFiltrados);
+  campoBusqueda.addEventListener("input", function () {
+    const keywords = campoBusqueda.value.toLowerCase().trim();
+    for (let i = 0; i < productos.length; i++) {
+      const nombreProducto = productos[i]
+        .querySelector(".js-name-b2")
+        .innerText.toLowerCase();
+      if (nombreProducto.includes(keywords)) {
+        productos[i].style.display = "block";
       } else {
-        mostrarElementosEnBloques(data);
+        productos[i].style.display = "none";
       }
     }
   });
+  document.getElementById("btnall").addEventListener("click", function () {
+    filtrarPorGenero("");
+  });
 
+  document.getElementById("btnmujer").addEventListener("click", function () {
+    filtrarPorGenero("Mujer");
+  });
+
+  document.getElementById("btnhombre").addEventListener("click", function () {
+    filtrarPorGenero("Hombre");
+  });
+
+  document.getElementById("btnninio").addEventListener("click", function () {
+    filtrarPorGenero("Niño");
+  });
+
+  document.getElementById("btnninia").addEventListener("click", function () {
+    filtrarPorGenero("Niña");
+  });
+
+  function filtrarPorGenero(genero) {
+    for (let i = 0; i < productos.length; i++) {
+      const generoProducto = productos[i]
+        .querySelector(".genero")
+        .getAttribute("data-genero")
+        .toLowerCase();
+      if (genero === "") {
+        productos[i].style.display = "block";
+      } else {
+        if (generoProducto === genero.toLowerCase()) {
+          productos[i].style.display = "block";
+        } else {
+          productos[i].style.display = "none";
+        }
+      }
+    }
+  }
   let data;
   async function reloadSection() {
     try {
@@ -144,7 +167,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                         <div class="block2-txt-child1 flex-col-l">
                             <a href="../product-detail/index.php?id=${producto.id}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 text-decoration-none">${producto.nombre}</a>
                             <span class="stext-105 cl3">$${producto.precio}</span>
-                        </div>
+                            <input type="hidden" class="genero" data-genero="${producto.genero}">
+                            </div>
                         <div class="block2-txt-child2 flex-r p-t-3">
                             <button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 btnAddWish"  data-id="${producto.id}">
                                 <img class="icon-heart1 dis-block trans-04" src="../../public/images/icons/icon-heart-01.png" alt="Heart Icon">
@@ -167,64 +191,5 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Actualizar el contador de elementos mostrados
     numElementosMostrados += tamanoBloque;
-  }
-
-  function metodosPlantilla() {
-    $(".parallax100").parallax100();
-
-    $(".gallery-lb").each(function () {
-      // the containers for all your galleries
-      $(this).magnificPopup({
-        delegate: "a", // the selector for gallery item
-        type: "image",
-        gallery: {
-          enabled: true,
-        },
-        mainClass: "mfp-fade",
-      });
-    });
-    $(".js-addwish-b2").on("click", function (e) {
-      e.preventDefault();
-    });
-
-    $(".js-addwish-b2").each(function () {
-      var nameProduct = $(this).parent().parent().find(".js-name-b2").html();
-      $(this).on("click", function () {
-        swal(nameProduct, "is added to wishlist !", "success");
-
-        $(this).addClass("js-addedwish-b2");
-        $(this).off("click");
-      });
-    });
-
-    $(".js-addwish-detail").each(function () {
-      var nameProduct = $(this)
-        .parent()
-        .parent()
-        .parent()
-        .find(".js-name-detail")
-        .html();
-
-      $(this).on("click", function () {
-        swal(nameProduct, "is added to wishlist !", "success");
-
-        $(this).addClass("js-addedwish-detail");
-        $(this).off("click");
-      });
-    });
-
-    $(".js-pscroll").each(function () {
-      $(this).css("position", "relative");
-      $(this).css("overflow", "hidden");
-      var ps = new PerfectScrollbar(this, {
-        wheelSpeed: 1,
-        scrollingThreshold: 1000,
-        wheelPropagation: false,
-      });
-
-      $(window).on("resize", function () {
-        ps.update();
-      });
-    });
   }
 });

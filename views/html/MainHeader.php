@@ -68,11 +68,11 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
                             <a href="<?php echo $shop; ?>" class="menu-link">Comprar</a>
                         </li>
 
-                        <li class="menu-item-with-submenu">
+                        <!-- <li class="menu-item-with-submenu">
                             <a href="" class="menu-link">Categorias</a>
                             <ul id="subMenuCat" class="sub-menu">
                             </ul>
-                        </li>
+                        </li> -->
                         <script src="../html/content.js"></script>
                         <li class="menu-item-with-submenu">
                             <a href="" class="menu-link">Tallas</a>
@@ -233,23 +233,27 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
         </ul>
     </div>
 
-   
+
 </header>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll('.nav-link').forEach(function(link) {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
+        try {
+            document.querySelectorAll('.nav-link').forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
 
-                var url = this.getAttribute('data-url');
-                fetch(url)
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById('main-container').innerHTML = data;
-                    })
-                    .catch(error => console.error('Error:', error));
+                    var url = this.getAttribute('data-url');
+                    fetch(url)
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById('main-container').innerHTML = data;
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
             });
-        });
+        } catch (e) {
+
+        }
         id_user = 2;
         obtenerUsuario();
 

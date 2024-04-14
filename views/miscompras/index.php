@@ -34,7 +34,7 @@ if (empty($_SESSION['user_session'])) {
 				<button type="button" id="btnpendiente" class="nav-link">Pendientes</button>
 			</li>
 			<li class="nav-item">
-				<button type="button" id="btnentregado" class="nav-link">Entregadas</button>
+				<button type="button" id="btnentregado" class="nav-link">Enviadas</button>
 			</li>
 		</ul>
 
@@ -48,13 +48,10 @@ if (empty($_SESSION['user_session'])) {
 			<div class="row text-center text-white mb-5">
 
 			</div>
-			<ul id="container" class="list-group shadow">
-			</ul>
-			<div class="flex-c-m flex-w w-full p-t-45 m-4">
-				<button id="bmas" href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-					Mostrar más
-				</button>
-			</div>
+			<table id="miTabla" class="table table-bordered table-hover">
+
+			</table>
+			
 		</div>
 
 	</section>

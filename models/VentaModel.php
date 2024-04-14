@@ -195,12 +195,13 @@ INNER JOIN usuarios u ON v.id_client = u.id
         try {
             $id = $_POST["id"];
             $est = $_POST["est"];
-
+            $guia = $_POST["guia_servi"];
             $conexion = parent::Conexion();
-            $sql = "UPDATE ventas SET est_pago=? WHERE id=?";
+            $sql = "UPDATE ventas SET guia_servi=?, est_pago=? WHERE id=?";
             $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $est);
-            $stmt->bindValue(2, $id);
+            $stmt->bindValue(1, $guia);
+            $stmt->bindValue(2, $est);
+            $stmt->bindValue(3, $id);
             $stmt->execute();
 
             if ($stmt->rowCount() > 0) {
@@ -250,7 +251,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $est = $_GET['id'];
 
             $conexion = parent::Conexion();
-            $sql = "SELECT p.id as id_producto,v.id AS venta_id,v.est_pago, v.fecha AS fecha_venta, v.total AS total_venta, v.envio AS costo_envio,
+            $sql = "SELECT p.id as id_producto,v.guia_servi,v.id AS venta_id,v.est_pago, v.fecha AS fecha_venta, v.total AS total_venta, v.envio AS costo_envio,
             v.metodo_pago AS metodo_pago, v.ncomprobante AS numero_comprobante, v.comprobante AS comprobante_adjunto,
             p.nombre AS nombre_producto, p.descripcion AS descripcion_producto, 
             dv.cantidad, dv.precio_unitario,
@@ -260,18 +261,20 @@ INNER JOIN usuarios u ON v.id_client = u.id
      INNER JOIN inventario ip ON dv.id_variante_producto = ip.id
      INNER JOIN productos p ON ip.id_producto = p.id
      LEFT JOIN imagenes_producto iu ON p.id = iu.id_producto AND iu.orden = 1
-     WHERE v.id_client = ? 
-     
-";
-            if ($est != null) {
+     WHERE v.id_client = ?";
+
+            if ($est !== "null") {
                 $sql .= " AND v.est_pago=? ORDER BY v.fecha DESC;";
             } else {
                 $sql .= " ORDER BY v.fecha DESC;";
             }
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $id_user);
-            $stmt->bindValue(2, $est);
+            if ($est !== "null") {
+                $stmt->bindValue(2, $est);
+            }
             $stmt->execute();
+
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
         } catch (PDOException $e) {

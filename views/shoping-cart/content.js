@@ -104,37 +104,55 @@ document.addEventListener("DOMContentLoaded", async function () {
   let CENVIO = 0;
   let TOTAL = 0;
   reloadSection();
-  // Script para controlar el menú desplegable
   $(document).ready(function () {
     $(".card-header").click(function () {
+      // Ocultamos todos los card-body
+      $(".card-body").slideUp();
+      // Cambiamos el texto de todos los toggleIcon a "+"
+      $(".card-header #toggleIcon").text("+");
+
       // Encuentra el elemento card-body dentro de la card actual
       var menuBody = $(this).siblings(".card-body");
 
+      // Verifica si la opcion_seleccionada es diferente de "2"
+      if (
+        opcion_seleccionada !== "2" ||
+        $(this).parent().attr("id") !== "infopago"
+      ) {
+        // Despliega el card-body correspondiente al card-header clicado
+        menuBody.slideToggle();
+      }
+
       // Encuentra el elemento toggleIcon dentro del card-header actual
-      var toggleIcon = $(this).find("#toggleIcon");
-
-      // Despliega o contrae el menú body
-      menuBody.slideToggle();
-
-      // Cambia el icono de toggleIcon
-      toggleIcon.text(function (i, text) {
-        return text === "+" ? "-" : "+";
-      });
+      let toggleIcon = $(this).find("#toggleIcon");
+      // Cambia el icono de toggleIcon si no es el card de información de pago y la opcion_seleccionada no es "2"
+      if (
+        $(this).parent().attr("id") !== "infopago" &&
+        opcion_seleccionada !== "2"
+      ) {
+        toggleIcon.text(function (i, text) {
+          return text === "+" ? "-" : "+";
+        });
+      }
     });
   });
 
+  let opcion_seleccionada = 1;
   $("#id_envio").change(function () {
-    var opcion_seleccionada = $(this).val();
+    opcion_seleccionada = $(this).val();
     switch (opcion_seleccionada) {
       case "1":
         CENVIO = 5;
-     
+        cargarDatosUsuario(false);
+
         break;
       case "2":
+        cargarDatosUsuario(false);
         CENVIO = 0; // Precio para Retiro en oficina
-        BloquearInfoPago(true);
+
         break;
       case "3":
+        cargarDatosUsuario(true);
         CENVIO = 8; // Precio para Enviar regalo
         break;
       default:
@@ -143,11 +161,42 @@ document.addEventListener("DOMContentLoaded", async function () {
     reloadSection();
     $("#precio").text(CENVIO.toFixed(2));
   });
-  function BloquearInfoPago(block) {
-    if (block) {
-      document.getElementById("infopago").disabled = true;
+  function cargarDatosUsuario(isRegalo) {
+    if (isRegalo) {
+      document.getElementById("nombre").value = "";
+      document.getElementById("provincias").value = "";
+      document.getElementById("canton").value = "";
+      document.getElementById("direccion").value = "";
+      document.getElementById("referencia").value = "";
+      document.getElementById("ci").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("telefono").value = "";
     } else {
-      document.getElementById("infopago").disabled = false;
+      fetch("../../controllers/router.php?op=getUserData")
+        .then((response) => {
+          if (response.ok) {
+            return response.json(); // Convertir la respuesta a JSON
+          }
+          throw new Error("Error al obtener los datos del perfil");
+        })
+        .then((data) => {
+          console.log(data);
+          document.getElementById("nombre").value = "";
+          document.getElementById("provincias").value = "";
+          document.getElementById("canton").value = "";
+          document.getElementById("direccion").value = "";
+          document.getElementById("referencia").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("ci").value = data.cedula;
+          document.getElementById("email").value = data.email;
+          document.getElementById("nombre").value = data.nombre;
+          document.getElementById("direccion").value = data.direccion;
+          document.getElementById("telefono").value = data.telefono;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Aquí puedes manejar el error de alguna manera, por ejemplo, mostrando un mensaje al usuario
+        });
     }
   }
   function realizarPago() {
@@ -168,6 +217,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const direccion = document.getElementById("direccion").value;
     const email = document.getElementById("email").value;
     const ci = document.getElementById("ci").value;
+    const referencia = document.getElementById("referencia").value;
     const telefono = document.getElementById("telefono").value;
     const idEnvio = document.getElementById("id_envio").value;
     const metodoDePago = document.getElementById("metododepago").value;
@@ -183,10 +233,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     formData.append("telefono", telefono);
     formData.append("email", email);
     formData.append("direccion", provincia + " " + canton + " " + direccion);
-
     formData.append("total", SUBTOTAL);
     formData.append("cenvio", CENVIO);
     formData.append("ci", ci);
+    formData.append("referencia", referencia);
     let isEnvio = 1;
     if (idEnvio === 1) {
       isEnvio = 0;
