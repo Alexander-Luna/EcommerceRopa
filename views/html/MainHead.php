@@ -16,4 +16,7 @@
 <link rel="stylesheet" type="text/css" href="../../public/css/styles.css">
 
 <!-- DataTables -->
-<link rel="stylesheet" href="../../public/lib/dataTables/dataTables.dataTables.min.css">
+<link rel="stylesheet" href="../../public/lib/dataTables/datatables.min.css">
+
+
+

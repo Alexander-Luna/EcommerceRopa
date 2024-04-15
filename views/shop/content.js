@@ -200,20 +200,20 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <div class="block2">
                     <div class="block2-pic hov-img0">
                         <img src="${imagenProducto}" alt="Product Image">
-                        <a href="../product-detail/index.php?id=${producto.id}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 show-modal1 text-decoration-none">
+                        <a href="../product-detail/index.php?id=${producto.id_producto}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 show-modal1 text-decoration-none">
                             Ver Producto
                         </a>
                     </div>
                     <div class="block2-txt flex-w flex-t p-t-14">
                         <div class="block2-txt-child1 flex-col-l">
-                            <a href="../product-detail/index.php?id=${producto.id}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 text-decoration-none">${producto.nombre}</a>
+                            <a href="../product-detail/index.php?id=${producto.id_producto}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 text-decoration-none">${producto.nombre}</a>
                             <span class="stext-105 cl3">$${producto.precio}</span>
                             <input type="hidden" class="genero" data-genero="${producto.genero}">
                             <input type="hidden" class="ocasion" data-ocasion="${producto.ocasion}">
                            
                             </div>
                         <div class="block2-txt-child2 flex-r p-t-3">
-                            <button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 btnAddWish"  data-id="${producto.id}">
+                            <button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 btnAddWish"  data-id="${producto.id_producto}">
                                 <img class="icon-heart1 dis-block trans-04" src="../../public/images/icons/icon-heart-01.png" alt="Heart Icon">
                                 <img class="icon-heart2 dis-block trans-04 ab-t-l" src="../../public/images/icons/icon-heart-02.png" alt="Heart Icon">
                             </button>

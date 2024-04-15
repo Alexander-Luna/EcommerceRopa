@@ -26,20 +26,12 @@ if (empty($_SESSION['user_session'])) {
 
 	<!-- Shoping Cart -->
 	<form class="bg0 p-t-75 p-b-85">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
-					<div class="m-l-25 m-r--38 m-lr-0-xl">
-						<div class="wrap-table-shopping-cart">
-							<table id="miTabla" class="table-shopping-cart">
+	<div class="container py-5">
+			
+			<table id="miTabla" class="table table-bordered table-hover">
 
-							</table>
-							</div>
-							
-
-					</div>
-				</div>
-			</div>
+			</table>
+			
 		</div>
 	</form>
 

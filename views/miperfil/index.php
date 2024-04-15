@@ -43,6 +43,7 @@ if (empty($_SESSION['user_session'])) {
                     <div class="card">
                         <!-- /.card-header -->
                         <div class="card-body">
+                            <?php require_once'../miperfil/modal.php'?>
                             <form id="formularioProducto">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -78,7 +79,9 @@ if (empty($_SESSION['user_session'])) {
                                         </div>
                                         <div class="form-group">
                                             <br>
-                                            <button type="button" id="btnRPass" class="btn btn-warning form-control">Cambiar Contraseña</button>
+                                            <button type="button" class="btn btn-warning form-control" data-toggle="modal" data-target="#miModal" data-whatever="@mdo">Cambiar Contraseña</button>
+                                            <?php require_once 'modal.php' ?>
+
                                         </div>
                                     </div>
 

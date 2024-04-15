@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   var miTabla = $("#miTabla").DataTable({
     language: {
       decimal: "",
-      emptyTable: "No hay datos disponibles",
+      emptyTable: "No hay datos disponibles en la tabla",
       info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
       infoEmpty: "Mostrando 0 a 0 de 0 registros",
       infoFiltered: "(filtrados de un total de _MAX_ registros)",
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       lengthMenu: "Mostrar _MENU_ registros",
       loadingRecords: "Cargando...",
       processing: "Procesando...",
-      search: "",
+      search: "Buscar:",
       zeroRecords: "No se encontraron registros coincidentes",
       paginate: {
         first: "Primero",
@@ -25,8 +25,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         sortDescending: ": activar para ordenar la columna descendente",
       },
     },
-    lengthChange: false, // Deshabilita la opción de cambiar la cantidad de filas por página
-    searchable: false, // Oculta la barra de búsqueda
+   
+    lengthChange: false, 
     pageLength: 5,
     columns: [
       {

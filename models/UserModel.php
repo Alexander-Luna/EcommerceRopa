@@ -1,6 +1,7 @@
 <?php
 require_once '../config/Conectar.php';
-
+require_once '../models/CorreosModel.php';
+require_once '../vendor/autoload.php';
 class UserModel extends Conectar
 {
     public function getAllUsers()
@@ -22,7 +23,22 @@ class UserModel extends Conectar
             die("Error al obtener usuarios: " . $e->getMessage());
         }
     }
+    public function getUserDataByEmail($email)
+    {
+        try {
+            $conexion = parent::Conexion();
 
+            $sql = "SELECT * FROM usuarios WHERE email=?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $email);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $user;
+        } catch (PDOException $e) {
+            // Manejo de errores
+            die("Error al obtener usuarios por correo electrónico: " . $e->getMessage());
+        }
+    }
     public function getUserData()
     {
         try {
@@ -49,21 +65,93 @@ class UserModel extends Conectar
             $conexion = parent::Conexion();
             $email = $_POST["email"];
 
-            $ci = $_POST["ci"];
-            // // Crear una instancia del modelo SmtpModel
-            // $smtpModel = new SmtpModel();
 
-            // // Llamar al método enviarCorreo
-            // $resultadoEnvio = $smtpModel->enviarCorreo(
-            //     'paulluna99@gmail.com',
-            //     'Nombre Destinatario',
-            //     'Asunto del Correo',
-            //     'Cuerpo del Correo'
-            // );
+            // Buscar al usuario por su dirección de correo electrónico
+            $user = $this->getUserDataByEmail($email);
+
+            if (!$user) {
+                die("El usuario con el correo electrónico proporcionado no existe.");
+            }
+
+            // Obtener el ID de usuario
+            $id_user = $user['id'];
+
+            $randomPassword = $this->generarContrasenaAleatoria();
+
+            $asunto = "Recuperación de Contraseña";
+            $mensaje = "
+            <!DOCTYPE html>
+            <html lang='es'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Recuperación de Contraseña</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f4f4;
+                        padding: 20px;
+                    }
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        background-color: #fff;
+                        padding: 30px;
+                        border-radius: 10px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    }
+                    h1 {
+                        color: #333;
+                        text-align: center;
+                    }
+                    p {
+                        color: #666;
+                        font-size: 16px;
+                        line-height: 1.6;
+                    }
+                    .code {
+                        margin-top: 20px;
+                        padding: 15px;
+                        background-color: #f9f9f9;
+                        border-radius: 5px;
+                        text-align: center;
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #333;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <h1>Recuperación de Contraseña</h1>
+                    <p>Su contraseña temporal es:</p>
+                    <div class='code'>$randomPassword</div>
+                </div>
+            </body>
+            </html>
+        ";
+
+            $emailSend = new  CorreosModel();
+            $e = $emailSend->enviarCorreoPersonalizado($email, $asunto, $mensaje);
+            $this->actualizarPassword($id_user, $this->encriptarPassword($randomPassword));
+            return  true;
         } catch (Exception $e) {
             // Manejo de errores
-            die("Error al obtener usuarios: " . $e->getMessage());
+            die("Error al resetear la contraseña: " . $e->getMessage());
         }
+    }
+    private function generarContrasenaAleatoria($longitud = 8)
+    {
+        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $longitudCaracteres = strlen($caracteres);
+        $contrasena = '';
+
+        for ($i = 0; $i < $longitud; $i++) {
+            $indiceAleatorio = rand(0, $longitudCaracteres - 1);
+            $contrasena .= $caracteres[$indiceAleatorio];
+        }
+
+        return $contrasena;
     }
     public function getAllEmpresa()
     {

@@ -43,11 +43,7 @@ if (empty($_SESSION['user_session'])) {
 
 	<section>
 		<div class="container py-5">
-
-			<!-- For demo purpose -->
-			<div class="row text-center text-white mb-5">
-
-			</div>
+			
 			<table id="miTabla" class="table table-bordered table-hover">
 
 			</table>

@@ -97,25 +97,28 @@ CREATE TABLE productos_proveedores (
 
 
 CREATE TABLE `roles` (
-  `id` int(1) NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   `nombre` varchar(200) NOT NULL,
-  `est` int(1) DEFAULT 1,
-  PRIMARY KEY (`id`)
+  `est` int(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 
 CREATE TABLE `sliders` (
-  `id` int(10) NOT NULL,
+   id INT AUTO_INCREMENT PRIMARY KEY,
   `titulo` varchar(250) NOT NULL DEFAULT '',
   `descripcion` varchar(250) NOT NULL DEFAULT '',
   `img` varchar(250) NOT NULL DEFAULT '',
   `url_web` varchar(250) NOT NULL DEFAULT '',
-  `est` int(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id`)
+  `est` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
+CREATE TABLE `resetPass` (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  `email` varchar(250) NOT NULL DEFAULT '',
+  `cod` varchar(250) NOT NULL DEFAULT '',
+   fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 CREATE TABLE `usuarios` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `rol_id` int(1) NOT NULL,

@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       lengthMenu: "Mostrar _MENU_ registros",
       loadingRecords: "Cargando...",
       processing: "Procesando...",
-      search: "", // Quitamos el texto "Buscar:"
+      search: "Buscar:",
       zeroRecords: "No se encontraron registros coincidentes",
       paginate: {
         first: "Primero",
@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         sortDescending: ": activar para ordenar la columna descendente",
       },
     },
+  
     lengthChange: false, // Desactivamos la opción de cambiar la cantidad de registros por página
     searching: false, // Desactivamos la búsqueda
     columns: [
@@ -55,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         data: null,
         title: "Acciones",
         render: function (data, type, row) {
-          return ` <a href="../product-detail/index.php?id=${row.id}" class="btn btn-outline-info btnView" data-id="${row.id}">
+          return ` <a href="../product-detail/index.php?id=${row.id_producto}" class="btn btn-outline-info btnView" data-id="${row.id}">
           <i class="fa fa-eye" aria-hidden="true"></i></a>
                     <button type="button" class="btn btn-outline-danger btnEliminar" data-id="${row.id}">
                     <i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
