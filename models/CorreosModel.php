@@ -77,4 +77,39 @@ class CorreosModel
             return "Ha ocurrido un error al enviar el correo: " . $e->getMessage();
         }
     }
+
+    public function enviarCorreoPDF($email, $asunto, $mensajeHTML, $pdfContent)
+    {
+      
+        try {
+            $this->mail = new PHPMailer(true);
+            $this->mail->isSMTP();
+            $this->mail->Host = 'smtp.hostinger.com';
+            $this->mail->SMTPAuth = true;
+            $this->mail->Username = 'info@asotaeco.com';
+            $this->mail->Password = $this->pass;
+            $this->mail->SMTPSecure = 'ssl';
+            $this->mail->Port = 465;
+            $this->mail->setFrom('info@asotaeco.com', 'Asotaeco');
+            $this->mail->addAddress($email);
+            $this->mail->CharSet = 'UTF-8'; // Establecer la codificación UTF-8
+            $this->mail->Encoding = 'base64'; // Codificación base64
+            $this->mail->isHTML(true);
+            $this->mail->Subject = '=?UTF-8?B?' . base64_encode($asunto) . '?='; // Establecer el asunto codificado en base64 UTF-8
+            $this->mail->Body = $mensajeHTML;
+            $this->mail->AltBody = strip_tags($mensajeHTML);
+
+            // Adjuntar el PDF al correo electrónico
+            $this->mail->AddStringAttachment($pdfContent, 'proforma_proveedor.pdf', 'base64', 'application/pdf');
+
+            // Intenta enviar el correo
+            if ($this->mail->send()) {
+                return "El correo se ha enviado correctamente.";
+            } else {
+                return "El correo no se pudo enviar. Por favor, inténtalo de nuevo más tarde.";
+            }
+        } catch (Exception $e) {
+            return "Ha ocurrido un error al enviar el correo: " . $e->getMessage();
+        }
+    }
 }

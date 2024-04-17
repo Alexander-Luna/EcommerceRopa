@@ -8,6 +8,8 @@ require_once 'VentasController.php';
 require_once 'CompraController.php';
 require_once 'CantonesController.php';
 require_once 'SendWhatsApp.php';
+require_once '../models/PDFModel.php';
+require_once '../models/CorreosModel.php';
 if (isset($_REQUEST['op'])) {
     $action = $_REQUEST['op'];
     $publicidadC = new PublicidadController();
@@ -37,9 +39,6 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
 {
     try {
         switch ($action) {
-
-
-
             case 'getImagesProducts':
                 $productController->getImagesProducts();
                 break;
@@ -212,15 +211,17 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $productController->createProduct();
             break;
         case 'send_alerta_whatsapp':
-            $data = json_decode(file_get_contents('php://input'), true);
             $sendWhatsApp = new SendWhatsApp();
-            //$sendWhatsApp->enviarMensaje();
-            // $sendWhatsApp->enviarMensajes($data['productos']);
-            $productController->setProductPedido($data['productos']);
-
+            //  $sendWhatsApp->enviarMensajes($data['productos']);
+            $data = json_decode(file_get_contents('php://input'), true);
+            
+            $pdfModel = new PDFModel();
+            $pdfModel->alertaPDF($data['productos']);
+            //$productController->setProductPedido($data['productos']);
+            
+          
+            
             break;
-
-
         case 'updateUser':
             $userController->updateUsers();
             break;

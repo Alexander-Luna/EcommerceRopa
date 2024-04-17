@@ -90,40 +90,28 @@ var miTabla = $("#miTabla").DataTable({
   },
 });
 
-// Función para marcar los checkboxes basados en las filas seleccionadas
 function marcarCheckboxes() {
-  var rows = miTabla.rows({ selected: true }).nodes(); // Obtener todas las filas seleccionadas
-  $('input[type="checkbox"]', rows).prop("checked", true); // Marcar los checkboxes de las filas seleccionadas
+  var rows = miTabla.rows({ selected: true }).nodes(); 
+  $('input[type="checkbox"]', rows).prop("checked", true); 
 }
-
-// Crear un evento para el dibujo completo de la tabla
 miTabla.on("draw.dt", function () {
-  marcarCheckboxes(); // Llamar a la función para marcar los checkboxes
+  marcarCheckboxes();
 });
 
-// Configurar la cabecera para el checkbox "Seleccionar todo"
 $("#miTabla thead th:first-child").html(
   '<input type="checkbox" id="select-all-checkbox">'
 );
-
-// Crear un evento para el checkbox "Seleccionar todo"
 $("#select-all-checkbox").on("click", function () {
-  var rows = miTabla.rows({ search: "applied" }).nodes(); // Obtener todas las filas de la tabla
-  $('input[type="checkbox"]', rows).prop("checked", this.checked); // Marcar/desmarcar los checkboxes de todas las filas
+  var rows = miTabla.rows({ search: "applied" }).nodes();
+  $('input[type="checkbox"]', rows).prop("checked", this.checked);
 });
-
-// Crear un evento para la selección/deselección de una fila
 miTabla.on("select.dt deselect.dt", function () {
   marcarCheckboxes(); // Llamar a la función para marcar los checkboxes
 });
 
-
-// Agregar el checkbox "Seleccionar todo" en el encabezado de la tabla
 $("#miTabla thead th:first-child").html(
   '<input type="checkbox" id="select-all-checkbox">'
 );
-
-// Evento para seleccionar/deseleccionar todas las filas
 $("#select-all-checkbox").on("click", function () {
   var rows = miTabla.rows({ search: "applied" }).nodes();
   $('input[type="checkbox"]', rows).prop("checked", this.checked);
@@ -155,6 +143,7 @@ $("#select-all-checkbox").on("click", function () {
         var dataToSend = {
           productos: productosConCantPredMayorA0,
           id_proveedor: idProveedor,
+          email_proveedor: emailProveedor,
         };
         var response = await fetch(
           "../../controllers/router.php?op=send_alerta_whatsapp",

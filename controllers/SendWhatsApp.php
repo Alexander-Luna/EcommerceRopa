@@ -2,8 +2,8 @@
 
 require_once '../vendor/autoload.php';
 require_once '../config/Conectar.php';
-
-
+require_once '../models/PDFModel.php';
+require_once '../models/CorreosModel.php';
 
 use GuzzleHttp\Client;
 
@@ -11,6 +11,7 @@ class SendWhatsApp
 {
     public function enviarMensajes($productos)
     {
+     
         $token = "PA240410210517";
 
         try {

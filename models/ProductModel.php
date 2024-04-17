@@ -136,8 +136,8 @@ class ProductModel extends Conectar
     public function insertImgsProduct()
     {
         try {
-            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-            $conexion->beginTransaction(); // Iniciar una transacción
+            $conexion = parent::Conexion();
+            $conexion->beginTransaction();
 
             $id_producto =  $_POST["id_producto"];
             $id_img =  $_POST["id_img"];
@@ -176,23 +176,23 @@ class ProductModel extends Conectar
         try {
             $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
             $conexion->beginTransaction(); // Iniciar una transacción
-    
+
             $id_img =  $_POST["id_img"];
             $id_producto =  $_POST["id_producto"];
             $new_order = $_POST["orden"];
-            
+
             // Obtener todas las imágenes del producto ordenadas por su orden actual
             $stmt = $conexion->prepare("SELECT id FROM imagenes_producto WHERE id_producto = ? ORDER BY orden");
             $stmt->bindValue(1, $id_producto);
             $stmt->execute();
             $imagenes = $stmt->fetchAll(PDO::FETCH_COLUMN);
-    
+
             // Actualizar el orden de la imagen especificada
             $stmt = $conexion->prepare("UPDATE imagenes_producto SET orden = ? WHERE id = ?");
             $stmt->bindValue(1, $new_order);
             $stmt->bindValue(2, $id_img);
             $stmt->execute();
-    
+
             // Recalcular los números de orden para todas las imágenes
             foreach ($imagenes as $key => $imagen_id) {
                 $orden = $key + 1;
@@ -203,10 +203,10 @@ class ProductModel extends Conectar
                     $stmt->execute();
                 }
             }
-    
+
             // Confirmar la transacción
             $conexion->commit();
-    
+
             return true; // Todo se ha realizado correctamente
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
@@ -216,7 +216,7 @@ class ProductModel extends Conectar
             die("Error: " . $e->getMessage());
         }
     }
-    
+
     public function getProductsShop()
     {
         try {

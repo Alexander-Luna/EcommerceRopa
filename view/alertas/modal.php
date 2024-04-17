@@ -24,6 +24,10 @@
                         <label class="form-control" id="direccion_label" name="direccion" readonly></label>
                     </div>
                     <div class="form-group">
+                        <label for="direccion" class="col-form-label">Email:</label>
+                        <label class="form-control" id="email" name="email" readonly></label>
+                    </div>
+                    <div class="form-group">
                         <label for="telefono" class="col-form-label">Teléfono:</label>
                         <label class="form-control" id="telefono_label" name="telefono" readonly></label>
                     </div>
@@ -37,6 +41,7 @@
     </div>
 </div>
 <script>
+    let emailProveedor = "";
     fetch("../../controllers/router.php?op=getProveedores")
         .then((response) => {
             if (!response.ok) {
@@ -61,6 +66,8 @@
             function actualizarInfoProveedor() {
                 var seleccionado = selectProveedor.value;
                 var proveedor = data.find(p => p.id == seleccionado);
+                emailProveedor = proveedor ? proveedor.email : '';
+                document.getElementById("email").textContent = proveedor ? proveedor.email : '';
                 document.getElementById("direccion_label").textContent = proveedor ? proveedor.direccion : ''; // Si el proveedor existe, mostrar su dirección, de lo contrario, dejar vacío
                 document.getElementById("telefono_label").textContent = proveedor ? proveedor.telefono : ''; // Si el proveedor existe, mostrar su teléfono, de lo contrario, dejar vacío
             }
