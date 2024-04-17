@@ -2,6 +2,61 @@ document.addEventListener("DOMContentLoaded", async function () {
   const totalSpan = document.getElementById("totalspan");
   const subtotalSpan = document.getElementById("subtotal");
   const cenvioSpan = document.getElementById("cenvio");
+
+  metodoProvincias();
+  function metodoProvincias() {
+    fetch("../../controllers/router.php?op=getProvincias")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Hubo un problema al obtener los datos de tallas.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const selectProvincias = document.getElementById("provincias");
+        selectProvincias.innerHTML = "";
+
+        data.forEach((provincia) => {
+          const option = document.createElement("option");
+          option.value = provincia;
+          option.textContent = provincia;
+          selectProvincias.appendChild(option);
+        });
+      })
+      .catch((error) => {
+        console.error("Error al obtener las provincias:", error);
+      });
+    const selectProducto = document.getElementById("provincias");
+    selectProducto.addEventListener("change", () => {
+      const productId = selectProducto.value;
+      metodoCantones(productId);
+    });
+  }
+
+  function metodoCantones(productId, canton) {
+    fetch("../../controllers/router.php?op=getCantones&provincia=" + productId)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Hubo un problema al obtener los datos de tallas.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const selectProvincias = document.getElementById("canton");
+        selectProvincias.innerHTML = "";
+        data.forEach((provincia) => {
+          const option = document.createElement("option");
+          option.value = provincia;
+          option.textContent = provincia;
+          selectProvincias.appendChild(option);
+          document.getElementById("canton").value = canton;
+        });
+      })
+      .catch((error) => {
+        console.error("Error al obtener las provincias:", error);
+      });
+  }
+
   document
     .getElementById("btnpagar")
     .addEventListener("click", async function () {
@@ -110,22 +165,15 @@ document.addEventListener("DOMContentLoaded", async function () {
       $(".card-body").slideUp();
       // Cambiamos el texto de todos los toggleIcon a "+"
       $(".card-header #toggleIcon").text("+");
-
-      // Encuentra el elemento card-body dentro de la card actual
       var menuBody = $(this).siblings(".card-body");
-
-      // Verifica si la opcion_seleccionada es diferente de "2"
       if (
         opcion_seleccionada !== "2" ||
         $(this).parent().attr("id") !== "infopago"
       ) {
-        // Despliega el card-body correspondiente al card-header clicado
         menuBody.slideToggle();
       }
 
-      // Encuentra el elemento toggleIcon dentro del card-header actual
       let toggleIcon = $(this).find("#toggleIcon");
-      // Cambia el icono de toggleIcon si no es el card de información de pago y la opcion_seleccionada no es "2"
       if (
         $(this).parent().attr("id") !== "infopago" &&
         opcion_seleccionada !== "2"
@@ -144,12 +192,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       case "1":
         CENVIO = 5;
         cargarDatosUsuario(false);
-
         break;
       case "2":
         cargarDatosUsuario(false);
         CENVIO = 0; // Precio para Retiro en oficina
-
         break;
       case "3":
         cargarDatosUsuario(true);
@@ -180,17 +226,14 @@ document.addEventListener("DOMContentLoaded", async function () {
           throw new Error("Error al obtener los datos del perfil");
         })
         .then((data) => {
-          console.log(data);
-          document.getElementById("nombre").value = "";
-          document.getElementById("provincias").value = "";
-          document.getElementById("canton").value = "";
-          document.getElementById("direccion").value = "";
-          document.getElementById("referencia").value = "";
-          document.getElementById("email").value = "";
           document.getElementById("ci").value = data.cedula;
+          document.getElementById("provincias").value = data.provincia;
+          document.getElementById("canton").value = data.canton;
+          document.getElementById("direccion").value = data.direccion;
+          document.getElementById("referencia").value = data.referencia;
           document.getElementById("email").value = data.email;
           document.getElementById("nombre").value = data.nombre;
-          document.getElementById("direccion").value = data.direccion;
+          metodoCantones(data.provincia, data.canton);
           document.getElementById("telefono").value = data.telefono;
         })
         .catch((error) => {
@@ -232,7 +275,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     formData.append("nombre", nombre);
     formData.append("telefono", telefono);
     formData.append("email", email);
-    formData.append("direccion", provincia + " " + canton + " " + direccion);
+    formData.append("direccion", direccion);
+    formData.append("provincia", provincia);
+    formData.append("canton", canton);
     formData.append("total", SUBTOTAL);
     formData.append("cenvio", CENVIO);
     formData.append("ci", ci);
@@ -247,22 +292,33 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     formData.append("ncomprobante", comprobante);
     formData.append("comprobante", comprobanteFile);
-    // Realizar alguna acción, como enviar los datos al servidor
-    enviarDatosAlServidor(formData);
+
+    var comprobantef = document.getElementById("comprobantef").files;
+    var numeroComprobante = document.getElementById("comprobante").value;
+
+    if (
+      CENVIO > 0 &&
+      (!comprobantef || comprobantef.length === 0 || !numeroComprobante)
+    ) {
+      swal("Error", "Por favor complete todos los campos de pago", "warning");
+    } else {
+      enviarDatosAlServidor(formData);
+    }
+    if (CENVIO === 0) {
+      enviarDatosAlServidor(formData);
+    }
   }
 
   function enviarDatosAlServidor(formData) {
-    // Aquí puedes enviar los datos al servidor utilizando AJAX, Fetch, etc.
-    // Por ejemplo, usando Fetch:
     fetch("../../controllers/router.php?op=insertVentaClient", {
       method: "POST",
       body: formData,
     })
       .then((response) => {
-        console.log(response);
         if (response.ok) {
           swal("Excelente!", "Transacción realizada con éxito", "success");
           eliminarProductosLocalStorage();
+          reloadSection();
         }
       })
       .catch((error) => {
@@ -281,7 +337,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
       miTabla.rows.add(productos).draw();
       TOTAL = SUBTOTAL + CENVIO;
-      // Agregar los productos a la tabla y dibujarla
       cenvioSpan.textContent = "$" + CENVIO.toFixed(2);
       totalSpan.textContent = "$" + TOTAL.toFixed(2);
       subtotalSpan.textContent = "$" + SUBTOTAL.toFixed(2);
@@ -311,9 +366,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         producto.color_id,
         producto.talla_id
       );
-      // console.log(producto);
-      console.log(stockActual);
-
       if (stockActual > producto.cantidad) {
         localStorage.setItem("cart", JSON.stringify(cart));
         reloadCart();
@@ -357,7 +409,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
       }
       const productos = await response.json();
-      console.log(productos[0]);
       if (productos.length > 0) {
         const producto = productos[0];
         return producto.stock;

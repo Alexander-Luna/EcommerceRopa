@@ -128,49 +128,34 @@ $("#select-all-checkbox").on("click", function () {
   var rows = miTabla.rows({ search: "applied" }).nodes();
   $('input[type="checkbox"]', rows).prop("checked", this.checked);
 });
-
-
   document
     .getElementById("EnviarMensaje")
     .addEventListener("click", async function () {
       try {
-        // Obtener filas seleccionadas
         var selectedRows = miTabla.rows({ selected: true }).data().toArray();
-
-        // Verificar si no hay ninguna fila seleccionada
         if (selectedRows.length === 0) {
           throw new Error("Por favor seleccione al menos un producto.");
         }
 
-        // Filtrar solo los productos con cantidad predeterminada mayor a 0
         var productosConCantPredMayorA0 = selectedRows.filter(function (
           producto
         ) {
           return producto.cant_pred > 0;
         });
-
-        // Verificar si no hay productos con cantidad predeterminada mayor a 0
         if (productosConCantPredMayorA0.length === 0) {
           throw new Error(
             "Ningún producto seleccionado tiene una cantidad predeterminada mayor a 0."
           );
         }
-
-        // Obtener el valor seleccionado del proveedor
         var idProveedor = document.getElementById("id_proveedor").value;
-
-        // Verificar si se seleccionó un proveedor
         if (!idProveedor) {
           throw new Error("Por favor seleccione un proveedor.");
         }
         console.log(idProveedor);
-        // Agregar el id_proveedor al objeto de datos a enviar
         var dataToSend = {
           productos: productosConCantPredMayorA0,
           id_proveedor: idProveedor,
         };
-
-        // Enviar la solicitud con los datos
         var response = await fetch(
           "../../controllers/router.php?op=send_alerta_whatsapp",
           {

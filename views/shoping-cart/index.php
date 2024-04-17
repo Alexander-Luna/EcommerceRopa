@@ -144,61 +144,41 @@ if (empty($_SESSION['user_session'])) {
 												<div class="form-group">
 													<label class="col-form-label">Información de envió</label>
 													<div class="bor8 bg0 m-b-22">
-														<input name="nombre" id="nombre" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Nombres y Apellidos">
+														<input name="nombre" id="nombre" class="form-control" type="text" placeholder="Nombres y Apellidos">
 													</div>
 													<div class="form-group">
+														<label class="col-form-label">Provincia:</label>
 														<select class="form-control" id="provincias" name="provincias" required>
 															<option value="">Seleccione una provincia...</option>
-															<option value="Azuay">Azuay</option>
-															<option value="Bolívar">Bolívar</option>
-															<option value="Cañar">Cañar</option>
-															<option value="Carchi">Carchi</option>
-															<option value="Chimborazo">Chimborazo</option>
-															<option value="Cotopaxi">Cotopaxi</option>
-															<option value="El Oro">El Oro</option>
-															<option value="Esmeraldas">Esmeraldas</option>
-															<option value="Galápagos">Galápagos</option>
-															<option value="Guayas">Guayas</option>
-															<option value="Imbabura">Imbabura</option>
-															<option value="Loja">Loja</option>
-															<option value="Los Ríos">Los Ríos</option>
-															<option value="Manabí">Manabí</option>
-															<option value="Morona Santiago">Morona Santiago</option>
-															<option value="Napo">Napo</option>
-															<option value="Orellana">Orellana</option>
-															<option value="Pastaza">Pastaza</option>
-															<option value="Pichincha">Pichincha</option>
-															<option value="Santa Elena">Santa Elena</option>
-															<option value="Santo Domingo de los Tsáchilas">Santo Domingo de los Tsáchilas</option>
-															<option value="Sucumbíos">Sucumbíos</option>
-															<option value="Tungurahua">Tungurahua</option>
-															<option value="Zamora Chinchipe">Zamora Chinchipe</option>
 														</select>
 														<br>
 													</div>
 													<div class="form-group">
 														<label class="col-form-label">Canton:</label>
-														<input name="canton" id="canton" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Canton">
+														<select class="form-control" id="canton" name="canton" required>
+															<option value="">Seleccione un cantón...</option>
+														</select>
+														<br>
 													</div>
 													<div class="form-group">
 														<label class="col-form-label">Dirección:</label>
-														<input name="direccion" id="direccion" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Dirección">
+														<input name="direccion" id="direccion" class="form-control" type="text" placeholder="Dirección">
 													</div>
 													<div class="form-group">
 														<label class="col-form-label">Referencia:</label>
-														<input name="referencia" id="referencia" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Dirección">
+														<input name="referencia" id="referencia" class="form-control" type="text" placeholder="Referencia">
 													</div>
 													<div class="form-group">
 														<label class="col-form-label">Cédula:</label>
-														<input name="ci" id="ci" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Documento de identidad">
+														<input name="ci" id="ci" class="form-control" type="text" placeholder="Documento de identidad">
 													</div>
 													<div class="form-group">
 														<label class="col-form-label">Email:</label>
-														<input name="email" id="email" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="email">
+														<input name="email" id="email" class="form-control" type="text" placeholder="email">
 													</div>
 													<div class="form-group">
 														<label class="col-form-label">Teléfono:</label>
-														<input name="telefono" id="telefono" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Teléfono / Celular">
+														<input name="telefono" id="telefono" class="form-control" type="text" placeholder="Teléfono / Celular">
 													</div>
 												</div>
 
@@ -234,7 +214,7 @@ if (empty($_SESSION['user_session'])) {
 														</div>
 														<label for="comprobante" class="col-form-label">Número de comprobante:</label>
 														<div class="bor8 bg0 m-b-22">
-															<input name="comprobante" id="comprobante" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" placeholder="Número de comprobante">
+															<input name="comprobante" id="comprobante" class="form-control" type="text" placeholder="Número de comprobante">
 														</div>
 													</div>
 												</div>

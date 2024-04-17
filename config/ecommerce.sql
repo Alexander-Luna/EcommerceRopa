@@ -125,7 +125,10 @@ CREATE TABLE `usuarios` (
   `email` varchar(200) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `nombre` varchar(255) NOT NULL,
+  `provincia` text DEFAULT NULL,
+  `canton` text DEFAULT NULL,
   `direccion` text DEFAULT NULL,
+   `referencia` text DEFAULT NULL,
   `telefono` varchar(15) DEFAULT NULL,
   `cedula` varchar(20) NOT NULL,
   `est` int(1) DEFAULT 1,
@@ -178,8 +181,10 @@ CREATE TABLE recibe (
     nombre VARCHAR(255) NOT NULL,
     telefono VARCHAR(15) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    direccion TEXT NOT NULL,
-    referencia TEXT NOT NULL,
+    `provincia` text DEFAULT NULL,
+  `canton` text DEFAULT NULL,
+  `direccion` text DEFAULT NULL,
+   `referencia` text DEFAULT NULL,
     est INT(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- Crear tabla de ventas

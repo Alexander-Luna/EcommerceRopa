@@ -34,7 +34,6 @@ h2 {
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
   width: 100%;
   min-height: 100%;
   padding: 20px;
@@ -213,8 +212,6 @@ h2.active {
 h1 {
   color: #60a0ff;
 }
-
-/* OTHERS */
 
 *:focus {
   outline: none;

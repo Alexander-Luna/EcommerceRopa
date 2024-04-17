@@ -146,8 +146,8 @@ if (isset($_SESSION['user_session'])) {
 
 
 
-              <li class="nav-item <?php echo ($modulo === "alertaspedido" || $modulo === "productos" || $modulo === "alertas" || $modulo === "controlstock" || $modulo === "proveedores") ? "active menu-open " : ""; ?> ">
-                <a href="#" class="nav-link <?php echo ($modulo === "alertaspedido" || $modulo === "productos" || $modulo === "alertas" || $modulo === "controlstock"  || $modulo === "proveedores") ? "active menu-open " : ""; ?> ">
+              <li class="nav-item <?php echo ($modulo === "alertaspedido" || $modulo === "alertas" || $modulo === "controlstock" || $modulo === "proveedores") ? "active menu-open " : ""; ?> ">
+                <a href="#" class="nav-link <?php echo ($modulo === "alertaspedido" || $modulo === "alertas" || $modulo === "controlstock"  || $modulo === "proveedores") ? "active menu-open " : ""; ?> ">
                   <i class="fas fa-archive nav-icon"></i>
                   <p>
                     Inventario
@@ -155,12 +155,6 @@ if (isset($_SESSION['user_session'])) {
                   </p>
                 </a>
                 <ul class="nav nav-treeview ml-3">
-                  <li class="nav-item">
-                    <a href="index.php?modulo=productos" class="nav-link <?php echo ($modulo == "productos") ? " active " : " "; ?>  ">
-                      <i class="fa fa-shopping-bag nav-icon" aria-hidden="true"></i>
-                      <p>Productos</p>
-                    </a>
-                  </li>
                   <li class="nav-item">
                     <a href="index.php?modulo=controlstock" class="nav-link <?php echo ($modulo == "controlstock") ? " active " : " "; ?>  ">
                       <i class="fa fa-shopping-bag nav-icon" aria-hidden="true"></i>
@@ -183,6 +177,32 @@ if (isset($_SESSION['user_session'])) {
                     <a href="index.php?modulo=proveedores" class="nav-link <?php echo ($modulo == "proveedores") ? " active " : " "; ?> ">
                       <i class="fa fa-truck nav-icon"></i>
                       <p>Proveedores</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+
+
+              <li class="nav-item <?php echo ($modulo === "productos" || $modulo === "images_products") ? "active menu-open " : ""; ?> ">
+                <a href="#" class="nav-link <?php echo ($modulo === "productos" || $modulo === "images_products") ? "active menu-open " : ""; ?> ">
+                  <i class="fas fa-archive nav-icon"></i>
+                  <p>
+                    Productos
+                    <i class="fas fa-angle-left right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview ml-3">
+                  <li class="nav-item">
+                    <a href="index.php?modulo=productos" class="nav-link <?php echo ($modulo == "productos") ? " active " : " "; ?>  ">
+                      <i class="fa fa-shopping-bag nav-icon" aria-hidden="true"></i>
+                      <p>Gestión de Productos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="index.php?modulo=images_products" class="nav-link <?php echo ($modulo == "images_products") ? " active " : " "; ?> ">
+                      <i class="fa fa-truck nav-icon"></i>
+                      <p>Imágenes Productos</p>
                     </a>
                   </li>
                 </ul>
@@ -310,6 +330,9 @@ if (isset($_SESSION['user_session'])) {
       }
       if ($modulo == "productos") {
         include_once "../productos/index.php";
+      }
+      if ($modulo == "images_products") {
+        include_once "../images_products/index.php";
       }
       if ($modulo == "alertas") {
         include_once "../alertas/index.php";

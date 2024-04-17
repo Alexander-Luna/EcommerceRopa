@@ -6,6 +6,7 @@ require_once 'PublicidadController.php';
 require_once 'UserController.php';
 require_once 'VentasController.php';
 require_once 'CompraController.php';
+require_once 'CantonesController.php';
 require_once 'SendWhatsApp.php';
 if (isset($_REQUEST['op'])) {
     $action = $_REQUEST['op'];
@@ -13,12 +14,13 @@ if (isset($_REQUEST['op'])) {
     $controller = new Controller();
     $productC = new ProductController();
     $userC = new UserController();
+    $cantonesC = new CantonesController();
     $ventaC = new VentasController();
     $compraC = new ComprasController();
     $proveedorC = new ProveedorController();
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
-            handleGetRequest($action, $productC, $userC, $ventaC, $compraC, $publicidadC, $proveedorC, $controller);
+            handleGetRequest($action, $productC, $userC, $ventaC, $compraC, $publicidadC, $proveedorC, $controller, $cantonesC);
             break;
         case 'POST':
             handlePostRequest($action, $productC, $userC, $ventaC, $compraC, $publicidadC, $proveedorC, $controller);
@@ -31,10 +33,22 @@ if (isset($_REQUEST['op'])) {
     handleMissingParameter();
 }
 
-function handleGetRequest($action, $productController, $userController, $ventaController, $compraController, $publicidadController, $proveedorController, $controller)
+function handleGetRequest($action, $productController, $userController, $ventaController, $compraController, $publicidadController, $proveedorController, $controller, $cantonesController)
 {
     try {
         switch ($action) {
+
+
+
+            case 'getImagesProducts':
+                $productController->getImagesProducts();
+                break;
+            case 'getCantones':
+                $cantonesController->getCantonsByProvince();
+                break;
+            case 'getProvincias':
+                $cantonesController->getProvincias();
+                break;
             case 'getProducts':
                 $productController->getProducts();
                 break;
@@ -236,6 +250,12 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $proveedorController->deleteProveedores();
             break;
 
+        case 'insertImgsProduct':
+            $productController->insertImgsProduct();
+            break;
+        case 'updateImgsProduct':
+            $productController->updateImgsProduct();
+            break;
         case 'insertProduct':
             $productController->insertProduct();
             break;
@@ -245,7 +265,12 @@ function handlePostRequest($action, $productController, $userController, $ventaC
         case 'deleteProduct':
             $productController->deleteProduct();
             break;
-
+        case 'estImgProduct':
+            $productController->estImgProduct();
+            break;
+        case 'deleteImgProduct':
+            $productController->deleteImgProduct();
+            break;
 
 
         case 'insertCompra':

@@ -43,7 +43,6 @@ if (empty($_SESSION['user_session'])) {
                     <div class="card">
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <?php require_once'../miperfil/modal.php'?>
                             <form id="formularioProducto">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -58,8 +57,9 @@ if (empty($_SESSION['user_session'])) {
 
                                         <div class="form-group">
                                             <label class="col-form-label">Email:</label>
-                                            <input type="email" class="form-control" id="email" name="email" required>
+                                            <input type="email" class="form-control" id="email" name="email" readonly required>
                                         </div>
+
 
                                         <div class="form-group">
                                             <label class="col-form-label">Nombres y Apellidos:</label>
@@ -70,8 +70,26 @@ if (empty($_SESSION['user_session'])) {
                                             <input type="number" class="form-control" id="telefono" pattern="[0-9]*" name="telefono">
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-form-label">Provincia:</label>
+                                            <select class="form-control" id="provincias" name="provincias" required>
+                                                <option value="">Seleccione una provincia...</option>
+                                            </select>
+                                            <br>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Canton:</label>
+                                            <select class="form-control" id="canton" name="canton" required>
+                                                <option value="">Seleccione un cantón...</option>
+                                            </select>
+                                            <br>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-form-label">Dirección:</label>
                                             <input type="address" class="form-control" id="direccion" name="direccion" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Referencia:</label>
+                                            <input name="referencia" id="referencia" class="form-control" type="text" placeholder="Referencia">
                                         </div>
                                         <div class="form-group">
                                             <br>
@@ -79,14 +97,10 @@ if (empty($_SESSION['user_session'])) {
                                         </div>
                                         <div class="form-group">
                                             <br>
-                                            <button type="button" class="btn btn-warning form-control" data-toggle="modal" data-target="#miModal" data-whatever="@mdo">Cambiar Contraseña</button>
                                             <?php require_once 'modal.php' ?>
 
                                         </div>
                                     </div>
-
-
-
                                 </div>
                             </form>
 

@@ -83,6 +83,140 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+
+    public function deleteImgProduct()
+    {
+        try {
+            $conexion = parent::Conexion();
+            $id_imagen = $_POST['id'];
+            $sql = "SELECT url_imagen FROM imagenes_producto WHERE id = ?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $id_imagen);
+            $stmt->execute();
+            $imagen = $stmt->fetch(PDO::FETCH_ASSOC);
+            $url_imagen = substr($imagen['url_imagen'], 3);
+            if (!unlink($url_imagen)) {
+                throw new Exception("Error al eliminar la imagen del almacenamiento");
+            }
+
+            $sqlDelete = "DELETE FROM imagenes_producto WHERE id = ?";
+            $stmtDelete = $conexion->prepare($sqlDelete);
+            $stmtDelete->bindValue(1, $id_imagen);
+            $stmtDelete->execute();
+
+            return true; // La eliminación fue exitosa
+        } catch (PDOException $e) {
+            die("Error al eliminar la imagen: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+    public function getImagesProducts()
+    {
+        try {
+            $conexion = parent::Conexion();
+            $id = $_GET['id'];
+
+            $sql = "SELECT * FROM imagenes_producto img
+            WHERE img.id_producto = ? 
+            ORDER BY orden ASC;
+            ";
+
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $id);
+
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
+    public function insertImgsProduct()
+    {
+        try {
+            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
+            $conexion->beginTransaction(); // Iniciar una transacción
+
+            $id_producto =  $_POST["id_producto"];
+            $id_img =  $_POST["id_img"];
+            // Verificar si se han enviado imágenes
+            if (!empty($_FILES["imagenes"]["name"])) {
+                $rutaImagenes = '../public/images/products/';
+                for ($i = 0; $i < count($_FILES["imagenes"]["name"]); $i++) {
+                    $nombreImagen = uniqid();
+                    if (!move_uploaded_file($_FILES["imagenes"]["tmp_name"][$i], $rutaImagenes . $nombreImagen . '.webp')) {
+                        throw new Exception("Error al mover la imagen a la carpeta de destino");
+                    }
+                    $url_imagen = "../../public/images/products/" . $nombreImagen . '.webp';
+                    $orden = $i + 1; // Se asigna un orden secuencial a las imágenes
+                    $stmtImagen = $conexion->prepare("INSERT INTO imagenes_producto (id_producto, url_imagen, orden, est) VALUES (?, ?, ?, ?)");
+                    $stmtImagen->bindValue(1, $id_producto);
+                    $stmtImagen->bindValue(2, $url_imagen);
+                    $stmtImagen->bindValue(3, $orden);
+                    $stmtImagen->bindValue(4, 1);
+                    $stmtImagen->execute();
+                }
+            }
+            // Confirmar la transacción
+            $conexion->commit();
+
+            return true; // Todo se ha realizado correctamente
+        } catch (PDOException $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error al insertar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error: " . $e->getMessage());
+        }
+    }
+    public function updateImgsProduct()
+    {
+        try {
+            $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
+            $conexion->beginTransaction(); // Iniciar una transacción
+    
+            $id_img =  $_POST["id_img"];
+            $id_producto =  $_POST["id_producto"];
+            $new_order = $_POST["orden"];
+            
+            // Obtener todas las imágenes del producto ordenadas por su orden actual
+            $stmt = $conexion->prepare("SELECT id FROM imagenes_producto WHERE id_producto = ? ORDER BY orden");
+            $stmt->bindValue(1, $id_producto);
+            $stmt->execute();
+            $imagenes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    
+            // Actualizar el orden de la imagen especificada
+            $stmt = $conexion->prepare("UPDATE imagenes_producto SET orden = ? WHERE id = ?");
+            $stmt->bindValue(1, $new_order);
+            $stmt->bindValue(2, $id_img);
+            $stmt->execute();
+    
+            // Recalcular los números de orden para todas las imágenes
+            foreach ($imagenes as $key => $imagen_id) {
+                $orden = $key + 1;
+                if ($orden != $new_order) {
+                    $stmt = $conexion->prepare("UPDATE imagenes_producto SET orden = ? WHERE id = ?");
+                    $stmt->bindValue(1, $orden);
+                    $stmt->bindValue(2, $imagen_id);
+                    $stmt->execute();
+                }
+            }
+    
+            // Confirmar la transacción
+            $conexion->commit();
+    
+            return true; // Todo se ha realizado correctamente
+        } catch (PDOException $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error al insertar los datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack(); // Revertir la transacción en caso de error
+            die("Error: " . $e->getMessage());
+        }
+    }
+    
     public function getProductsShop()
     {
         try {
@@ -279,6 +413,27 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+    public function estImgProduct()
+    {
+        try {
+            $id = $_POST["id"];
+            $conexion = parent::Conexion();
+            $sql = "UPDATE imagenes_producto SET est = CASE WHEN est = 1 THEN 0 ELSE 1 END WHERE id=?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $id);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                return true;
+            } else {
+                throw new Exception("No se ha podido cambiar el estado del proveedor");
+            }
+        } catch (PDOException $e) {
+            die("Error al cambiar el estado del proveedor: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
     public function getAllImgProd()
     {
         $conexion = parent::Conexion();
@@ -365,6 +520,7 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+
 
     public function deleteProduct()
     {

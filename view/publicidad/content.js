@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       "pdfHtml5", // Botón de PDF
     ],
     lengthChange: false,
-columns: [
+    columns: [
       { data: "titulo" },
       { data: "descripcion" },
       {
@@ -212,7 +212,6 @@ columns: [
       );
     }
   }
-
 
   function reloadSection() {
     try {

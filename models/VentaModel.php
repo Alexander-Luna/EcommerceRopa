@@ -82,7 +82,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
     {
         try {
             $conexion = parent::Conexion();
-            $sql = "SELECT v.id, v.fecha, v.total, r.nombre AS nombre_recibe, r.telefono AS telefono_recibe, r.email AS email_recibe, r.direccion AS direccion_recibe,
+            $sql = "SELECT v.id, v.fecha, v.total, r.nombre AS nombre_recibe,r.*, r.telefono AS telefono_recibe, r.email AS email_recibe, r.direccion AS direccion_recibe,
             u.nombre AS nombre_usuario,
             dv.id_variante_producto, dv.cantidad, dv.precio_unitario, dv.total_producto,
             p.nombre AS nombre_producto, p.descripcion AS descripcion_producto,
@@ -163,7 +163,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
         }
         try {
             $conexion = parent::Conexion();
-            $sql = "SELECT v.*, r.nombre AS nombre_recibe, r.telefono AS telefono_recibe, r.email AS email_recibe, r.direccion AS direccion_recibe, r.referencia AS referencia_recibe,
+            $sql = "SELECT v.*,r.*, r.nombre AS nombre_recibe, r.telefono AS telefono_recibe, r.email AS email_recibe, r.direccion AS direccion_recibe, r.referencia AS referencia_recibe,
                 u.nombre AS nombre_usuario
                 FROM ventas v
                 INNER JOIN recibe r ON v.id_recibe = r.id
@@ -309,18 +309,22 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $nombre = $_POST["nombre"];
             $telefono = $_POST["telefono"];
             $email = $_POST["email"];
+            $provincia = $_POST["provincia"];
+            $canton = $_POST["canton"];
             $direccion = $_POST["direccion"];
             $referencia = $_POST["referencia"];
 
-            $sqlRecive = "INSERT INTO recibe (ci,nombre, telefono,email,direccion,referencia,est) VALUES (?,?, ?,?,?,?,?)";
+            $sqlRecive = "INSERT INTO recibe (ci,nombre, telefono,email,provincia,canton,direccion,referencia,est) VALUES (?,?, ?,?,?,?,?,?,?)";
             $stmtRecibe = $conexion->prepare($sqlRecive);
             $stmtRecibe->bindValue(1, $ci);
             $stmtRecibe->bindValue(2, $nombre);
             $stmtRecibe->bindValue(3, $telefono);
             $stmtRecibe->bindValue(4, $email);
-            $stmtRecibe->bindValue(5, $direccion);
-            $stmtRecibe->bindValue(6, $referencia);
-            $stmtRecibe->bindValue(7, 1);
+            $stmtRecibe->bindValue(5, $provincia);
+            $stmtRecibe->bindValue(6, $canton);
+            $stmtRecibe->bindValue(7, $direccion);
+            $stmtRecibe->bindValue(8, $referencia);
+            $stmtRecibe->bindValue(9, 1);
             $stmtRecibe->execute();
 
             $id_recibe = $conexion->lastInsertId();

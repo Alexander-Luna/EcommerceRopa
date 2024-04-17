@@ -227,4 +227,60 @@ class ProductController
             http_response_code(200);
         }
     }
+
+    public function insertImgsProduct()
+    {
+        $model = new ProductModel();
+        $data = $model->insertImgsProduct();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
+    public function updateImgsProduct()
+    {
+        $model = new ProductModel();
+        $data = $model->updateImgsProduct();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
+    public function deleteImgProduct()
+    {
+        $model = new ProductModel();
+        $data = $model->deleteImgProduct();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
+    public function estImgProduct()
+    {
+        $model = new ProductModel();
+        $data = $model->estImgProduct();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
+    public function getImagesProducts()
+    {
+        $model = new ProductModel();
+        $data = $model->getImagesProducts();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
 }

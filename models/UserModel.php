@@ -331,7 +331,9 @@ class UserModel extends Conectar
             $email = $_POST["email"];
             $password = $_POST["pass"];
             $nombre = $_POST["nombre"];
-            $provincias = $_POST["provincias"];
+            $provincia = $_POST["provincia"];
+            $canton = $_POST["canton"];
+            $referencia = $_POST["referencia"];
             $direccion = $_POST["direccion"];
             $cedula = $_POST["cedula"];
 
@@ -343,14 +345,17 @@ class UserModel extends Conectar
 
             $conexion = parent::Conexion();
             $hashedPassword =  $this->encriptarPassword($password);
-            $sql = "INSERT INTO usuarios (email, pass, nombre, direccion, cedula, rol_id) VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO usuarios (email, pass, nombre, provincia, canton, referencia, direccion, cedula, rol_id) VALUES (?, ?,?,?,?, ?, ?, ?, ?)";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $email);
             $stmt->bindValue(2, $hashedPassword);
             $stmt->bindValue(3, $nombre);
-            $stmt->bindValue(4, $provincias . " - " . $direccion);
-            $stmt->bindValue(5, $cedula);
-            $stmt->bindValue(6, $rol);
+            $stmt->bindValue(4, $provincia);
+            $stmt->bindValue(5, $canton);
+            $stmt->bindValue(6, $referencia);
+            $stmt->bindValue(7, $direccion);
+            $stmt->bindValue(8, $cedula);
+            $stmt->bindValue(9, $rol);
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
                 return true;
@@ -369,6 +374,10 @@ class UserModel extends Conectar
             $id = $_POST["id"];
             $email = $_POST["email"];
             $nombre = $_POST["nombre"];
+
+            $provincia = $_POST["provincia"];
+            $canton = $_POST["canton"];
+            $referencia = $_POST["referencia"];
             $direccion = $_POST["direccion"];
             $cedula = $_POST["cedula"];
             $rol_id = $_POST["rol_id"];
@@ -378,7 +387,7 @@ class UserModel extends Conectar
             }
 
             $conexion = parent::Conexion(); // Obtener la conexión a la base de datos
-            $sql = "UPDATE usuarios SET email=?, nombre=?, direccion=?, cedula=?, telefono=?, rol_id=? WHERE id=?";
+            $sql = "UPDATE usuarios SET email=?, nombre=?, direccion=?, cedula=?, telefono=?, rol_id=?, provincia=?, canton=?, referencia=? WHERE id=?";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $email);
             $stmt->bindValue(2, $nombre);
@@ -386,7 +395,10 @@ class UserModel extends Conectar
             $stmt->bindValue(4, $cedula);
             $stmt->bindValue(5, $telefono);
             $stmt->bindValue(6, $rol_id);
-            $stmt->bindValue(7, $id);
+            $stmt->bindValue(7, $provincia);
+            $stmt->bindValue(8, $canton);
+            $stmt->bindValue(9, $referencia);
+            $stmt->bindValue(10, $id);
 
             // Ejecutar la consulta
             $stmt->execute();
