@@ -99,8 +99,10 @@ class CorreosModel
             $this->mail->Body = $mensajeHTML;
             $this->mail->AltBody = strip_tags($mensajeHTML);
 
-            // Adjuntar el PDF al correo electrónico
-            $this->mail->AddStringAttachment($pdfContent, 'proforma_proveedor.pdf', 'base64', 'application/pdf');
+            $fechaHora = date('Y-m-d_H-i-s');
+            $nombreArchivo = 'asotaeco_' . $fechaHora . '.pdf';
+            $this->mail->AddStringAttachment($pdfContent, $nombreArchivo, 'base64', 'application/pdf');
+            
 
             // Intenta enviar el correo
             if ($this->mail->send()) {

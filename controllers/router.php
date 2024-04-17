@@ -211,16 +211,13 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $productController->createProduct();
             break;
         case 'send_alerta_whatsapp':
-            $sendWhatsApp = new SendWhatsApp();
+            //$sendWhatsApp = new SendWhatsApp();
             //  $sendWhatsApp->enviarMensajes($data['productos']);
             $data = json_decode(file_get_contents('php://input'), true);
-            
             $pdfModel = new PDFModel();
             $pdfModel->alertaPDF($data['productos']);
-            //$productController->setProductPedido($data['productos']);
-            
-          
-            
+            //call_user_func([$sendWhatsApp, 'enviarMensajes'], $data['productos']);
+            call_user_func([$productController, 'setProductPedido'], $data['productos']);
             break;
         case 'updateUser':
             $userController->updateUsers();
@@ -228,9 +225,6 @@ function handlePostRequest($action, $productController, $userController, $ventaC
         case 'deleteUser':
             $userController->deleteUsers();
             break;
-
-
-
         case 'insertSlider':
             $publicidadController->insertSliders();
             break;
@@ -338,6 +332,7 @@ function handlePostRequest($action, $productController, $userController, $ventaC
 
         case 'insertVentaClient':
             $ventaController->insertVentaClient();
+         
             break;
         case 'updateVenta':
             $ventaController->updateVenta();

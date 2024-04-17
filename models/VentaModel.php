@@ -1,5 +1,6 @@
 <?php
 require_once '../config/Conectar.php'; // Asegúrate de incluir la clase Conectar
+require_once '../models/CorreosModel.php';
 
 class VentaModel extends Conectar
 {
@@ -303,6 +304,8 @@ INNER JOIN usuarios u ON v.id_client = u.id
                 $totalVenta += $subtotal;
             }
 
+
+
             $conexion = parent::Conexion();
             $conexion->beginTransaction();
 
@@ -313,6 +316,12 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $canton = $_POST["canton"];
             $direccion = $_POST["direccion"];
             $referencia = $_POST["referencia"];
+
+            $pdfModel = new PDFModel();
+            $pdfModel->ventaPDF($productos, $totalVenta, $ci, $email, $provincia . " " . $canton . " " . $direccion, $telefono, $nombre);
+
+
+
 
             $sqlRecive = "INSERT INTO recibe (ci,nombre, telefono,email,provincia,canton,direccion,referencia,est) VALUES (?,?, ?,?,?,?,?,?,?)";
             $stmtRecibe = $conexion->prepare($sqlRecive);
