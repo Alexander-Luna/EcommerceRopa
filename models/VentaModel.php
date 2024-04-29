@@ -196,7 +196,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
         try {
             $id = $_POST["id"];
             $est = $_POST["est"];
-            $guia = $_POST["guia_servi"];
+            $guia = $_POST["guia_serv"];
             $conexion = parent::Conexion();
             $sql = "UPDATE ventas SET guia_servi=?, est_pago=? WHERE id=?";
             $stmt = $conexion->prepare($sql);
@@ -208,7 +208,8 @@ INNER JOIN usuarios u ON v.id_client = u.id
             if ($stmt->rowCount() > 0) {
                 return true;
             } else {
-                throw new Exception("No se ha podido actualizar el registro");
+                http_response_code(400);
+                throw new Exception("No se ha podido actualizar el registro ");
             }
         } catch (PDOException $e) {
             die("Error al actualizar los datos: " . $e->getMessage());

@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", async function () {
               total_entregado = 0;
               total_pendiente = 0;
               data.forEach((venta) => {
-                if (venta.est === 1) {
+                if (venta.est_pago === 1) {
                   total_pendiente += venta.total;
-                } else {
+                } else if (venta.est_pago === 2) {
                   total_entregado += venta.total;
                 }
               });
@@ -117,22 +117,79 @@ document.addEventListener("DOMContentLoaded", async function () {
         },
       },
       {
-        data: "est",
+        data: "est_pago",
         title: "Estado",
         render: function (data, type, row) {
-          return data === 0 ? "Pendiente" : "Entregada";
+          return data === 0 ? "Pendiente" : "Enviada";
         },
       },
       {
         data: null,
         title: "Acciones",
         render: function (data, type, row) {
-          return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                <button type="button" class="btn btn-outline-danger btnEliminar" data-id="${row.id}">
-                <i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
+          return `<button type="button" title="Ver Venta" class="btn btn-outline-info btnVer" data-id="${row.id}">
+          <i class="fa fa-shopping-bag" aria-hidden="true"></i></button>
+                <button type="button" title="Descargar" class="btn btn-outline-danger btnDescargar" data-id="${row.id}">
+                <i class="fa fa-download" aria-hidden="true"></i></button>`;
         },
       },
     ],
+  });
+  $('#miModal').modal('show');
+  $(document).on("click", ".btnVer", function () {
+    var rowData = miTabla.row($(this).closest("tr")).data();
+    var id = rowData.id;
+    // Mostrar el modal
+    $('#miModal').modal('show');
+    // Aquí puedes hacer cualquier otra cosa que necesites con el ID obtenido
+});
+
+
+  $(document).on("click", ".btnDescargar", function () {
+    var rowData = miTabla.row($(this).closest("tr")).data();
+    fetch("../../controllers/router.php?op=getVentaUser&id=" + rowData.id, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          swal(
+            "Ups! Algo salió mal!",
+            "La acción no se pudo realizar correctamente!",
+            "error"
+          );
+          throw new Error("Hubo un problema al obtener el PDF.");
+        }
+        return response.blob(); // Convertir la respuesta en un blob
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const currentDate = new Date();
+        const formattedDate = currentDate
+          .toISOString()
+          .slice(0, 19)
+          .replace(/[-T]/g, "")
+          .replace(":", "")
+          .replace(":", "");
+        const fileName = `ventas_${formattedDate}.pdf`;
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        swal({
+          title: "¡En Hora Buena!",
+          text: "¡La acción se realizó de manera exitosa!",
+          icon: "success",
+          timer: 1000, // tiempo en milisegundos
+          buttons: false, // ocultar botones
+        });
+      })
+      .catch((error) => {
+        swal(
+          "Ups! Algo salió mal!",
+          "La acción no se pudo realizar correctamente!",
+          "error"
+        );
+        console.error("Error al obtener el PDF:", error);
+      });
   });
 });

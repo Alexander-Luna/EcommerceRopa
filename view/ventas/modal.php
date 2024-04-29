@@ -32,9 +32,13 @@
                         <label type="text" class="form-control" id="fecha" name="fecha"></label>
                     </div>
                     <div class="form-group">
+                        <label for="idPago" class="col-form-label"># Guía Servientrega:</label>
+                        <input type="text" class="form-control" id="guia_serv" name="guia_serv">
+                    </div>
+                    <div class="form-group">
                         <label for="metodo_pago" class="col-form-label">Estado de Venta:</label>
                         <select class="form-control" id="est" name="est" required>
-                            <option value="2">Entregada</option>
+                            <option value="2">Enviada</option>
                             <option value="1">Pagada</option>
                             <option value="0">Pendiente</option>
                         </select>
@@ -53,9 +57,10 @@
         document.getElementById("id").value = "";
         document.getElementById("id_cliente").value = "";
         document.getElementById("cliente").textContent = "";
-        document.getElementById("recibe").textContent= "";
-        document.getElementById("direccion").textContent= "";
-        document.getElementById("telefono").textContent= "";
+        document.getElementById("recibe").textContent = "";
+        document.getElementById("direccion").textContent = "";
+        document.getElementById("telefono").textContent = "";
+        document.getElementById("guia_serv").value = "";
         document.getElementById("est").value = "";
         document.getElementById("fecha").textContent = "";
     });
@@ -63,6 +68,7 @@
         $('#id').prop('disabled', false);
         $('#id_cliente').val('');
         $('#est').val('');
+        $('#guia_serv').val('');
         $('#cliente').text('');
         $('#recibe').text('');
         $('#direccion').text('');

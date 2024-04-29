@@ -28,6 +28,7 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+
     public function getAllProductsStock()
     {
         try {
@@ -83,6 +84,51 @@ class ProductModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+    public function getProductsRecent()
+    {
+        try {
+            $conexion = parent::Conexion();
+
+            $sql = "SELECT i.*, p.*, 
+            GROUP_CONCAT(DISTINCT t.talla ORDER BY t.id SEPARATOR ', ') AS tallas, 
+            oc.nombre as ocasion, g.nombre AS genero, 
+            img1.url_imagen AS imagen1, img2.url_imagen AS imagen2
+        FROM (
+            SELECT *,
+                ROW_NUMBER() OVER (PARTITION BY id_producto ORDER BY precio) AS row_num
+            FROM inventario
+            WHERE stock > 0
+        ) AS i
+        JOIN tallas AS t ON t.id = i.id_talla
+        JOIN productos AS p ON i.id_producto = p.id
+        JOIN genero AS g ON p.id_genero = g.id
+        JOIN ocasion AS oc ON oc.id = p.id_ocasion
+        LEFT JOIN (
+            SELECT id_producto, url_imagen
+            FROM imagenes_producto
+            WHERE est = 1 AND orden = 1
+        ) AS img1 ON img1.id_producto = i.id_producto
+        LEFT JOIN (
+            SELECT id_producto, url_imagen
+            FROM imagenes_producto
+            WHERE est = 1 AND orden = 2
+        ) AS img2 ON img2.id_producto = i.id_producto
+        WHERE i.row_num = 1
+        GROUP BY i.id_producto
+        LIMIT 8;";
+
+
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
+
 
     public function deleteImgProduct()
     {

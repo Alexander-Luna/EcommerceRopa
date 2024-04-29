@@ -48,6 +48,9 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getProvincias':
                 $cantonesController->getProvincias();
                 break;
+            case 'getProductsRecent':
+                $productController->getProductsRecent();
+                break;
             case 'getProducts':
                 $productController->getProducts();
                 break;
@@ -332,7 +335,7 @@ function handlePostRequest($action, $productController, $userController, $ventaC
 
         case 'insertVentaClient':
             $ventaController->insertVentaClient();
-         
+
             break;
         case 'updateVenta':
             $ventaController->updateVenta();

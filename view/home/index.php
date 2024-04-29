@@ -306,6 +306,9 @@ if (isset($_SESSION['user_session'])) {
       if ($modulo == "genero") {
         include_once "../genero/index.php";
       }
+      if ($modulo == "viewventa") {
+        include_once "../view_venta/index.php";
+      }
       if ($modulo == "ocasion") {
         include_once "../ocasion/index.php";
       }

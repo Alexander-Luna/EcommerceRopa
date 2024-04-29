@@ -49,7 +49,6 @@ class VentasController
         try {
             $model = new VentaModel();
             $data = $model->insertVentaClient();
-
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);

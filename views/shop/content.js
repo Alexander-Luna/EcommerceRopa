@@ -44,35 +44,24 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.error("Error al obtener productos:", error);
     }
   }
-  // Función para cargar los colores en el diseño
   function cargarColores(data) {
     const listaColores = document.getElementById("listaColores");
-
-    // Limpiar la lista de colores
     listaColores.innerHTML = "";
-
-    // Iterar sobre los colores y crear elementos HTML para cada uno
     data.forEach((color) => {
       const listItem = document.createElement("li");
       listItem.classList.add("p-b-6");
-
       const spanIcono = document.createElement("span");
       spanIcono.classList.add("fs-15", "lh-12", "m-r-6");
       spanIcono.style.color = color.color_hexa;
-
       const icono = document.createElement("i");
       icono.classList.add("zmdi", "zmdi-circle");
-
       spanIcono.appendChild(icono);
-
       const enlaceColor = document.createElement("a");
       enlaceColor.href = "#";
       enlaceColor.classList.add("filter-link", "stext-106", "trans-04");
       enlaceColor.textContent = color.color;
-
       listItem.appendChild(spanIcono);
       listItem.appendChild(enlaceColor);
-
       listaColores.appendChild(listItem);
     });
   }
@@ -164,6 +153,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     }
   }
+
   let data;
   async function reloadSection() {
     try {

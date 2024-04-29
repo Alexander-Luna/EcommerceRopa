@@ -19,7 +19,7 @@ browser-sync start --proxy "localhost:80" --files "**/*"
 [X] - Modal para el shoping cart
 [X] - Referencia en el shoping cart
 [X] - Restablecer contraseña
-[] - Imagenes Productos Agregar 
+[X] - Imagenes Productos Agregar 
 [] - Enviar Correos de pedidos
 [] - Correos de ventas
 [] - Reporte de compras
@@ -30,7 +30,7 @@ browser-sync start --proxy "localhost:80" --files "**/*"
 
 Administrador
 [X] - Cambiar en compras comprar publicar
-[] - Alertas cambiar la logica para seleccionar con un check
+[X] - Alertas cambiar la logica para seleccionar con un check
 [X] - Estado en ventas en vez de entregado enviado 
 [] - Ventana flotante para productos en ventas
 [X] - Quitar boton de eliminar ventas

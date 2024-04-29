@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("direccion").textContent = rowData.direccion_recibe;
     document.getElementById("telefono").textContent = rowData.telefono_recibe;
     document.getElementById("fecha").textContent = rowData.fecha;
+    document.getElementById("guia_serv").value = rowData.guia_servi;
     document.getElementById("est").value = rowData.est_pago;
   });
 
@@ -208,9 +209,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       // Obtener los datos del formulario
       const id = document.getElementById("id").value;
       const est = document.getElementById("est").value;
+      const guia_serv = document.getElementById("guia_serv").value;
       const formData = new FormData();
       formData.append("id", id);
       formData.append("est", est);
+      formData.append("guia_serv", guia_serv);
 
       fetch("../../controllers/router.php?op=updateVenta", {
         method: "POST",
@@ -263,6 +266,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         response.json().then((data) => {
           miTabla.clear().draw();
           miTabla.rows.add(data).draw();
+          console.log(data);
         });
       });
     } catch (error) {

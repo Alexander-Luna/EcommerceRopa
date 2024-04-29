@@ -18,6 +18,7 @@
                 <div class="card">
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <?php require_once '../html/modal.php';?>
                         <form id="miformulario">
                             <div class="row">
                                 <div class="col-md-2">
@@ -51,17 +52,17 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label class="col-form-label">Ventas Entregadas:</label>
+                                    <label class="col-form-label">Ventas Enviadas:</label>
                                     <label class="form-control" id="total_e" name="total_e">$0.00</label>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <!-- <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="col-form-label">Descargar</label>
                                     <button type="button" id="btnPdf" class="btn btn-danger form-control">
                                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</button>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <table id="miTabla" class="datatable table table-bordered table-hover">
 

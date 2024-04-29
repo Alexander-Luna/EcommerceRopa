@@ -283,4 +283,22 @@ class ProductController
             http_response_code(200);
         }
     }
+    public function getProductsRecent()
+    {
+        try {
+            $model = new ProductModel();
+            $data = $model->getProductsRecent();
+            if ($data) {
+                http_response_code(200);
+                echo json_encode($data);
+            } else {
+                http_response_code(204);
+                echo json_encode(array('error' => 'Error al actualizar los datos'));
+            }
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
+        }
+    }
+    
 }
