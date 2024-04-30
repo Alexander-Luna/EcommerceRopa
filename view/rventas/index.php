@@ -47,13 +47,13 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="col-form-label">Ventas Pendientes:</label>
-                                    <label class="form-control" id="total_p" name="total_p">$0.00</label>
+                                    <label class="form-control" id="total_pv" name="total_pv">$0.00</label>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="col-form-label">Ventas Enviadas:</label>
-                                    <label class="form-control" id="total_e" name="total_e">$0.00</label>
+                                    <label class="form-control" id="total_ev" name="total_ev">$0.00</label>
                                 </div>
                             </div>
                             <!-- <div class="col-md-2">

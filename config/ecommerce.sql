@@ -73,7 +73,8 @@ CREATE TABLE inventario (
      FOREIGN KEY (id_talla) REFERENCES tallas(id),
       FOREIGN KEY (id_color) REFERENCES colores(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+ALTER TABLE inventario
+ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
 -- Crear tabla de proveedores
 CREATE TABLE proveedores (
@@ -137,6 +138,9 @@ CREATE TABLE `usuarios` (
   KEY `rol_id` (`rol_id`),
   CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+ALTER TABLE usuarios
+ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
 
 CREATE TABLE alertaspedido (
     id INT AUTO_INCREMENT PRIMARY KEY,

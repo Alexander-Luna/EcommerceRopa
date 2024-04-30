@@ -225,12 +225,12 @@ if (isset($_SESSION['user_session'])) {
                       <p>publicar</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a href="index.php?modulo=rpublicados" class="nav-link <?php echo ($modulo == "rpublicados") ? " active " : " "; ?> ">
                       <i class="fa fa-table nav-icon"></i>
                       <p>Reporte publicados</p>
                     </a>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
 

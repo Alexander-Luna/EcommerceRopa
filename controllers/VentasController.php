@@ -115,6 +115,44 @@ class VentasController
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
+    public function getClienteVenta()
+    {
+        try {
+            $model = new VentaModel();
+            $data = $model->getClienteVenta();
+
+            if ($data) {
+                http_response_code(200);
+                echo json_encode($data);
+            } else {
+                http_response_code(204);
+                echo json_encode(array('error' => 'Error al obtener los datos'));
+            }
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
+        }
+    }
+    public function getProductsVentaAdmin()
+    {
+        try {
+            $model = new VentaModel();
+            $data = $model->getProductsVentaAdmin();
+
+            if ($data) {
+                http_response_code(200);
+                echo json_encode($data);
+            } else {
+                http_response_code(204);
+                echo json_encode(array('error' => 'Error al obtener los datos'));
+            }
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(array('error' => $e->getMessage()));
+        }
+    }
+    
+    
     public function getProductsCliente()
     {
         try {

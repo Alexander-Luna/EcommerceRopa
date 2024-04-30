@@ -6,80 +6,184 @@
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0">Dashboard</h1>
-
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-          <div class="col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3 id="numVentas"></h3>
-                <p>Ventas en los ultimos 7 dias</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-bag"></i>
-              </div>
-
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3 id="numClientes"></h3>
-                <p>Clientes</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-
-            </div>
-          </div>
-          <!-- ./col -->
-
-        </div>
-        <!-- /.row -->
-        <!-- Main row -->
-        <div class="row">
-          <!-- Left col -->
-          <section class="col-12 connectedSortable">
-            <!-- Custom tabs (Charts with tabs)-->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-chart-pie mr-1"></i>
-                  Ventas por dia
-                </h3>
-
-              </div><!-- /.card-header -->
-              <div class="card-body">
-                <div class="tab-content p-0">
-                  <!-- Morris chart - Sales -->
-                  <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;">
-                    <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
-                  </div>
-                  <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                    <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
-                  </div>
+    <div class="row mb-3">
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-uppercase mb-1">Ventas Mensuales</div>
+                <span id="v_mes" class="h5 mb-0 font-weight-bold text-gray-800">$40,000</span>
+                <div class="mt-2 mb-0 text-muted text-xs">
+                  <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                  <span>Que el mes anterior</span>
                 </div>
-              </div><!-- /.card-body -->
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-calendar fa-2x text-primary"></i>
+              </div>
             </div>
-            <!-- /.card -->
-
-          </section>
-          <!-- /.Left col -->
+          </div>
         </div>
-        <!-- /.row (main row) -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <script src="content.js"></script>
+      </div>
+      <!-- Earnings (Annual) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-uppercase mb-1">Ventas Totales</div>
+                <span id="v_total" class="h5 mb-0 font-weight-bold text-gray-800">650</span>
+                <div class="mt-2 mb-0 text-muted text-xs">
+                  <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                  <span>Que el mes anterior</span>
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-shopping-cart fa-2x text-success"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- New User Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-uppercase mb-1">Nuevos Clientes</div>
+                <span id="new_clientes" class="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</span>
+                <div class="mt-2 mb-0 text-muted text-xs">
+                  <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
+                  <span>Que el mes anterior</span>
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-users fa-2x text-info"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Pending Requests Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-uppercase mb-1">Ganancias Anuales</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">$18,00</div>
+                <div class="mt-2 mb-0 text-muted text-xs">
+                  <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+                  <span>Que el año anterior</span>
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-dollar fa-2x text-warning"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+      <!-- https://themewagon.github.io/ruang-admin/ -->
+
+      <!-- Area Chart -->
+      <div class="col-xl-8 col-lg-7">
+        <div class="card mb-4">
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Monthly Recap Report</h6>
+            <div class="dropdown no-arrow">
+              <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Dropdown Header:</div>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-area">
+              <canvas id="myAreaChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Pie Chart -->
+      <div class="col-xl-4 col-lg-5">
+        <div class="card mb-4">
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Products Sold</h6>
+            <div class="dropdown no-arrow">
+              <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Month <i class="fas fa-chevron-down"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Select Periode</div>
+                <a class="dropdown-item" href="#">Today</a>
+                <a class="dropdown-item" href="#">Week</a>
+                <a class="dropdown-item active" href="#">Month</a>
+                <a class="dropdown-item" href="#">This Year</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <div class="small text-gray-500">Oblong T-Shirt
+                <div class="small float-right"><b>600 of 800 Items</b></div>
+              </div>
+              <div class="progress" style="height: 12px;">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="small text-gray-500">Gundam 90'Editions
+                <div class="small float-right"><b>500 of 800 Items</b></div>
+              </div>
+              <div class="progress" style="height: 12px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="small text-gray-500">Rounded Hat
+                <div class="small float-right"><b>455 of 800 Items</b></div>
+              </div>
+              <div class="progress" style="height: 12px;">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="small text-gray-500">Indomie Goreng
+                <div class="small float-right"><b>400 of 800 Items</b></div>
+              </div>
+              <div class="progress" style="height: 12px;">
+                <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="small text-gray-500">Remote Control Car Racing
+                <div class="small float-right"><b>200 of 800 Items</b></div>
+              </div>
+              <div class="progress" style="height: 12px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <a class="m-0 small text-primary card-link" href="#">View More <i class="fas fa-chevron-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="../estadisticas/content.js"></script>
   </div>

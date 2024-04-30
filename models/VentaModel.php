@@ -7,57 +7,55 @@ class VentaModel extends Conectar
     public function getEstadisticas()
     {
         try {
-            // Obtener la conexión usando parent::Conexion()
             $conexion = parent::Conexion();
-
-            // Consulta para obtener el número de ventas de la última semana
-            $queryNumVentas = "SELECT COUNT(id) AS num from ventas where fecha BETWEEN DATE( DATE_SUB(NOW(),INTERVAL 7 DAY) ) AND NOW();";
-            $stmtNumVentas = $conexion->prepare($queryNumVentas);
-            $stmtNumVentas->execute();
-            $rowNumVentas = $stmtNumVentas->fetch(PDO::FETCH_ASSOC);
-
-            // Consulta para obtener el número total de clientes
-            $queryNumClientes = "SELECT COUNT(id) AS num from usuarios WHERE rol_id = 2;";
-            $stmtNumClientes = $conexion->prepare($queryNumClientes);
-            $stmtNumClientes->execute();
-            $rowNumClientes = $stmtNumClientes->fetch(PDO::FETCH_ASSOC);
-
-            // Consulta para obtener las ventas por día
-            $queryVentasDia = "SELECT SUM(detalleventas.subtotal) as total, DATE(ventas.fecha) as fecha
-                               FROM ventas
-                               INNER JOIN detalleventas ON detalleventas.idventa = ventas.id
-                               GROUP BY DATE(ventas.fecha);";
-            $stmtVentasDia = $conexion->prepare($queryVentasDia);
-            $stmtVentasDia->execute();
-            $labelVentas = "";
-            $datosVentas = "";
-
-            while ($rowVentasDia = $stmtVentasDia->fetch(PDO::FETCH_ASSOC)) {
-                $labelVentas .= "'" . $rowVentasDia['fecha'] . "',";
-                $datosVentas .= $rowVentasDia['total'] . ",";
+    
+            // Consulta para obtener el número de ventas mensuales y las ganancias totales de este año
+            $queryVentasMensuales = "SELECT MONTH(fecha) AS mes, COUNT(id) AS numVentas, SUM(total) AS ganancias
+                                     FROM ventas
+                                     WHERE YEAR(fecha) = YEAR(NOW())
+                                     GROUP BY MONTH(fecha);";
+            $stmtVentasMensuales = $conexion->prepare($queryVentasMensuales);
+            $stmtVentasMensuales->execute();
+            $ventasMensuales = $stmtVentasMensuales->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Consulta para obtener las ganancias totales del año anterior
+            $queryGananciasAnioAnterior = "SELECT SUM(total) AS gananciasAnioAnterior
+                                           FROM ventas
+                                           WHERE YEAR(fecha) = YEAR(NOW()) - 1;";
+            $stmtGananciasAnioAnterior = $conexion->prepare($queryGananciasAnioAnterior);
+            $stmtGananciasAnioAnterior->execute();
+            $rowGananciasAnioAnterior = $stmtGananciasAnioAnterior->fetch(PDO::FETCH_ASSOC);
+            $gananciasAnioAnterior = $rowGananciasAnioAnterior['gananciasAnioAnterior'];
+    
+            // Consulta para obtener el número de nuevos usuarios cuyo rol sea 2
+            $queryNumNuevosUsuarios = "SELECT COUNT(id) AS numNuevosUsuarios
+                                        FROM usuarios
+                                        WHERE rol_id = 2
+                                        AND YEAR(created_at) = YEAR(NOW());";
+            $stmtNumNuevosUsuarios = $conexion->prepare($queryNumNuevosUsuarios);
+            $stmtNumNuevosUsuarios->execute();
+            $rowNumNuevosUsuarios = $stmtNumNuevosUsuarios->fetch(PDO::FETCH_ASSOC);
+            $numNuevosUsuarios = $rowNumNuevosUsuarios['numNuevosUsuarios'];
+    
+            // Calcular el porcentaje de ganancias en relación con el año anterior
+            $porcentajeGanancias = 0;
+            if ($gananciasAnioAnterior > 0) {
+                $porcentajeGanancias = (($ventasMensuales[0]['ganancias'] - $gananciasAnioAnterior) / $gananciasAnioAnterior) * 100;
             }
-
-            $labelVentas = rtrim($labelVentas, ",");
-            $datosVentas = rtrim($datosVentas, ",");
-
+    
             // Preparar los resultados para retornarlos
             $resultados = array(
-                'numVentasSemana' => $rowNumVentas['num'],
-                'numClientes' => $rowNumClientes['num'],
-                'labelVentas' => $labelVentas,
-                'datosVentas' => $datosVentas
+                'ventasMensuales' => $ventasMensuales,
+                'numNuevosUsuarios' => $numNuevosUsuarios,
+                'gananciasAnioActual' => $ventasMensuales,
+                'porcentajeGanancias' => $porcentajeGanancias,
             );
-
+    
             return $resultados;
         } catch (PDOException $e) {
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
-
-
-
-
-
 
     public function getVentas()
     {
@@ -240,7 +238,57 @@ INNER JOIN usuarios u ON v.id_client = u.id
         }
     }
 
+    public function getClienteVenta()
+    {
 
+        try {
+            session_start();
+            $id = $_GET['id'];
+
+            $conexion = parent::Conexion();
+            $sql = "SELECT v.*,
+            u.nombre as name_client,re.* 
+     FROM ventas v
+     INNER JOIN recibe re ON re.id = v.id_recibe
+     INNER JOIN usuarios u ON u.id = v.id_client
+     WHERE v.id = ?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $id);
+            $stmt->execute();
+            $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $ventas;
+        } catch (PDOException $e) {
+            die("Error al obtener ventas: " . $e->getMessage());
+        }
+    }
+
+    public function getProductsVentaAdmin()
+    {
+        try {
+            $id = $_GET['id'];
+            $conexion = parent::Conexion();
+            $sql = "SELECT p.id as id_producto,
+            t.talla,c.color,
+            p.nombre AS producto, p.descripcion AS desc_producto, 
+            dv.cantidad, dv.precio_unitario as precio,
+            iu.url_imagen AS imagen
+     FROM  detalles_venta dv 
+     INNER JOIN inventario ip ON dv.id_variante_producto = ip.id
+     INNER JOIN tallas t ON t.id = ip.id_talla
+     INNER JOIN colores c ON c.id = ip.id_color
+     INNER JOIN productos p ON ip.id_producto = p.id
+     LEFT JOIN imagenes_producto iu ON p.id = iu.id_producto AND iu.orden = 1
+     WHERE dv.id_venta=?;
+        ";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindValue(1, $id);
+            $stmt->execute();
+            $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $ventas;
+        } catch (PDOException $e) {
+            die("Error al obtener ventas: " . $e->getMessage());
+        }
+    }
 
 
     public function getProductsCliente()
@@ -283,6 +331,10 @@ INNER JOIN usuarios u ON v.id_client = u.id
             die("Error al obtener ventas: " . $e->getMessage());
         }
     }
+
+
+
+
     public function insertVentaClient()
     {
         try {
