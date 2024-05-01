@@ -416,13 +416,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         return 0;
       }
     } catch (error) {
-      console.log(error);
+      swal(
+        "Ups! Algo salió mal!",
+        "La acción no se pudo realizar correctamente! " + error,
+        "error"
+      );
       return 0;
     }
   }
 });
 function eliminarProductosLocalStorage() {
   localStorage.removeItem("cart");
+  location.reload();
 }
 function toggleFields() {
   var paymentMethod = document.getElementById("metododepago").value;

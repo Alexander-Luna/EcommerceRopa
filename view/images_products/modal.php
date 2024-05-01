@@ -35,7 +35,6 @@
 $(document).ready(function() {
     // Verificar si el evento hidden.bs.modal se está vinculando correctamente
     $('#miModal').on('hidden.bs.modal', function() {
-        console.log("Evento hidden.bs.modal activado"); // Mensaje de consola para verificar si se ejecuta el evento
     });
 
     // Agregar evento para mostrar el div al hacer clic en el botón "Agregar Imágenes"

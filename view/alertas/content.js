@@ -139,7 +139,6 @@ $("#select-all-checkbox").on("click", function () {
         if (!idProveedor) {
           throw new Error("Por favor seleccione un proveedor.");
         }
-        console.log(idProveedor);
         var dataToSend = {
           productos: productosConCantPredMayorA0,
           id_proveedor: idProveedor,
@@ -167,7 +166,6 @@ $("#select-all-checkbox").on("click", function () {
           throw new Error("Error al enviar los mensajes: " + errorMessage);
         }
       } catch (error) {
-        console.error("Error al enviar los mensajes:", error);
         swal("Error", error.message, "error");
       }
     });
@@ -185,7 +183,6 @@ $("#select-all-checkbox").on("click", function () {
         );
       }
       const data = await response.json();
-      console.log(data);
       const newData = data.map((item) => ({ ...item, cant_pred: 0 }));
       miTabla.clear().draw();
       miTabla.rows.add(newData).draw();
@@ -194,11 +191,4 @@ $("#select-all-checkbox").on("click", function () {
     }
   }
 
-  // Función para actualizar la cantidad
-  function updateCantidad(id_producto, cantidad) {
-    // Aquí puedes realizar la lógica para actualizar la cantidad en el servidor
-    console.log(
-      `Actualizar cantidad para el producto ${id_producto} a ${cantidad}`
-    );
-  }
 });

@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
           throw new Error("Hubo un problema al cambiar el estado.");
         }
-        console.log(response);
+        
         swal(
           "En Hora Buena!",
           "La accion se realizo de manera exitosa!",
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
           throw new Error("Hubo un problema al eliminar Talla.");
         }
-        console.log(response);
+        
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",

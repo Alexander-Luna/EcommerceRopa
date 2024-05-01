@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let total_entregado = 0,
     total_pendiente = 0;
+
   document
     .getElementById("miformulario")
     .addEventListener("submit", function (event) {
@@ -28,29 +29,28 @@ document.addEventListener("DOMContentLoaded", async function () {
             response.json().then((data) => {
               total_entregado = 0;
               total_pendiente = 0;
+
               data.forEach((venta) => {
-                if (venta.est_pago === 1) {
-                  total_pendiente += venta.total;
-                } else if (venta.est_pago === 2) {
-                  total_entregado += venta.total;
+                let totalVenta = parseFloat(venta.total);
+                if (venta.est_pago <= 1) {
+                  total_pendiente = total_pendiente + totalVenta;
+                }
+                if (venta.est_pago === 2) {
+                  total_entregado = total_entregado + totalVenta;
                 }
               });
-
               document.getElementById("total_pv").textContent =
-                "$" + parseFloat(total_pendiente).toFixed(2);
+                "$" + total_pendiente.toFixed(2);
               document.getElementById("total_ev").textContent =
-                "$" + parseFloat(total_entregado).toFixed(2);
-
+                "$" + total_entregado.toFixed(2);
               miTabla.clear().draw();
               miTabla.rows.add(data).draw();
             });
           })
           .catch((error) => {
-            // Manejo de errores
             console.error(error);
           });
       } catch (error) {
-        // Manejo de errores
         console.error(error);
       }
     });
@@ -141,6 +141,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     reloadModalInfo(id);
     $("#miModal").modal("show");
     document.getElementById("id_v").value = id;
+    document.getElementById("id_c").value = rowData.id_client;
   });
   var miTablaM = $("#miTablaM").DataTable({
     language: {
@@ -194,13 +195,20 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
     ],
   });
-
+  var fechaActual = new Date();
+  var dia = fechaActual.getDate();
+  var mes = fechaActual.getMonth() + 1; // Los meses van de 0 a 11, sumamos 1 para ajustar
+  var año = fechaActual.getFullYear();
+  var fechaFormateada =
+    (dia < 10 ? "0" : "") + dia + "/" + (mes < 10 ? "0" : "") + mes + "/" + año;
+  document.getElementById("fecha_fin").value = fechaFormateada;
   async function reloadModalInfo(id) {
     try {
       document.getElementById("btnPdf").addEventListener("click", function () {
         var link = document.createElement("a");
         link.href = comprobanteF;
-        link.download = "comprobante.png";
+        link.download =
+          "C" + document.getElementById("fecha").textContent + ".png";
         link.target = "_blank";
         document.body.appendChild(link);
         link.click();
@@ -251,11 +259,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
       }
       const productosData = await productosResponse.json();
-
       miTablaM.clear().draw();
       miTablaM.rows.add(productosData).draw();
-
-      console.log(clienteData, productosData);
     } catch (error) {
       console.error("Error al cargar la información del modal:", error);
     }

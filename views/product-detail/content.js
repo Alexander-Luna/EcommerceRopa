@@ -69,7 +69,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           buttons: false,
         });
       } catch (error) {
-        console.log(error.message);
         swal("Error", error.message, "warning");
       }
     });
@@ -80,7 +79,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     let previousColorId = selectColor.value ? selectColor.value : null;
 
     selectTalla.addEventListener("change", () => {
-      console.log("Cambio en el selectTalla");
       const newTallaId = selectTalla.value;
       if (!previousColorId) {
         previousColorId = selectColor.value; // Obtener el valor del color seleccionado si no hay valor previo
@@ -91,7 +89,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     selectColor.addEventListener("change", () => {
-      console.log("Cambio en el selectColor");
       const newColorId = selectColor.value;
       if (!previousTallaId) {
         previousTallaId = selectTalla.value; // Obtener el valor de la talla seleccionada si no hay valor previo
@@ -103,10 +100,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   function getPrecio(talla_id, color_id) {
-    // Obtener los elementos span por sus IDs
     const stockSpan = document.getElementById("stock");
     const precioSpan = document.getElementById("tv-precio");
-    console.log("Entraaaa " + talla_id + " " + color_id);
     try {
       fetch(
         "../../controllers/router.php?op=getPrecioShop&prod_id=" +
@@ -162,9 +157,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       const selectedIndex = selectTalla.selectedIndex;
       const selectedOption = selectTalla.options[selectedIndex];
       const selectedValue = selectedOption.value;
-      const selectedText = selectedOption.textContent;
-      console.log("Valor seleccionado:", selectedValue);
-      console.log("Texto seleccionado:", selectedText);
       tallaSeleccionada = selectedValue;
     });
 
@@ -176,7 +168,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   function updateStockLabel(stock) {
     const tv_stock = document.getElementById("stock");
     tv_stock.textContent = `${stock}`;
-    console.log(stock);
   }
 
   function MetodoControlStock(stockMax) {
@@ -242,7 +233,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
         }
         const product = response.json();
-        console.log(product);
 
         product.then((producto) => {
           nombreElement.textContent = producto.nombre;
@@ -336,7 +326,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       .then((data) => {
         if (data.length > 0) {
           data.forEach((imagen, index) => {
-            console.log(imagen);
             if (imagen.orden === 1) {
               imgProd=imagen.url_imagen;
 

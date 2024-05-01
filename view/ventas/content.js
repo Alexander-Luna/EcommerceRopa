@@ -154,7 +154,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   $(document).on("click", ".btnEditar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     $("#miModal").modal("show");
-    console.log(rowData);
     document.getElementById("title").textContent = "Editar Venta";
     document.getElementById("id").value = rowData.id;
     document.getElementById("id_cliente").value = rowData.idcli;
@@ -185,7 +184,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
           throw new Error("Hubo un problema al eliminar la venta.");
         }
-        console.log(response);
+        
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -228,7 +227,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             );
             throw new Error("Hubo un problema al actualizar la venta.");
           }
-          console.log(response);
+          
           $("#miModal").modal("hide");
           swal(
             "En Hora Buena!",
@@ -266,7 +265,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         response.json().then((data) => {
           miTabla.clear().draw();
           miTabla.rows.add(data).draw();
-          console.log(data);
         });
       });
     } catch (error) {

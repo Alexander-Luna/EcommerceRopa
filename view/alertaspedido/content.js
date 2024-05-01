@@ -120,7 +120,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
 
       const data = await response.json();
-      console.log(data);
       const newData = data.map((item) => ({ ...item, cant_pred: 0 }));
       miTabla.rows.add(newData).draw();
     } catch (error) {
@@ -131,7 +130,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   $(document).on("click", ".btnEditar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     $("#miModal").modal("show");
-    console.log(rowData.cantidad);
     document.getElementById("title").innerText = "Editar Pedido";
     $("#id").val(rowData.id_pedido);
     $("#nombre").text(rowData.nombre);
@@ -168,7 +166,6 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al eliminar el producto.");
             }
-            console.log(response);
             swal(
               "¡En Hora Buena!",
               "La acción se realizó de manera exitosa!",
@@ -194,7 +191,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   $(document).on("click", ".btnShop", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     const uniqueId = Date.now();
-    console.log(rowData);
     const producto = {
       id: uniqueId,
       id_color: rowData.id_color,
@@ -280,7 +276,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             );
             throw new Error("Hubo un problema al insertar el nuevo Proveedor.");
           }
-          console.log(response);
           $("#miModal").modal("hide");
           swal({
             title: "En Hora Buena!",

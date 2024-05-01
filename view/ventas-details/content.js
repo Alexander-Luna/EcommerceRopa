@@ -46,7 +46,11 @@ columns: [
           );
         });
     } else {
-      console.log("No se ha pasado ningún valor para 'id'");
+      swal(
+        "Ups! Algo salió mal!",
+        "No se ha pasado ningún valor para 'id'",
+        "error"
+      );
     }
   }
 

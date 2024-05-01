@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       body: formData,
     })
       .then((response) => {
-        console.log(response);
+        
         if (response.ok) {
           //swal("Excelente!", "Transaccion realizada con exito", "success");
         }
@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   function filtrarPorGenero(genero) {
-    console.log(genero);
     if (genero === "Uniforme Escolar" || genero === "Deportivo") {
       for (let i = 0; i < productos.length; i++) {
         const generoProducto = productos[i]
@@ -181,7 +180,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Iterar sobre los datos y construir los elementos HTML
     for (var i = startIndex; i < endIndex; i++) {
       const producto = data[i];
-      console.log(producto);
       const imagenProducto = producto.imagen
         ? producto.imagen
         : "../../public/images/products/defaultprod.png";

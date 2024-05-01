@@ -40,6 +40,7 @@
   <!-- DataTables  & Plugins -->
 
   <script src="../../vendor/sweetalert/sweetalert.min.js"></script>
+  <script src="../../public/js/jspdf.umd.min.js"></script>
 
 
   <?php require_once '../../update_dev.php'; ?>

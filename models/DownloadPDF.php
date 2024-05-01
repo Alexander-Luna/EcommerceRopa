@@ -1,6 +1,7 @@
 <?php
 require_once '../vendor/autoload.php';
 require_once '../config/Conectar.php';
+require_once '../models/VentaModel.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -8,6 +9,116 @@ use TCPDF;
 
 class DownloadPDF extends Conectar
 {
+
+    public function getPDFHTML()
+    {
+        $ventas = new VentaModel();
+        $clientData = $ventas->getClienteVenta($_POST['id_client']);
+        // Verificar si se recuperaron los datos del cliente
+        if (!empty($clientData)) {
+            $clientData = $clientData[0]; // Convertir el arreglo de cliente en un solo cliente
+            // Crear instancia de TCPDF
+            $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+            // Establecer información del documento
+            $pdf->SetCreator(PDF_CREATOR);
+            $pdf->SetAuthor('ASOTAECO');
+            $pdf->SetSubject('Sales Invoice');
+            $pdf->SetKeywords('TCPDF, PDF, invoice, sales, Ecuador');
+
+            // Establecer propiedades del documento
+            $pdf->SetTitle('ASOTAECO VENTAS');
+
+            // Agregar encabezado de factura
+            $pdf->AddPage();
+            $pdf->SetFont('helvetica', 'B', 12);
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->Cell(130, 10, 'ASOTAECO', 0, 0, 'L');
+            $invoiceNumber = $clientData['ncomprobante'];
+            $invoiceDate = $clientData['fecha'];
+            $pdf->Cell(60, 10, "N°: $invoiceNumber", 0, 0, 'R');
+            $pdf->Cell(60, 10, date('d/m/Y', strtotime($invoiceDate)), 0, 0, 'R');
+            $pdf->Ln(10);
+
+            // Agregar información del cliente
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->SetTextColor(80, 80, 80);
+            $clientName = $clientData['name_client'];
+            $clientCI = $clientData['ci'];
+            $pdf->Cell(60, 10, "Cliente:", 0, 0, 'L');
+            $pdf->Cell(140, 10, $clientName, 0, 1, 'L');
+            $pdf->Cell(60, 10, "CI/RUC:", 0, 0, 'L');
+            $pdf->Cell(140, 10, $clientCI, 0, 1, 'L');
+            $clientAddress = $clientData['direccion'];
+            $clientPhone = $clientData['telefono'];
+            $pdf->Cell(60, 10, "Dirección:", 0, 0, 'L');
+            $pdf->Cell(140, 10, $clientAddress, 0, 1, 'L');
+            $pdf->Cell(60, 10, "Teléfono:", 0, 0, 'L');
+            $pdf->Cell(140, 10, $clientPhone, 0, 1, 'L');
+            $pdf->Ln(10);
+
+            // Agregar tabla de productos
+            $products = $ventas->getProductsVentaAdmin($_POST['id_venta']);
+            $total = 0;
+            $vatTotal = 0;
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->SetTextColor(80, 80, 80);
+            $pdf->Cell(20, 10, "Cant.", 1, 0, 'C');
+            $pdf->Cell(60, 10, "Descripción", 1, 0, 'L');
+            $pdf->Cell(30, 10, "Precio Unitario", 1, 0, 'R');
+            $pdf->Cell(30, 10, "Total", 1, 1, 'R');
+            foreach ($products as $product) {
+                $quantity = $product['cantidad'];
+                $description = $product['desc_producto'];
+                $price = $product['precio'];
+                
+                // Calcular el precio del producto sin IVA
+                $priceExclVat = $price / 1.15; // Dividir por 1.15 para eliminar el 15% de IVA
+                
+                // Calcular el IVA
+                $vat = $price - $priceExclVat; // El IVA es la diferencia entre el precio total y el precio sin IVA
+                
+                $total += $quantity * $priceExclVat; // Sumar al total el precio sin IVA
+                $vatTotal += $quantity * $vat; // Sumar al total del IVA el IVA por cada producto
+            
+                $pdf->Cell(20, 10, $quantity, 1, 0, 'C');
+                $pdf->Cell(60, 10, $description, 1, 0, 'L');
+                $pdf->Cell(30, 10, number_format($priceExclVat, 2), 1, 0, 'R');
+                $pdf->Cell(30, 10, number_format($quantity * $priceExclVat, 2), 1, 1, 'R');
+            }
+            
+            // Agregar totales
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->Cell(100, 10, "Subtotal:", 0, 0, 'L');
+            $pdf->Cell(40, 10, number_format($total, 2), 1, 1, 'R');
+            $pdf->Cell(100, 10, "IVA (15%):", 0, 0, 'L');
+            $pdf->Cell(40, 10, number_format($vatTotal, 2), 1, 1, 'R');
+            $pdf->Cell(100, 10, "Total:", 0, 0, 'L');
+            $pdf->Cell(40, 10, number_format($total + $vatTotal, 2), 1, 1, 'R');
+            
+
+            // Generar el PDF
+            $output = $pdf->Output('venta.pdf', 'S');
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="factura_venta.pdf"');
+            header('Content-Length: ' . strlen($output));
+            echo $output;
+            http_response_code(200);
+            exit;
+        } else {
+            http_response_code(400);
+            // Si no se encontraron datos del cliente, mostrar un mensaje de error
+            echo "No se encontraron datos del cliente.";
+        }
+    }
+
+
+
+
+
+
+
+
 
 
     public function getVentaUser()

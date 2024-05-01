@@ -118,8 +118,10 @@ class VentasController
     public function getClienteVenta()
     {
         try {
+            session_start();
+            $id = $_GET['id'];
             $model = new VentaModel();
-            $data = $model->getClienteVenta();
+            $data = $model->getClienteVenta($id);
 
             if ($data) {
                 http_response_code(200);
@@ -137,7 +139,7 @@ class VentasController
     {
         try {
             $model = new VentaModel();
-            $data = $model->getProductsVentaAdmin();
+            $data = $model->getProductsVentaAdmin($_GET['id']);
 
             if ($data) {
                 http_response_code(200);

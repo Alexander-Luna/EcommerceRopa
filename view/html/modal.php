@@ -10,11 +10,12 @@
             </div>
             <section class="content">
 
-                <div class="row">
+                <div class="row" id="contenido-imprimible">
                     <!-- /.card-header -->
                     <div class="card-body">
                         <form id="formularioVenta">
                             <input type="hidden" class="form-control" id="id_v" name="id_v" required>
+                            <input type="hidden" class="form-control" id="id_c" name="id_v" required>
 
                             <div class="row">
                                 <div class="col-md-3">
@@ -35,7 +36,8 @@
                                         <label class="form-control" id="telefono" name="telefono"></label>
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="fecha" class="col-form-label">Fecha</label>
@@ -85,20 +87,76 @@
                         <table id="miTablaM" class="datatable table table-bordered table-hover">
 
                         </table>
-                        <script src="../html/content.js"></script>
                     </div>
                 </div>
             </section>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <!-- <button type="button" class="btn btn-primary m-1" id="btnGuardar">Guardar</button> -->
+                <button type="button" class="btn btn-primary m-1" id="btnPrint">Imprimir</button>
             </div>
         </div>
     </div>
+    <script src="../../public/js/jspdf.umd.min.js"></script>
+
     <script>
+        document.getElementById("btnPrint").addEventListener("click", function() {
+            const formData = new FormData();
+            formData.append("id_client", document.getElementById("id_c").value);
+            formData.append("id_venta", document.getElementById("id_v").value);
+            fetch("../../controllers/router.php?op=getPDFHTML", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then((response) => {
+                    if (!response.ok) {
+                        swal(
+                            "Ups! Algo salió mal!",
+                            "La acción no se pudo realizar correctamente!",
+                            "error"
+                        );
+                        throw new Error("Hubo un problema al obtener el PDF.");
+                    }
+                    return response.blob(); // Convertir la respuesta en un blob
+                })
+                .then((blob) => {
+                    const url = window.URL.createObjectURL(blob);
+                    const currentDate = new Date();
+                    const formattedDate = currentDate
+                        .toISOString()
+                        .slice(0, 19)
+                        .replace(/[-T]/g, "")
+                        .replace(":", "")
+                        .replace(":", "");
+                    const fileName = `ventas_${formattedDate}.pdf`;
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = fileName;
+                    a.click();
+                    swal({
+                        title: "¡En Hora Buena!",
+                        text: "¡La acción se realizó de manera exitosa!",
+                        icon: "success",
+                        timer: 1000, // tiempo en milisegundos
+                        buttons: false, // ocultar botones
+                    });
+                })
+                .catch((error) => {
+                    swal(
+                        "Ups! Algo salió mal!",
+                        "La acción no se pudo realizar correctamente!",
+                        "error"
+                    );
+                    console.error("Error al obtener el PDF:", error);
+                });
+        });
+
+
+
+
+
         $('#miModal').on('hidden.bs.modal', function() {
             document.getElementById("cliente").textContent = "";
-            document.getElementById("direccion").textContent ="";
+            document.getElementById("direccion").textContent = "";
             document.getElementById("recibe").textContent = "";
             document.getElementById("fecha").textContent = "";
             document.getElementById("telefono").textContent = "";

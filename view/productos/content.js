@@ -173,7 +173,7 @@ columns: [
           );
           throw new Error("Hubo un problema al eliminar el producto.");
         }
-        console.log(response);
+        
         $("#miModal").modal("hide");
         swal({
           title: "En Hora Buena!",
@@ -231,7 +231,7 @@ columns: [
                 "Hubo un problema al insertar el nuevo Ocasion."
               );
             }
-            console.log(response);
+            
             // Si la inserción fue exitosa, recargar la sección
             $("#miModal").modal("hide");
             swal({
@@ -268,7 +268,7 @@ columns: [
                 "Hubo un problema al insertar el nuevo Product."
               );
             }
-            console.log(response);
+            
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",

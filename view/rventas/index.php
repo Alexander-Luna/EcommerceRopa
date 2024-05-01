@@ -18,19 +18,19 @@
                 <div class="card">
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <?php require_once '../html/modal.php';?>
+                        <?php require_once '../html/modal.php'; ?>
                         <form id="miformulario">
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="col-form-label">Fecha de Inicio:</label>
-                                        <input type="date" class="form-control" id="fecha_ini" name="fecha_ini" required>
+                                        <input type="date" class="form-control" id="fecha_ini" name="fecha_ini" value="01/02/2024" required>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="col-form-label">Fecha de Fin:</label>
-                                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
+                                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="01/05/2024" required>
                                     </div>
                                 </div>
 

@@ -117,7 +117,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         "../../controllers/router.php?op=getProductsCliente&id=" + id
       );
       const responseData = await response.json();
-      console.log(responseData);
       responseData.forEach((obj) => {
         miTabla.row.add(obj);
       });

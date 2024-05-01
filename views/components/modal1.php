@@ -82,7 +82,11 @@
             });
         });
     } catch (error) {
-        console.log(error);
+        swal(
+              "Ups! Algo salió mal!",
+              "La acción no se pudo realizar correctamente! "+error,
+              "error"
+            );
     }
 </script>
 <!-- Modal1 -->

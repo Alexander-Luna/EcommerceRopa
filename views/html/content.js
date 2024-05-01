@@ -25,7 +25,6 @@ function reloadSection() {
             "Hubo un problema al obtener los detalles del producto."
           );
         }
-        //        console.log(response.json())
         return response.json();
       })
       .then((data) => {

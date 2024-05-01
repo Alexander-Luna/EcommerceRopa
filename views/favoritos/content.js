@@ -75,7 +75,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         "../../controllers/router.php?op=getWishClient"
       );
       data = await response.json();
-      console.log(data);
       miTabla.rows.add(data).draw();
     } catch (error) {
       console.error("Error al obtener productos:", error);
@@ -91,7 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       body: formData,
     })
       .then((response) => {
-        console.log(response);
+        
         if (response.ok) {
           reloadSection();
           swal("Excelente!", "Transaccion realizada con exito", "success");

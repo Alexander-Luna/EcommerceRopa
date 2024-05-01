@@ -238,13 +238,11 @@ INNER JOIN usuarios u ON v.id_client = u.id
         }
     }
 
-    public function getClienteVenta()
+    public function getClienteVenta($id)
     {
 
         try {
-            session_start();
-            $id = $_GET['id'];
-
+           
             $conexion = parent::Conexion();
             $sql = "SELECT v.*,
             u.nombre as name_client,re.* 
@@ -262,10 +260,10 @@ INNER JOIN usuarios u ON v.id_client = u.id
         }
     }
 
-    public function getProductsVentaAdmin()
+    public function getProductsVentaAdmin($id)
     {
         try {
-            $id = $_GET['id'];
+            
             $conexion = parent::Conexion();
             $sql = "SELECT p.id as id_producto,
             t.talla,c.color,

@@ -229,6 +229,9 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             //call_user_func([$sendWhatsApp, 'enviarMensajes'], $data['productos']);
             call_user_func([$productController, 'setProductPedido'], $data['productos']);
             break;
+        case 'getPDFHTML':
+            $controller->getPDFHTML();
+            break;
         case 'updateUser':
             $userController->updateUsers();
             break;

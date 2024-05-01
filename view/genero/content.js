@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
           throw new Error("Hubo un problema al eliminar Genero.");
         }
-        console.log(response);
+        
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al insertar el nuevo Genero.");
             }
-            console.log(response);
+            
             // Si la inserción fue exitosa, recargar la sección
             $("#miModal").modal("hide");
             swal({
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al insertar el nuevo Genero.");
             }
-            console.log(response);
+            
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",

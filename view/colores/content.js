@@ -97,7 +97,7 @@ columns: [
           );
           throw new Error("Hubo un problema al eliminar Color.");
         }
-        console.log(response);
+        
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -145,7 +145,7 @@ columns: [
               );
               throw new Error("Hubo un problema al insertar el nuevo Color.");
             }
-            console.log(response);
+            
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
@@ -179,7 +179,7 @@ columns: [
               );
               throw new Error("Hubo un problema al insertar el nuevo Color.");
             }
-            console.log(response);
+            
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",

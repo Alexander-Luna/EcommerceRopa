@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   let entra = 0;
   function insertProduct() {
     entra++;
-    console.log(entra);
     const nombre_producto =
       document.getElementById("id_producto").options[
         document.getElementById("id_producto").selectedIndex
@@ -232,7 +231,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   function enviarProductosAlServidor(productos) {
     return new Promise((resolve, reject) => {
       try {
-        console.log(productos);
         const formData = new FormData();
         formData.append("productos", JSON.stringify(productos));
         fetch("../../controllers/router.php?op=insertCompra", {
@@ -248,7 +246,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al insertar los productos.");
             }
-            console.log(response);
+            
             resolve();
           })
           .catch((error) => {

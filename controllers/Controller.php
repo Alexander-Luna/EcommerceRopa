@@ -156,6 +156,18 @@ class Controller
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
+    
+    public function getPDFHTML()
+    {
+        $model = new DownloadPDF();
+        $data = $model->getPDFHTML();
+        if ($data === false || empty($data)) {
+            http_response_code(204);
+        } else {
+            echo json_encode($data);
+            http_response_code(200);
+        }
+    }
     public function sendEmail()
     {
         $model = new CorreosModel();

@@ -101,7 +101,11 @@
                 divTotalPagar.textContent = 'Total: $0.00';
             }
         } catch (error) {
-            console.log("error")
+            swal(
+                "Ups! Algo salió mal!",
+                "La acción no se pudo realizar correctamente!" + error,
+                "error"
+            );
         }
     }
 

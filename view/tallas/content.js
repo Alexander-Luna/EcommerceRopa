@@ -84,7 +84,7 @@ columns: [
           );
           throw new Error("Hubo un problema al eliminar Talla.");
         }
-        console.log(response);
+        
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -136,7 +136,7 @@ columns: [
                 "Hubo un problema al insertar el nuevo Talla."
               );
             }
-            console.log(response);
+            
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
@@ -172,7 +172,7 @@ columns: [
                 "Hubo un problema al insertar el nuevo Talla."
               );
             }
-            console.log(response);
+            
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
