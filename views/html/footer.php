@@ -8,7 +8,7 @@
   .footer_section h4,
   .footer_section .footer-logo {
 
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Arial', cursive;
   }
 
   .footer_section p {

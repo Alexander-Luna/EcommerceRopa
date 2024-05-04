@@ -1,10 +1,7 @@
 <?php
 session_start();
-// if (!isset($_SESSION["user_session"]) && $_SESSION['user_session']['rol_id'] === 1) {
 if (isset($_SESSION['user_session'])) {
   $userData = $_SESSION['user_session'];
-  // echo $userData['user'];
-  // die();
   $modulo = $_REQUEST['modulo'] ?? '';
 ?>
   <!DOCTYPE html>

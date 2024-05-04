@@ -1,4 +1,5 @@
-<link rel="icon" type="image/png" href="../../public/images/icons/favicon.png" />
+<link rel="icon" type="image/ico" href="../../public/images/icons/logo.ico" />
+
 <link rel="stylesheet" type="text/css" href="../../public/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="../../public/fonts/iconic/css/material-design-iconic-font.min.css">
 <link rel="stylesheet" type="text/css" href="../../public/fonts/linearicons-v1.0.0/icon-font.min.css">

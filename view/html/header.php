@@ -1,5 +1,6 @@
-<!-- Google Font: Source Sans Pro -->
+<link rel="icon" type="image/ico" href="../../public/images/icons/logo.ico" />
 <link rel="stylesheet" href="../../public/css/css.css">
+
 <!-- Font Awesome -->
 <link rel="stylesheet" href="../../public/plugins/fontawesome-free/css/all.min.css">
 <link rel="stylesheet" href="../../public/plugins/font-awesome-4.7.0/css/font-awesome.min.css" />

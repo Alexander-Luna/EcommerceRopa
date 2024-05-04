@@ -22,9 +22,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       body: formData,
     })
       .then((response) => {
-        
         if (response.ok) {
-          //swal("Excelente!", "Transaccion realizada con exito", "success");
+          swal("Excelente!", "Transaccion realizada con exito", "success");
         }
       })
       .catch((error) => {

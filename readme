@@ -27,11 +27,18 @@ browser-sync start --proxy "localhost:80" --files "**/*"
 [] - Cancelar Ventas
 [] - Cancelar compras
 [] - Colocar fondo de las paginas 90a586 
+[] - Home del Admin 
+[X] - los títulos 
+[X] - el botón de favoritos no vale 
+[X] - cambiar el icono 
+[X] - el tipo de letra a Ariel en el footer también
+[X] - en product details, el footer sale mal 
+[X] - verificar si funciona eso de poner el código de envío de Servientrega para que los clientes visualicen
 
 Administrador
 [X] - Cambiar en compras comprar publicar
 [X] - Alertas cambiar la logica para seleccionar con un check
 [X] - Estado en ventas en vez de entregado enviado 
-[] - Ventana flotante para productos en ventas
+[X] - Ventana flotante para productos en ventas
 [X] - Quitar boton de eliminar ventas
 [X] - Editar producto

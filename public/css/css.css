@@ -1,6 +1,6 @@
 /* cyrillic-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: italic;
   font-weight: 400;
   font-display: fallback;
@@ -9,7 +9,7 @@
 }
 /* cyrillic */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: italic;
   font-weight: 400;
   font-display: fallback;
@@ -18,7 +18,7 @@
 }
 /* greek-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: italic;
   font-weight: 400;
   font-display: fallback;
@@ -27,7 +27,7 @@
 }
 /* greek */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: italic;
   font-weight: 400;
   font-display: fallback;
@@ -36,7 +36,7 @@
 }
 /* vietnamese */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: italic;
   font-weight: 400;
   font-display: fallback;
@@ -45,7 +45,7 @@
 }
 /* latin-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: italic;
   font-weight: 400;
   font-display: fallback;
@@ -54,7 +54,7 @@
 }
 /* latin */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: italic;
   font-weight: 400;
   font-display: fallback;
@@ -63,7 +63,7 @@
 }
 /* cyrillic-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 300;
   font-display: fallback;
@@ -72,7 +72,7 @@
 }
 /* cyrillic */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 300;
   font-display: fallback;
@@ -81,7 +81,7 @@
 }
 /* greek-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 300;
   font-display: fallback;
@@ -90,7 +90,7 @@
 }
 /* greek */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 300;
   font-display: fallback;
@@ -99,7 +99,7 @@
 }
 /* vietnamese */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 300;
   font-display: fallback;
@@ -108,7 +108,7 @@
 }
 /* latin-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 300;
   font-display: fallback;
@@ -117,7 +117,7 @@
 }
 /* latin */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 300;
   font-display: fallback;
@@ -126,7 +126,7 @@
 }
 /* cyrillic-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 400;
   font-display: fallback;
@@ -135,7 +135,7 @@
 }
 /* cyrillic */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 400;
   font-display: fallback;
@@ -144,7 +144,7 @@
 }
 /* greek-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 400;
   font-display: fallback;
@@ -153,7 +153,7 @@
 }
 /* greek */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 400;
   font-display: fallback;
@@ -162,7 +162,7 @@
 }
 /* vietnamese */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 400;
   font-display: fallback;
@@ -171,7 +171,7 @@
 }
 /* latin-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 400;
   font-display: fallback;
@@ -180,7 +180,7 @@
 }
 /* latin */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 400;
   font-display: fallback;
@@ -189,7 +189,7 @@
 }
 /* cyrillic-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 700;
   font-display: fallback;
@@ -198,7 +198,7 @@
 }
 /* cyrillic */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 700;
   font-display: fallback;
@@ -207,7 +207,7 @@
 }
 /* greek-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 700;
   font-display: fallback;
@@ -216,7 +216,7 @@
 }
 /* greek */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 700;
   font-display: fallback;
@@ -225,7 +225,7 @@
 }
 /* vietnamese */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 700;
   font-display: fallback;
@@ -234,7 +234,7 @@
 }
 /* latin-ext */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 700;
   font-display: fallback;
@@ -243,7 +243,7 @@
 }
 /* latin */
 @font-face {
-  font-family: 'Source Sans Pro';
+  font-family: 'Arial';
   font-style: normal;
   font-weight: 700;
   font-display: fallback;
