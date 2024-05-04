@@ -138,7 +138,7 @@
   }
 </style>
 <br><br><br><br><br>
-<footer class="footer_section">
+<footer class="footer_section fixed-bottom">
   <div class="container">
     <div class="row">
       <div class="col-md-4 footer-col">

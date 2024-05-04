@@ -411,18 +411,12 @@ document.addEventListener("DOMContentLoaded", async function () {
           "&color_id=" +
           color_id
       );
-      console.log("getPrecioShop&prod_id=" +
-      prod_id +
-      "&talla_id=" +
-      talla_id +
-      "&color_id=" +
-      color_id)
       if (!response.ok) {
         throw new Error(
           "Hubo un problema al obtener los detalles del producto."
         );
       }
-  
+
       const productos = await response.json(); // Esperar la resolución de la promesa
       if (productos.length > 0) {
         const producto = productos[0];
@@ -439,7 +433,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       return 0;
     }
   }
-  
 });
 function eliminarProductosLocalStorage() {
   localStorage.removeItem("cart");
