@@ -7,7 +7,7 @@ require_once 'UserController.php';
 require_once 'VentasController.php';
 require_once 'CompraController.php';
 require_once 'CantonesController.php';
-require_once 'SendWhatsApp.php';
+require_once 'NotificationsController.php';
 require_once '../models/PDFModel.php';
 require_once '../models/CorreosModel.php';
 if (isset($_REQUEST['op'])) {
@@ -221,13 +221,13 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $productController->createProduct();
             break;
         case 'send_alerta_whatsapp':
-            //$sendWhatsApp = new SendWhatsApp();
-            //  $sendWhatsApp->enviarMensajes($data['productos']);
             $data = json_decode(file_get_contents('php://input'), true);
+            $notification = new NotificationsController();
+            $notification->enviarProveedores($data['telefono']);
             $pdfModel = new PDFModel();
             $pdfModel->alertaPDF($data['productos']);
-            //call_user_func([$sendWhatsApp, 'enviarMensajes'], $data['productos']);
             call_user_func([$productController, 'setProductPedido'], $data['productos']);
+           
             break;
         case 'getPDFHTML':
             $controller->getPDFHTML();

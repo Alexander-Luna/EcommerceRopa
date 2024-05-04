@@ -42,6 +42,7 @@
 </div>
 <script>
     let emailProveedor = "";
+    let telfProveedor = "";
     fetch("../../controllers/router.php?op=getProveedores")
         .then((response) => {
             if (!response.ok) {
@@ -67,6 +68,7 @@
                 var seleccionado = selectProveedor.value;
                 var proveedor = data.find(p => p.id == seleccionado);
                 emailProveedor = proveedor ? proveedor.email : '';
+                telfProveedor = proveedor ? proveedor.telefono : '';
                 document.getElementById("email").textContent = proveedor ? proveedor.email : '';
                 document.getElementById("direccion_label").textContent = proveedor ? proveedor.direccion : ''; // Si el proveedor existe, mostrar su dirección, de lo contrario, dejar vacío
                 document.getElementById("telefono_label").textContent = proveedor ? proveedor.telefono : ''; // Si el proveedor existe, mostrar su teléfono, de lo contrario, dejar vacío
