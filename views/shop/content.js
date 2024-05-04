@@ -1,14 +1,79 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  // Obtener la URL actual
-  // Obtener la URL actual
-
   var numElementosMostrados = 0;
-  var tamanoBloque = 16; // Número de elementos a mostrar en cada bloque
+  var tamanoBloque = 16;
   reloadSection();
+
+  let data;
+  async function reloadSection() {
+    try {
+      const response = await fetch(
+        "../../controllers/router.php?op=getProductsShop"
+      );
+      data = await response.json();
+      mostrarElementosEnBloques(data);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+    }
+  }
+  function mostrarElementosEnBloques(data) {
+    // Crear un nuevo contenedor para los elementos adicionales
+    var nuevoContenedor = document.createElement("div");
+    nuevoContenedor.className = "row isotope-grid"; // Agregar la clase necesaria
+
+    // Limpiar el contenido del contenedor existente
+    document.getElementById("container").innerHTML = "";
+
+    // Calcular el índice de inicio y fin para los elementos a mostrar
+    var startIndex = numElementosMostrados;
+    var endIndex = Math.min(numElementosMostrados + tamanoBloque, data.length);
+
+    // Iterar sobre los datos y construir los elementos HTML
+    for (var i = startIndex; i < endIndex; i++) {
+      const producto = data[i];
+      const imagenProducto = producto.imagen
+        ? producto.imagen
+        : "../../public/images/products/defaultprod.png";
+      const productoHTML = `
+            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item ${producto.genero}">
+                <div class="block2">
+                    <div class="block2-pic hov-img0">
+                        <img src="${imagenProducto}" alt="Product Image">
+                        <a href="../product-detail/index.php?id=${producto.id_producto}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 show-modal1 text-decoration-none">
+                            Ver Producto
+                        </a>
+                    </div>
+                    <div class="block2-txt flex-w flex-t p-t-14">
+                        <div class="block2-txt-child1 flex-col-l">
+                            <a href="../product-detail/index.php?id=${producto.id_producto}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 text-decoration-none">${producto.nombre}</a>
+                            <span class="stext-105 cl3">$${producto.precio}</span>
+                            <input type="hidden" class="genero" data-genero="${producto.genero}">
+                            <input type="hidden" class="ocasion" data-ocasion="${producto.ocasion}">
+                           
+                            </div>
+                        <div class="block2-txt-child2 flex-r p-t-3">
+                            <button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 btnAddWish"  data-id="${producto.id_producto}">
+                                <img class="icon-heart1 dis-block trans-04" src="../../public/images/icons/icon-heart-01.png" alt="Heart Icon">
+                                <img class="icon-heart2 dis-block trans-04 ab-t-l" src="../../public/images/icons/icon-heart-02.png" alt="Heart Icon">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+      nuevoContenedor.innerHTML += productoHTML;
+    }
+    var contenedorExistente = document.getElementById("container");
+    contenedorExistente.insertAdjacentElement("beforebegin", nuevoContenedor);
+    numElementosMostrados += tamanoBloque;
+    if (filterValue !== null) {
+      filtrarPorGenero(filterValue);
+    }
+  }
   // Agregar evento al botón "Ver Más"
   document.getElementById("bmas").addEventListener("click", function () {
     mostrarElementosEnBloques(data);
   });
+
   var url = window.location.href;
   var urlParams = new URLSearchParams(new URL(url).search);
   var filterValue = urlParams.has("filter") ? urlParams.get("filter") : null;
@@ -149,73 +214,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           productos[i].style.display = "none";
         }
       }
-    }
-  }
-
-  let data;
-  async function reloadSection() {
-    try {
-      const response = await fetch(
-        "../../controllers/router.php?op=getProductsShop"
-      );
-      data = await response.json();
-      mostrarElementosEnBloques(data);
-    } catch (error) {
-      console.error("Error al obtener productos:", error);
-    }
-  }
-  function mostrarElementosEnBloques(data) {
-    // Crear un nuevo contenedor para los elementos adicionales
-    var nuevoContenedor = document.createElement("div");
-    nuevoContenedor.className = "row isotope-grid"; // Agregar la clase necesaria
-
-    // Limpiar el contenido del contenedor existente
-    document.getElementById("container").innerHTML = "";
-
-    // Calcular el índice de inicio y fin para los elementos a mostrar
-    var startIndex = numElementosMostrados;
-    var endIndex = Math.min(numElementosMostrados + tamanoBloque, data.length);
-
-    // Iterar sobre los datos y construir los elementos HTML
-    for (var i = startIndex; i < endIndex; i++) {
-      const producto = data[i];
-      const imagenProducto = producto.imagen
-        ? producto.imagen
-        : "../../public/images/products/defaultprod.png";
-      const productoHTML = `
-            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item ${producto.genero}">
-                <div class="block2">
-                    <div class="block2-pic hov-img0">
-                        <img src="${imagenProducto}" alt="Product Image">
-                        <a href="../product-detail/index.php?id=${producto.id_producto}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 show-modal1 text-decoration-none">
-                            Ver Producto
-                        </a>
-                    </div>
-                    <div class="block2-txt flex-w flex-t p-t-14">
-                        <div class="block2-txt-child1 flex-col-l">
-                            <a href="../product-detail/index.php?id=${producto.id_producto}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 text-decoration-none">${producto.nombre}</a>
-                            <span class="stext-105 cl3">$${producto.precio}</span>
-                            <input type="hidden" class="genero" data-genero="${producto.genero}">
-                            <input type="hidden" class="ocasion" data-ocasion="${producto.ocasion}">
-                           
-                            </div>
-                        <div class="block2-txt-child2 flex-r p-t-3">
-                            <button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 btnAddWish"  data-id="${producto.id_producto}">
-                                <img class="icon-heart1 dis-block trans-04" src="../../public/images/icons/icon-heart-01.png" alt="Heart Icon">
-                                <img class="icon-heart2 dis-block trans-04 ab-t-l" src="../../public/images/icons/icon-heart-02.png" alt="Heart Icon">
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-      nuevoContenedor.innerHTML += productoHTML;
-    }
-    var contenedorExistente = document.getElementById("container");
-    contenedorExistente.insertAdjacentElement("beforebegin", nuevoContenedor);
-    numElementosMostrados += tamanoBloque;
-    if (filterValue !== null) {
-      filtrarPorGenero(filterValue);
     }
   }
 });

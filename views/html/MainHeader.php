@@ -310,4 +310,3 @@ if ($_SESSION['user_session']['rol_id'] == "1") {
 <div id="cart_contain">
     <?php require_once "cart.php"; ?>
 </div>
-<?php require_once "../components/modal1.php"; ?>

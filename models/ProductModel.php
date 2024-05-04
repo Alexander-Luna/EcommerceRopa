@@ -279,13 +279,9 @@ class ProductModel extends Conectar
             JOIN genero AS g ON p.id_genero = g.id
             JOIN ocasion AS oc ON oc.id = p.id_ocasion
             LEFT JOIN imagenes_producto AS img ON img.id_producto = i.id_producto AND img.est = 1 AND img.orden = 1
-            WHERE i.row_num = 1;
+            WHERE i.row_num = 1 ORDER BY g.id DESC;
             ";
-
-
             $stmt = $conexion->prepare($sql);
-
-
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -304,13 +300,13 @@ class ProductModel extends Conectar
 
             $sql = "SELECT id_producto, id_color, id_talla, AVG(precio) AS precio, SUM(stock) AS stock
                     FROM inventario
-                    WHERE stock > 0 AND id_color = ? AND id_talla = ? AND id_producto = ?
+                    WHERE id_talla = ? AND id_producto = ? AND id_color = ? 
                     GROUP BY id_producto, id_color, id_talla";
 
             $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $color_id);
-            $stmt->bindValue(2, $talla_id);
-            $stmt->bindValue(3, $prod_id);
+            $stmt->bindValue(1, $talla_id);
+            $stmt->bindValue(2, $prod_id);
+            $stmt->bindValue(3, $color_id);
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

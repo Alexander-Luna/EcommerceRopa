@@ -356,15 +356,22 @@ document.addEventListener("DOMContentLoaded", async function () {
   $(document).on("click", ".btnSumar", async function (event) {
     event.preventDefault();
     var id = $(this).data("id");
-    let cart = JSON.parse(localStorage.getItem("cart"));
+    let cartString = localStorage.getItem("cart");
+    if (!cartString || cartString === "") {
+      console.error("El carrito está vacío en el almacenamiento local");
+      return;
+    }
+
+    let cart = JSON.parse(cartString);
     let producto = cart.find((producto) => producto.id === id);
+
     if (producto) {
-      producto.cantidad++;
+      producto.cantidad = parseInt(producto.cantidad) + 1;
 
       const stockActual = await getPrecioShop(
         producto.producto_id,
-        producto.color_id,
-        producto.talla_id
+        producto.talla_id,
+        producto.color_id
       );
       if (stockActual > producto.cantidad) {
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -378,6 +385,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     }
   });
+
   $(document).on("click", ".btnRestar", function () {
     var id = $(this).data("id");
     let cart = JSON.parse(localStorage.getItem("cart"));
@@ -403,12 +411,19 @@ document.addEventListener("DOMContentLoaded", async function () {
           "&color_id=" +
           color_id
       );
+      console.log("getPrecioShop&prod_id=" +
+      prod_id +
+      "&talla_id=" +
+      talla_id +
+      "&color_id=" +
+      color_id)
       if (!response.ok) {
         throw new Error(
           "Hubo un problema al obtener los detalles del producto."
         );
       }
-      const productos = await response.json();
+  
+      const productos = await response.json(); // Esperar la resolución de la promesa
       if (productos.length > 0) {
         const producto = productos[0];
         return producto.stock;
@@ -424,6 +439,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return 0;
     }
   }
+  
 });
 function eliminarProductosLocalStorage() {
   localStorage.removeItem("cart");
