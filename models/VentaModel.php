@@ -8,16 +8,6 @@ class VentaModel extends Conectar
     {
         try {
             $conexion = parent::Conexion();
-    
-            // Consulta para obtener el número de ventas mensuales y las ganancias totales de este año
-            $queryVentasMensuales = "SELECT MONTH(fecha) AS mes, COUNT(id) AS numVentas, SUM(total) AS ganancias
-                                     FROM ventas
-                                     WHERE YEAR(fecha) = YEAR(NOW())
-                                     GROUP BY MONTH(fecha);";
-            $stmtVentasMensuales = $conexion->prepare($queryVentasMensuales);
-            $stmtVentasMensuales->execute();
-            $ventasMensuales = $stmtVentasMensuales->fetchAll(PDO::FETCH_ASSOC);
-    
             // Consulta para obtener las ganancias totales del año anterior
             $queryGananciasAnioAnterior = "SELECT SUM(total) AS gananciasAnioAnterior
                                            FROM ventas
@@ -26,7 +16,7 @@ class VentaModel extends Conectar
             $stmtGananciasAnioAnterior->execute();
             $rowGananciasAnioAnterior = $stmtGananciasAnioAnterior->fetch(PDO::FETCH_ASSOC);
             $gananciasAnioAnterior = $rowGananciasAnioAnterior['gananciasAnioAnterior'];
-    
+
             // Consulta para obtener el número de nuevos usuarios cuyo rol sea 2
             $queryNumNuevosUsuarios = "SELECT COUNT(id) AS numNuevosUsuarios
                                         FROM usuarios
@@ -36,27 +26,80 @@ class VentaModel extends Conectar
             $stmtNumNuevosUsuarios->execute();
             $rowNumNuevosUsuarios = $stmtNumNuevosUsuarios->fetch(PDO::FETCH_ASSOC);
             $numNuevosUsuarios = $rowNumNuevosUsuarios['numNuevosUsuarios'];
-    
-            // Calcular el porcentaje de ganancias en relación con el año anterior
-            $porcentajeGanancias = 0;
-            if ($gananciasAnioAnterior > 0) {
-                $porcentajeGanancias = (($ventasMensuales[0]['ganancias'] - $gananciasAnioAnterior) / $gananciasAnioAnterior) * 100;
-            }
-    
+
+
+
             // Preparar los resultados para retornarlos
             $resultados = array(
-                'ventasMensuales' => $ventasMensuales,
-                'numNuevosUsuarios' => $numNuevosUsuarios,
-                'gananciasAnioActual' => $ventasMensuales,
-                'porcentajeGanancias' => $porcentajeGanancias,
+                'ventasMensuales' => $this->getVentasMensuales(),
+                'ventasAnuales' => $this->getVentasAnuales(),
+                'nuevosClientes' => $this->getNuevosClientes(),
             );
-    
+
             return $resultados;
         } catch (PDOException $e) {
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
+    private function getVentasMensuales()
+{
+    try {
+        $conexion = parent::Conexion();
+        $queryVentasMensuales = "SELECT
+            (SELECT MONTH(fecha) FROM ventas WHERE YEAR(fecha) = YEAR(NOW()) AND MONTH(fecha) = MONTH(NOW()) LIMIT 1) AS mes,
+            COUNT(CASE WHEN YEAR(fecha) = YEAR(NOW()) AND MONTH(fecha) = MONTH(NOW()) THEN id END) AS ventasEsteMes,
+            SUM(CASE WHEN YEAR(fecha) = YEAR(NOW()) AND MONTH(fecha) = MONTH(NOW()) THEN total ELSE 0 END) AS gananciasEsteMes,
+            SUM(CASE WHEN YEAR(fecha) = YEAR(NOW()) AND MONTH(fecha) = MONTH(NOW()) - 1 THEN total ELSE 0 END) AS gananciasMesAnterior,
+            COUNT(CASE WHEN YEAR(fecha) = YEAR(NOW()) AND MONTH(fecha) = MONTH(NOW()) - 1 THEN id END) AS ventasMesAnterior
+        FROM ventas
+        WHERE YEAR(fecha) = YEAR(NOW())
+        AND (MONTH(fecha) = MONTH(NOW()) OR MONTH(fecha) = MONTH(NOW()) - 1)
+        GROUP BY mes;";
+        
+        $stmtVentasMensuales = $conexion->prepare($queryVentasMensuales);
+        $stmtVentasMensuales->execute();
+        return $stmtVentasMensuales->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Error al obtener los datos: " . $e->getMessage());
+    }
+}
 
+    
+    private function getVentasAnuales() {
+        try {
+            $conexion = parent::Conexion();
+            $queryVentasAnuales = "SELECT
+                YEAR(fecha) AS anio,
+                SUM(CASE WHEN YEAR(fecha) = YEAR(NOW()) THEN total ELSE 0 END) AS ventasAnioActual,
+                SUM(CASE WHEN YEAR(fecha) = YEAR(NOW()) - 1 THEN total ELSE 0 END) AS ventasAnioAnterior
+            FROM ventas
+            GROUP BY YEAR(fecha);";
+    
+            $stmtVentasAnuales = $conexion->prepare($queryVentasAnuales);
+            $stmtVentasAnuales->execute();
+            return $stmtVentasAnuales->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
+    private function getNuevosClientes() {
+        try {
+            $conexion = parent::Conexion();
+            $queryNuevosClientes = "SELECT
+                (SELECT COUNT(id) FROM usuarios WHERE rol_id = 2 AND YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(NOW())) AS nuevosClientesEsteMes,
+                (SELECT COUNT(id) FROM usuarios WHERE rol_id = 2 AND YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(NOW()) - 1) AS nuevosClientesMesAnterior,
+                (SELECT COUNT(id) FROM usuarios WHERE rol_id = 2 AND YEAR(created_at) = YEAR(NOW())) AS totalClientes;";
+        
+            $stmtNuevosClientes = $conexion->prepare($queryNuevosClientes);
+            $stmtNuevosClientes->execute();
+            $resultados = $stmtNuevosClientes->fetchAll(PDO::FETCH_ASSOC);
+        
+            return $resultados;
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
+    
     public function getVentas()
     {
         try {
@@ -242,7 +285,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
     {
 
         try {
-           
+
             $conexion = parent::Conexion();
             $sql = "SELECT v.*,
             u.nombre as name_client,re.* 
@@ -263,7 +306,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
     public function getProductsVentaAdmin($id)
     {
         try {
-            
+
             $conexion = parent::Conexion();
             $sql = "SELECT p.id as id_producto,
             t.talla,c.color,

@@ -10,16 +10,15 @@
       </div><!-- /.container-fluid -->
     </div>
     <div class="row mb-3">
-      <!-- Earnings (Monthly) Card Example -->
       <div class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
           <div class="card-body">
             <div class="row align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-uppercase mb-1">Ventas Mensuales</div>
-                <span id="v_mes" class="h5 mb-0 font-weight-bold text-gray-800">$40,000</span>
+                <span id="v_mes" class="h5 mb-0 font-weight-bold text-gray-800">$00,00</span>
                 <div class="mt-2 mb-0 text-muted text-xs">
-                  <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                  <span id="porc_v_mes" class="text-success mr-2"><i class="fa fa-arrow-up"></i> 0.0%</span>
                   <span>Que el mes anterior</span>
                 </div>
               </div>
@@ -37,9 +36,9 @@
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-uppercase mb-1">Ventas Totales</div>
-                <span id="v_total" class="h5 mb-0 font-weight-bold text-gray-800">650</span>
+                <span id="vt_mes" class="h5 mb-0 font-weight-bold text-gray-800">0</span>
                 <div class="mt-2 mb-0 text-muted text-xs">
-                  <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                  <span id="pvt_mes" class="text-success mr-2"><i class="fas fa-arrow-up"></i> 0.0%</span>
                   <span>Que el mes anterior</span>
                 </div>
               </div>
@@ -57,9 +56,9 @@
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-uppercase mb-1">Nuevos Clientes</div>
-                <span id="new_clientes" class="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</span>
+                <span  id="clientes" class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0</span>
                 <div class="mt-2 mb-0 text-muted text-xs">
-                  <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
+                  <span id="porc_clientes" class="text-success mr-2"><i class="fas fa-arrow-up"></i> 0.0%</span>
                   <span>Que el mes anterior</span>
                 </div>
               </div>
@@ -77,9 +76,9 @@
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-uppercase mb-1">Ganancias Anuales</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">$18,00</div>
+                <div id="g_anual" class="h5 mb-0 font-weight-bold text-gray-800">$00,00</div>
                 <div class="mt-2 mb-0 text-muted text-xs">
-                  <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+                  <span id="pg_anual" class="text-success mr-2"><i class="fa fa-arrow-up"></i> 0.0%</span>
                   <span>Que el año anterior</span>
                 </div>
               </div>
@@ -89,10 +88,9 @@
             </div>
           </div>
         </div>
-    </div>
+      </div>
       <!-- https://themewagon.github.io/ruang-admin/ -->
-
-      <!-- Area Chart -->
+      <!-- 
       <div class="col-xl-8 col-lg-7">
         <div class="card mb-4">
           <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -117,7 +115,6 @@
           </div>
         </div>
       </div>
-      <!-- Pie Chart -->
       <div class="col-xl-4 col-lg-5">
         <div class="card mb-4">
           <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -181,7 +178,7 @@
             <a class="m-0 small text-primary card-link" href="#">View More <i class="fas fa-chevron-right"></i></a>
           </div>
         </div>
-      </div>
+      </div> -->
 
     </div>
 
