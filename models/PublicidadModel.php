@@ -14,7 +14,7 @@ class PublicidadModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -31,7 +31,7 @@ class PublicidadModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -93,9 +93,9 @@ class PublicidadModel extends Conectar
                 throw new Exception("No se ha podido actualizar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -133,9 +133,9 @@ class PublicidadModel extends Conectar
                 throw new Exception("No se ha podido insertar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -160,9 +160,9 @@ class PublicidadModel extends Conectar
                 throw new Exception("No se ha podido eliminar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al eliminar el registro: " . $e->getMessage());
+            return ("Error al eliminar el registro: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 }

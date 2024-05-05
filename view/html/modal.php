@@ -15,7 +15,7 @@
                     <div class="card-body">
                         <form id="formularioVenta">
                             <input type="hidden" class="form-control" id="id_v" name="id_v" required>
-                            <input type="hidden" class="form-control" id="id_c" name="id_v" required>
+                            <input type="hidden" class="form-control" id="id_c" name="id_c" required>
 
                             <div class="row">
                                 <div class="col-md-3">
@@ -96,7 +96,6 @@
             </div>
         </div>
     </div>
-    <script src="../../public/js/jspdf.umd.min.js"></script>
 
     <script>
         document.getElementById("btnPrint").addEventListener("click", function() {

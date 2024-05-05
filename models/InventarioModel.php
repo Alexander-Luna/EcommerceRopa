@@ -14,7 +14,7 @@ class InventarioModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getColores()
@@ -28,7 +28,7 @@ class InventarioModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getTallas()
@@ -42,7 +42,7 @@ class InventarioModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -57,7 +57,7 @@ class InventarioModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getOcasion()
@@ -71,7 +71,7 @@ class InventarioModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -86,7 +86,7 @@ class InventarioModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getCategorias()
@@ -105,7 +105,7 @@ class InventarioModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 }

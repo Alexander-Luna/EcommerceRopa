@@ -20,7 +20,7 @@ class UserModel extends Conectar
             return $users;
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al obtener usuarios: " . $e->getMessage());
+            return ("Error al obtener usuarios: " . $e->getMessage());
         }
     }
     public function getUserDataByEmail($email)
@@ -36,7 +36,7 @@ class UserModel extends Conectar
             return $user;
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al obtener usuarios por correo electrónico: " . $e->getMessage());
+            return ("Error al obtener usuarios por correo electrónico: " . $e->getMessage());
         }
     }
     public function getUserData()
@@ -55,7 +55,7 @@ class UserModel extends Conectar
             return $user;
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al obtener usuarios: " . $e->getMessage());
+            return ("Error al obtener usuarios: " . $e->getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ class UserModel extends Conectar
             $user = $this->getUserDataByEmail($email);
 
             if (!$user) {
-                die("El usuario con el correo electrónico proporcionado no existe.");
+                return ("El usuario con el correo electrónico proporcionado no existe.");
             }
 
             // Obtener el ID de usuario
@@ -137,7 +137,7 @@ class UserModel extends Conectar
             return  true;
         } catch (Exception $e) {
             // Manejo de errores
-            die("Error al resetear la contraseña: " . $e->getMessage());
+            return ("Error al resetear la contraseña: " . $e->getMessage());
         }
     }
     private function generarContrasenaAleatoria($longitud = 8)
@@ -169,7 +169,7 @@ class UserModel extends Conectar
             return $users;
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al obtener usuarios: " . $e->getMessage());
+            return ("Error al obtener usuarios: " . $e->getMessage());
         }
     }
     public function getAllClients()
@@ -188,7 +188,7 @@ class UserModel extends Conectar
             return $users;
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al obtener usuarios: " . $e->getMessage());
+            return ("Error al obtener usuarios: " . $e->getMessage());
         }
     }
     public function getClientById($clientId)
@@ -208,7 +208,7 @@ class UserModel extends Conectar
             return $client;
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al obtener cliente: " . $e->getMessage());
+            return ("Error al obtener cliente: " . $e->getMessage());
         }
     }
     public function getClientByEmail($clientEmail)
@@ -228,7 +228,7 @@ class UserModel extends Conectar
             return $client;
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al obtener cliente: " . $e->getMessage());
+            return ("Error al obtener cliente: " . $e->getMessage());
         }
     }
     public function getClientByEmailAndCi($clientEmail, $ci)
@@ -249,7 +249,7 @@ class UserModel extends Conectar
             return $client;
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -277,7 +277,7 @@ class UserModel extends Conectar
             $resultado = $sql->fetchAll();
             return $resultado;
         } catch (PDOException $e) {
-            die("Error al obtener cliente: " . $e->getMessage());
+            return ("Error al obtener cliente: " . $e->getMessage());
         }
     }
     public function actualizarPassword($usu_id, $usu_pass)
@@ -292,7 +292,7 @@ class UserModel extends Conectar
             return $resultado = $sql->fetchAll();
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al obtener cliente: " . $e->getMessage());
+            return ("Error al obtener cliente: " . $e->getMessage());
         }
     }
     public function login()
@@ -320,7 +320,7 @@ class UserModel extends Conectar
             }
         } catch (PDOException $e) {
             // Manejo de errores
-            die("Error al iniciar sesión: " . $e->getMessage());
+            return ("Error al iniciar sesión: " . $e->getMessage());
         }
     }
 
@@ -363,9 +363,9 @@ class UserModel extends Conectar
                 return $stmt;
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     public function updateUsers()
@@ -410,9 +410,9 @@ class UserModel extends Conectar
                 throw new Exception("No se ha podido actualizar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     public function deleteUsers()
@@ -442,9 +442,9 @@ class UserModel extends Conectar
                 throw new Exception("No se ha podido cambiar el estado del usuario");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del usuario: " . $e->getMessage());
+            return ("Error al cambiar el estado del usuario: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 }

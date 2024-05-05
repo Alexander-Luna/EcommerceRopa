@@ -124,6 +124,10 @@ class PDFModel extends Conectar
             return $e;
         }
     }
+
+
+
+
     public function alertaPDF($data)
     {
         // Crear instancia de TCPDF
@@ -187,7 +191,7 @@ class PDFModel extends Conectar
             echo $result;
         }
     }
-    
+
     public function ventaPDF($data, $total, $ci, $email, $direccion, $telefono, $nombre)
     {
         // Crear instancia de TCPDF
@@ -210,8 +214,8 @@ class PDFModel extends Conectar
 
         // Establecer el formato de página
         $pdf->AddPage();
-        $iva = $total * 0.15;
-        $subtotal = $total - $iva;
+        $iva = $total - ($total / 1.15);
+        $subtotal = $total / 1.15;
 
         // Inicio del contenido HTML
         $html = '<img src="../public/images/icons/logo.png" alt="Logo de Asotaeco" style="width: 100px; height: 100px;max-width: 100px; max-height: 100px;">';
@@ -239,8 +243,8 @@ class PDFModel extends Conectar
             $html .= '<td style="border: 1px solid black;">' . $row['talla'] . '</td>';
             $html .= '<td style="border: 1px solid black;">' . $row['color'] . '</td>';
             $html .= '<td style="border: 1px solid black;">' . $row['cantidad'] . '</td>';
-            $html .= '<td style="border: 1px solid black;">$' . $row['precio_venta'] - ($row['precio_venta'] * 0.15) . '</td>';
-            $html .= '<td style="border: 1px solid black;">$' . ($row['precio_venta'] - ($row['precio_venta'] * 0.15)) * $row['cantidad'] . '</td>';
+            $html .= '<td style="border: 1px solid black;">$' . number_format(($row['precio_venta'] / 1.15), 2) . '</td>';
+            $html .= '<td style="border: 1px solid black;">$' . number_format(($row['precio_venta'] / 1.15) * $row['cantidad']) . '</td>';
             $html .= '</tr>';
         }
         $html .= '</tbody>';
@@ -260,4 +264,6 @@ class PDFModel extends Conectar
             echo $result;
         }
     }
+
+    
 }

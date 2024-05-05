@@ -13,9 +13,10 @@ class DownloadPDF extends Conectar
     public function getPDFHTML()
     {
         $ventas = new VentaModel();
-        $clientData = $ventas->getClienteVenta($_POST['id_client']);
+        $clientData = $ventas->getClienteVenta($_POST['id_venta']);
+
         if (!empty($clientData)) {
-            $clientData = $clientData[0]; 
+            $clientData = $clientData[0];
             $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
             $pdf->SetCreator(PDF_CREATOR);
             $pdf->SetAuthor('ASOTAECO');
@@ -23,6 +24,36 @@ class DownloadPDF extends Conectar
             $pdf->SetKeywords('TCPDF, PDF, invoice, sales, Ecuador');
             $pdf->SetTitle('ASOTAECO VENTAS');
             $pdf->AddPage();
+            // Establecer el JPEG quality
+            $pdf->setJPEGQuality(75);
+            // Obtener las dimensiones de la imagen
+            $imagePath = '../public/images/icons/logo.png'; // Ruta de la imagen
+            $imageSize = getImageSize($imagePath);
+            $originalWidth = $imageSize[0]; // Ancho original de la imagen
+            $originalHeight = $imageSize[1]; // Alto original de la imagen
+
+            // Usar las dimensiones obtenidas en tu código TCPDF
+            $pdf->Image(
+                $imagePath, // Ruta de la imagen
+                180, // X position (in millimeters)
+                20, // Y position (in millimeters)
+                25, // New width (in millimeters)
+                (25 * $originalHeight) / $originalWidth, // Calculate proportional height based on new width
+                '', // Image type (leave blank for auto-detection)
+                'PNG', // Link (optional)
+                '', // Use case for HTML mode (optional)
+                false, // Preserve image proportions (optional)
+                150, // DPI (optional)
+                '', // Placeholder for internal image (optional)
+                false, // Mask image (optional)
+                false, // Transparent mask (optional)
+                0, // Border mode (optional)
+                false, // Interpolate (optional)
+                false, // Fit to cell (optional)
+                false // Allow HTML mode (optional)
+            );
+
+
             $pdf->SetFont('helvetica', 'B', 12);
             $pdf->SetTextColor(0, 0, 0);
             $pdf->Cell(130, 10, 'ASOTAECO', 0, 0, 'L');
@@ -32,20 +63,29 @@ class DownloadPDF extends Conectar
             $pdf->Cell(60, 10, date('d/m/Y', strtotime($invoiceDate)), 0, 0, 'R');
             $pdf->Ln(10);
 
-            // Agregar información del cliente
-            $pdf->SetFont('helvetica', '', 10);
-            $pdf->SetTextColor(80, 80, 80);
             $clientName = $clientData['name_client'];
             $clientCI = $clientData['ci'];
-            $pdf->Cell(60, 10, "Cliente:", 0, 0, 'L');
-            $pdf->Cell(140, 10, $clientName, 0, 1, 'L');
-            $pdf->Cell(60, 10, "CI/RUC:", 0, 0, 'L');
-            $pdf->Cell(140, 10, $clientCI, 0, 1, 'L');
             $clientAddress = $clientData['direccion'];
             $clientPhone = $clientData['telefono'];
-            $pdf->Cell(60, 10, "Dirección:", 0, 0, 'L');
+            // Agregar información del cliente
+
+            $pdf->SetTextColor(80, 80, 80);
+
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(20, 10, "Cliente:", 0, 0, 'L');
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(140, 10, $clientName, 0, 1, 'L');
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(20, 10, "CI/RUC:", 0, 0, 'L');
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(140, 10, $clientCI, 0, 1, 'L');
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(20, 10, "Dirección:", 0, 0, 'L');
+            $pdf->SetFont('helvetica', '', 10);
             $pdf->Cell(140, 10, $clientAddress, 0, 1, 'L');
-            $pdf->Cell(60, 10, "Teléfono:", 0, 0, 'L');
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(20, 10, "Teléfono:", 0, 0, 'L');
+            $pdf->SetFont('helvetica', '', 10);
             $pdf->Cell(140, 10, $clientPhone, 0, 1, 'L');
             $pdf->Ln(10);
 
@@ -53,44 +93,44 @@ class DownloadPDF extends Conectar
             $products = $ventas->getProductsVentaAdmin($_POST['id_venta']);
             $total = 0;
             $vatTotal = 0;
-            $pdf->SetFont('helvetica', '', 10);
+            $pdf->SetFont('helvetica', 'B', 10);
             $pdf->SetTextColor(80, 80, 80);
+            $pdf->Cell(10, 10, "N.", 1, 0, 'C');
             $pdf->Cell(20, 10, "Cant.", 1, 0, 'C');
-            $pdf->Cell(60, 10, "Descripción", 1, 0, 'L');
-            $pdf->Cell(30, 10, "Precio Unitario", 1, 0, 'R');
-            $pdf->Cell(30, 10, "Total", 1, 1, 'R');
+            $pdf->Cell(80, 10, "Descripción", 1, 0, 'C');
+            $pdf->Cell(30, 10, "Precio Unitario", 1, 0, 'C');
+            $pdf->Cell(30, 10, "Total", 1, 1, 'C');
+            $pdf->SetFont('helvetica', '', 10);
+            $con = 1;
+            //   for ($i = 0; $i < 30; $i++) {
             foreach ($products as $product) {
                 $quantity = $product['cantidad'];
-                $description = $product['desc_producto'];
+                $description = $product['producto'] . " " . $product['talla'] . " " . $product['color'];
                 $price = $product['precio'];
-                
-                // Calcular el precio del producto sin IVA
                 $priceExclVat = $price / 1.15; // Dividir por 1.15 para eliminar el 15% de IVA
-                
-                // Calcular el IVA
                 $vat = $price - $priceExclVat; // El IVA es la diferencia entre el precio total y el precio sin IVA
-                
                 $total += $quantity * $priceExclVat; // Sumar al total el precio sin IVA
                 $vatTotal += $quantity * $vat; // Sumar al total del IVA el IVA por cada producto
-            
+                $pdf->Cell(10, 10, $con, 1, 0, 'C');
                 $pdf->Cell(20, 10, $quantity, 1, 0, 'C');
-                $pdf->Cell(60, 10, $description, 1, 0, 'L');
-                $pdf->Cell(30, 10, number_format($priceExclVat, 2), 1, 0, 'R');
-                $pdf->Cell(30, 10, number_format($quantity * $priceExclVat, 2), 1, 1, 'R');
+                $pdf->Cell(80, 10, $description, 1, 0, 'L');
+                $pdf->Cell(30, 10, "$" . number_format($priceExclVat, 2), 1, 0, 'C');
+                $pdf->Cell(30, 10, "$" . number_format($quantity * $priceExclVat, 2), 1, 1, 'C');
+                $con++;
             }
-            
+            // }
+
             // Agregar totales
             $pdf->SetFont('helvetica', 'B', 10);
             $pdf->SetTextColor(0, 0, 0);
-            $pdf->Cell(100, 10, "Subtotal:", 0, 0, 'L');
-            $pdf->Cell(40, 10, number_format($total, 2), 1, 1, 'R');
-            $pdf->Cell(100, 10, "IVA (15%):", 0, 0, 'L');
-            $pdf->Cell(40, 10, number_format($vatTotal, 2), 1, 1, 'R');
-            $pdf->Cell(100, 10, "Total:", 0, 0, 'L');
-            $pdf->Cell(40, 10, number_format($total + $vatTotal, 2), 1, 1, 'R');
-            
 
-            // Generar el PDF
+            $pdf->Cell(140, 10, "Subtotal:", 0, 0, 'R');
+            $pdf->Cell(30, 10, "$" . number_format($total, 2), 1, 1, 'R');
+            $pdf->Cell(140, 10, "IVA (15%):", 0, 0, 'R');
+            $pdf->Cell(30, 10, "$" . number_format($vatTotal, 2), 1, 1, 'R');
+            $pdf->Cell(140, 10, "Total:", 0, 0, 'R');
+            $pdf->Cell(30, 10, "$" . number_format($total + $vatTotal, 2), 1, 1, 'R');
+
             $output = $pdf->Output('venta.pdf', 'S');
             header('Content-Type: application/pdf');
             header('Content-Disposition: attachment; filename="factura_venta.pdf"');
@@ -105,98 +145,6 @@ class DownloadPDF extends Conectar
         }
     }
 
-
-
-
-
-
-
-
-
-
-    public function getVentaUser()
-    {
-        try {
-            $id = $_GET["id"];
-            $conexion = parent::Conexion();
-            $sql = "SELECT 
-                dv.id, 
-                dv.id_venta, 
-                dv.cantidad, 
-                dv.precio_unitario, 
-                p.nombre AS nombre_producto,
-                ip.url_imagen AS imagen,
-                i.id_color,
-                i.id_talla,
-                c.color,
-                t.talla,
-                v.fecha,
-                v.total,
-                v.envio,
-                r.nombre as receptor_nombre,
-                r.telefono as receptor_telefono,
-                r.email as receptor_email,
-                r.direccion as receptor_direccion,
-                r.ci as receptor_ci
-                
-            FROM 
-                detalles_venta dv
-            JOIN 
-                inventario i ON dv.id_variante_producto = i.id
-            JOIN 
-                ventas v ON dv.id_venta = v.id
-            JOIN 
-                colores c ON i.id_color = c.id
-                JOIN 
-                recibe r ON v.id_recibe = r.id
-            JOIN 
-                tallas t ON i.id_talla = t.id
-            JOIN 
-                productos p ON i.id_producto = p.id
-            LEFT JOIN 
-                imagenes_producto ip ON p.id = ip.id_producto AND ip.orden = 1 WHERE dv.id_venta=?;
-            ";
-            $stmt = $conexion->prepare($sql);
-            $stmt->bindValue(1, $id);
-            $stmt->execute();
-            $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $html = '<div>';
-            $html .= '<p>Fecha: ' . $ventas[0]['fecha'] . '</p>';
-            $html .= '<p>Número de factura: ' . $ventas[0]['id_venta'] . '</p>';
-            $html .= '<p>Cliente: ' . $ventas[0]['receptor_nombre'] . '</p>';
-            $html .= '<p>Teléfono: ' . $ventas[0]['receptor_telefono'] . '</p>';
-            $html .= '<p>Email: ' . $ventas[0]['receptor_email'] . '</p>';
-            $html .= '<p>Dirección: ' . $ventas[0]['receptor_direccion'] . '</p>';
-            $html .= '</div>';
-            $html .= '<table>';
-            $html .= '<tr><th>Producto</th><th>Cantidad</th><th>Precio Unitario</th></tr>';
-            foreach ($ventas as $venta) {
-                $html .= '<tr>';
-                $html .= '<td>' . $venta['nombre_producto'] . '</td>';
-                $html .= '<td>' . $venta['cantidad'] . '</td>';
-                $html .= '<td>$' . $venta['precio_unitario'] . '</td>';
-                $html .= '</tr>';
-            }
-
-            $html .= '</table>';
-            $html .= '<p>Subtotal: $' . $ventas[0]['total'] . '</p>';
-            $html .= '<p>Envío: $' . $ventas[0]['envio'] . '</p>';
-            $html .= '<p>Total: $' . ($ventas[0]['total'] + $ventas[0]['envio']) . '</p>';
-            $dompdf = new Dompdf();
-            $dompdf->loadHtml($html);
-            $dompdf->setPaper('A4', 'portrait');
-            $dompdf->render();
-            $output = $dompdf->output();
-            header('Content-Type: application/pdf');
-            header('Content-Disposition: attachment; filename="factura_venta.pdf"');
-            header('Content-Length: ' . strlen($output));
-            echo $output;
-            exit;
-        } catch (Exception $e) {
-            http_response_code(400);
-            return $e;
-        }
-    }
     public function downloadStock($data)
     {
 

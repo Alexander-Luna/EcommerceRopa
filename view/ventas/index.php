@@ -1,5 +1,3 @@
-
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -21,10 +19,10 @@
 
                     <!-- /.card-header -->
                     <div class="card-body">
-                    <?php require_once "../ventas/modal.php" ?>
+                        <?php require_once '../html/modal.php'; ?>
 
                         <table id="miTabla" class="table table-bordered table-hover">
-                            
+
                         </table>
                         <script src="../ventas/content.js"></script>
                     </div>

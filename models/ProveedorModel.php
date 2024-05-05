@@ -13,7 +13,7 @@ class ProveedorModel extends Conectar
             $proveedores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $proveedores;
         } catch (PDOException $e) {
-            die("Error al obtener proveedores: " . $e->getMessage());
+            return ("Error al obtener proveedores: " . $e->getMessage());
         }
     }
     public function getProveedores()
@@ -26,7 +26,7 @@ class ProveedorModel extends Conectar
             $proveedores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $proveedores;
         } catch (PDOException $e) {
-            die("Error al obtener proveedores: " . $e->getMessage());
+            return ("Error al obtener proveedores: " . $e->getMessage());
         }
     }
     public function updateProveedores()
@@ -56,9 +56,9 @@ class ProveedorModel extends Conectar
                 throw new Exception("No se ha podido actualizar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -78,9 +78,9 @@ class ProveedorModel extends Conectar
                 throw new Exception("No se ha podido cambiar el estado del proveedor");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del proveedor: " . $e->getMessage());
+            return ("Error al cambiar el estado del proveedor: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -109,9 +109,9 @@ class ProveedorModel extends Conectar
                 throw new Exception("No se ha podido insertar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 }

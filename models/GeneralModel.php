@@ -14,7 +14,7 @@ class GeneralModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getAllColores()
@@ -28,7 +28,7 @@ class GeneralModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getAllOcasion()
@@ -42,7 +42,7 @@ class GeneralModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getAllTprenda()
@@ -56,7 +56,7 @@ class GeneralModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getAllGeneros()
@@ -70,7 +70,7 @@ class GeneralModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function updateTalla()
@@ -95,9 +95,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido actualizar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -117,9 +117,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido cambiar el estado del proveedor");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del proveedor: " . $e->getMessage());
+            return ("Error al cambiar el estado del proveedor: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -141,9 +141,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido insertar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     public function updateGenero()
@@ -166,9 +166,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido actualizar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -188,9 +188,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido cambiar el estado del proveedor");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del proveedor: " . $e->getMessage());
+            return ("Error al cambiar el estado del proveedor: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -209,9 +209,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido insertar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     //
@@ -235,9 +235,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido actualizar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -257,9 +257,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido cambiar el estado del proveedor");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del proveedor: " . $e->getMessage());
+            return ("Error al cambiar el estado del proveedor: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -278,9 +278,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido insertar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     //
@@ -304,9 +304,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido actualizar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -326,9 +326,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido cambiar el estado del proveedor");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del proveedor: " . $e->getMessage());
+            return ("Error al cambiar el estado del proveedor: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -347,9 +347,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido insertar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     //
@@ -375,9 +375,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido actualizar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -397,9 +397,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido cambiar el estado del proveedor");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del proveedor: " . $e->getMessage());
+            return ("Error al cambiar el estado del proveedor: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -420,9 +420,9 @@ class GeneralModel extends Conectar
                 throw new Exception("No se ha podido insertar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     public function getWishClient()
@@ -443,10 +443,10 @@ class GeneralModel extends Conectar
             return $data;
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -466,10 +466,10 @@ class GeneralModel extends Conectar
             return true;
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al eliminar los datos: " . $e->getMessage());
+            return ("Error al eliminar los datos: " . $e->getMessage());
         } catch (Exception $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 }

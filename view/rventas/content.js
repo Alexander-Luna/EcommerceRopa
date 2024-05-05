@@ -11,50 +11,53 @@ document.addEventListener("DOMContentLoaded", async function () {
         const fechaIni = document.getElementById("fecha_ini").value;
         const fechaFin = document.getElementById("fecha_fin").value;
 
-        fetch(
-          "../../controllers/router.php?op=getReporteVentas&fecha_ini=" +
-            fechaIni +
-            "&fecha_fin=" +
-            fechaFin,
-          {
-            method: "GET",
-          }
-        )
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(
-                "Hubo un problema al obtener los detalles del talla."
-              );
-            }
-            response.json().then((data) => {
-              total_entregado = 0;
-              total_pendiente = 0;
-
-              data.forEach((venta) => {
-                let totalVenta = parseFloat(venta.total);
-                if (venta.est_pago <= 1) {
-                  total_pendiente = total_pendiente + totalVenta;
-                }
-                if (venta.est_pago === 2) {
-                  total_entregado = total_entregado + totalVenta;
-                }
-              });
-              document.getElementById("total_pv").textContent =
-                "$" + total_pendiente.toFixed(2);
-              document.getElementById("total_ev").textContent =
-                "$" + total_entregado.toFixed(2);
-              miTabla.clear().draw();
-              miTabla.rows.add(data).draw();
-            });
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        MostrarDatos(fechaIni, fechaFin);
       } catch (error) {
         console.error(error);
       }
     });
+  MostrarDatos("null", "null");
+  function MostrarDatos(fechaIni, fechaFin) {
+    fetch(
+      "../../controllers/router.php?op=getReporteVentas&fecha_ini=" +
+        fechaIni +
+        "&fecha_fin=" +
+        fechaFin,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            "Hubo un problema al obtener los detalles del talla."
+          );
+        }
+        response.json().then((data) => {
+          total_entregado = 0;
+          total_pendiente = 0;
 
+          data.forEach((venta) => {
+            let totalVenta = parseFloat(venta.total);
+            if (venta.est_pago <= 1) {
+              total_pendiente = total_pendiente + totalVenta;
+            }
+            if (venta.est_pago === 2) {
+              total_entregado = total_entregado + totalVenta;
+            }
+          });
+          document.getElementById("total_pv").textContent =
+            "$" + total_pendiente.toFixed(2);
+          document.getElementById("total_ev").textContent =
+            "$" + total_entregado.toFixed(2);
+          miTabla.clear().draw();
+          miTabla.rows.add(data).draw();
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
   // Inicializar DataTables
   let miTabla = $("#miTabla").DataTable({
     language: {
@@ -127,8 +130,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         data: null,
         title: "Acciones",
         render: function (data, type, row) {
-          return `<button type="button" title="Ver Venta" class="btn btn-outline-info btnVer" data-id="${row.id}">
-          <i class="fa fa-shopping-bag" aria-hidden="true"></i></button>
+          return `<button type="button" class="btn btn-outline-success btnVer" data-id="${row.id}">
+          <i class="fa fa-eye" aria-hidden="true"></i></button>
                 <button type="button" title="Descargar" class="btn btn-outline-danger btnDescargar" data-id="${row.id}">
                 <i class="fa fa-download" aria-hidden="true"></i></button>`;
         },
@@ -268,8 +271,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   $(document).on("click", ".btnDescargar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
-    fetch("../../controllers/router.php?op=getVentaUser&id=" + rowData.id, {
-      method: "GET",
+    const formData = new FormData();
+    formData.append("id_venta", rowData.id);
+    fetch("../../controllers/router.php?op=getPDFHTML", {
+      method: "POST",
+      body: formData,
     })
       .then((response) => {
         if (!response.ok) {

@@ -49,7 +49,7 @@ class CompraModel extends Conectar
 
             return $resultados;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ INNER JOIN usuarios u ON v.id_client = u.id;
             $compras = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $compras;
         } catch (PDOException $e) {
-            die("Error al obtener compras: " . $e->getMessage());
+            return ("Error al obtener compras: " . $e->getMessage());
         }
     }
     public function getAllCompras()
@@ -108,7 +108,7 @@ INNER JOIN usuarios u ON v.id_client = u.id;
             $compras = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $compras;
         } catch (PDOException $e) {
-            die("Error al obtener compras: " . $e->getMessage());
+            return ("Error al obtener compras: " . $e->getMessage());
         }
     }
 
@@ -149,7 +149,7 @@ INNER JOIN usuarios u ON v.id_client = u.id;
             $compras = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $compras;
         } catch (PDOException $e) {
-            die("Error al obtener compras: " . $e->getMessage());
+            return ("Error al obtener compras: " . $e->getMessage());
         }
     }
 
@@ -180,9 +180,9 @@ INNER JOIN usuarios u ON v.id_client = u.id;
                 throw new Exception("No se ha podido actualizar el registro");
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -202,9 +202,9 @@ INNER JOIN usuarios u ON v.id_client = u.id;
                 throw new Exception("No se ha podido cambiar el estado del compra");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del compra: " . $e->getMessage());
+            return ("Error al cambiar el estado del compra: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -278,10 +278,10 @@ INNER JOIN usuarios u ON v.id_client = u.id;
             return true; // Todo se ha realizado correctamente
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 }

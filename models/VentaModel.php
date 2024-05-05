@@ -7,38 +7,15 @@ class VentaModel extends Conectar
     public function getEstadisticas()
     {
         try {
-            $conexion = parent::Conexion();
-            // Consulta para obtener las ganancias totales del año anterior
-            $queryGananciasAnioAnterior = "SELECT SUM(total) AS gananciasAnioAnterior
-                                           FROM ventas
-                                           WHERE YEAR(fecha) = YEAR(NOW()) - 1;";
-            $stmtGananciasAnioAnterior = $conexion->prepare($queryGananciasAnioAnterior);
-            $stmtGananciasAnioAnterior->execute();
-            $rowGananciasAnioAnterior = $stmtGananciasAnioAnterior->fetch(PDO::FETCH_ASSOC);
-            $gananciasAnioAnterior = $rowGananciasAnioAnterior['gananciasAnioAnterior'];
 
-            // Consulta para obtener el número de nuevos usuarios cuyo rol sea 2
-            $queryNumNuevosUsuarios = "SELECT COUNT(id) AS numNuevosUsuarios
-                                        FROM usuarios
-                                        WHERE rol_id = 2
-                                        AND YEAR(created_at) = YEAR(NOW());";
-            $stmtNumNuevosUsuarios = $conexion->prepare($queryNumNuevosUsuarios);
-            $stmtNumNuevosUsuarios->execute();
-            $rowNumNuevosUsuarios = $stmtNumNuevosUsuarios->fetch(PDO::FETCH_ASSOC);
-            $numNuevosUsuarios = $rowNumNuevosUsuarios['numNuevosUsuarios'];
-
-
-
-            // Preparar los resultados para retornarlos
             $resultados = array(
                 'ventasMensuales' => $this->getVentasMensuales(),
                 'ventasAnuales' => $this->getVentasAnuales(),
                 'nuevosClientes' => $this->getNuevosClientes(),
             );
-
             return $resultados;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     private function getVentasMensuales()
@@ -60,7 +37,7 @@ class VentaModel extends Conectar
             $stmtVentasMensuales->execute();
             return $stmtVentasMensuales->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -80,7 +57,7 @@ class VentaModel extends Conectar
             $stmtVentasAnuales->execute();
             return $stmtVentasAnuales->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     private function getNuevosClientes()
@@ -98,7 +75,7 @@ class VentaModel extends Conectar
 
             return $resultados;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -119,7 +96,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
         } catch (PDOException $e) {
-            die("Error al obtener ventas: " . $e->getMessage());
+            return ("Error al obtener ventas: " . $e->getMessage());
         }
     }
     public function getAllVentas()
@@ -151,7 +128,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
         } catch (PDOException $e) {
-            die("Error al obtener ventas: " . $e->getMessage());
+            return ("Error al obtener ventas: " . $e->getMessage());
         }
     }
 
@@ -191,19 +168,25 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
         } catch (PDOException $e) {
-            die("Error al obtener ventas: " . $e->getMessage());
+            return ("Error al obtener ventas: " . $e->getMessage());
         }
     }
     public function getReporteVentas()
     {
         $fecha_ini = $_GET['fecha_ini'];
         $fecha_fin = $_GET['fecha_fin'];
-        $fecha_ini_mysql = $this->convertirFecha($fecha_ini);
-        $fecha_fin_mysql = $this->convertirFecha($fecha_fin);
-        if ($fecha_ini_mysql > $fecha_fin_mysql) {
-            $temp = $fecha_ini_mysql;
-            $fecha_ini_mysql = $fecha_fin_mysql;
-            $fecha_fin_mysql = $temp;
+        $fechasV = false;
+        if ($fecha_ini !== "null" && $fecha_fin !== "null") {
+            $fechasV = true;
+        }
+        if ($fechasV) {
+            $fecha_ini_mysql = $this->convertirFecha($fecha_ini);
+            $fecha_fin_mysql = $this->convertirFecha($fecha_fin);
+            if ($fecha_ini_mysql > $fecha_fin_mysql) {
+                $temp = $fecha_ini_mysql;
+                $fecha_ini_mysql = $fecha_fin_mysql;
+                $fecha_fin_mysql = $temp;
+            }
         }
         try {
             $conexion = parent::Conexion();
@@ -212,16 +195,20 @@ INNER JOIN usuarios u ON v.id_client = u.id
                 FROM ventas v
                 INNER JOIN recibe r ON v.id_recibe = r.id
                 INNER JOIN usuarios u ON v.id_client = u.id
-                WHERE DATE(v.fecha) BETWEEN :fecha_ini AND :fecha_fin";
-
+                WHERE DATE(v.fecha)";
+            if ($fechasV) {
+                $sql .= "  BETWEEN :fecha_ini AND :fecha_fin";
+            }
             $stmt = $conexion->prepare($sql);
-            $stmt->bindParam(':fecha_ini', $fecha_ini_mysql);
-            $stmt->bindParam(':fecha_fin', $fecha_fin_mysql);
+            if ($fechasV) {
+                $stmt->bindParam(':fecha_ini', $fecha_ini_mysql);
+                $stmt->bindParam(':fecha_fin', $fecha_fin_mysql);
+            }
             $stmt->execute();
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
         } catch (PDOException $e) {
-            die("Error al obtener ventas: " . $e->getMessage());
+            return ("Error al obtener ventas: " . $e->getMessage());
         }
     }
 
@@ -255,9 +242,9 @@ INNER JOIN usuarios u ON v.id_client = u.id
                 throw new Exception("No se ha podido actualizar el registro ");
             }
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -277,9 +264,9 @@ INNER JOIN usuarios u ON v.id_client = u.id
                 throw new Exception("No se ha podido cambiar el estado del venta");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del venta: " . $e->getMessage());
+            return ("Error al cambiar el estado del venta: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -301,7 +288,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
         } catch (PDOException $e) {
-            die("Error al obtener ventas: " . $e->getMessage());
+            return ("Error al obtener ventas: " . $e->getMessage());
         }
     }
 
@@ -313,7 +300,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $sql = "SELECT p.id as id_producto,
             t.talla,c.color,
             p.nombre AS producto, p.descripcion AS desc_producto, 
-            dv.cantidad, dv.precio_unitario as precio,
+            SUM(dv.cantidad) AS cantidad, dv.precio_unitario as precio,
             iu.url_imagen AS imagen
      FROM  detalles_venta dv 
      INNER JOIN inventario ip ON dv.id_variante_producto = ip.id
@@ -321,7 +308,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
      INNER JOIN colores c ON c.id = ip.id_color
      INNER JOIN productos p ON ip.id_producto = p.id
      LEFT JOIN imagenes_producto iu ON p.id = iu.id_producto AND iu.orden = 1
-     WHERE dv.id_venta=?;
+     WHERE dv.id_venta=? GROUP BY p.id, ip.id_color, ip.id_talla ;
         ";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $id);
@@ -329,7 +316,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
         } catch (PDOException $e) {
-            die("Error al obtener ventas: " . $e->getMessage());
+            return ("Error al obtener ventas: " . $e->getMessage());
         }
     }
 
@@ -337,7 +324,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
     public function getProductsCliente()
     {
         try {
-             session_start();
+            session_start();
             $userData = $_SESSION['user_session'];
             $id_user =  $userData['user_id'];
             //$id_user = 3;
@@ -372,7 +359,7 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $ventas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $ventas;
         } catch (PDOException $e) {
-            die("Error al obtener ventas: " . $e->getMessage());
+            return ("Error al obtener ventas: " . $e->getMessage());
         }
     }
 

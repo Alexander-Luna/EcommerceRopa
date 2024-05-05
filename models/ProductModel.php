@@ -25,7 +25,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -81,7 +81,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getProductsRecent()
@@ -125,7 +125,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -152,9 +152,9 @@ class ProductModel extends Conectar
 
             return true; // La eliminación fue exitosa
         } catch (PDOException $e) {
-            die("Error al eliminar la imagen: " . $e->getMessage());
+            return ("Error al eliminar la imagen: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     public function getImagesProducts()
@@ -176,7 +176,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function insertImgsProduct()
@@ -211,10 +211,10 @@ class ProductModel extends Conectar
             return true; // Todo se ha realizado correctamente
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     public function updateImgsProduct()
@@ -256,10 +256,10 @@ class ProductModel extends Conectar
             return true; // Todo se ha realizado correctamente
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -287,7 +287,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getPrecioShop()
@@ -312,7 +312,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -329,7 +329,7 @@ class ProductModel extends Conectar
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getProductsAlert()
@@ -374,7 +374,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -389,7 +389,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getColores()
@@ -403,7 +403,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getProductDetail()
@@ -431,7 +431,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -452,7 +452,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function estImgProduct()
@@ -471,9 +471,9 @@ class ProductModel extends Conectar
                 throw new Exception("No se ha podido cambiar el estado del proveedor");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del proveedor: " . $e->getMessage());
+            return ("Error al cambiar el estado del proveedor: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     public function getAllImgProd()
@@ -493,7 +493,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
     public function getWishList()
@@ -513,7 +513,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -536,7 +536,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -559,7 +559,7 @@ class ProductModel extends Conectar
 
             return $data;
         } catch (PDOException $e) {
-            die("Error al obtener los datos: " . $e->getMessage());
+            return ("Error al obtener los datos: " . $e->getMessage());
         }
     }
 
@@ -580,9 +580,9 @@ class ProductModel extends Conectar
                 throw new Exception("No se ha podido cambiar el estado del proveedor");
             }
         } catch (PDOException $e) {
-            die("Error al cambiar el estado del proveedor: " . $e->getMessage());
+            return ("Error al cambiar el estado del proveedor: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -634,10 +634,10 @@ class ProductModel extends Conectar
             return  $conexion->commit();
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -692,10 +692,10 @@ class ProductModel extends Conectar
             return true; // Todo se ha realizado correctamente
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     public function insertWishClient()
@@ -730,10 +730,10 @@ class ProductModel extends Conectar
             return true; // Todo se ha realizado correctamente
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
     public function setProductPedido($products)
@@ -765,10 +765,10 @@ class ProductModel extends Conectar
             return true; // Todo se ha realizado correctamente
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -787,9 +787,9 @@ class ProductModel extends Conectar
             $stmt->execute();
             return true; // Actualización exitosa
         } catch (PDOException $e) {
-            die("Error al actualizar los datos: " . $e->getMessage());
+            return ("Error al actualizar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -804,9 +804,9 @@ class ProductModel extends Conectar
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            die("Error al eliminar los datos: " . $e->getMessage());
+            return ("Error al eliminar los datos: " . $e->getMessage());
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 
@@ -830,10 +830,10 @@ class ProductModel extends Conectar
             return $data;
         } catch (PDOException $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error al insertar los datos: " . $e->getMessage());
+            return ("Error al insertar los datos: " . $e->getMessage());
         } catch (Exception $e) {
             $conexion->rollBack(); // Revertir la transacción en caso de error
-            die("Error: " . $e->getMessage());
+            return ("Error: " . $e->getMessage());
         }
     }
 }
