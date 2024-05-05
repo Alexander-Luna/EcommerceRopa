@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
+  document.getElementById("btnEntrar").addEventListener("click", submitForm);
   function submitForm() {
     const form = document.getElementById("registroForm");
     const formData = new FormData(form);
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         return response.json();
       })
       .then((data) => {
-        const selectProvincias = document.getElementById("provincias");
+        const selectProvincias = document.getElementById("provincia");
         selectProvincias.innerHTML = "";
 
         data.forEach((provincia) => {
@@ -42,13 +43,13 @@ document.addEventListener("DOMContentLoaded", async function () {
           option.textContent = provincia;
           selectProvincias.appendChild(option);
         });
-        
+
         metodoCantones(data[0]);
       })
       .catch((error) => {
         console.error("Error al obtener las provincias:", error);
       });
-    const selectProducto = document.getElementById("provincias");
+    const selectProducto = document.getElementById("provincia");
     selectProducto.addEventListener("change", () => {
       const productId = selectProducto.value;
       metodoCantones(productId);

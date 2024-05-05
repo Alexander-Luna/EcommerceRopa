@@ -44,11 +44,11 @@ class VentasController
     }
  
 
-    public function insertVentaClient()
+    public function insertVentaClient($productos)
     {
         try {
             $model = new VentaModel();
-            $data = $model->insertVentaClient();
+            $data = $model->insertVentaClient($productos);
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);

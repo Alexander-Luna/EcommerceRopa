@@ -343,7 +343,16 @@ function handlePostRequest($action, $productController, $userController, $ventaC
 
 
         case 'insertVentaClient':
-            $ventaController->insertVentaClient();
+            $data = json_decode($_POST["carrito"], true);
+            //$notification = new NotificationsController();
+            //$notification->pdfAlertaProveedores($data['productos']);
+            //$notification->enviarProveedores($data['telefono']);
+           // call_user_func([$ventaController, 'insertVentaClient'], $data['carrito']);
+
+
+
+
+            $ventaController->insertVentaClient($data);
 
             break;
         case 'updateVenta':

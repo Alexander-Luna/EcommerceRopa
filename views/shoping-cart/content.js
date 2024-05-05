@@ -271,7 +271,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Crear un nuevo objeto FormData
     const formData = new FormData();
     formData.append("carrito", JSON.stringify(carrito));
-
     formData.append("nombre", nombre);
     formData.append("telefono", telefono);
     formData.append("email", email);

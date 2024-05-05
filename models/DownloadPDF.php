@@ -14,21 +14,14 @@ class DownloadPDF extends Conectar
     {
         $ventas = new VentaModel();
         $clientData = $ventas->getClienteVenta($_POST['id_client']);
-        // Verificar si se recuperaron los datos del cliente
         if (!empty($clientData)) {
-            $clientData = $clientData[0]; // Convertir el arreglo de cliente en un solo cliente
-            // Crear instancia de TCPDF
+            $clientData = $clientData[0]; 
             $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-            // Establecer información del documento
             $pdf->SetCreator(PDF_CREATOR);
             $pdf->SetAuthor('ASOTAECO');
             $pdf->SetSubject('Sales Invoice');
             $pdf->SetKeywords('TCPDF, PDF, invoice, sales, Ecuador');
-
-            // Establecer propiedades del documento
             $pdf->SetTitle('ASOTAECO VENTAS');
-
-            // Agregar encabezado de factura
             $pdf->AddPage();
             $pdf->SetFont('helvetica', 'B', 12);
             $pdf->SetTextColor(0, 0, 0);

@@ -215,7 +215,7 @@ class PDFModel extends Conectar
 
         // Inicio del contenido HTML
         $html = '<img src="../public/images/icons/logo.png" alt="Logo de Asotaeco" style="width: 100px; height: 100px;max-width: 100px; max-height: 100px;">';
-        $html .= '<h1>Factura de Venta</h1>';
+        $html .= '<h1>Detalles de Venta</h1>';
         $html .= '<p>Fecha: ' . date('Y-m-d') . '</p>';
         $html .= '<p>Cliente: ' . $nombre . '</p>';
         $html .= '<p>CI/RUC: ' . $ci . '</p>';

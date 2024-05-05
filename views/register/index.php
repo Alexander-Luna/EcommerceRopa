@@ -51,7 +51,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label required">Provincia:</label>
-                                    <select class="form-control" id="provincias" name="provincias" required>
+                                    <select class="form-control" id="provincia" name="provincia" required>
                                         <option value="">Seleccione una provincia...</option>
                                     </select>
                                 </div>
@@ -85,7 +85,7 @@
 
                             <div class="text-danger mb-3">Los campos marcados con * son de carácter obligatorio</div>
 
-                            <button class="btn btn-primary btn-block" type="button" onclick="submitForm()">Registrar</button>
+                            <button class="btn btn-primary btn-block" type="button" id="btnEntrar">Registrar</button>
 
                         </form>
 

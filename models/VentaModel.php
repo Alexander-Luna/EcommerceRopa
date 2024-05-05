@@ -42,10 +42,10 @@ class VentaModel extends Conectar
         }
     }
     private function getVentasMensuales()
-{
-    try {
-        $conexion = parent::Conexion();
-        $queryVentasMensuales = "SELECT
+    {
+        try {
+            $conexion = parent::Conexion();
+            $queryVentasMensuales = "SELECT
             (SELECT MONTH(fecha) FROM ventas WHERE YEAR(fecha) = YEAR(NOW()) AND MONTH(fecha) = MONTH(NOW()) LIMIT 1) AS mes,
             COUNT(CASE WHEN YEAR(fecha) = YEAR(NOW()) AND MONTH(fecha) = MONTH(NOW()) THEN id END) AS ventasEsteMes,
             SUM(CASE WHEN YEAR(fecha) = YEAR(NOW()) AND MONTH(fecha) = MONTH(NOW()) THEN total ELSE 0 END) AS gananciasEsteMes,
@@ -55,17 +55,18 @@ class VentaModel extends Conectar
         WHERE YEAR(fecha) = YEAR(NOW())
         AND (MONTH(fecha) = MONTH(NOW()) OR MONTH(fecha) = MONTH(NOW()) - 1)
         GROUP BY mes;";
-        
-        $stmtVentasMensuales = $conexion->prepare($queryVentasMensuales);
-        $stmtVentasMensuales->execute();
-        return $stmtVentasMensuales->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Error al obtener los datos: " . $e->getMessage());
-    }
-}
 
-    
-    private function getVentasAnuales() {
+            $stmtVentasMensuales = $conexion->prepare($queryVentasMensuales);
+            $stmtVentasMensuales->execute();
+            return $stmtVentasMensuales->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Error al obtener los datos: " . $e->getMessage());
+        }
+    }
+
+
+    private function getVentasAnuales()
+    {
         try {
             $conexion = parent::Conexion();
             $queryVentasAnuales = "SELECT
@@ -74,7 +75,7 @@ class VentaModel extends Conectar
                 SUM(CASE WHEN YEAR(fecha) = YEAR(NOW()) - 1 THEN total ELSE 0 END) AS ventasAnioAnterior
             FROM ventas
             GROUP BY YEAR(fecha);";
-    
+
             $stmtVentasAnuales = $conexion->prepare($queryVentasAnuales);
             $stmtVentasAnuales->execute();
             return $stmtVentasAnuales->fetchAll(PDO::FETCH_ASSOC);
@@ -82,24 +83,25 @@ class VentaModel extends Conectar
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
-    private function getNuevosClientes() {
+    private function getNuevosClientes()
+    {
         try {
             $conexion = parent::Conexion();
             $queryNuevosClientes = "SELECT
                 (SELECT COUNT(id) FROM usuarios WHERE rol_id = 2 AND YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(NOW())) AS nuevosClientesEsteMes,
                 (SELECT COUNT(id) FROM usuarios WHERE rol_id = 2 AND YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(NOW()) - 1) AS nuevosClientesMesAnterior,
                 (SELECT COUNT(id) FROM usuarios WHERE rol_id = 2 AND YEAR(created_at) = YEAR(NOW())) AS totalClientes;";
-        
+
             $stmtNuevosClientes = $conexion->prepare($queryNuevosClientes);
             $stmtNuevosClientes->execute();
             $resultados = $stmtNuevosClientes->fetchAll(PDO::FETCH_ASSOC);
-        
+
             return $resultados;
         } catch (PDOException $e) {
             die("Error al obtener los datos: " . $e->getMessage());
         }
     }
-    
+
     public function getVentas()
     {
         try {
@@ -335,17 +337,17 @@ INNER JOIN usuarios u ON v.id_client = u.id
     public function getProductsCliente()
     {
         try {
-            session_start();
+             session_start();
             $userData = $_SESSION['user_session'];
             $id_user =  $userData['user_id'];
             //$id_user = 3;
             $est = $_GET['id'];
 
             $conexion = parent::Conexion();
-            $sql = "SELECT p.id as id_producto,v.guia_servi,v.id AS venta_id,v.est_pago, v.fecha AS fecha_venta, v.total AS total_venta, v.envio AS costo_envio,
+            $sql = "SELECT p.id AS id_producto, v.guia_servi, v.id AS venta_id, v.est_pago, v.fecha AS fecha_venta, v.total AS total_venta, v.envio AS costo_envio,
             v.metodo_pago AS metodo_pago, v.ncomprobante AS numero_comprobante, v.comprobante AS comprobante_adjunto,
             p.nombre AS nombre_producto, p.descripcion AS descripcion_producto, 
-            dv.cantidad, dv.precio_unitario,
+            SUM(dv.cantidad) AS cantidad, dv.precio_unitario,
             iu.url_imagen AS imagen
      FROM ventas v
      INNER JOIN detalles_venta dv ON v.id = dv.id_venta
@@ -355,10 +357,11 @@ INNER JOIN usuarios u ON v.id_client = u.id
      WHERE v.id_client = ?";
 
             if ($est !== "null") {
-                $sql .= " AND v.est_pago=? ORDER BY v.fecha DESC;";
+                $sql .= " GROUP BY p.id, ip.id_color, ip.id_talla HAVING v.est_pago=? ORDER BY v.fecha DESC;";
             } else {
-                $sql .= " ORDER BY v.fecha DESC;";
+                $sql .= " GROUP BY p.id, ip.id_color, ip.id_talla ORDER BY v.fecha DESC;";
             }
+
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $id_user);
             if ($est !== "null") {
@@ -376,13 +379,14 @@ INNER JOIN usuarios u ON v.id_client = u.id
 
 
 
-    public function insertVentaClient()
+    public function insertVentaClient($productos)
     {
         try {
             session_start();
             $userData = $_SESSION['user_session'];
             $id_user =  $userData['user_id'];
-            $productos = json_decode($_POST["carrito"], true);
+
+            //$id_user = 3;
             if ($productos === null && json_last_error() !== JSON_ERROR_NONE) {
                 throw new Exception("Error al decodificar los datos de los productos.");
             }
@@ -394,12 +398,8 @@ INNER JOIN usuarios u ON v.id_client = u.id
 
             $totalVenta = 0;
             foreach ($productos as $producto) {
-                $subtotal = $producto["cantidad"] * $producto["precio_venta"];
-                $totalVenta += $subtotal;
+                $totalVenta = $totalVenta + ($producto["cantidad"] * $producto["precio_venta"]);
             }
-
-
-
             $conexion = parent::Conexion();
             $conexion->beginTransaction();
 
@@ -410,12 +410,6 @@ INNER JOIN usuarios u ON v.id_client = u.id
             $canton = $_POST["canton"];
             $direccion = $_POST["direccion"];
             $referencia = $_POST["referencia"];
-
-            $pdfModel = new PDFModel();
-            $pdfModel->ventaPDF($productos, $totalVenta, $ci, $email, $provincia . " " . $canton . " " . $direccion, $telefono, $nombre);
-
-
-
 
             $sqlRecive = "INSERT INTO recibe (ci,nombre, telefono,email,provincia,canton,direccion,referencia,est) VALUES (?,?, ?,?,?,?,?,?,?)";
             $stmtRecibe = $conexion->prepare($sqlRecive);
@@ -516,16 +510,16 @@ INNER JOIN usuarios u ON v.id_client = u.id
                     }
                 }
             }
-
-
-            $conexion->commit();
-            return true;
+            $pdfModel = new PDFModel();
+            $pdfModel->ventaPDF($productos, $totalVenta, $ci, $email, $provincia . " " . $canton . " " . $direccion, $telefono, $nombre);
+            $res = $conexion->commit();
+            return $res;
         } catch (PDOException $e) {
             $conexion->rollBack();
-            die("Error al insertar los datos: " . $e->getMessage());
+            return "Error al insertar los datos: " . $e->getMessage();
         } catch (Exception $e) {
             $conexion->rollBack();
-            die("Error: " . $e->getMessage());
+            return "Error: " . $e->getMessage();
         }
     }
 }
