@@ -749,12 +749,13 @@ class ProductModel extends Conectar
             foreach ($products as $product) {
                 $id_inventario = $product['id_inventario'];
                 $cantidad = $product['cant_pred'];
-                $sqlProducto = "INSERT INTO alertaspedido (id_user, id_inventario, id_proveedor, cantidad) VALUES (?, ?, ?, ?)";
+                $sqlProducto = "INSERT INTO alertaspedido (id_user, id_inventario, id_proveedor, cantidad,est) VALUES (?,?, ?, ?, ?)";
                 $stmtProducto = $conexion->prepare($sqlProducto);
                 $stmtProducto->bindValue(1, $id_user);
                 $stmtProducto->bindValue(2, $id_inventario);
                 $stmtProducto->bindValue(3, $id_proveedor);
                 $stmtProducto->bindValue(4, $cantidad);
+                $stmtProducto->bindValue(5, 1);
                 $stmtProducto->execute();
             }
 
