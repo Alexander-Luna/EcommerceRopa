@@ -224,10 +224,9 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $data = json_decode(file_get_contents('php://input'), true);
             $notification = new NotificationsController();
             $notification->enviarProveedores($data['telefono']);
-            $pdfModel = new PDFModel();
-            $pdfModel->alertaPDF($data['productos']);
-            call_user_func([$productController, 'setProductPedido'], $data['productos']);
-           
+            $notification->pdfAlertaProveedores($data['productos']);
+            //call_user_func([$productController, 'setProductPedido'], $data['productos']);
+
             break;
         case 'getPDFHTML':
             $controller->getPDFHTML();

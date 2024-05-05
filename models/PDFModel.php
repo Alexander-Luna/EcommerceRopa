@@ -169,39 +169,30 @@ class PDFModel extends Conectar
             $html .= '<td>' . $row['talla'] . '</td>';
             $html .= '<td>' . $row['color'] . '</td>';
             $html .= '<td>' . $row['cant_pred'] . '</td>';
-            $url = "../../public/images/products/661f3eb34bce6.webp";
+            $url = $row['imagen'];
             $html .= '<td ><img src="' . substr($url, 3) . '" alt="Imagen del producto"></td>';
             $html .= '</tr>';
         }
         $html .= '</tbody>';
         $html .= '</table>';
-
-        // Agregar logo de la empresa
-
-        // Escribir contenido HTML en el PDF
         $pdf->writeHTML($this->generarEstiloCSS() . $html, true, false, true, false, '');
-
-        // Obtener contenido del PDF como cadena
         $pdfContent = $pdf->Output('proforma_proveedor.pdf', 'S');
-
-        // Enviar correo electrónico con el PDF adjunto
         $correosModel = new CorreosModel();
         $data1 = json_decode(file_get_contents('php://input'), true);
         $mensajeHTML = "<html><body><h1 style='text-align: center;'>Proforma de Productos</h1><p>Este es un correo electrónico con una proforma de productos adjunta.</p></body></html>";
         $result = $correosModel->enviarCorreoPDF($data1['email_proveedor'], "Pedido ASOTAECO", $mensajeHTML, $pdfContent);
-
-        // Mostrar mensaje de éxito o error
         if ($result === "El correo se ha enviado correctamente.") {
             echo $result;
         } else {
             echo $result;
         }
     }
+    
     public function ventaPDF($data, $total, $ci, $email, $direccion, $telefono, $nombre)
     {
         // Crear instancia de TCPDF
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-    
+
         // Establecer información del documento
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('Autor');
@@ -221,7 +212,7 @@ class PDFModel extends Conectar
         $pdf->AddPage();
         $iva = $total * 0.15;
         $subtotal = $total - $iva;
-    
+
         // Inicio del contenido HTML
         $html = '<img src="../public/images/icons/logo.png" alt="Logo de Asotaeco" style="width: 100px; height: 100px;max-width: 100px; max-height: 100px;">';
         $html .= '<h1>Factura de Venta</h1>';
@@ -248,8 +239,8 @@ class PDFModel extends Conectar
             $html .= '<td style="border: 1px solid black;">' . $row['talla'] . '</td>';
             $html .= '<td style="border: 1px solid black;">' . $row['color'] . '</td>';
             $html .= '<td style="border: 1px solid black;">' . $row['cantidad'] . '</td>';
-            $html .= '<td style="border: 1px solid black;">$' . $row['precio_venta']-($row['precio_venta']*0.15) . '</td>';
-            $html .= '<td style="border: 1px solid black;">$' . ($row['precio_venta']-($row['precio_venta']*0.15))*$row['cantidad'] . '</td>';
+            $html .= '<td style="border: 1px solid black;">$' . $row['precio_venta'] - ($row['precio_venta'] * 0.15) . '</td>';
+            $html .= '<td style="border: 1px solid black;">$' . ($row['precio_venta'] - ($row['precio_venta'] * 0.15)) * $row['cantidad'] . '</td>';
             $html .= '</tr>';
         }
         $html .= '</tbody>';
@@ -257,7 +248,7 @@ class PDFModel extends Conectar
         $html .= '<p>Subtotal: $' . number_format($subtotal, 2) . '</p>';
         $html .= '<p>IVA (15%): $' . number_format($iva, 2) . '</p>';
         $html .= '<p>Total: $' . number_format($total, 2) . '</p>';
-    
+
         $pdf->writeHTML($this->generarEstiloCSS() . $html, true, false, true, false, '');
         $pdfContent = $pdf->Output('factura_venta.pdf', 'S');
         $correosModel = new CorreosModel();
