@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   const totalSpan = document.getElementById("totalspan");
   const subtotalSpan = document.getElementById("subtotal");
   const cenvioSpan = document.getElementById("cenvio");
-  timeS = 2000;
   metodoProvincias();
   function metodoProvincias() {
     fetch("../../controllers/router.php?op=getProvincias")
@@ -314,6 +313,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   async function enviarDatosAlServidor(formData) {
     try {
       setLoading(true);
+      timeS = 5000;
       const response = await fetch(
         "../../controllers/router.php?op=insertVentaClient",
         {
@@ -340,10 +340,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       const productos = JSON.parse(localStorage.getItem("cart")) || [];
       miTabla.clear().draw(); // Limpiar la tabla antes de insertar nuevos datos
       SUBTOTAL = 0;
-      
+
       productos.forEach((producto) => {
         SUBTOTAL +=
-        parseFloat(producto.precio_venta) * parseInt(producto.cantidad);
+          parseFloat(producto.precio_venta) * parseInt(producto.cantidad);
       });
       setLoading(false);
       miTabla.rows.add(productos).draw();

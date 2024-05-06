@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
   setLoading(false);
-  timeS = 1000;
+ 
   document.getElementById("btnEntrar").addEventListener("click", submitForm);
   function submitForm() {
     setLoading(true);

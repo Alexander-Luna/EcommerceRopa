@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
     ],
   });
-
+  timeS = 2000;
   // Manejador de eventos para el botón de editar
   $(document).on("click", ".btnEditar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
           throw new Error("Hubo un problema al eliminar User.");
         }
-        
+
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           "La acción no se pudo realizar correctamente!",
           "error"
         );
-    setLoading(false);
+        setLoading(false);
         console.error("Error al insertar el nuevo User:", error);
       });
   });
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al insertar el nuevo User.");
             }
-            
+
             // Si la inserción fue exitosa, recargar la sección
             $("#miModal").modal("hide");
             swal({
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               "La acción no se pudo realizar correctamente!",
               "error"
             );
-    setLoading(false);
+            setLoading(false);
             console.error("Error al insertar el nuevo User:", error);
           });
       } else {
@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al insertar el nuevo User.");
             }
-            
+
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
@@ -201,6 +201,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             reloadSection();
           })
           .catch((error) => {
+            setLoading(false);
             console.error("Error al insertar el nuevo User:", error);
             swal(
               "Ups! Algo salio mal!",
@@ -210,6 +211,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           });
       }
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener los datos del formulario:", error);
       swal(
         "Ups! Algo salio mal!",

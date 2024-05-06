@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       "pdfHtml5", // Botón de PDF
     ],
     lengthChange: false,
-columns: [
-      { data: "talla",title: 'Nombre'},
-      { data: "desc_talla",title: 'Descripción'},
+    columns: [
+      { data: "talla", title: "Nombre" },
+      { data: "desc_talla", title: "Descripción" },
       {
         data: "est",
         title: "Estado",
@@ -46,7 +46,8 @@ columns: [
         },
       },
       {
-        data: null,title: 'Acciones',
+        data: null,
+        title: "Acciones",
         render: function (data, type, row) {
           return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>`;
@@ -85,7 +86,7 @@ columns: [
           );
           throw new Error("Hubo un problema al eliminar Talla.");
         }
-        
+
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -100,7 +101,7 @@ columns: [
           "La acción no se pudo realizar correctamente!",
           "error"
         );
-    setLoading(false);
+        setLoading(false);
         console.error("Error al eliminar el Talla:", error);
       });
   });
@@ -109,7 +110,6 @@ columns: [
     setLoading(true);
     insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
-
 
   function insertar() {
     try {
@@ -136,11 +136,9 @@ columns: [
                 "La acción no se pudo realizar correctamente!",
                 "error"
               );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo Talla."
-              );
+              throw new Error("Hubo un problema al insertar el nuevo Talla.");
             }
-            
+
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
@@ -157,7 +155,7 @@ columns: [
               "La acción no se pudo realizar correctamente!",
               "error"
             );
-    setLoading(false);
+            setLoading(false);
             console.error("Error al insertar el nuevo Talla:", error);
           });
       } else {
@@ -173,11 +171,9 @@ columns: [
                 "La acción no se pudo realizar correctamente!",
                 "error"
               );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo Talla."
-              );
+              throw new Error("Hubo un problema al insertar el nuevo Talla.");
             }
-            
+
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
@@ -209,22 +205,20 @@ columns: [
 
   function reloadSection() {
     try {
-      fetch("../../controllers/router.php?op=getAllTallas").then(
-        (response) => {
-          if (!response.ok) {
-            throw new Error(
-              "Hubo un problema al obtener los detalles del talla."
-            );
-          }
-          response.json().then((data) => {
-            // Limpiar los datos existentes en la tabla
-            miTabla.clear().draw();
-            // Agregar los nuevos datos a la tabla
-            miTabla.rows.add(data).draw();
-          });
-    setLoading(false);
+      fetch("../../controllers/router.php?op=getAllTallas").then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            "Hubo un problema al obtener los detalles del talla."
+          );
         }
-      );
+        response.json().then((data) => {
+          // Limpiar los datos existentes en la tabla
+          miTabla.clear().draw();
+          // Agregar los nuevos datos a la tabla
+          miTabla.rows.add(data).draw();
+        });
+        setLoading(false);
+      });
     } catch (error) {
       console.error("Error al obtener los detalles del talla:", error);
     }

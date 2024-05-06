@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
+  timeS = 2000;
+
   reloadSection();
   function reloadSection() {
     try {

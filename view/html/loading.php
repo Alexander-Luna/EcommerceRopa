@@ -40,7 +40,7 @@
 
 
 <script>
-    let timeS = 5000;
+    let timeS = 1000;
     setLoading(true);
 
     function setLoading(loading) {
@@ -49,7 +49,7 @@
             loader.style.display = "flex"; /* Cambia a flex para mostrar */
             setTimeout(function() {
                 setLoading(false);
-                timeS=5000;
+                timeS=1000;
             }, timeS); // 10 segundos en milisegundos
         } else {
             loader.style.display = "none";

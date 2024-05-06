@@ -100,6 +100,8 @@
     <script>
         document.getElementById("btnPrint").addEventListener("click", function() {
             const formData = new FormData();
+            timeS = 3000;
+            setLoading(true);
             formData.append("id_client", document.getElementById("id_c").value);
             formData.append("id_venta", document.getElementById("id_v").value);
             fetch("../../controllers/router.php?op=getPDFHTML", {
@@ -138,6 +140,7 @@
                         timer: 1000, // tiempo en milisegundos
                         buttons: false, // ocultar botones
                     });
+                    setLoading(false);
                 })
                 .catch((error) => {
                     swal(
@@ -145,6 +148,7 @@
                         "La acción no se pudo realizar correctamente!",
                         "error"
                     );
+                    setLoading(false);
                     console.error("Error al obtener el PDF:", error);
                 });
         });

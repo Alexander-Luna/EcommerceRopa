@@ -102,7 +102,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     ],
   });
 
-  
   // Manejador de eventos para el botón de editar
   $(document).on("click", ".btnEditar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
@@ -111,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     $("#id").val(rowData.id);
     $("#orden").val(rowData.orden);
     $("#imagenes").val("");
-   // $("#divFile").hide();
+    // $("#divFile").hide();
   });
 
   $(document).on("click", ".btnEst", function () {
@@ -131,7 +130,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
           throw new Error("Hubo un problema al cambiar el estado.");
         }
-        
+
         swal(
           "En Hora Buena!",
           "La accion se realizo de manera exitosa!",
@@ -152,6 +151,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();
     formData.append("id", rowData.id);
+    timeS = 3000;
     setLoading(true);
     fetch("../../controllers/router.php?op=deleteImgProduct", {
       method: "POST",
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
           throw new Error("Hubo un problema al eliminar Talla.");
         }
-        
+
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -176,6 +176,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         reloadSection(productId);
       })
       .catch((error) => {
+        setLoading(false);
         swal(
           "Ups! Algo salio mal!",
           "La acción no se pudo realizar correctamente!",
@@ -199,13 +200,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             miTabla.clear().draw();
             miTabla.rows.add(data).draw(); // Agregar los datos directamente
           });
+          setLoading(false);
         }
       );
-    } catch (error) {}
+    } catch (error) {
+      setLoading(false);
+    }
   }
   reloadSection(null);
 
   document.getElementById("btnGuardar").addEventListener("click", function () {
+    timeS = 3000;    
+    setLoading(true);
     insertar();
   });
 
@@ -249,6 +255,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             reloadSection(productId);
           })
           .catch((error) => {
+            setLoading(false);
             swal(
               "Ups! Algo salio mal!",
               "La acción no se pudo realizar correctamente!",
@@ -285,6 +292,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             reloadSection(productId);
           })
           .catch((error) => {
+            setLoading(false);
             console.error("Error al insertar el nuevo Ocasion:", error);
             swal(
               "Ups! Algo salio mal!",

@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       "pdfHtml5", // Botón de PDF
     ],
     lengthChange: false,
-columns: [
-      { data: "nombre",title: 'Nombre'},
+    columns: [
+      { data: "nombre", title: "Nombre" },
       {
         data: "est",
         title: "Estado",
@@ -45,7 +45,8 @@ columns: [
         },
       },
       {
-        data: null,title: 'Acciones',
+        data: null,
+        title: "Acciones",
         render: function (data, type, row) {
           return `<button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>`;
@@ -83,7 +84,7 @@ columns: [
           );
           throw new Error("Hubo un problema al eliminar Tprenda.");
         }
-        
+
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -98,7 +99,7 @@ columns: [
           "La acción no se pudo realizar correctamente!",
           "error"
         );
-    setLoading(false);
+        setLoading(false);
         console.error("Error al eliminar el Tprenda:", error);
       });
   });
@@ -107,7 +108,6 @@ columns: [
     setLoading(true);
     insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
-
 
   function insertar() {
     try {
@@ -132,11 +132,9 @@ columns: [
                 "La acción no se pudo realizar correctamente!",
                 "error"
               );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo Tprenda."
-              );
+              throw new Error("Hubo un problema al insertar el nuevo Tprenda.");
             }
-            
+
             // Si la inserción fue exitosa, recargar la sección
             $("#miModal").modal("hide");
             swal({
@@ -154,7 +152,7 @@ columns: [
               "La acción no se pudo realizar correctamente!",
               "error"
             );
-    setLoading(false);
+            setLoading(false);
             console.error("Error al insertar el nuevo Tprenda:", error);
           });
       } else {
@@ -170,11 +168,9 @@ columns: [
                 "La acción no se pudo realizar correctamente!",
                 "error"
               );
-              throw new Error(
-                "Hubo un problema al insertar el nuevo Tprenda."
-              );
+              throw new Error("Hubo un problema al insertar el nuevo Tprenda.");
             }
-            
+
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
@@ -219,7 +215,7 @@ columns: [
             // Agregar los nuevos datos a la tabla
             miTabla.rows.add(data).draw();
           });
-    setLoading(false);
+          setLoading(false);
         }
       );
     } catch (error) {

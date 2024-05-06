@@ -119,13 +119,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   document
     .getElementById("EnviarMensaje")
     .addEventListener("click", async function () {
+      timeS = 5000;
       setLoading(true);
       try {
         var selectedRows = miTabla.rows({ selected: true }).data().toArray();
         if (selectedRows.length === 0) {
           throw new Error("Por favor seleccione al menos un producto.");
         }
-
         var productosConCantPredMayorA0 = selectedRows.filter(function (
           producto
         ) {

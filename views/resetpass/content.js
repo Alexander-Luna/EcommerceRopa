@@ -1,11 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
-  timeS = 1000;
+  
   setLoading(false);
   document.getElementById("btnentrar").addEventListener("click", submitForm);
   function submitForm(event) {
     event.preventDefault();
     console.log("Entraa");
     setLoading(true);
+    timeS = 5000;
     const form = document.getElementById("miForm");
     const formData = new FormData(form);
     fetch("../../controllers/router.php?op=resetpassci", {

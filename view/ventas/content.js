@@ -162,6 +162,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.body.removeChild(link);
       });
       // Obtener detalles del cliente
+      timeS = 5000;
       const clienteResponse = await fetch(
         "../../controllers/router.php?op=getClienteVenta&id=" + id
       );
@@ -214,6 +215,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   $(document).on("click", ".btnDescargar", function () {
+    timeS = 5000;
+    setLoading(true);
     var rowData = miTabla.row($(this).closest("tr")).data();
     fetch("../../controllers/router.php?op=getVentaUser&id=" + rowData.id, {
       method: "GET",
@@ -250,8 +253,10 @@ document.addEventListener("DOMContentLoaded", async function () {
           timer: 1000, // tiempo en milisegundos
           buttons: false, // ocultar botones
         });
+        setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
         swal(
           "Ups! Algo salió mal!",
           "La acción no se pudo realizar correctamente!",
@@ -260,54 +265,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Error al obtener el PDF:", error);
       });
   });
-  // $(document).on("click", ".btnView", function () {
-  //   var rowData = miTabla.row($(this).closest("tr")).data();
-  //   fetch("../../controllers/router.php?op=getVentaUser&id=" + rowData.id, {
-  //     method: "GET",
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         swal(
-  //           "Ups! Algo salió mal!",
-  //           "La acción no se pudo realizar correctamente!",
-  //           "error"
-  //         );
-  //         throw new Error("Hubo un problema al obtener el PDF.");
-  //       }
-  //       return response.blob(); // Convertir la respuesta en un blob
-  //     })
-  //     .then((blob) => {
-  //       const url = window.URL.createObjectURL(blob);
-  //       const currentDate = new Date();
-  //       const formattedDate = currentDate
-  //         .toISOString()
-  //         .slice(0, 19)
-  //         .replace(/[-T]/g, "")
-  //         .replace(":", "")
-  //         .replace(":", "");
-  //       const fileName = `ventas_${formattedDate}.pdf`;
-  //       const a = document.createElement("a");
-  //       a.href = url;
-  //       a.download = fileName;
-  //       a.click();
-  //       swal({
-  //         title: "¡En Hora Buena!",
-  //         text: "¡La acción se realizó de manera exitosa!",
-  //         icon: "success",
-  //         timer: 1000, // tiempo en milisegundos
-  //         buttons: false, // ocultar botones
-  //       });
-  //       reloadSection();
-  //     })
-  //     .catch((error) => {
-  //       swal(
-  //         "Ups! Algo salió mal!",
-  //         "La acción no se pudo realizar correctamente!",
-  //         "error"
-  //       );
-  //       console.error("Error al obtener el PDF:", error);
-  //     });
-  // });
 
   $(document).on("click", ".btnDownload", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
@@ -328,7 +285,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("id_clientev").value = rowData.idcli;
     document.getElementById("recibev").textContent = rowData.nombre_recibe;
     document.getElementById("clientev").textContent = rowData.nombre_usuario;
-    document.getElementById("direccionv").textContent = rowData.direccion_recibe;
+    document.getElementById("direccionv").textContent =
+      rowData.direccion_recibe;
     document.getElementById("telefonov").textContent = rowData.telefono_recibe;
     document.getElementById("fechav").textContent = rowData.fecha;
     document.getElementById("guia_servv").value = rowData.guia_servi;
@@ -375,6 +333,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   function insertar() {
     try {
+      timeS = 3000;
       const id = document.getElementById("idv").value;
       const est = document.getElementById("estv").value;
       const guia_serv = document.getElementById("guia_servv").value;
@@ -406,6 +365,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           reloadSection();
         })
         .catch((error) => {
+          setLoading(false);
           console.error("Error al actualizar la venta:", error);
           swal(
             "Ups! Algo salió mal!",
@@ -414,6 +374,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
         });
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener los datos del formulario:", error);
       swal(
         "Ups! Algo salió mal!",
@@ -435,7 +396,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           miTabla.clear().draw();
           miTabla.rows.add(data).draw();
         });
-    setLoading(false);
+        setLoading(false);
       });
     } catch (error) {
       console.error("Error al obtener los detalles de las ventas:", error);
