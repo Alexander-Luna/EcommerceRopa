@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   document
     .getElementById("EnviarMensaje")
     .addEventListener("click", async function () {
-      timeS = 5000;
+      timeS = 20000;
       setLoading(true);
       try {
         var selectedRows = miTabla.rows({ selected: true }).data().toArray();

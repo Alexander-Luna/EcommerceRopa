@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   async function enviarDatosAlServidor(formData) {
     try {
-      timeS = 5000;
+      timeS = 20000;
       setLoading(true);
       const response = await fetch(
         "../../controllers/router.php?op=insertVentaClient",

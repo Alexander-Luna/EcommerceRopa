@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   reloadSection(null);
 
   document.getElementById("btnGuardar").addEventListener("click", function () {
-    timeS = 3000;    
+    timeS = 20000;    
     setLoading(true);
     insertar();
   });
