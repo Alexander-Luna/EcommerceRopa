@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       id_color.trim() !== "" &&
       id_talla.trim() !== ""
     ) {
+      setLoading(true);
       if (id === "") {
         insertProduct();
       } else {
@@ -75,7 +76,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       id_talla: id_talla,
       nombre_talla: nombre_talla,
     };
-    let productosGuardados = JSON.parse(localStorage.getItem("productos"))|| [];
+    let productosGuardados =
+      JSON.parse(localStorage.getItem("productos")) || [];
 
     btnAdd.disabled = true;
 
@@ -179,7 +181,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
 
-  
     productos.forEach((producto) => {
       if (!productosPorProveedor[producto.id_proveedor]) {
         productosPorProveedor[producto.id_proveedor] = {
@@ -246,7 +247,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al insertar los productos.");
             }
-            
+
             resolve();
           })
           .catch((error) => {
@@ -402,7 +403,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       "pdfHtml5", // Botón de PDF
     ],
     lengthChange: false,
-columns: [
+    columns: [
       { data: "nombre_producto", title: "Producto" }, // Nombre del producto
 
       { data: "stock", title: "Cantidad" },
@@ -476,7 +477,7 @@ columns: [
     } catch (error) {
       swal(
         "Ups! Algo salió mal!",
-        "La acción no se pudo realizar correctamente!"+error,
+        "La acción no se pudo realizar correctamente!" + error,
         "error"
       );
     }
@@ -498,7 +499,9 @@ columns: [
       document.getElementById("btnAdd").disabled = false;
       document.getElementById("total").textContent = total.toFixed(2);
       miTabla.rows.add(productos).draw();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener los detalles del producto:", error);
     }
   }

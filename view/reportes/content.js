@@ -115,6 +115,7 @@ columns: [
           "La acción no se pudo realizar correctamente!",
           "error"
         );
+    setLoading(false);
         console.error("Error al insertar el nuevo slider:", error);
       });
   });
@@ -166,6 +167,7 @@ columns: [
               "La acción no se pudo realizar correctamente!",
               "error"
             );
+    setLoading(false);
             console.error("Error al insertar el nuevo slider:", error);
           });
       } else {

@@ -15,6 +15,7 @@ if (isset($_SESSION['user_session'])) {
   </head>
 
   <body class="hold-transition sidebar-mini layout-fixed">
+    <?php require_once '../html/loading.php'; ?>
     <div class="wrapper">
 
       <!-- Navbar -->
@@ -298,75 +299,97 @@ if (isset($_SESSION['user_session'])) {
       }
       if ($modulo == "estadisticas" || $modulo == "") {
         include_once "../estadisticas/index.php";
+       ?> <script> setLoading(true);</script><?php
       }
 
       if ($modulo == "genero") {
         include_once "../genero/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "viewventa") {
         include_once "../view_venta/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "ocasion") {
         include_once "../ocasion/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "tallas") {
         include_once "../tallas/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "colores") {
         include_once "../colores/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "tprendas") {
         include_once "../tprendas/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
 
       if ($modulo == "usuarios") {
         include_once "../usuarios/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "clientes") {
         include_once "../clientes/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "controlstock") {
         include_once "../controlstock/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "productos") {
         include_once "../productos/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "images_products") {
         include_once "../images_products/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "alertas") {
         include_once "../alertas/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "alertaspedido") {
         include_once "../alertaspedido/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "reportes") {
         include_once "../reportes/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "ventas") {
         include_once "../ventas/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "rventas") {
         include_once "../rventas/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "publicados") {
         include_once "../publicados/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "rpublicados") {
         include_once "../rpublicados/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "productos") {
         include_once "../productos/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
-
       if ($modulo == "publicidad") {
         include_once "../publicidad/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "proveedores") {
         include_once "../proveedores/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
       if ($modulo == "mercancias") {
         include_once "../mercancias/index.php";
+        ?> <script> setLoading(true);</script><?php
       }
 
       ?>

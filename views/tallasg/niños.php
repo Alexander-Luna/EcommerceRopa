@@ -29,7 +29,7 @@
                                 <div class="col-md-6">
                                     <img src="../../public/images/tallas/tallaniños.jpg" class="img-fluid" alt="Talla Camisa Niños">
                                 </div>
-                               
+
                             </div>
                         </section>
                     </div>
@@ -42,7 +42,9 @@
         <!-- /.row -->
     </div>
     <!-- /.container -->
-
+    <script>
+        setLoading(false);
+    </script>
     <?php require_once "../html/footer.php"; ?>
     <script type="text/javascript" src="content.js"></script>
     <?php require_once "../html/MainJS.php"; ?>

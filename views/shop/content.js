@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       } else {
         mostrarElementosEnBloques(data);
       }
+      setLoading(false);
     } catch (error) {
       console.error("Error al obtener productos:", error);
     }
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   function mostrarElementosEnBloques(dataFilter) {
     const container = document.getElementById("container");
     container.innerHTML = "";
-    renderPagination(dataFilter.length);
+
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentData = dataFilter.slice(startIndex, endIndex);
@@ -48,8 +49,6 @@ document.addEventListener("DOMContentLoaded", async function () {
               <div class="block2-txt-child1 flex-col-l">
                 <a href="../product-detail/index.php?id=${producto.id_producto}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 text-decoration-none">${producto.nombre}</a>
                 <span class="stext-105 cl3">$${producto.precio}</span>
-                <input type="hidden" class="genero" data-genero="${producto.genero}">
-                <input type="hidden" class="ocasion" data-ocasion="${producto.ocasion}">
               </div>
               <div class="block2-txt-child2 flex-r p-t-3">
                 <button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 btnAddWish"  data-id="${producto.id_producto}">
@@ -95,27 +94,28 @@ document.addEventListener("DOMContentLoaded", async function () {
       pagination.appendChild(li);
     }
   }
-
-  function filtrarPorGenero(genero) {
-    if (genero === "") {
+  function filtrarPorGenero(filtroIn) {
+    if (filtroIn === "") {
       mostrarElementosEnBloques(data);
     } else {
       const filteredData = data.filter((producto) => {
         const generoProducto = producto.genero.toLowerCase();
         const ocasionProducto = producto.ocasion.toLowerCase();
-        if (genero === "Uniforme Escolar" || genero === "Deportivo") {
-          return generoProducto === genero.toLowerCase();
-        } else if (genero === "Niños") {
+        if (filtroIn === "Uniforme Escolar" || filtroIn === "Deportivo") {
+          return ocasionProducto === filtroIn.toLowerCase();
+        } else if (filtroIn === "Niños") {
           return (
             generoProducto.includes("niño") || generoProducto.includes("niña")
           );
         } else {
           return (
-            generoProducto === genero.toLowerCase() ||
-            ocasionProducto === genero.toLowerCase()
+            generoProducto === filtroIn.toLowerCase() ||
+            ocasionProducto === filtroIn.toLowerCase()
           );
         }
       });
+      renderPagination(filteredData.length);
+      currentPage = 1;
       mostrarElementosEnBloques(filteredData);
     }
   }

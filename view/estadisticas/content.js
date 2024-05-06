@@ -127,11 +127,13 @@ document.addEventListener("DOMContentLoaded", async function () {
               pg_anual.innerHTML = `${icono} <span class="${clase}">${Math.abs(
                 porcentaje
               ).toFixed(2)}%</span>`;
+              setLoading(false);
             }
           });
         }
       );
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener las estadísticas:", error);
     }
   }

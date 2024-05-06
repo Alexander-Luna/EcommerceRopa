@@ -122,7 +122,9 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         productGrid.appendChild(productoDiv);
       });
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener productos:", error);
     }
   }

@@ -252,8 +252,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       swal("Error", "No existen productos en el carrito", "warning");
       //return;
     }
-
-    // Obtener los valores de los campos del formulario
     const nombre = document.getElementById("nombre").value;
     const provincia = document.getElementById("provincias").value;
     const canton = document.getElementById("canton").value;
@@ -262,78 +260,92 @@ document.addEventListener("DOMContentLoaded", async function () {
     const ci = document.getElementById("ci").value;
     const referencia = document.getElementById("referencia").value;
     const telefono = document.getElementById("telefono").value;
-    const idEnvio = document.getElementById("id_envio").value;
     const metodoDePago = document.getElementById("metododepago").value;
     const comprobante = document.getElementById("comprobante").value;
     const comprobanteInput = document.getElementById("comprobantef");
     const comprobanteFile = comprobanteInput.files[0];
-
     // Crear un nuevo objeto FormData
     const formData = new FormData();
     formData.append("carrito", JSON.stringify(carrito));
     formData.append("nombre", nombre);
     formData.append("telefono", telefono);
     formData.append("email", email);
-    formData.append("direccion", direccion);
-    formData.append("provincia", provincia);
-    formData.append("canton", canton);
+
+    if (opcion_seleccionada === "2") {
+      formData.append("direccion", "Barrio “Las Palmas”, calle Ayahuasca");
+      formData.append("provincia", "Napo");
+      formData.append("canton", "Tena");
+      formData.append("referencia", "Oficina Asotaeco");
+    } else {
+      formData.append("direccion", direccion);
+      formData.append("provincia", provincia);
+      formData.append("canton", canton);
+      formData.append("referencia", referencia);
+    }
+
     formData.append("total", SUBTOTAL);
     formData.append("cenvio", CENVIO);
     formData.append("ci", ci);
-    formData.append("referencia", referencia);
-    let isEnvio = 1;
-    if (idEnvio === 1) {
-      isEnvio = 0;
-    }
-    formData.append("isenvio", isEnvio);
 
-    formData.append("metodo_pago", metodoDePago);
-
-    formData.append("ncomprobante", comprobante);
-    formData.append("comprobante", comprobanteFile);
-
-    var comprobantef = document.getElementById("comprobantef").files;
-    var numeroComprobante = document.getElementById("comprobante").value;
-
-    if (
-      CENVIO > 0 &&
-      (!comprobantef || comprobantef.length === 0 || !numeroComprobante)
-    ) {
-      swal("Error", "Por favor complete todos los campos de pago", "warning");
+    if (opcion_seleccionada === "2") {
+      formData.append("isenvio", 0);
+      formData.append("metodo_pago", 0);
+      formData.append("ncomprobante", "");
+      formData.append("comprobante", "");
+      enviarDatosAlServidor(formData);
     } else {
-      enviarDatosAlServidor(formData);
-    }
-    if (CENVIO === 0) {
-      enviarDatosAlServidor(formData);
+      formData.append("isenvio", 1);
+      formData.append("metodo_pago", metodoDePago);
+      formData.append("ncomprobante", comprobante);
+      formData.append("comprobante", comprobanteFile);
+      var comprobantef = document.getElementById("comprobantef").files;
+      var numeroComprobante = document.getElementById("comprobante").value;
+      if (
+        CENVIO > 0 &&
+        (!comprobantef || comprobantef.length === 0 || !numeroComprobante)
+      ) {
+        swal("Error", "Por favor complete todos los campos de pago", "warning");
+      } else {
+        enviarDatosAlServidor(formData);
+      }
     }
   }
 
-  function enviarDatosAlServidor(formData) {
-    fetch("../../controllers/router.php?op=insertVentaClient", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => {
-        if (response.ok) {
-          swal("Excelente!", "Transacción realizada con éxito", "success");
-          eliminarProductosLocalStorage();
-          reloadSection();
+  async function enviarDatosAlServidor(formData) {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        "../../controllers/router.php?op=insertVentaClient",
+        {
+          method: "POST",
+          body: formData,
         }
-      })
-      .catch((error) => {
-        console.error("Error al enviar los datos:", error);
-      });
+      );
+      if (response.ok) {
+        swal("Excelente!", "Transacción realizada con éxito", "success");
+        //eliminarProductosLocalStorage();
+        //reloadSection();
+      } else {
+        throw new Error("Error en la transacción");
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      swal("Error", "Error al enviar los datos: " + error, "warning");
+    }
   }
+
   function reloadSection() {
     try {
       const productos = JSON.parse(localStorage.getItem("cart")) || [];
       miTabla.clear().draw(); // Limpiar la tabla antes de insertar nuevos datos
       SUBTOTAL = 0;
-
+      
       productos.forEach((producto) => {
         SUBTOTAL +=
-          parseFloat(producto.precio_venta) * parseInt(producto.cantidad);
+        parseFloat(producto.precio_venta) * parseInt(producto.cantidad);
       });
+      setLoading(false);
       miTabla.rows.add(productos).draw();
       TOTAL = SUBTOTAL + CENVIO;
       cenvioSpan.textContent = "$" + CENVIO.toFixed(2);

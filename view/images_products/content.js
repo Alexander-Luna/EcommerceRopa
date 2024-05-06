@@ -152,6 +152,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();
     formData.append("id", rowData.id);
+    setLoading(true);
     fetch("../../controllers/router.php?op=deleteImgProduct", {
       method: "POST",
       body: formData,

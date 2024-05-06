@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  document.getElementById("btnentrar").addEventListener("click", submitForm);
+  setLoading(false);
 
+  document.getElementById("btnentrar").addEventListener("click", submitForm);
   function submitForm() {
+    setLoading(true);
     const form = document.getElementById("miForm");
     const formData = new FormData(form);
     fetch("../../controllers/router.php?op=login", {
@@ -11,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       .then((response) => {
         if (!response.ok) {
           swal("Algo salio mal!" + response, "error");
-          
+
           throw new Error("Error en la solicitud");
         }
         if (response.status === 200) {
@@ -21,11 +23,14 @@ document.addEventListener("DOMContentLoaded", async function () {
             window.location.href = "../main/";
           }
         } else {
+          setLoading(false);
           swal("Error", "Usuario o contraseña incorrectos", "warning");
           return;
         }
+        setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error:", error);
       });
   }

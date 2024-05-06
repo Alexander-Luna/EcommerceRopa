@@ -18,20 +18,17 @@ if (empty($_SESSION['user_session'])) {
 
 <body class="">
 
-
 	<!-- Header -->
 	<?php require_once "../html/MainHeader.php"; ?>
 
-
-
 	<!-- Shoping Cart -->
 	<form class="bg0 p-t-75 p-b-85">
-	<div class="container py-5">
-			
+		<div class="container py-5">
+
 			<table id="miTabla" class="table table-bordered table-hover">
 
 			</table>
-			
+
 		</div>
 	</form>
 

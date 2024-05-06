@@ -179,11 +179,40 @@ class PDFModel extends Conectar
         }
         $html .= '</tbody>';
         $html .= '</table>';
+
+
         $pdf->writeHTML($this->generarEstiloCSS() . $html, true, false, true, false, '');
         $pdfContent = $pdf->Output('proforma_proveedor.pdf', 'S');
         $correosModel = new CorreosModel();
         $data1 = json_decode(file_get_contents('php://input'), true);
-        $mensajeHTML = "<html><body><h1 style='text-align: center;'>Proforma de Productos</h1><p>Este es un correo electrónico con una proforma de productos adjunta.</p></body></html>";
+        $mensajeHTML = '
+        <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correo Electrónico</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #e7e7e7; color: #000000;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="https://asotaeco.com/public/images/icons/logo.png" alt="Logo" style="max-width: 100%; height: 90px;">
+        </div>
+        <h1 style="font-size: 24px; margin-bottom: 20px; text-align: center;">ASOTAECO</h1>
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Estimado/a Proveedor/a,</p>
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Adjunto a este correo electrónico encontrarás la proforma detallada con los productos de ropa que se deben confeccionar según nuestras especificaciones. Por favor, revisa el documento adjunto para asegurarte de que todos los detalles estén correctos y se ajusten a tus requerimientos.</p>
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Te agradeceríamos mucho que confirmaras la fecha de entrega estimada para este pedido. Esto nos permitirá organizar nuestra producción y garantizar una entrega oportuna.</p>
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Quedamos a tu disposición para cualquier pregunta o aclaración adicional que necesites. ¡Esperamos poder cumplir con tus expectativas y ofrecerte un servicio excepcional!</p>
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px; text-align: center;">Atentamente,<br>Asotaeco</p>
+        <div style="text-align: center;">
+            <a href="https://www.facebook.com/profile.php?id=100063699304940" style="text-decoration: none; margin-right: 10px;"><img src="https://cdn.tools.unlayer.com/social/icons/circle/facebook.png" alt="Facebook" style="max-width: 32px;"></a>
+            <a href="mailto:info@asotaeco.com" style="text-decoration: none;"><img src="https://cdn.tools.unlayer.com/social/icons/circle/email.png" alt="Email" style="max-width: 32px;"></a>
+        </div>
+    </div>
+</body>
+</html>
+        ';
         $result = $correosModel->enviarCorreoPDF($data1['email_proveedor'], "Pedido ASOTAECO", $mensajeHTML, $pdfContent);
         if ($result === "El correo se ha enviado correctamente.") {
             echo $result;
@@ -192,78 +221,169 @@ class PDFModel extends Conectar
         }
     }
 
-    public function ventaPDF($data, $total, $ci, $email, $direccion, $telefono, $nombre)
+    public function ventaPDF($id, $email)
     {
-        // Crear instancia de TCPDF
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $ventas = new VentaModel();
+        $clientData = $ventas->getClienteVenta($id);
+      
+        if (!empty($clientData)) {
+            $clientData = $clientData[0];
+            $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+            $pdf->SetCreator(PDF_CREATOR);
+            $pdf->SetAuthor('ASOTAECO');
+            $pdf->SetSubject('Sales Invoice');
+            $pdf->SetKeywords('TCPDF, PDF, invoice, sales, Ecuador');
+            $pdf->SetTitle('ASOTAECO VENTAS');
+            $pdf->AddPage();
+            // Establecer el JPEG quality
+            $pdf->setJPEGQuality(75);
+            // Obtener las dimensiones de la imagen
+            $imagePath = '../public/images/icons/logo.png'; // Ruta de la imagen
+            $imageSize = getImageSize($imagePath);
+            $originalWidth = $imageSize[0]; // Ancho original de la imagen
+            $originalHeight = $imageSize[1]; // Alto original de la imagen
 
-        // Establecer información del documento
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Autor');
-        $pdf->SetTitle('Tabla de productos');
-        $pdf->SetSubject('Tabla de productos');
-        $pdf->SetKeywords('TCPDF, PDF, tabla, productos');
+            // Usar las dimensiones obtenidas en tu código TCPDF
+            $pdf->Image(
+                $imagePath, // Ruta de la imagen
+                180, // X position (in millimeters)
+                20, // Y position (in millimeters)
+                25, // New width (in millimeters)
+                (25 * $originalHeight) / $originalWidth, // Calculate proportional height based on new width
+                '', // Image type (leave blank for auto-detection)
+                'PNG', // Link (optional)
+                '', // Use case for HTML mode (optional)
+                false, // Preserve image proportions (optional)
+                150, // DPI (optional)
+                '', // Placeholder for internal image (optional)
+                false, // Mask image (optional)
+                false, // Transparent mask (optional)
+                0, // Border mode (optional)
+                false, // Interpolate (optional)
+                false, // Fit to cell (optional)
+                false // Allow HTML mode (optional)
+            );
 
-        // Establecer márgenes
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
-        // Establecer auto página de ajuste
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+            $pdf->SetFont('helvetica', 'B', 12);
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->Cell(130, 10, 'ASOTAECO', 0, 0, 'L');
+            $invoiceNumber = preg_replace('/\D/', '', $clientData['fecha']);
+            $invoiceDate = $clientData['fecha'];
+            $pdf->Cell(60, 10, "N°: $invoiceNumber", 0, 0, 'R');
+            $pdf->Cell(60, 10, date('d/m/Y', strtotime($invoiceDate)), 0, 0, 'R');
+            $pdf->Ln(10);
 
-        // Establecer el formato de página
-        $pdf->AddPage();
-        $iva = $total - ($total / 1.15);
-        $subtotal = $total / 1.15;
+            $clientName = $clientData['name_client'];
+            $clientCI = $clientData['ci'];
+            $clientAddress = $clientData['provincia'] . " " . $clientData['canton'] . " " . $clientData['direccion'] . " Referencia " . $clientData['referencia'];
+            $clientPhone = $clientData['telefono'];
+            // Agregar información del cliente
 
-        // Inicio del contenido HTML
-        $html = '<img src="../public/images/icons/logo.png" alt="Logo de Asotaeco" style="width: 100px; height: 100px;max-width: 100px; max-height: 100px;">';
-        $html .= '<h1>Detalles de Venta</h1>';
-        $html .= '<p>Fecha: ' . date('Y-m-d') . '</p>';
-        $html .= '<p>Cliente: ' . $nombre . '</p>';
-        $html .= '<p>CI/RUC: ' . $ci . '</p>';
-        $html .= '<p>Dirección: ' . $direccion . '</p>';
-        $html .= '<p>Teléfono: ' . $telefono . '</p>';
-        $html .= '<table style="width:100%; border-collapse: collapse; border: 1px solid black;">';
-        $html .= '<thead>';
-        $html .= '<tr>';
-        $html .= '<th style="border: 1px solid black;">Nombre</th>';
-        $html .= '<th style="border: 1px solid black;">Talla</th>';
-        $html .= '<th style="border: 1px solid black;">Color</th>';
-        $html .= '<th style="border: 1px solid black;">Cantidad</th>';
-        $html .= '<th style="border: 1px solid black;">Precio</th>';
-        $html .= '<th style="border: 1px solid black;">Subtotal</th>';
-        $html .= '</tr>';
-        $html .= '</thead>';
-        $html .= '<tbody>';
-        foreach ($data as $row) {
-            $html .= '<tr>';
-            $html .= '<td style="border: 1px solid black;">' . $row['nombre'] . '</td>';
-            $html .= '<td style="border: 1px solid black;">' . $row['talla'] . '</td>';
-            $html .= '<td style="border: 1px solid black;">' . $row['color'] . '</td>';
-            $html .= '<td style="border: 1px solid black;">' . $row['cantidad'] . '</td>';
-            $html .= '<td style="border: 1px solid black;">$' . number_format(($row['precio_venta'] / 1.15), 2) . '</td>';
-            $html .= '<td style="border: 1px solid black;">$' . number_format(($row['precio_venta'] / 1.15) * $row['cantidad']) . '</td>';
-            $html .= '</tr>';
-        }
-        $html .= '</tbody>';
-        $html .= '</table>';
-        $html .= '<p>Subtotal: $' . number_format($subtotal, 2) . '</p>';
-        $html .= '<p>IVA (15%): $' . number_format($iva, 2) . '</p>';
-        $html .= '<p>Total: $' . number_format($total, 2) . '</p>';
+            $pdf->SetTextColor(80, 80, 80);
 
-        $pdf->writeHTML($this->generarEstiloCSS() . $html, true, false, true, false, '');
-        $pdfContent = $pdf->Output('factura_venta.pdf', 'S');
-        $correosModel = new CorreosModel();
-        $mensajeHTML = "<html><body><h1 style='text-align: center;'>Proforma de Productos</h1><p>Este es un correo electrónico con una proforma de productos adjunta.</p></body></html>";
-        $result = $correosModel->enviarCorreoPDF($email, "Confirmacion de Venta ASOTAECO", $mensajeHTML, $pdfContent);
-        if ($result === "El correo se ha enviado correctamente.") {
-            echo $result;
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(20, 10, "Cliente:", 0, 0, 'L');
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(140, 10, $clientName, 0, 1, 'L');
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(20, 10, "CI/RUC:", 0, 0, 'L');
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(140, 10, $clientCI, 0, 1, 'L');
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(20, 10, "Dirección:", 0, 0, 'L');
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(140, 10, $clientAddress, 0, 1, 'L');
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->Cell(20, 10, "Teléfono:", 0, 0, 'L');
+            $pdf->SetFont('helvetica', '', 10);
+            $pdf->Cell(140, 10, $clientPhone, 0, 1, 'L');
+            $pdf->Ln(10);
+
+            // Agregar tabla de productos
+            $products = $ventas->getProductsVentaAdmin($id);
+            $total = 0;
+            $vatTotal = 0;
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->SetTextColor(80, 80, 80);
+            $pdf->Cell(10, 10, "N.", 1, 0, 'C');
+            $pdf->Cell(20, 10, "Cant.", 1, 0, 'C');
+            $pdf->Cell(80, 10, "Descripción", 1, 0, 'C');
+            $pdf->Cell(30, 10, "Precio Unitario", 1, 0, 'C');
+            $pdf->Cell(30, 10, "Total", 1, 1, 'C');
+            $pdf->SetFont('helvetica', '', 10);
+            $con = 1;
+            //   for ($i = 0; $i < 30; $i++) {
+            foreach ($products as $product) {
+                $quantity = $product['cantidad'];
+                $description = $product['producto'] . " " . $product['talla'] . " " . $product['color'];
+                $price = $product['precio'];
+                $priceExclVat = $price / 1.15; // Dividir por 1.15 para eliminar el 15% de IVA
+                $vat = $price - $priceExclVat; // El IVA es la diferencia entre el precio total y el precio sin IVA
+                $total += $quantity * $priceExclVat; // Sumar al total el precio sin IVA
+                $vatTotal += $quantity * $vat; // Sumar al total del IVA el IVA por cada producto
+                $pdf->Cell(10, 10, $con, 1, 0, 'C');
+                $pdf->Cell(20, 10, $quantity, 1, 0, 'C');
+                $pdf->Cell(80, 10, $description, 1, 0, 'L');
+                $pdf->Cell(30, 10, "$" . number_format($priceExclVat, 2), 1, 0, 'C');
+                $pdf->Cell(30, 10, "$" . number_format($quantity * $priceExclVat, 2), 1, 1, 'C');
+                $con++;
+            }
+            // }
+
+            // Agregar totales
+            $pdf->SetFont('helvetica', 'B', 10);
+            $pdf->SetTextColor(0, 0, 0);
+
+            $pdf->Cell(140, 10, "Subtotal:", 0, 0, 'R');
+            $pdf->Cell(30, 10, "$" . number_format($total, 2), 1, 1, 'R');
+            $pdf->Cell(140, 10, "IVA (15%):", 0, 0, 'R');
+            $pdf->Cell(30, 10, "$" . number_format($vatTotal, 2), 1, 1, 'R');
+            $pdf->Cell(140, 10, "Total:", 0, 0, 'R');
+            $pdf->Cell(30, 10, "$" . number_format($total + $vatTotal, 2), 1, 1, 'R');
+            $pdfContent = $pdf->Output('factura_venta.pdf', 'S');
+            $correosModel = new CorreosModel();
+            $mensajeHTML = '
+        <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Envío</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #e7e7e7; color: #000000;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="https://asotaeco.com/public/images/icons/logo.png" alt="Logo" style="max-width: 100%; height: 90px;">
+        </div>
+        <h1 style="font-size: 24px; margin-bottom: 20px; text-align: center;">Confirmación de Envío</h1>
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Estimado/a Cliente/a,</p>
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Nos complace informarte que tu pedido ha sido procesado. Adjunto a este correo electrónico encontrarás los detalles de tu compra.</p>
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Por favor, revisa el contenido del paquete cuando llegue y asegúrate de que todo esté en orden. Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.</p>
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Esperamos que disfrutes de tus productos y que tengas una excelente experiencia de compra con nosotros.</p>
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px; text-align: center;">Atentamente,<br>Equipo de ASOTAECO</p>
+        <div style="text-align: center;">
+            <a href="https://www.facebook.com/tuempresa" style="text-decoration: none; margin-right: 10px;"><img src="https://cdn.tools.unlayer.com/social/icons/circle/facebook.png" alt="Facebook" style="max-width: 32px;"></a>
+            <a href="mailto:info@tuempresa.com" style="text-decoration: none;"><img src="https://cdn.tools.unlayer.com/social/icons/circle/email.png" alt="Email" style="max-width: 32px;"></a>
+        </div>
+    </div>
+</body>
+</html>
+        ';
+
+            $result = $correosModel->enviarCorreoPDF($email, "Confirmación de Venta ASOTAECO", $mensajeHTML, $pdfContent);
+            if ($result === "El correo se ha enviado correctamente.") {
+                echo $result;
+            } else {
+                echo $result;
+            }
+
+            exit;
         } else {
-            echo $result;
+            http_response_code(400);
+            // Si no se encontraron datos del cliente, mostrar un mensaje de error
+            echo "No se encontraron datos del cliente.";
         }
     }
-
-    
 }

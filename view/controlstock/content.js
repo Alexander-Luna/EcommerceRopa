@@ -167,8 +167,11 @@ document.addEventListener("DOMContentLoaded", async function () {
           miTabla.clear().draw();
           miTabla.rows.add(data).draw(); // Agregar los datos directamente
         });
+        setLoading(false);
       });
-    } catch (error) {}
+    } catch (error) {
+      setLoading(false);
+    }
   }
   reloadSection(null);
 });

@@ -71,6 +71,7 @@ columns: [
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();
     formData.append("id", rowData.id);
+    setLoading(true);
     fetch("../../controllers/router.php?op=deleteTalla", {
       method: "POST",
       body: formData,
@@ -99,13 +100,16 @@ columns: [
           "La acción no se pudo realizar correctamente!",
           "error"
         );
+    setLoading(false);
         console.error("Error al eliminar el Talla:", error);
       });
   });
 
   document.getElementById("btnGuardar").addEventListener("click", function () {
+    setLoading(true);
     insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
+
 
   function insertar() {
     try {
@@ -153,6 +157,7 @@ columns: [
               "La acción no se pudo realizar correctamente!",
               "error"
             );
+    setLoading(false);
             console.error("Error al insertar el nuevo Talla:", error);
           });
       } else {
@@ -217,6 +222,7 @@ columns: [
             // Agregar los nuevos datos a la tabla
             miTabla.rows.add(data).draw();
           });
+    setLoading(false);
         }
       );
     } catch (error) {

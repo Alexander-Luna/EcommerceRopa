@@ -1,15 +1,3 @@
-<?php
-/* Llamamos al archivo de conexion.php */
-require_once("../../config/Conectar.php");
-if (!isset($_SESSION["usu_id"])) {
-    if (isset($_POST["enviar"]) and $_POST["enviar"] == "si") {
-        require_once("../../models/UserModel.php");
-        $usuario = new UserModel();
-        $usuario->resetpass_usuario(2,'12345678');
-       
-    }
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -21,8 +9,8 @@ if (!isset($_SESSION["usu_id"])) {
 </head>
 
 <body>
-
     <div class="bg-light py-3 py-md-5">
+        <?php require_once "../html/loading.php"; ?>
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
@@ -39,7 +27,7 @@ if (!isset($_SESSION["usu_id"])) {
                                 <h2 class="fs-6 fw-normal text-center text-secondary m-0 px-md-5">Por favor ingrese su correo electrónico para recuperar su contraseña</h2>
                             </div>
                         </div>
-                        <form id="miForm" method="POST" >
+                        <form id="miForm" method="POST">
                             <div class="row gy-3 gy-md-4 overflow-hidden">
                                 <div class="col-12">
                                     <label for="email" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
@@ -52,10 +40,10 @@ if (!isset($_SESSION["usu_id"])) {
                                         <input type="email" class="form-control" name="email" id="email" required>
                                     </div>
                                 </div>
-                             
+
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <button id="btnentrar" class="btn btn-primary btn-lg" type="submit">Enviar Email</button>
+                                        <button id="btnentrar" class="btn btn-primary btn-lg" type="button">Enviar Email</button>
                                     </div>
                                 </div>
                             </div>
@@ -75,12 +63,8 @@ if (!isset($_SESSION["usu_id"])) {
             </div>
         </div>
     </div>
-    <?php require_once "../resetpass/content.php"; ?>
+    <?php require_once "../html/MainJS.php"; ?>
+    <script src="../resetpass/content.js"></script>
 </body>
 
 </html>
-<?php
-} else {
-    header("Location:" .  "../home/");
-}
-?>

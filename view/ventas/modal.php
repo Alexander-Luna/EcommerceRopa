@@ -1,43 +1,43 @@
-<div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="miModalV" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="title">Nueva Venta</h5>
+                <h5 class="modal-title" id="titlev">Nueva Venta</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form id="formularioVenta">
-                    <input type="hidden" class="form-control" id="id" name="id" required>
+                    <input type="hidden" class="form-control" id="idv" name="idv" required>
                     <div class="form-group">
                         <label for="idPago" class="col-form-label">Cliente</label>
-                        <input type="hidden" class="form-control" id="id_cliente" name="id_cliente" required>
-                        <label class="form-control" id="cliente" name="cliente"></label>
+                        <input type="hidden" class="form-control" id="id_clientev" name="id_clientev" required>
+                        <label class="form-control" id="clientev" name="clientev"></label>
                     </div>
                     <div class="form-group">
                         <label for="idPago" class="col-form-label">Recibe:</label>
-                        <label class="form-control" id="recibe" name="recibe"></label>
+                        <label class="form-control" id="recibev" name="recibev"></label>
                     </div>
                     <div class="form-group">
                         <label for="idPago" class="col-form-label">Teléfono:</label>
-                        <label class="form-control" id="telefono" name="telefono"></label>
+                        <label class="form-control" id="telefonov" name="telefonov"></label>
                     </div>
                     <div class="form-group">
                         <label for="idPago" class="col-form-label">Dirección:</label>
-                        <label class="form-control" id="direccion" name="direccion"></label>
+                        <label class="form-control" id="direccionv" name="direccionv"></label>
                     </div>
                     <div class="form-group">
                         <label for="idPago" class="col-form-label">Fecha</label>
-                        <label type="text" class="form-control" id="fecha" name="fecha"></label>
+                        <label type="text" class="form-control" id="fechav" name="fechav"></label>
                     </div>
                     <div class="form-group">
                         <label for="idPago" class="col-form-label"># Guía Servientrega:</label>
-                        <input type="text" class="form-control" id="guia_serv" name="guia_serv">
+                        <input type="text" class="form-control" id="guia_servv" name="guia_servv">
                     </div>
                     <div class="form-group">
                         <label for="metodo_pago" class="col-form-label">Estado de Venta:</label>
-                        <select class="form-control" id="est" name="est" required>
+                        <select class="form-control" id="estv" name="estv" required>
                             <option value="2">Enviada</option>
                             <option value="1">Pagada</option>
                             <option value="0">Pendiente</option>
@@ -53,26 +53,26 @@
     </div>
 </div>
 <script>
-    $('#miModal').on('hidden.bs.modal', function() {
-        document.getElementById("id").value = "";
-        document.getElementById("id_cliente").value = "";
-        document.getElementById("cliente").textContent = "";
-        document.getElementById("recibe").textContent = "";
-        document.getElementById("direccion").textContent = "";
-        document.getElementById("telefono").textContent = "";
-        document.getElementById("guia_serv").value = "";
-        document.getElementById("est").value = "";
-        document.getElementById("fecha").textContent = "";
+    $('#miModalV').on('hidden.bs.modal', function() {
+        document.getElementById("idv").value = "";
+        document.getElementById("id_clientev").value = "";
+        document.getElementById("clientev").textContent = "";
+        document.getElementById("recibev").textContent = "";
+        document.getElementById("direccionv").textContent = "";
+        document.getElementById("telefonov").textContent = "";
+        document.getElementById("guia_servv").value = "";
+        document.getElementById("estv").value = "";
+        document.getElementById("fechav").textContent = "";
     });
     $('#exampleModal').on('shown.bs.modal', function() {
-        $('#id').prop('disabled', false);
-        $('#id_cliente').val('');
-        $('#est').val('');
-        $('#guia_serv').val('');
-        $('#cliente').text('');
-        $('#recibe').text('');
-        $('#direccion').text('');
-        $('#telefono').text('');
-        $('#fecha').val('');
+        $('#idv').prop('disabled', false);
+        $('#id_clientev').val('');
+        $('#estv').val('');
+        $('#guia_servv').val('');
+        $('#clientev').text('');
+        $('#recibev').text('');
+        $('#direccionv').text('');
+        $('#telefonov').text('');
+        $('#fechav').val('');
     });
 </script>

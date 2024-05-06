@@ -118,11 +118,12 @@ document.addEventListener("DOMContentLoaded", async function () {
           "Hubo un problema al obtener los detalles del producto."
         );
       }
-
       const data = await response.json();
       const newData = data.map((item) => ({ ...item, cant_pred: 0 }));
       miTabla.rows.add(newData).draw();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener los detalles del producto:", error);
     }
   }
@@ -145,6 +146,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();
     formData.append("id", rowData.id_pedido);
+    setLoading(true);
     swal({
       title: "¿Estás seguro?",
       text: "Una vez eliminado, no podrás recuperar este pedido!",
@@ -174,6 +176,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             reloadSection();
           })
           .catch((error) => {
+            setLoading(false);
             swal(
               "Ups! Algo salió mal!",
               "La acción no se pudo realizar correctamente!",
@@ -218,6 +221,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
     const formData = new FormData();
     formData.append("id", rowData.id);
+    setLoading(true);
     fetch("../../controllers/router.php?op=deleteProductPedido", {
       method: "POST",
       body: formData,
@@ -241,6 +245,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         reloadSection();
       })
       .catch((error) => {
+        setLoading(false);
         swal(
           "Ups! Algo salio mal!",
           "La acción no se pudo realizar correctamente!",
@@ -250,8 +255,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
   });
   document.getElementById("btnGuardar").addEventListener("click", function () {
+    setLoading(true);
     insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
+
 
   function insertar() {
     try {
@@ -263,6 +270,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       formData.append("est", est);
       formData.append("descripcion", descripcion);
       formData.append("id", id);
+      setLoading(true);
       fetch("../../controllers/router.php?op=updateProductPedido", {
         method: "POST",
         body: formData,
@@ -287,6 +295,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           reloadSection();
         })
         .catch((error) => {
+          setLoading(false);
           console.error("Error al insertar el nuevo Proveedor:", error);
           swal(
             "Ups! Algo salio mal!",
@@ -295,6 +304,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
         });
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener los datos del formulario:", error);
       swal(
         "Ups! Algo salio mal!",

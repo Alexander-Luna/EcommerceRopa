@@ -497,9 +497,9 @@ INNER JOIN usuarios u ON v.id_client = u.id
                     }
                 }
             }
-            $pdfModel = new PDFModel();
-            $pdfModel->ventaPDF($productos, $totalVenta, $ci, $email, $provincia . " " . $canton . " " . $direccion, $telefono, $nombre);
             $res = $conexion->commit();
+            $pdfModel = new PDFModel();
+            $pdfModel->ventaPDF($idVenta, $email);
             return $res;
         } catch (PDOException $e) {
             $conexion->rollBack();

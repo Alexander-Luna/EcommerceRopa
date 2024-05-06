@@ -145,7 +145,6 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getClienteVenta':
                 $ventaController->getClienteVenta();
                 break;
-
             case 'getTallas':
                 $controller->getTallas();
                 break;
@@ -188,7 +187,6 @@ function handleGetRequest($action, $productController, $userController, $ventaCo
             case 'getProductPedido':
                 $productController->getProductPedido();
                 break;
-
             default:
                 handleNotFound();
                 break;
@@ -226,7 +224,6 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             $notification->pdfAlertaProveedores($data['productos']);
             $notification->enviarProveedores($data['telefono']);
             call_user_func([$productController, 'setProductPedido'], $data['productos']);
-
             break;
         case 'getPDFHTML':
             $controller->getPDFHTML();
@@ -347,14 +344,11 @@ function handlePostRequest($action, $productController, $userController, $ventaC
             //$notification = new NotificationsController();
             //$notification->pdfAlertaProveedores($data['productos']);
             //$notification->enviarProveedores($data['telefono']);
-           // call_user_func([$ventaController, 'insertVentaClient'], $data['carrito']);
-
-
-
-
+            // call_user_func([$ventaController, 'insertVentaClient'], $data['carrito']);
             $ventaController->insertVentaClient($data);
 
             break;
+
         case 'updateVenta':
             $ventaController->updateVenta();
             break;

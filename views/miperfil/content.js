@@ -79,14 +79,17 @@ document.addEventListener("DOMContentLoaded", async function () {
       document.getElementById("direccion").value = data.direccion;
       document.getElementById("telefono").value = data.telefono;
       document.getElementById("canton").value = data.canton;
+      setLoading(false);
     })
     .catch((error) => {
+      setLoading(false);
       console.error("Error:", error);
       // Aquí puedes manejar el error de alguna manera, por ejemplo, mostrando un mensaje al usuario
     });
   document
     .getElementById("btnActualizar")
     .addEventListener("click", function () {
+      setLoading(true);
       const id = document.getElementById("id_hidden").value;
       const nombres = document.getElementById("nombres").value;
       const direccion = document.getElementById("direccion").value;
@@ -115,8 +118,10 @@ document.addEventListener("DOMContentLoaded", async function () {
           if (response.ok) {
             swal("Excelente!", "Transacción realizada con éxito", "success");
           }
+          setLoading(false);
         })
         .catch((error) => {
+          setLoading(false);
           // Capturar y manejar cualquier error que ocurra durante la solicitud
           console.error("Error al enviar los datos:", error);
         });
@@ -128,13 +133,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       const id = document.getElementById("id").value;
       const pass = document.getElementById("pass").value;
       const confpass = document.getElementById("confPass").value;
-
+      
       // Validar que las contraseñas coincidan
       if (pass !== confpass) {
         swal("Error", "Las contraseñas no coinciden", "error");
         return; // Detener el envío del formulario si las contraseñas no coinciden
       }
-
+      
       // Validar que la longitud de la contraseña sea al menos 8 caracteres
       if (pass.length < 8) {
         swal(
@@ -144,12 +149,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
         return; // Detener el envío del formulario si la contraseña es demasiado corta
       }
-
+      
       // Si pasa la validación, continuar con el envío de datos
       const formData = new FormData();
       formData.append("pass", pass);
       formData.append("id_user", id);
-
+      
+      setLoading(true);
       fetch("../../controllers/router.php?op=cambiarPass", {
         method: "POST",
         body: formData,
@@ -158,9 +164,10 @@ document.addEventListener("DOMContentLoaded", async function () {
           if (response.ok) {
             swal("Excelente!", "Transacción realizada con éxito", "success");
           }
+          setLoading(false);
         })
         .catch((error) => {
-          // Capturar y manejar cualquier error que ocurra durante la solicitud
+          setLoading(false);
           console.error("Error al enviar los datos:", error);
         });
     });

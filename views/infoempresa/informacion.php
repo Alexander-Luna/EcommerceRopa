@@ -44,7 +44,9 @@
   <script type="text/javascript" src="content.js"></script>
 
   <?php require_once "../html/MainJS.php"; ?>
-
+<script>
+   setLoading(false);
+</script>
 </body>
 
 </html>

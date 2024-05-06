@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();
     formData.append("id", rowData.id);
+    setLoading(true);
     fetch("../../controllers/router.php?op=deleteUser", {
       method: "POST",
       body: formData,
@@ -110,6 +111,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           "La acción no se pudo realizar correctamente!",
           "error"
         );
+    setLoading(false);
         console.error("Error al insertar el nuevo User:", error);
       });
   });
@@ -134,7 +136,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       formData.append("cedula", cedula);
       formData.append("telefono", telefono);
       formData.append("rol_id", rol_id);
-
+      setLoading(true);
       if (id === "") {
         formData.append("pass", cedula);
         fetch("../../controllers/router.php?op=registro", {
@@ -169,6 +171,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               "La acción no se pudo realizar correctamente!",
               "error"
             );
+    setLoading(false);
             console.error("Error al insertar el nuevo User:", error);
           });
       } else {
@@ -229,10 +232,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             miTabla.clear().draw();
             // Agregar los nuevos datos a la tabla
             miTabla.rows.add(data).draw();
+            setLoading(false);
           });
         }
       );
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener los detalles del producto:", error);
     }
   }

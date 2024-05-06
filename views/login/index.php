@@ -14,6 +14,7 @@ if (!isset($_SESSION["user_session"]) || !isset($_SESSION['user_session']['user_
     </head>
 
     <body>
+        <?php require_once "../html/loading.php"; ?>
 
         <div class="wrapper fadeInDown">
             <div id="formContent">

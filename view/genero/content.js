@@ -70,6 +70,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();
     formData.append("id", rowData.id);
+    setLoading(true);
+    
     fetch("../../controllers/router.php?op=deleteGenero", {
       method: "POST",
       body: formData,
@@ -93,6 +95,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         reloadSection();
       })
       .catch((error) => {
+        setLoading(false);
         swal(
           "Ups! Algo salio mal!",
           "La acción no se pudo realizar correctamente!",
@@ -103,8 +106,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   document.getElementById("btnGuardar").addEventListener("click", function () {
+    setLoading(true);
     insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
+
 
   function insertar() {
     try {
@@ -142,6 +147,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             reloadSection();
           })
           .catch((error) => {
+            setLoading(false);
             swal(
               "Ups! Algo salio mal!",
               "La acción no se pudo realizar correctamente!",
@@ -176,6 +182,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             reloadSection();
           })
           .catch((error) => {
+            setLoading(false);
             console.error("Error al insertar el nuevo Genero:", error);
             swal(
               "Ups! Algo salio mal!",
@@ -208,10 +215,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             miTabla.clear().draw();
             // Agregar los nuevos datos a la tabla
             miTabla.rows.add(data).draw();
+          
           });
+          setLoading(false);
         }
       );
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener los detalles del genero:", error);
     }
   }

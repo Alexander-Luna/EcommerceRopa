@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();
     formData.append("id", rowData.id);
+    setLoading(true);
     fetch("../../controllers/router.php?op=deleteOcasion", {
       method: "POST",
       body: formData,
@@ -83,7 +84,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
           throw new Error("Hubo un problema al eliminar Ocasion.");
         }
-        
+
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -98,13 +99,16 @@ document.addEventListener("DOMContentLoaded", async function () {
           "La acción no se pudo realizar correctamente!",
           "error"
         );
+        setLoading(false);
         console.error("Error al eliminar el Ocasion:", error);
       });
   });
 
   document.getElementById("btnGuardar").addEventListener("click", function () {
+    setLoading(true);
     insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
+
 
   function insertar() {
     try {
@@ -128,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al insertar el nuevo Ocasion.");
             }
-            
+
             // Si la inserción fue exitosa, recargar la sección
             $("#miModal").modal("hide");
             swal({
@@ -146,6 +150,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               "La acción no se pudo realizar correctamente!",
               "error"
             );
+            setLoading(false);
             console.error("Error al insertar el nuevo Ocasion:", error);
           });
       } else {
@@ -163,7 +168,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al insertar el nuevo Ocasion.");
             }
-            
+
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
@@ -184,6 +189,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           });
       }
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener los datos del formulario:", error);
       swal(
         "Ups! Algo salio mal!",
@@ -208,6 +214,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             // Agregar los nuevos datos a la tabla
             miTabla.rows.add(data).draw();
           });
+          setLoading(false);
         }
       );
     } catch (error) {

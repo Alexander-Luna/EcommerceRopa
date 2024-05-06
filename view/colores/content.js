@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       "pdfHtml5", // Botón de PDF
     ],
     lengthChange: false,
-columns: [
+    columns: [
       { data: "color", title: "Nombre" },
       {
         data: "color_hexa",
@@ -84,6 +84,8 @@ columns: [
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();
     formData.append("id", rowData.id);
+    setLoading(true);
+
     fetch("../../controllers/router.php?op=deleteColor", {
       method: "POST",
       body: formData,
@@ -97,7 +99,7 @@ columns: [
           );
           throw new Error("Hubo un problema al eliminar Color.");
         }
-        
+
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -112,13 +114,16 @@ columns: [
           "La acción no se pudo realizar correctamente!",
           "error"
         );
+        setLoading(false);
         console.error("Error al eliminar el Color:", error);
       });
   });
 
   document.getElementById("btnGuardar").addEventListener("click", function () {
+    setLoading(true);
     insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
+
 
   function insertar() {
     try {
@@ -145,7 +150,7 @@ columns: [
               );
               throw new Error("Hubo un problema al insertar el nuevo Color.");
             }
-            
+
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
@@ -162,6 +167,7 @@ columns: [
               "La acción no se pudo realizar correctamente!",
               "error"
             );
+            setLoading(false);
             console.error("Error al insertar el nuevo Color:", error);
           });
       } else {
@@ -179,7 +185,7 @@ columns: [
               );
               throw new Error("Hubo un problema al insertar el nuevo Color.");
             }
-            
+
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
@@ -194,9 +200,10 @@ columns: [
             console.error("Error al insertar el nuevo Color:", error);
             swal(
               "Ups! Algo salio mal!",
-              "La accion no se pudo realizar correctamente!",
+              "La acción no se pudo realizar correctamente!",
               "error"
             );
+            setLoading(false);
           });
       }
     } catch (error) {
@@ -221,6 +228,7 @@ columns: [
           miTabla.clear().draw();
           miTabla.rows.add(data).draw();
         });
+        setLoading(false);
       });
     } catch (error) {
       console.error("Error al obtener los detalles del color:", error);

@@ -25,8 +25,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         sortDescending: ": activar para ordenar la columna descendente",
       },
     },
-   
-    lengthChange: false, 
+
+    lengthChange: false,
     pageLength: 5,
     columns: [
       {
@@ -95,10 +95,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     const entregados = document.getElementById("btnentregado");
 
     compras.addEventListener("click", function () {
-      reloadSection(null); 
+      reloadSection(null);
     });
     pagado.addEventListener("click", function () {
-      reloadSection(1); 
+      reloadSection(1);
     });
     pendiente.addEventListener("click", function () {
       reloadSection(0);
@@ -106,8 +106,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     entregados.addEventListener("click", function () {
       reloadSection(2);
     });
-}
-
+  }
 
   async function reloadSection(id) {
     event.preventDefault();
@@ -121,6 +120,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         miTabla.row.add(obj);
       });
       miTabla.draw();
+      setLoading(false);
     } catch (error) {
       //console.error("Error al obtener productos:", error);
     }

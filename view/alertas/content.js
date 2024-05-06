@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   document
     .getElementById("EnviarMensaje")
     .addEventListener("click", async function () {
-      document.getElementById("EnviarMensaje").disabled = true;
+      setLoading(true);
       try {
         var selectedRows = miTabla.rows({ selected: true }).data().toArray();
         if (selectedRows.length === 0) {
@@ -129,7 +129,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         var productosConCantPredMayorA0 = selectedRows.filter(function (
           producto
         ) {
-          document.getElementById("EnviarMensaje").disabled = false;
           return producto.cant_pred > 0;
         });
         if (productosConCantPredMayorA0.length === 0) {
@@ -168,10 +167,12 @@ document.addEventListener("DOMContentLoaded", async function () {
           const errorMessage = await response.text();
           throw new Error("Error al enviar los mensajes: " + errorMessage);
         }
-        document.getElementById("EnviarMensaje").disabled = false;
+        setLoading(false);
+       
       } catch (error) {
+        setLoading(false);
         swal("Error", error.message, "error");
-        document.getElementById("EnviarMensaje").disabled = false;
+       
       }
     });
 
@@ -191,7 +192,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       const newData = data.map((item) => ({ ...item, cant_pred: 0 }));
       miTabla.clear().draw();
       miTabla.rows.add(newData).draw();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener los detalles del producto:", error);
     }
   }

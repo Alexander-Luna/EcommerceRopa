@@ -244,9 +244,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       document.getElementById("telefono").textContent = cliente.telefono;
       document.getElementById("guia_serv").textContent = cliente.guia_servi;
       document.getElementById("est").textContent =
-        cliente.est === 2
+        cliente.est_pago === 2
           ? "Enviada"
-          : cliente.est === 1
+          : cliente.est_pago === 1
           ? "Pagada"
           : "Pendiente";
       document.getElementById("total_p").textContent = cliente.total;

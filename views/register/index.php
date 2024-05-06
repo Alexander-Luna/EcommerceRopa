@@ -10,9 +10,11 @@
     <style>
         /* Estilo adicional para ajustar el tamaño de la imagen */
         #icon {
-            max-width: 150px; /* Cambia este valor según tu preferencia */
+            max-width: 150px;
+            /* Cambia este valor según tu preferencia */
             height: auto;
         }
+
         .required::after {
             content: " *";
             color: red;
@@ -21,8 +23,8 @@
 </head>
 
 <body>
-
     <div class="container mt-5">
+        <?php require_once "../html/loading.php"; ?>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">

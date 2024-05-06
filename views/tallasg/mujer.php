@@ -44,7 +44,9 @@
         <!-- /.row -->
     </div>
     <!-- /.container -->
-
+<script>
+     setLoading(false);
+</script>
     <?php require_once "../html/footer.php"; ?>
     <script type="text/javascript" src="content.js"></script>
     <?php require_once "../html/MainJS.php"; ?>

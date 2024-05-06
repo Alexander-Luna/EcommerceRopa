@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", async function () {
+  setLoading(false);
   document.getElementById("btnEntrar").addEventListener("click", submitForm);
   function submitForm() {
+    setLoading(true);
     const form = document.getElementById("registroForm");
     const formData = new FormData(form);
     fetch("../../controllers/router.php?op=registro", {
@@ -16,10 +18,12 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
           throw new Error("Error en la solicitud");
         }
+        setLoading(false);
         swal("Registro Exitoso !", "success");
         window.location.href = "../login/";
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error:", error);
       });
   }

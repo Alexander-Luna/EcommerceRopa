@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", async function () {
-
-
   var miTabla = $("#miTabla").DataTable({
     language: {
       decimal: "",
@@ -82,8 +80,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     <i class="fa fa-download" aria-hidden="true"></i></button>
           <button type="button" class="btn btn-outline-warning btnEditar" data-id="${row.id}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-outline-danger btnEliminar" data-id="${row.id}">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
+                    `;
         },
       },
     ],
@@ -141,125 +138,128 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
     ],
   });
-$(document).on("click", ".btnView", function () {
-  var rowData = miTabla.row($(this).closest("tr")).data();
-  var id = rowData.id;
-  reloadModalInfo(id);
-  $("#miModal").modal("show");
-  document.getElementById("id_v").value = id;
-  document.getElementById("id_c").value = rowData.id_client;
-});
-async function reloadModalInfo(id) {
-  try {
-    document.getElementById("btnPdf").addEventListener("click", function () {
-      var link = document.createElement("a");
-      link.href = comprobanteF;
-      link.download =
-        "C" + document.getElementById("fecha").textContent + ".png";
-      link.target = "_blank";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-    // Obtener detalles del cliente
-    const clienteResponse = await fetch(
-      "../../controllers/router.php?op=getClienteVenta&id=" + id
-    );
-    if (!clienteResponse.ok) {
-      throw new Error(
-        "Hubo un problema al obtener los detalles del cliente."
+  document.getElementById("btnGuardar").addEventListener("click", function () {
+    insertar();
+  });
+  $(document).on("click", ".btnView", function () {
+    var rowData = miTabla.row($(this).closest("tr")).data();
+    var id = rowData.id;
+    reloadModalInfo(id);
+    $("#miModal").modal("show");
+    document.getElementById("id_v").value = id;
+    document.getElementById("id_c").value = rowData.id_client;
+  });
+  async function reloadModalInfo(id) {
+    try {
+      document.getElementById("btnPdf").addEventListener("click", function () {
+        var link = document.createElement("a");
+        link.href = comprobanteF;
+        link.download =
+          "C" + document.getElementById("fecha").textContent + ".webp";
+        link.target = "_blank";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+      // Obtener detalles del cliente
+      const clienteResponse = await fetch(
+        "../../controllers/router.php?op=getClienteVenta&id=" + id
       );
-    }
-    const clienteData = await clienteResponse.json();
-    const cliente = clienteData[0];
-    let comprobanteF = cliente.comprobante;
-    // Mostrar detalles del cliente
-    document.getElementById("cliente").textContent = cliente.name_client;
-    document.getElementById("direccion").textContent =
-      cliente.provincia +
-      " " +
-      cliente.canton +
-      " " +
-      cliente.direccion +
-      " " +
-      cliente.referencia;
-    document.getElementById("recibe").textContent = cliente.nombre;
-    document.getElementById("fecha").textContent = cliente.fecha;
-    document.getElementById("telefono").textContent = cliente.telefono;
-    document.getElementById("guia_serv").textContent = cliente.guia_servi;
-    document.getElementById("est").textContent =
-      cliente.est === 2
-        ? "Enviada"
-        : cliente.est === 1
-        ? "Pagada"
-        : "Pendiente";
-    document.getElementById("total_p").textContent = cliente.total;
-    document.getElementById("total_e").textContent = cliente.envio;
+      if (!clienteResponse.ok) {
+        throw new Error(
+          "Hubo un problema al obtener los detalles del cliente."
+        );
+      }
+      const clienteData = await clienteResponse.json();
+      const cliente = clienteData[0];
+      let comprobanteF = cliente.comprobante;
+      // Mostrar detalles del cliente
+      document.getElementById("cliente").textContent = cliente.name_client;
+      document.getElementById("direccion").textContent =
+        cliente.provincia +
+        " " +
+        cliente.canton +
+        " " +
+        cliente.direccion +
+        " " +
+        cliente.referencia;
+      document.getElementById("recibe").textContent = cliente.nombre;
+      document.getElementById("fecha").textContent = cliente.fecha;
+      document.getElementById("telefono").textContent = cliente.telefono;
+      document.getElementById("guia_serv").textContent = cliente.guia_servi;
+      document.getElementById("est").textContent =
+        cliente.est_pago === 2
+          ? "Enviada"
+          : cliente.est_pago === 1
+          ? "Pagada"
+          : "Pendiente";
+      document.getElementById("total_p").textContent = cliente.total;
+      document.getElementById("total_e").textContent = cliente.envio;
 
-    // Obtener detalles de los productos
-    const productosResponse = await fetch(
-      "../../controllers/router.php?op=getProductsVentaAdmin&id=" + id
-    );
-    if (!productosResponse.ok) {
-      throw new Error(
-        "Hubo un problema al obtener los detalles de los productos."
+      // Obtener detalles de los productos
+      const productosResponse = await fetch(
+        "../../controllers/router.php?op=getProductsVentaAdmin&id=" + id
       );
+      if (!productosResponse.ok) {
+        throw new Error(
+          "Hubo un problema al obtener los detalles de los productos."
+        );
+      }
+      const productosData = await productosResponse.json();
+      miTablaM.clear().draw();
+      miTablaM.rows.add(productosData).draw();
+    } catch (error) {
+      console.error("Error al cargar la información del modal:", error);
     }
-    const productosData = await productosResponse.json();
-    miTablaM.clear().draw();
-    miTablaM.rows.add(productosData).draw();
-  } catch (error) {
-    console.error("Error al cargar la información del modal:", error);
   }
-}
 
-$(document).on("click", ".btnDescargar", function () {
-  var rowData = miTabla.row($(this).closest("tr")).data();
-  fetch("../../controllers/router.php?op=getVentaUser&id=" + rowData.id, {
-    method: "GET",
-  })
-    .then((response) => {
-      if (!response.ok) {
+  $(document).on("click", ".btnDescargar", function () {
+    var rowData = miTabla.row($(this).closest("tr")).data();
+    fetch("../../controllers/router.php?op=getVentaUser&id=" + rowData.id, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          swal(
+            "Ups! Algo salió mal!",
+            "La acción no se pudo realizar correctamente!",
+            "error"
+          );
+          throw new Error("Hubo un problema al obtener el PDF.");
+        }
+        return response.blob(); // Convertir la respuesta en un blob
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const currentDate = new Date();
+        const formattedDate = currentDate
+          .toISOString()
+          .slice(0, 19)
+          .replace(/[-T]/g, "")
+          .replace(":", "")
+          .replace(":", "");
+        const fileName = `ventas_${formattedDate}.pdf`;
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        swal({
+          title: "¡En Hora Buena!",
+          text: "¡La acción se realizó de manera exitosa!",
+          icon: "success",
+          timer: 1000, // tiempo en milisegundos
+          buttons: false, // ocultar botones
+        });
+      })
+      .catch((error) => {
         swal(
           "Ups! Algo salió mal!",
           "La acción no se pudo realizar correctamente!",
           "error"
         );
-        throw new Error("Hubo un problema al obtener el PDF.");
-      }
-      return response.blob(); // Convertir la respuesta en un blob
-    })
-    .then((blob) => {
-      const url = window.URL.createObjectURL(blob);
-      const currentDate = new Date();
-      const formattedDate = currentDate
-        .toISOString()
-        .slice(0, 19)
-        .replace(/[-T]/g, "")
-        .replace(":", "")
-        .replace(":", "");
-      const fileName = `ventas_${formattedDate}.pdf`;
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = fileName;
-      a.click();
-      swal({
-        title: "¡En Hora Buena!",
-        text: "¡La acción se realizó de manera exitosa!",
-        icon: "success",
-        timer: 1000, // tiempo en milisegundos
-        buttons: false, // ocultar botones
+        console.error("Error al obtener el PDF:", error);
       });
-    })
-    .catch((error) => {
-      swal(
-        "Ups! Algo salió mal!",
-        "La acción no se pudo realizar correctamente!",
-        "error"
-      );
-      console.error("Error al obtener el PDF:", error);
-    });
-});
+  });
   // $(document).on("click", ".btnView", function () {
   //   var rowData = miTabla.row($(this).closest("tr")).data();
   //   fetch("../../controllers/router.php?op=getVentaUser&id=" + rowData.id, {
@@ -322,17 +322,17 @@ $(document).on("click", ".btnDescargar", function () {
 
   $(document).on("click", ".btnEditar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
-    $("#miModal").modal("show");
-    document.getElementById("title").textContent = "Editar Venta";
-    document.getElementById("id").value = rowData.id;
-    document.getElementById("id_cliente").value = rowData.idcli;
-    document.getElementById("recibe").textContent = rowData.nombre_recibe;
-    document.getElementById("cliente").textContent = rowData.nombre_usuario;
-    document.getElementById("direccion").textContent = rowData.direccion_recibe;
-    document.getElementById("telefono").textContent = rowData.telefono_recibe;
-    document.getElementById("fecha").textContent = rowData.fecha;
-    document.getElementById("guia_serv").value = rowData.guia_servi;
-    document.getElementById("est").value = rowData.est_pago;
+    $("#miModalV").modal("show");
+    document.getElementById("titlev").textContent = "Editar Venta";
+    document.getElementById("idv").value = rowData.id;
+    document.getElementById("id_clientev").value = rowData.idcli;
+    document.getElementById("recibev").textContent = rowData.nombre_recibe;
+    document.getElementById("clientev").textContent = rowData.nombre_usuario;
+    document.getElementById("direccionv").textContent = rowData.direccion_recibe;
+    document.getElementById("telefonov").textContent = rowData.telefono_recibe;
+    document.getElementById("fechav").textContent = rowData.fecha;
+    document.getElementById("guia_servv").value = rowData.guia_servi;
+    document.getElementById("estv").value = rowData.est_pago;
   });
 
   // Manejador de eventos para el botón de eliminar
@@ -340,6 +340,7 @@ $(document).on("click", ".btnDescargar", function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();
     formData.append("id", rowData.id);
+    setLoading(true);
     fetch("../../controllers/router.php?op=deleteVenta", {
       method: "POST",
       body: formData,
@@ -353,7 +354,7 @@ $(document).on("click", ".btnDescargar", function () {
           );
           throw new Error("Hubo un problema al eliminar la venta.");
         }
-        
+
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -374,10 +375,9 @@ $(document).on("click", ".btnDescargar", function () {
 
   function insertar() {
     try {
-      // Obtener los datos del formulario
-      const id = document.getElementById("id").value;
-      const est = document.getElementById("est").value;
-      const guia_serv = document.getElementById("guia_serv").value;
+      const id = document.getElementById("idv").value;
+      const est = document.getElementById("estv").value;
+      const guia_serv = document.getElementById("guia_servv").value;
       const formData = new FormData();
       formData.append("id", id);
       formData.append("est", est);
@@ -396,8 +396,8 @@ $(document).on("click", ".btnDescargar", function () {
             );
             throw new Error("Hubo un problema al actualizar la venta.");
           }
-          
-          $("#miModal").modal("hide");
+
+          $("#miModalV").modal("hide");
           swal(
             "En Hora Buena!",
             "La acción se realizó de manera exitosa!",
@@ -435,6 +435,7 @@ $(document).on("click", ".btnDescargar", function () {
           miTabla.clear().draw();
           miTabla.rows.add(data).draw();
         });
+    setLoading(false);
       });
     } catch (error) {
       console.error("Error al obtener los detalles de las ventas:", error);

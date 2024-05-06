@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("btnGuardar").addEventListener("click", function () {
+    setLoading(true);
     insertar(); // Llama a la función insertar cuando se hace clic en el botón
   });
+
   metodosModal();
   function metodosModal() {
     try {
@@ -249,6 +251,7 @@ columns: [
               "La acción no se pudo realizar correctamente!",
               "error"
             );
+    setLoading(false);
             console.error("Error al insertar el nuevo Product:", error);
           });
       } else {

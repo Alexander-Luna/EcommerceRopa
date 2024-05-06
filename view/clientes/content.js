@@ -67,6 +67,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     var rowData = miTabla.row($(this).closest("tr")).data();
     var formData = new FormData();
     formData.append("id", rowData.id);
+    setLoading(true);
+    
     fetch("../../controllers/router.php?op=deleteUser", {
       method: "POST",
       body: formData,
@@ -80,7 +82,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           );
           throw new Error("Hubo un problema al eliminar User.");
         }
-        
+
         $("#miModal").modal("hide");
         swal(
           "En Hora Buena!",
@@ -90,6 +92,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         reloadSection();
       })
       .catch((error) => {
+        setLoading(false);
         swal(
           "Ups! Algo salio mal!",
           "La acción no se pudo realizar correctamente!",
@@ -118,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       formData.append("cedula", cedula);
       formData.append("telefono", telefono);
       formData.append("rol_id", 2);
-
+      setLoading(true);
       if (id === "") {
         formData.append("pass", cedula);
         fetch("../../controllers/router.php?op=registro", {
@@ -134,7 +137,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al insertar el nuevo User.");
             }
-            
+
             // Si la inserción fue exitosa, recargar la sección
             $("#miModal").modal("hide");
             swal({
@@ -148,6 +151,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             reloadSection();
           })
           .catch((error) => {
+            setLoading(false);
             swal(
               "Ups! Algo salio mal!",
               "La acción no se pudo realizar correctamente!",
@@ -170,7 +174,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               );
               throw new Error("Hubo un problema al insertar el nuevo User.");
             }
-            
+
             $("#miModal").modal("hide");
             swal({
               title: "En Hora Buena!",
@@ -182,6 +186,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             reloadSection();
           })
           .catch((error) => {
+            setLoading(false);
             console.error("Error al insertar el nuevo User:", error);
             swal(
               "Ups! Algo salio mal!",
@@ -213,10 +218,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             miTabla.clear().draw();
             // Agregar los nuevos datos a la tabla
             miTabla.rows.add(data).draw();
+            setLoading(false);
           });
         }
       );
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener los detalles del producto:", error);
     }
   }

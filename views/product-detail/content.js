@@ -219,33 +219,33 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  function reloadSection() {
+  async function reloadSection() {
     try {
       const nombreElement = document.getElementById("tv-nombre");
       const descripcionElement = document.getElementById("tv-descripcion");
-
-      fetch(
+  
+      const response = await fetch(
         "../../controllers/router.php?op=getProductDetail&id=" + id_prod
-      ).then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            "Hubo un problema al obtener los detalles del producto."
-          );
-        }
-        const product = response.json();
-
-        product.then((producto) => {
-          nombreElement.textContent = producto.nombre;
-          descripcionElement.textContent = producto.descripcion;
-          getTallas(producto.id_color);
-          getColores(producto.id_talla);
-          getPrecio(producto.id_talla, producto.id_color);
-        });
-      });
+      );
+      
+      if (!response.ok) {
+        throw new Error("Hubo un problema al obtener los detalles del producto.");
+      }
+  
+      const producto = await response.json();
+      
+      nombreElement.textContent = producto.nombre;
+      descripcionElement.textContent = producto.descripcion;
+      getTallas(producto.id_color);
+      getColores(producto.id_talla);
+      getPrecio(producto.id_talla, producto.id_color);
+      
+      setLoading(false);
     } catch (error) {
       console.error("Error al obtener los detalles del producto:", error);
     }
   }
+  
 
   function getColores(talla) {
     fetch(

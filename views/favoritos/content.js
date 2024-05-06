@@ -76,9 +76,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       );
       data = await response.json();
       miTabla.rows.add(data).draw();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error al obtener productos:", error);
     }
+   
+
   }
 
   $(document).on("click", ".btnEliminar", function () {

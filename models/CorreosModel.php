@@ -40,7 +40,7 @@ class CorreosModel
             }
 
             $rta = $this->mail->send();
-            return "El correo se ha enviado correctamente.";
+            return "El correo se ha enviado correctamente." . $rta;
         } catch (Exception $e) {
             return "Ha ocurrido un error al enviar el correo: " . $e->getMessage();
         }
@@ -80,7 +80,6 @@ class CorreosModel
 
     public function enviarCorreoPDF($email, $asunto, $mensajeHTML, $pdfContent)
     {
-      
         try {
             $this->mail = new PHPMailer(true);
             $this->mail->isSMTP();
@@ -92,24 +91,19 @@ class CorreosModel
             $this->mail->Port = 465;
             $this->mail->setFrom('info@asotaeco.com', 'Asotaeco');
             $this->mail->addAddress($email);
-            $this->mail->CharSet = 'UTF-8'; // Establecer la codificación UTF-8
-            $this->mail->Encoding = 'base64'; // Codificación base64
+            $this->mail->CharSet = 'UTF-8';
+            $this->mail->Encoding = 'base64';
             $this->mail->isHTML(true);
-            $this->mail->Subject = '=?UTF-8?B?' . base64_encode($asunto) . '?='; // Establecer el asunto codificado en base64 UTF-8
+            $this->mail->Subject = '=?UTF-8?B?' . base64_encode($asunto) . '?=';
             $this->mail->Body = $mensajeHTML;
             $this->mail->AltBody = strip_tags($mensajeHTML);
-
             $fechaHora = date('Y-m-d_H-i-s');
             $nombreArchivo = 'asotaeco_' . $fechaHora . '.pdf';
-            $this->mail->AddStringAttachment($pdfContent, $nombreArchivo, 'base64', 'application/pdf');
-            
 
-            // Intenta enviar el correo
-            if ($this->mail->send()) {
-                return "El correo se ha enviado correctamente.";
-            } else {
-                return "El correo no se pudo enviar. Por favor, inténtalo de nuevo más tarde.";
-            }
+            
+            $this->mail->AddStringAttachment($pdfContent, $nombreArchivo, 'base64', 'application/pdf');
+            $this->mail->send();
+            return "El correo se ha enviado correctamente en segundo plano.";
         } catch (Exception $e) {
             return "Ha ocurrido un error al enviar el correo: " . $e->getMessage();
         }
