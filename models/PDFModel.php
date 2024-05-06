@@ -189,13 +189,13 @@ class PDFModel extends Conectar
         $pdfContent = $dompdf->output();
 
         // Salida del PDF
-        $file_path = 'alerta_pedido.pdf';
+  /*      $file_path = 'alerta_pedido.pdf';
         file_put_contents($file_path, $pdfContent);
 
         // Descargar el PDF
         header('Content-Type: application/pdf');
         header('Content-Disposition: attachment;filename="' . $file_path . '"');
-
+*/
 
         // Envío del correo electrónico
         $correosModel = new CorreosModel();
@@ -231,25 +231,7 @@ class PDFModel extends Conectar
             echo $result;
         }
     }
-    private function splitText($text, $max_length)
-    {
-        $lines = [];
-        $words = explode(' ', $text);
-        $current_line = '';
-        foreach ($words as $word) {
-            if (strlen($current_line . ' ' . $word) <= $max_length) {
-                $current_line .= ($current_line ? ' ' : '') . $word;
-            } else {
-                $lines[] = $current_line;
-                $current_line = $word;
-            }
-        }
-        if (!empty($current_line)) {
-            $lines[] = $current_line;
-        }
-        return $lines;
-    }
-
+   
 
     public function ventaPDF($id, $email)
     {

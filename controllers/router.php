@@ -221,8 +221,8 @@ function handlePostRequest($action, $productController, $userController, $ventaC
         case 'send_alerta_whatsapp':
             $data = json_decode(file_get_contents('php://input'), true);
             $notification = new NotificationsController();
-            $notification->pdfAlertaProveedores($data['productos'],$data['email_proveedor']);
             $notification->enviarProveedores($data['telefono']);
+            $notification->pdfAlertaProveedores($data['productos'],$data['email_proveedor']);
             call_user_func([$productController, 'setProductPedido'], $data['productos']);
             break;
             
