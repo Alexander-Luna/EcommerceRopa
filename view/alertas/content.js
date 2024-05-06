@@ -168,11 +168,9 @@ document.addEventListener("DOMContentLoaded", async function () {
           throw new Error("Error al enviar los mensajes: " + errorMessage);
         }
         setLoading(false);
-       
       } catch (error) {
         setLoading(false);
         swal("Error", error.message, "error");
-       
       }
     });
 

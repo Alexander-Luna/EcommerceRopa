@@ -127,105 +127,135 @@ class PDFModel extends Conectar
 
 
 
-
-    public function alertaPDF($data)
+    public function alertaPDF($data, $email)
     {
-        // Crear instancia de TCPDF
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-        // Establecer información del documento
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Autor');
-        $pdf->SetTitle('Tabla de productos');
-        $pdf->SetSubject('Tabla de productos');
-        $pdf->SetKeywords('TCPDF, PDF, tabla, productos');
 
-        // Establecer márgenes
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+        // Nombre de la empresa y tagline (encabezado)
+        $empresa = 'ASOTAECO';
+        $tagline = 'Pedido de productos';
 
-        // Establecer auto página de ajuste
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        // Configuración de Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
 
-        // Establecer el formato de página
-        $pdf->AddPage();
+        // Creación del objeto Dompdf
+        $dompdf = new Dompdf($options);
 
-        $html = '<img src="../public/images/icons/logo.png" alt="Logo de Asotaeco" style="width: 100px; height: 100px;max-width: 100px; max-height: 100px;">
-        ';
-        $html .= '<h1>Proforma de productos</h1>';
-        $html .= '<table>';
-        $html .= '<thead>';
-        $html .= '<tr>';
-        $html .= '<th>Nombre</th>';
-        $html .= '<th>Descripción</th>';
-        $html .= '<th>Talla</th>';
-        $html .= '<th>Color</th>';
-        $html .= '<th>Cantidad</th>';
-        $html .= '<th>Imagen</th>';
-        $html .= '</tr>';
-        $html .= '</thead>';
-        $html .= '<tbody>';
+        // Configuración del documento
+        $dompdf->setPaper('A4', 'landscape');
+
+        $html = "<div style='text-align:center; margin-bottom:20px;'>";
+        $html .= "<h1 style='font-size:24px; margin-bottom:10px;'>$empresa</h1>";
+        $html .= "<p style='font-size:16px; margin:0;'>$tagline</p>";
+        $html .= "</div>";
+
+        $html .= "<table style='width:100%; border-collapse: collapse;'>";
+        $html .= "<tr>";
+        $html .= "<th style='background-color:#f2f2f2; font-weight:bold; padding:10px; border: 1px solid #ddd;'>N.</th>";
+        //$html .= "<th style='background-color:#f2f2f2; font-weight:bold; padding:10px; border: 1px solid #ddd;'>Imagen</th>";
+        $html .= "<th style='background-color:#f2f2f2; font-weight:bold; padding:10px; border: 1px solid #ddd;'>Nombre</th>";
+        $html .= "<th style='background-color:#f2f2f2; font-weight:bold; padding:10px; border: 1px solid #ddd;'>Descripción</th>";
+        $html .= "<th style='background-color:#f2f2f2; font-weight:bold; padding:10px; border: 1px solid #ddd;'>Talla</th>";
+        $html .= "<th style='background-color:#f2f2f2; font-weight:bold; padding:10px; border: 1px solid #ddd;'>Color</th>";
+        $html .= "<th style='background-color:#f2f2f2; font-weight:bold; padding:10px; border: 1px solid #ddd;'>Cantidad</th>";
+        $html .= "</tr>";
+
+        $con = 1;
         foreach ($data as $row) {
-            $html .= '<tr>';
-            $html .= '<td>' . $row['nombre_producto'] . '</td>';
-            $html .= '<td>' . $row['descripcion_producto'] . '</td>';
-            $html .= '<td>' . $row['talla'] . '</td>';
-            $html .= '<td>' . $row['color'] . '</td>';
-            $html .= '<td>' . $row['cant_pred'] . '</td>';
-            $url = $row['imagen'];
-            $html .= '<td ><img src="' . substr($url, 3) . '" alt="Imagen del producto"></td>';
-            $html .= '</tr>';
+            $html .= "<tr>";
+            $html .= "<td style='padding:10px; text-align:center; border: 1px solid #ddd;'>{$con}</td>";
+            //$imagen_src = "https://asotaeco.com/" . substr($row['imagen'], 6); 
+           // $html .= "<td style='padding:10px; text-align:center; border: 1px solid #ddd;'><img src='{$imagen_src}' width='100'></td>";
+            $html .= "<td style='padding:10px; border: 1px solid #ddd;'>{$row['nombre_producto']}</td>";
+            $html .= "<td style='padding:10px; border: 1px solid #ddd;'>{$row['descripcion_producto']}</td>";
+            $html .= "<td style='padding:10px; text-align:center; border: 1px solid #ddd;'>{$row['talla']}</td>";
+            $html .= "<td style='padding:10px; text-align:center; border: 1px solid #ddd;'>{$row['color']}</td>";
+            $html .= "<td style='padding:10px; text-align:center; border: 1px solid #ddd;'>{$row['cant_pred']}</td>";
+            $html .= "</tr>";
+            $con++;
         }
-        $html .= '</tbody>';
-        $html .= '</table>';
+
+        $html .= "</table>";
+
+        // Cargar contenido HTML en Dompdf
+        $dompdf->loadHtml($html);
+
+        // Renderizar el PDF
+        $dompdf->render();
+
+        // Obtener el contenido del PDF
+        $pdfContent = $dompdf->output();
+
+        // Salida del PDF
+        $file_path = 'alerta_pedido.pdf';
+        file_put_contents($file_path, $pdfContent);
+
+        // Descargar el PDF
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment;filename="' . $file_path . '"');
 
 
-        $pdf->writeHTML($this->generarEstiloCSS() . $html, true, false, true, false, '');
-        $pdfContent = $pdf->Output('proforma_proveedor.pdf', 'S');
+        // Envío del correo electrónico
         $correosModel = new CorreosModel();
-        $data1 = json_decode(file_get_contents('php://input'), true);
         $mensajeHTML = '
         <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Correo Electrónico</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #e7e7e7; color: #000000;">
-    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-        <div style="text-align: center; margin-bottom: 20px;">
-            <img src="https://asotaeco.com/public/images/icons/logo.png" alt="Logo" style="max-width: 100%; height: 90px;">
-        </div>
-        <h1 style="font-size: 24px; margin-bottom: 20px; text-align: center;">ASOTAECO</h1>
-        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Estimado/a Proveedor/a,</p>
-        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Adjunto a este correo electrónico encontrarás la proforma detallada con los productos de ropa que se deben confeccionar según nuestras especificaciones. Por favor, revisa el documento adjunto para asegurarte de que todos los detalles estén correctos y se ajusten a tus requerimientos.</p>
-        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Te agradeceríamos mucho que confirmaras la fecha de entrega estimada para este pedido. Esto nos permitirá organizar nuestra producción y garantizar una entrega oportuna.</p>
-        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Quedamos a tu disposición para cualquier pregunta o aclaración adicional que necesites. ¡Esperamos poder cumplir con tus expectativas y ofrecerte un servicio excepcional!</p>
-        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px; text-align: center;">Atentamente,<br>Asotaeco</p>
-        <div style="text-align: center;">
-            <a href="https://www.facebook.com/profile.php?id=100063699304940" style="text-decoration: none; margin-right: 10px;"><img src="https://cdn.tools.unlayer.com/social/icons/circle/facebook.png" alt="Facebook" style="max-width: 32px;"></a>
-            <a href="mailto:info@asotaeco.com" style="text-decoration: none;"><img src="https://cdn.tools.unlayer.com/social/icons/circle/email.png" alt="Email" style="max-width: 32px;"></a>
-        </div>
-    </div>
-</body>
-</html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Alerta de Pedido</title>
+        </head>
+        <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #e7e7e7; color: #000000;">
+            <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="https://asotaeco.com/public/images/icons/logo.png" alt="Logo" style="max-width: 100%; height: 90px;">
+                </div>
+                <h1 style="font-size: 24px; margin-bottom: 20px; text-align: center;">Alerta de Pedido</h1>
+                <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Estimado/a Proveedor/a,</p>
+                <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Adjunto a este correo electrónico encontrarás una alerta de pedido con los productos de ropa que se deben confeccionar según nuestras especificaciones.</p>
+                <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Te agradeceríamos mucho que confirmaras la fecha de entrega estimada para este pedido. Esto nos permitirá organizar nuestra producción y garantizar una entrega oportuna.</p>
+                <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Quedamos a tu disposición para cualquier pregunta o aclaración adicional que necesites.</p>
+                <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px; text-align: center;">Atentamente,<br>Asotaeco</p>
+            </div>
+        </body>
+        </html>
         ';
-        $result = $correosModel->enviarCorreoPDF($data1['email_proveedor'], "Pedido ASOTAECO", $mensajeHTML, $pdfContent);
+        $result = $correosModel->enviarCorreoPDF($email, "Alerta de Pedido ASOTAECO", $mensajeHTML, $pdfContent);
+
         if ($result === "El correo se ha enviado correctamente.") {
             echo $result;
         } else {
             echo $result;
         }
     }
+    private function splitText($text, $max_length)
+    {
+        $lines = [];
+        $words = explode(' ', $text);
+        $current_line = '';
+        foreach ($words as $word) {
+            if (strlen($current_line . ' ' . $word) <= $max_length) {
+                $current_line .= ($current_line ? ' ' : '') . $word;
+            } else {
+                $lines[] = $current_line;
+                $current_line = $word;
+            }
+        }
+        if (!empty($current_line)) {
+            $lines[] = $current_line;
+        }
+        return $lines;
+    }
+
 
     public function ventaPDF($id, $email)
     {
         $ventas = new VentaModel();
         $clientData = $ventas->getClienteVenta($id);
-      
+
         if (!empty($clientData)) {
             $clientData = $clientData[0];
             $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);

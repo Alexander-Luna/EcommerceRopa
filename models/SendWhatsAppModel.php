@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 
 class SendWhatsAppModel
 {
-    private  $token = "PA240504134633";
+    private  $token = "PA240505223813";
     public function enviarMensajesProveedor($telefono)
     {
         $client = new Client(['verify' => false]);

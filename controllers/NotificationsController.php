@@ -22,11 +22,11 @@ class NotificationsController
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
-    public function pdfAlertaProveedores($data)
+    public function pdfAlertaProveedores($data, $email)
     {
         try {
             $model = new PDFModel();
-            $data = $model->alertaPDF($data);
+            $data = $model->alertaPDF($data, $email);
             if ($data) {
                 http_response_code(200);
                 echo json_encode($data);
@@ -39,5 +39,4 @@ class NotificationsController
             echo json_encode(array('error' => $e->getMessage()));
         }
     }
-    
 }
