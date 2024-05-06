@@ -312,8 +312,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   async function enviarDatosAlServidor(formData) {
     try {
-      setLoading(true);
       timeS = 5000;
+      setLoading(true);
       const response = await fetch(
         "../../controllers/router.php?op=insertVentaClient",
         {
@@ -323,8 +323,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       );
       if (response.ok) {
         swal("Excelente!", "Transacción realizada con éxito", "success");
-        //eliminarProductosLocalStorage();
-        //reloadSection();
+        eliminarProductosLocalStorage();
+        reloadSection();
       } else {
         throw new Error("Error en la transacción");
       }
