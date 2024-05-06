@@ -45,6 +45,9 @@
         var loader = document.getElementById("loader");
         if (loading) {
             loader.style.display = "flex"; /* Cambia a flex para mostrar */
+            setTimeout(function() {
+                setLoading(false); // Cierra automáticamente después de 10 segundos
+            }, 10000); // 10 segundos en milisegundos
         } else {
             loader.style.display = "none";
         }
