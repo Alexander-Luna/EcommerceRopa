@@ -44,7 +44,7 @@
         <!-- /.row -->
     </div>
     <!-- /.container -->
-<script>
+<script>timeS = 1000;
      setLoading(false);
 </script>
     <?php require_once "../html/footer.php"; ?>

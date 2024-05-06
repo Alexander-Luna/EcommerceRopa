@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
     ],
   });
-
+  timeS = 2000;
   reloadSection(null);
   // Agregar evento al botón "Ver Más"
   funcionBotones();

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const totalSpan = document.getElementById("totalspan");
   const subtotalSpan = document.getElementById("subtotal");
   const cenvioSpan = document.getElementById("cenvio");
-
+  timeS = 2000;
   metodoProvincias();
   function metodoProvincias() {
     fetch("../../controllers/router.php?op=getProvincias")

@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let tallaSeleccionada = "";
+  timeS = 1000;
   let stockMax = 0;
   let imgProd = "";
   let id_prod = "";

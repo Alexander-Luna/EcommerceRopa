@@ -45,6 +45,7 @@
 
   <?php require_once "../html/MainJS.php"; ?>
 <script>
+  timeS = 1000;
    setLoading(false);
 </script>
 </body>

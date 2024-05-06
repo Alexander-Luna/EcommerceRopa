@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   getSliders();
-
+  timeS = 5000;
   async function getSliders() {
     try {
       const response = await fetch(

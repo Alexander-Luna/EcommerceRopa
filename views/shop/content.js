@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
   reloadSection();
+  timeS = 3000;
   var url = window.location.href;
   var urlParams = new URLSearchParams(new URL(url).search);
   var filterValue = urlParams.has("filter") ? urlParams.get("filter") : null;

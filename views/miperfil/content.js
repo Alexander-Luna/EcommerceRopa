@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       input.value = input.value.slice(0, maxLength);
     }
   }
+  timeS = 2000;
   metodoProvincias();
   function metodoProvincias() {
     fetch("../../controllers/router.php?op=getProvincias")
@@ -89,6 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   document
     .getElementById("btnActualizar")
     .addEventListener("click", function () {
+      timeS = 2000;
       setLoading(true);
       const id = document.getElementById("id_hidden").value;
       const nombres = document.getElementById("nombres").value;

@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+  timeS = 1000;
   setLoading(false);
   document.getElementById("btnentrar").addEventListener("click", submitForm);
   function submitForm(event) {
