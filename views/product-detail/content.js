@@ -74,93 +74,79 @@ document.addEventListener("DOMContentLoaded", async function () {
       } catch (error) {
         swal("Error", error.message, "warning");
       }
-    });
-  function selects() {
-    tallaSeleccionada = selectTalla.value ? selectTalla.value : null;
-    colorSeleccionada = selectColor.value ? selectColor.value : null;
-
-    selectTalla.addEventListener("change", () => {
-      tallaSeleccionada = selectTalla.value;
-      if (!colorSeleccionada) {
-        colorSeleccionada = selectColor.value;
-      }
-      getPrecio(tallaSeleccionada, colorSeleccionada);
-      getColores(tallaSeleccionada);
-    });
-
-    selectColor.addEventListener("change", () => {
-      colorSeleccionada = selectColor.value;
-      if (!tallaSeleccionada) {
-        tallaSeleccionada = selectTalla.value;
-      }
-      getPrecio(tallaSeleccionada, colorSeleccionada);
-      getTallas(colorSeleccionada);
-    });
-  }
-
-  function getColores(talla) {
-    fetch(
-      "../../controllers/router.php?op=getColoresTalla&id_prod=" +
-        id_prod +
-        "&talla=" +
-        talla
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            "Hubo un problema al obtener los colores disponibles para la talla seleccionada."
-          );
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const selectColor = document.getElementById("id_color");
-        selectColor.innerHTML = "";
-        if (data.length > 0) {
-          data.forEach((color) => {
-            const option = document.createElement("option");
-            option.text = color.color;
-            option.value = color.id_color;
-            selectColor.appendChild(option);
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-
-  function getTallas(color) {
-    fetch(
-      "../../controllers/router.php?op=getTallasColor&id_prod=" +
-        id_prod +
-        "&color=" +
-        color
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            "Hubo un problema al obtener las tallas disponibles para el color seleccionado."
-          );
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const selectTalla = document.getElementById("id_talla");
-        selectTalla.innerHTML = "";
-        if (data.length > 0) {
-          data.forEach((talla) => {
-            const option = document.createElement("option");
-            option.text = talla.talla;
-            option.value = talla.id_talla;
-            selectTalla.appendChild(option);
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
+    });// Función para obtener tallas y colores por producto
+    function selects() {
+        let tallaSeleccionada = null;
+        let colorSeleccionada = null;
+    
+        const getPrecioYColores = (talla, color) => {
+            getPrecio(talla, color);
+            getColores(talla);
+        };
+    
+        const getTallasYColores = (color) => {
+            getTallas(color);
+            getColores(null, color);
+        };
+    
+        selectTalla.addEventListener("change", () => {
+            tallaSeleccionada = selectTalla.value;
+            if (!colorSeleccionada) {
+                colorSeleccionada = selectColor.value;
+            }
+            getPrecioYColores(tallaSeleccionada, colorSeleccionada);
+        });
+    
+        selectColor.addEventListener("change", () => {
+            colorSeleccionada = selectColor.value;
+            if (!tallaSeleccionada) {
+                tallaSeleccionada = selectTalla.value;
+            }
+            getTallasYColores(colorSeleccionada);
+        });
+    
+        // Llamar a las funciones una vez al inicio
+        getPrecioYColores(selectTalla.value, selectColor.value);
+    }
+    
+    // Función genérica para obtener colores o tallas
+    function getData(url, errorMessage, selectElement, textProp, valueProp) {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(errorMessage);
+                }
+                return response.json();
+            })
+            .then(data => {
+                selectElement.innerHTML = "";
+                if (data.length > 0) {
+                    data.forEach(item => {
+                        const option = document.createElement("option");
+                        option.text = item[textProp];
+                        option.value = item[valueProp];
+                        selectElement.appendChild(option);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Aquí podrías mostrar un mensaje de error al usuario
+            });
+    }
+    
+    // Obtener colores por talla
+    function getColores(talla, color = null) {
+        const url = `../../controllers/router.php?op=getColoresTalla&id_prod=${id_prod}&talla=${talla}`;
+        getData(url, "Hubo un problema al obtener los colores disponibles para la talla seleccionada.", selectColor, 'color', 'id_color');
+    }
+    
+    // Obtener tallas por color
+    function getTallas(color) {
+        const url = `../../controllers/router.php?op=getTallasColor&id_prod=${id_prod}&color=${color}`;
+        getData(url, "Hubo un problema al obtener las tallas disponibles para el color seleccionado.", selectTalla, 'talla', 'id_talla');
+    }
+    
   function getPrecio(talla_id, color_id) {
     const stockSpan = document.getElementById("stock");
     const precioSpan = document.getElementById("tv-precio");
