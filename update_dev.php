@@ -1,6 +1,6 @@
 <script id="__bs_script__">
     let debug = true;
-    debug = false;
+  debug = false;
     if (debug) {
         try {
             (function() {
