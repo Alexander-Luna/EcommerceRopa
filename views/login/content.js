@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", async function () {
-
   setLoading(false);
   document.getElementById("btnentrar").addEventListener("click", submitForm);
   function submitForm() {
@@ -31,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       })
       .catch((error) => {
         setLoading(false);
-        console.error("Error:", error);
+        swal("Ups! Algo salió mal!", error, "error");
       });
   }
 });

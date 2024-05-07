@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  let tallaSeleccionada = "";
+  let tallaSeleccionada = 0;
+  let colorSeleccionada = 0;
   timeS = 1000;
   let stockMax = 0;
   let imgProd = "";
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const selectTalla = document.getElementById("id_talla");
   const selectColor = document.getElementById("id_color");
+
   obtenerIdDelURL();
   reloadSection();
   document
@@ -74,32 +76,91 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
   function selects() {
-    const selectColor = document.getElementById("id_color");
-    const selectTalla = document.getElementById("id_talla");
-    let previousTallaId = selectTalla.value ? selectTalla.value : null;
-    let previousColorId = selectColor.value ? selectColor.value : null;
+    tallaSeleccionada = selectTalla.value ? selectTalla.value : null;
+    colorSeleccionada = selectColor.value ? selectColor.value : null;
 
     selectTalla.addEventListener("change", () => {
-      const newTallaId = selectTalla.value;
-      if (!previousColorId) {
-        previousColorId = selectColor.value; // Obtener el valor del color seleccionado si no hay valor previo
+      tallaSeleccionada = selectTalla.value;
+      if (!colorSeleccionada) {
+        colorSeleccionada = selectColor.value;
       }
-      getPrecio(newTallaId, previousColorId);
-      getColores(newTallaId);
-      previousTallaId = newTallaId;
+      getPrecio(tallaSeleccionada, colorSeleccionada);
+      getColores(tallaSeleccionada);
     });
 
     selectColor.addEventListener("change", () => {
-      const newColorId = selectColor.value;
-      if (!previousTallaId) {
-        previousTallaId = selectTalla.value; // Obtener el valor de la talla seleccionada si no hay valor previo
+      colorSeleccionada = selectColor.value;
+      if (!tallaSeleccionada) {
+        tallaSeleccionada = selectTalla.value;
       }
-      getPrecio(previousTallaId, newColorId);
-      getTallas(newColorId);
-      previousColorId = newColorId;
+      getPrecio(tallaSeleccionada, colorSeleccionada);
+      getTallas(colorSeleccionada);
     });
   }
 
+  function getColores(talla) {
+    fetch(
+      "../../controllers/router.php?op=getColoresTalla&id_prod=" +
+        id_prod +
+        "&talla=" +
+        talla
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            "Hubo un problema al obtener los colores disponibles para la talla seleccionada."
+          );
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const selectColor = document.getElementById("id_color");
+        selectColor.innerHTML = "";
+        if (data.length > 0) {
+          data.forEach((color) => {
+            const option = document.createElement("option");
+            option.text = color.color;
+            option.value = color.id_color;
+            selectColor.appendChild(option);
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
+  function getTallas(color) {
+    fetch(
+      "../../controllers/router.php?op=getTallasColor&id_prod=" +
+        id_prod +
+        "&color=" +
+        color
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            "Hubo un problema al obtener las tallas disponibles para el color seleccionado."
+          );
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const selectTalla = document.getElementById("id_talla");
+        selectTalla.innerHTML = "";
+        if (data.length > 0) {
+          data.forEach((talla) => {
+            const option = document.createElement("option");
+            option.text = talla.talla;
+            option.value = talla.id_talla;
+            selectTalla.appendChild(option);
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
   function getPrecio(talla_id, color_id) {
     const stockSpan = document.getElementById("stock");
     const precioSpan = document.getElementById("tv-precio");
@@ -153,8 +214,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   document
     .getElementById("id_talla")
     .addEventListener("change", function (event) {
-      event.preventDefault(); // Utilizar event.preventDefault() para prevenir el comportamiento predeterminado del evento
-      const selectTalla = document.getElementById("id_talla"); // Obtener el elemento select dentro del evento
+      event.preventDefault();
+      const selectTalla = document.getElementById("id_talla");
       const selectedIndex = selectTalla.selectedIndex;
       const selectedOption = selectTalla.options[selectedIndex];
       const selectedValue = selectedOption.value;
@@ -224,92 +285,29 @@ document.addEventListener("DOMContentLoaded", async function () {
     try {
       const nombreElement = document.getElementById("tv-nombre");
       const descripcionElement = document.getElementById("tv-descripcion");
-  
+
       const response = await fetch(
         "../../controllers/router.php?op=getProductDetail&id=" + id_prod
       );
-      
+
       if (!response.ok) {
-        throw new Error("Hubo un problema al obtener los detalles del producto.");
+        throw new Error(
+          "Hubo un problema al obtener los detalles del producto."
+        );
       }
-  
+
       const producto = await response.json();
-      
+
       nombreElement.textContent = producto.nombre;
       descripcionElement.textContent = producto.descripcion;
       getTallas(producto.id_color);
       getColores(producto.id_talla);
       getPrecio(producto.id_talla, producto.id_color);
-      
+
       setLoading(false);
     } catch (error) {
       console.error("Error al obtener los detalles del producto:", error);
     }
-  }
-  
-
-  function getColores(talla) {
-    fetch(
-      "../../controllers/router.php?op=getColoresTalla&id_prod=" +
-        id_prod +
-        "&talla=" +
-        talla
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            "Hubo un problema al obtener los colores disponibles para la talla seleccionada."
-          );
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const selectColor = document.getElementById("id_color");
-        selectColor.innerHTML = "";
-        if (data.length > 0) {
-          data.forEach((color) => {
-            const option = document.createElement("option");
-            option.text = color.color;
-            option.value = color.id_color;
-            selectColor.appendChild(option);
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-
-  function getTallas(color) {
-    fetch(
-      "../../controllers/router.php?op=getTallasColor&id_prod=" +
-        id_prod +
-        "&color=" +
-        color
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            "Hubo un problema al obtener las tallas disponibles para el color seleccionado."
-          );
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const selectTalla = document.getElementById("id_talla");
-        selectTalla.innerHTML = "";
-        if (data.length > 0) {
-          data.forEach((talla) => {
-            const option = document.createElement("option");
-            option.text = talla.talla;
-            option.value = talla.id_talla;
-            selectTalla.appendChild(option);
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
   }
 
   async function obtenerImagenes() {
@@ -328,7 +326,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (data.length > 0) {
           data.forEach((imagen, index) => {
             if (imagen.orden === 1) {
-              imgProd=imagen.url_imagen;
+              imgProd = imagen.url_imagen;
 
               html += `<div id="imageContainer" class="border rounded-4 mb-3 d-flex justify-content-center">
               <a data-fslightbox="mygalley" class="rounded-4" data-type="image" href="#">
@@ -391,6 +389,4 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
   }
-
-
 });

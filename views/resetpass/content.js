@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  
   setLoading(false);
   document.getElementById("btnentrar").addEventListener("click", submitForm);
   function submitForm(event) {
@@ -18,12 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
           swal("Algo salio mal!" + response, "error");
           throw new Error("Error en la solicitud");
         }
-        swal("Excelente!", "Se a enviado el email de recuperacion!", "success");
+        swal("Excelente!", "Se a enviado el email de recuperación!", "success");
         setLoading(false);
       })
       .catch((error) => {
         setLoading(false);
-        console.error("Error:", error);
+        swal("Ups! Algo salió mal!", error, "error");
       });
   }
 });

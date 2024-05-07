@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
   setLoading(false);
- 
+
   document.getElementById("btnEntrar").addEventListener("click", submitForm);
   function submitForm() {
     setLoading(true);
@@ -20,12 +20,12 @@ document.addEventListener("DOMContentLoaded", async function () {
           throw new Error("Error en la solicitud");
         }
         setLoading(false);
-        swal("Registro Exitoso !", "success");
+        swal("Excelente!", "Éxito al registrarse!", "success");
         window.location.href = "../login/";
       })
       .catch((error) => {
         setLoading(false);
-        console.error("Error:", error);
+        swal("Error", error, "error");
       });
   }
 
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         metodoCantones(data[0]);
       })
       .catch((error) => {
-        console.error("Error al obtener las provincias:", error);
+        swal("Error", "Provincias " + error, "error");
       });
     const selectProducto = document.getElementById("provincia");
     selectProducto.addEventListener("change", () => {
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
       })
       .catch((error) => {
-        console.error("Error al obtener las provincias:", error);
+        swal("Error", "Cantones " + error, "error");
       });
   }
 });
