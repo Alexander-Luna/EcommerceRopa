@@ -156,7 +156,7 @@
 				</div>
 			</div>
 
-			<div id="container" class="row isotope-grid d-flex flex-wrap align-content-start " style="min-height: 220vh;">
+			<div id="container" class="row isotope-grid d-flex flex-wrap align-content-start " style="min-height: 100%;">
 
 			</div>
 
@@ -180,9 +180,10 @@
 	<?php require_once "../html/MainJS.php"; ?>
 	<script type="text/javascript" src="../shop/content.js"></script>
 
+	<div id="footer">
 
+	</div>
 </body>
 <!-- Footer -->
-<br><?php require_once('../html/footer.php'); ?>
 
 </html>
