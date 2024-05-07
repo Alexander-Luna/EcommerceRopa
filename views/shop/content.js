@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   function mostrarElementosEnBloques(dataFilter) {
     const container = document.getElementById("container");
+    //container.style.minHeight = "150vh";
     container.innerHTML = "";
 
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -63,6 +64,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       `;
         container.innerHTML += productoHTML;
       });
+      //MostrarFooter();
 
       renderPagination(dataFilter.length); // Mantenemos la paginación basada en la longitud total de los datos, no solo en los datos mostrados
     } else {
@@ -164,7 +166,6 @@ document.addEventListener("DOMContentLoaded", async function () {
  `;
   }
   function filtrarPorGenero(filtroIn) {
-    MostrarFooter();
     if (filtroIn === "") {
       mostrarElementosEnBloques(data);
     } else {

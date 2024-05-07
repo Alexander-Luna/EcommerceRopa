@@ -156,7 +156,7 @@
 				</div>
 			</div>
 
-			<div id="container" class="row isotope-grid d-flex flex-wrap align-content-start " style="min-height: 100%;">
+			<div id="container" class="row isotope-grid d-flex flex-wrap align-content-start ">
 
 			</div>
 
