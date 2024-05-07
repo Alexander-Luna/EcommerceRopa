@@ -526,7 +526,7 @@ class ProductModel extends Conectar
             $sql = "SELECT DISTINCT col.id AS id_color, col.color ,i.id_talla
                 FROM inventario AS i
                 INNER JOIN colores AS col ON i.id_color = col.id
-                WHERE i.id_producto = ? AND i.id_talla = ? AND i.stock > 0;
+                WHERE i.id_producto = ? AND i.id_talla = ?;
             ";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $p_id);
@@ -549,7 +549,7 @@ class ProductModel extends Conectar
             $sql = "SELECT DISTINCT t.* ,i.id_talla,i.id_color
                 FROM inventario AS i
                 INNER JOIN tallas AS t ON i.id_talla = t.id
-                WHERE i.id_producto = ? AND i.id_color = ? AND i.stock > 0;
+                WHERE i.id_producto = ? AND i.id_color = ?;
             ";
             $stmt = $conexion->prepare($sql);
             $stmt->bindValue(1, $p_id);
